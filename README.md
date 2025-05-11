@@ -4,7 +4,7 @@ A simple Vue.js application for guessing French departments or their chef-lieux.
 
 ## GitHub Pages
 
-The application is hosted on GitHub Pages. You can access it [here](https://tanguyhardion.github.io/french-departments-quiz/).
+The application is hosted on GitHub Pages. You can access it [here](https://tanguyhardion.github.io/french-departments/).
 
 ## Project Setup
 
