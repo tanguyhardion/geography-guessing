@@ -4,8 +4,8 @@ export interface Department {
   chefLieu: string;
 }
 
-export type GameMode = 'guessChefLieu' | 'guessDepartmentName';
+export type GameMode = "guessChefLieu" | "guessDepartmentName";
 
 export interface DepartmentStatus {
-  [departmentId: string]: 'correct' | 'incorrect' | 'default';
+  [departmentId: string]: "correct" | "incorrect" | "default";
 }

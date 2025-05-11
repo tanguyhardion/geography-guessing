@@ -2,22 +2,26 @@
   <div class="homepage">
     <h2>Choisis ton challenge!</h2>
     <div class="mode-buttons">
-      <button @click="startGame('guessChefLieu')">Devine le numéro à partir du chef-lieu</button>
-      <button @click="startGame('guessDepartmentName')">Devine le numéro à partir du nom du département</button>
+      <button @click="startGame('guessChefLieu')">
+        Devine le numéro à partir du chef-lieu
+      </button>
+      <button @click="startGame('guessDepartmentName')">
+        Devine le numéro à partir du nom du département
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from '../store/gameStore';
-import type { GameMode } from '../types';
+import { useGameStore } from "../store/gameStore";
+import type { GameMode } from "../types";
 
-const emit = defineEmits(['mode-selected']);
+const emit = defineEmits(["mode-selected"]);
 const gameStore = useGameStore();
 
 const startGame = (mode: GameMode) => {
   gameStore.setGameMode(mode); // This will also initialize the game via the store action
-  emit('mode-selected');
+  emit("mode-selected");
 };
 </script>
 
@@ -43,7 +47,7 @@ h2 {
   padding: 15px;
   font-size: 1.1em;
   margin: 10px 0;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;

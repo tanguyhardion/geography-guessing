@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import DepartmentList from '../components/DepartmentList.vue';
-import GuessingArea from '../components/GuessingArea.vue';
+import DepartmentList from "../components/DepartmentList.vue";
+import GuessingArea from "../components/GuessingArea.vue";
 </script>
 
 <style scoped>

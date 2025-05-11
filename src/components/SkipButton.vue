@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from "../store/gameStore";
 
 const gameStore = useGameStore();
 

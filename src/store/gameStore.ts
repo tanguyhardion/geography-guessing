@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
-import { departments } from '../data/departments';
-import type { Department, GameMode, DepartmentStatus } from '../types';
+import { defineStore } from "pinia";
+import { departments } from "../data/departments";
+import type { Department, GameMode, DepartmentStatus } from "../types";
 
 interface GameState {
   departments: Department[];
@@ -12,11 +12,11 @@ interface GameState {
   availableDepartments: Department[];
 }
 
-export const useGameStore = defineStore('game', {
+export const useGameStore = defineStore("game", {
   state: (): GameState => ({
     departments,
     currentDepartment: null,
-    gameMode: 'guessChefLieu',
+    gameMode: "guessChefLieu",
     departmentStatus: {},
     score: 0,
     message: null,
@@ -24,18 +24,21 @@ export const useGameStore = defineStore('game', {
   }),
   getters: {
     getDepartmentStatus: (state) => (departmentId: string) => {
-      return state.departmentStatus[departmentId] || 'default';
+      return state.departmentStatus[departmentId] || "default";
     },
     totalDepartments: (state) => state.departments.length,
     departmentsForList: (state) => {
-      return state.departments.map(d => ({ id: d.id, status: state.departmentStatus[d.id] || 'default' }));
-    }
+      return state.departments.map((d) => ({
+        id: d.id,
+        status: state.departmentStatus[d.id] || "default",
+      }));
+    },
   },
   actions: {
     _clearTemporaryIncorrectStatuses() {
       for (const id in this.departmentStatus) {
-        if (this.departmentStatus[id] === 'incorrect') {
-          this.departmentStatus[id] = 'default';
+        if (this.departmentStatus[id] === "incorrect") {
+          this.departmentStatus[id] = "default";
         }
       }
     },
@@ -49,10 +52,13 @@ export const useGameStore = defineStore('game', {
     selectRandomDepartment() {
       if (this.availableDepartments.length === 0) {
         this.currentDepartment = null;
-        this.message = 'Félicitations ! Vous avez deviné tous les départements !';
+        this.message =
+          "Félicitations ! Vous avez deviné tous les départements !";
         return;
       }
-      const randomIndex = Math.floor(Math.random() * this.availableDepartments.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableDepartments.length,
+      );
       this.currentDepartment = this.availableDepartments[randomIndex];
     },
     makeGuess(departmentId: string) {
@@ -63,36 +69,41 @@ export const useGameStore = defineStore('game', {
       const guessedCorrectly = departmentId === this.currentDepartment.id;
 
       if (guessedCorrectly) {
-        this.departmentStatus[departmentId] = 'correct';
+        this.departmentStatus[departmentId] = "correct";
         this._clearTemporaryIncorrectStatuses(); // Clear all reds now that the question is correctly answered.
         this.score++;
-        this.message = 'Correct !';
-        this.availableDepartments = this.availableDepartments.filter(dep => dep.id !== departmentId);
-        
+        this.message = "Correct !";
+        this.availableDepartments = this.availableDepartments.filter(
+          (dep) => dep.id !== departmentId,
+        );
+
         setTimeout(() => {
           this.selectRandomDepartment();
           this.clearMessageWithDelay();
         }, 1000);
-
       } else {
         // If incorrect, just mark this one as incorrect. Others remain red if already marked.
-        this.departmentStatus[departmentId] = 'incorrect'; 
-        this.message = 'Incorrect. Essayez encore ou passez.';
+        this.departmentStatus[departmentId] = "incorrect";
+        this.message = "Incorrect. Essayez encore ou passez.";
         this.clearMessageWithDelay();
       }
     },
     skipDepartment() {
       this._clearTemporaryIncorrectStatuses(); // Clear any red marks from the skipped question.
       this.selectRandomDepartment();
-      this.message = 'Passé.';
+      this.message = "Passé.";
       this.clearMessageWithDelay(); // Clear "Skipped" message
     },
     setGameMode(mode: GameMode) {
       this.gameMode = mode;
       this.initializeGame();
     },
-    clearMessageWithDelay() { // Removed clearIncorrectStatusOnTimeout parameter
-      if (this.message === 'Félicitations ! Vous avez deviné tous les départements !') {
+    clearMessageWithDelay() {
+      // Removed clearIncorrectStatusOnTimeout parameter
+      if (
+        this.message ===
+        "Félicitations ! Vous avez deviné tous les départements !"
+      ) {
         return; // Don't clear the final congratulations message
       }
       setTimeout(() => {

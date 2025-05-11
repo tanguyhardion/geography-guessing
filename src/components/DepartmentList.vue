@@ -14,21 +14,21 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from '../store/gameStore';
+import { useGameStore } from "../store/gameStore";
 
 const gameStore = useGameStore();
 
 const handleGuess = (departmentId: string) => {
   // Prevent guessing if already correct
-  if (gameStore.getDepartmentStatus(departmentId) === 'correct') return;
+  if (gameStore.getDepartmentStatus(departmentId) === "correct") return;
   gameStore.makeGuess(departmentId);
 };
 
-const getDepartmentClass = (status: 'correct' | 'incorrect' | 'default') => {
+const getDepartmentClass = (status: "correct" | "incorrect" | "default") => {
   return {
-    'department-item': true,
-    'correct-guess': status === 'correct',
-    'incorrect-guess': status === 'incorrect',
+    "department-item": true,
+    "correct-guess": status === "correct",
+    "incorrect-guess": status === "incorrect",
   };
 };
 </script>

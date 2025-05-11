@@ -2,16 +2,31 @@
   <div class="guessing-area-container">
     <div v-if="gameStore.currentDepartment">
       <p class="instruction-text">
-        {{ gameStore.gameMode === 'guessChefLieu' ? 'Devine le numéro du département du chef-lieu:' : 'Devine le numéro du département:' }}
+        {{
+          gameStore.gameMode === "guessChefLieu"
+            ? "Devine le numéro du département du chef-lieu:"
+            : "Devine le numéro du département:"
+        }}
       </p>
       <h2 class="target-name">
-        {{ gameStore.gameMode === 'guessChefLieu' ? gameStore.currentDepartment.name : gameStore.currentDepartment.chefLieu }}
+        {{
+          gameStore.gameMode === "guessChefLieu"
+            ? gameStore.currentDepartment.name
+            : gameStore.currentDepartment.chefLieu
+        }}
       </h2>
       <SkipButton />
     </div>
-    <div v-else-if="gameStore.availableDepartments.length === 0 && gameStore.departments.length > 0">
+    <div
+      v-else-if="
+        gameStore.availableDepartments.length === 0 &&
+        gameStore.departments.length > 0
+      "
+    >
       <p class="completion-message">Tous les départements ont été devinés !</p>
-      <button @click="gameStore.initializeGame()" class="restart-button">Rejouer</button>
+      <button @click="gameStore.initializeGame()" class="restart-button">
+        Rejouer
+      </button>
     </div>
     <div v-else>
       <p>Chargement...</p>
@@ -20,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from '../store/gameStore';
-import SkipButton from './SkipButton.vue';
+import { useGameStore } from "../store/gameStore";
+import SkipButton from "./SkipButton.vue";
 
 const gameStore = useGameStore();
 </script>
@@ -60,7 +75,7 @@ const gameStore = useGameStore();
   padding: 10px 20px;
   font-size: 1em;
   color: white;
-  background-color: #2196F3; /* Blue */
+  background-color: #2196f3; /* Blue */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -68,6 +83,6 @@ const gameStore = useGameStore();
 }
 
 .restart-button:hover {
-  background-color: #1976D2;
+  background-color: #1976d2;
 }
 </style>
