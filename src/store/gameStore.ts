@@ -58,29 +58,31 @@ export const useGameStore = defineStore('game', {
     makeGuess(departmentId: string) {
       if (!this.currentDepartment) return;
 
-      this._clearTemporaryIncorrectStatuses(); // Clear previous reds first
+      // Do NOT clear temporary incorrect statuses here if we want multiple reds for the current question.
 
       const guessedCorrectly = departmentId === this.currentDepartment.id;
 
       if (guessedCorrectly) {
         this.departmentStatus[departmentId] = 'correct';
+        this._clearTemporaryIncorrectStatuses(); // Clear all reds now that the question is correctly answered.
         this.score++;
         this.message = 'Correct !';
         this.availableDepartments = this.availableDepartments.filter(dep => dep.id !== departmentId);
         
         setTimeout(() => {
           this.selectRandomDepartment();
-          this.clearMessageWithDelay(); // Clear "Correct!" message
+          this.clearMessageWithDelay();
         }, 1000);
 
       } else {
-        this.departmentStatus[departmentId] = 'incorrect'; // Set current one to red
+        // If incorrect, just mark this one as incorrect. Others remain red if already marked.
+        this.departmentStatus[departmentId] = 'incorrect'; 
         this.message = 'Incorrect. Essayez encore ou passez.';
-        this.clearMessageWithDelay(); // Clear "Incorrect" message, red status will persist
+        this.clearMessageWithDelay();
       }
     },
     skipDepartment() {
-      this._clearTemporaryIncorrectStatuses(); // Clear any red marks
+      this._clearTemporaryIncorrectStatuses(); // Clear any red marks from the skipped question.
       this.selectRandomDepartment();
       this.message = 'Passé.';
       this.clearMessageWithDelay(); // Clear "Skipped" message

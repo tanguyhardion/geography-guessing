@@ -1,6 +1,6 @@
 # French Departments Quiz
 
-A simple Vue.js application for guessing French departments or their chef-lieux. Generated using GitHub Copilot (Gemini 2.5 Pro).
+A simple Vue.js application for guessing French departments or their chef-lieux. Generated using GitHub Copilot's Agent mode with Gemini 2.5 Pro.
 
 ## GitHub Pages
 
