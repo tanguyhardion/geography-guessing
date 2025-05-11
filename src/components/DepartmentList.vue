@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import { useGameStore } from "../store/gameStore";
-import type { Department } from "../types";
 
 const gameStore = useGameStore();
 

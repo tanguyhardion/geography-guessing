@@ -148,14 +148,20 @@ export const useGameStore = defineStore("game", {
 
       if (this.gameMode === "guessBoth") {
         const parts = this.guessedParts[this.currentDepartment.id];
-        if (!parts || (parts.nameGuessed && parts.chefLieuGuessed)) {
-          this.currentGuessType = Math.random() < 0.5 ? "name" : "chefLieu";
-        } else if (!parts.nameGuessed && !parts.chefLieuGuessed) {
-          this.currentGuessType = Math.random() < 0.5 ? "name" : "chefLieu";
-        } else if (!parts.nameGuessed) {
-          this.currentGuessType = "chefLieu";
+        if (!parts) {
+          this.guessedParts[this.currentDepartment.id] = {
+            nameGuessed: false,
+            chefLieuGuessed: false,
+          };
+        }
+
+        if (parts && parts.nameGuessed && !parts.chefLieuGuessed) {
+          this.currentGuessType = "name"; // Name is known, ask for ChefLieu (so display name)
+        } else if (parts && !parts.nameGuessed && parts.chefLieuGuessed) {
+          this.currentGuessType = "chefLieu"; // ChefLieu is known, ask for Name (so display chefLieu)
         } else {
-          this.currentGuessType = "name";
+          // Neither part is guessed (or somehow both, though it shouldn't be in availableDepartments)
+          this.currentGuessType = Math.random() < 0.5 ? "name" : "chefLieu";
         }
       } else {
         this.currentGuessType = null;
@@ -173,49 +179,70 @@ export const useGameStore = defineStore("game", {
       const currentDeptId = this.currentDepartment.id;
 
       if (this.gameMode === "guessBoth") {
-        if (!this.guessedParts[currentDeptId]) { // Should be initialized, but good safeguard
-          this.guessedParts[currentDeptId] = { nameGuessed: false, chefLieuGuessed: false };
+        if (!this.guessedParts[currentDeptId]) {
+          // Should be initialized, but good safeguard
+          this.guessedParts[currentDeptId] = {
+            nameGuessed: false,
+            chefLieuGuessed: false,
+          };
         }
 
-        if (departmentId === currentDeptId) { // User clicked the correct department for the current question
-          if (this.currentGuessType === "name") { // Name was shown, so user implicitly guessed chef-lieu by identifying the department
+        if (departmentId === currentDeptId) {
+          // User clicked the correct department for the current question
+          let justGuessedPart = "";
+          if (this.currentGuessType === "name") {
+            // Name was shown, user implicitly guessed chef-lieu
             this.guessedParts[currentDeptId].chefLieuGuessed = true;
-            this.message = `Chef-lieu correct pour ${this.currentDepartment.name} !`;
-          } else if (this.currentGuessType === "chefLieu") { // Chef-lieu was shown, user implicitly guessed name
+            justGuessedPart = "Chef-lieu";
+            this.message = `${justGuessedPart} correct pour ${this.currentDepartment.name} !`;
+          } else if (this.currentGuessType === "chefLieu") {
+            // Chef-lieu was shown, user implicitly guessed name
             this.guessedParts[currentDeptId].nameGuessed = true;
-            this.message = `Nom correct pour ${this.currentDepartment.chefLieu} !`;
+            justGuessedPart = "Nom";
+            this.message = `${justGuessedPart} correct pour ${this.currentDepartment.chefLieu} !`;
           }
 
-          if (this.guessedParts[currentDeptId].nameGuessed && this.guessedParts[currentDeptId].chefLieuGuessed) {
+          if (
+            this.guessedParts[currentDeptId].nameGuessed &&
+            this.guessedParts[currentDeptId].chefLieuGuessed
+          ) {
             this.departmentStatus[currentDeptId] = "correctBoth";
             this.score++;
             this.message = `Correct pour ${this.currentDepartment.name} / ${this.currentDepartment.chefLieu} !`;
-            this.availableDepartments = this.availableDepartments.filter(dep => dep.id !== currentDeptId);
-            this._clearTemporaryIncorrectStatuses(); // Clear reds for other departments
-            setTimeout(() => {
-              this.selectRandomDepartment();
-              this.clearMessageWithDelay();
-            }, 1000);
+            this.availableDepartments = this.availableDepartments.filter(
+              (dep) => dep.id !== currentDeptId
+            );
+            this._clearTemporaryIncorrectStatuses();
           } else {
             // Only one part guessed, set status to blue
-            this.departmentStatus[currentDeptId] = this.guessedParts[currentDeptId].nameGuessed ? "correctName" : "correctChefLieu";
-            this.message += " Maintenant, devinez l'autre partie !";
-            // Flip currentGuessType to ask for the other part of the SAME department
-            this.currentGuessType = this.currentGuessType === "name" ? "chefLieu" : "name";
-            this.clearMessageWithDelay();
+            this.departmentStatus[currentDeptId] = this.guessedParts[
+              currentDeptId
+            ].nameGuessed
+              ? "correctName"
+              : "correctChefLieu";
+            // Message already set for the part just guessed.
           }
-        } else { // User clicked an incorrect department ID
+          // For both full and partial correct guesses in guessBoth, select a new random question next.
+          setTimeout(() => {
+            this.selectRandomDepartment();
+            this.clearMessageWithDelay();
+          }, 1000);
+        } else {
+          // User clicked an incorrect department ID
           this.departmentStatus[departmentId] = "incorrect"; // Mark the clicked (wrong) one red
           this.message = "Incorrect. Essayez encore ou passez.";
           this.clearMessageWithDelay();
         }
-      } else { // Handle other game modes: "guessChefLieu" or "guessDepartmentName"
+      } else {
+        // Handle other game modes: "guessChefLieu" or "guessDepartmentName"
         if (departmentId === currentDeptId) {
           this.departmentStatus[departmentId] = "correctBoth"; // Green for these modes
           this._clearTemporaryIncorrectStatuses();
           this.score++;
           this.message = "Correct !";
-          this.availableDepartments = this.availableDepartments.filter(dep => dep.id !== departmentId);
+          this.availableDepartments = this.availableDepartments.filter(
+            (dep) => dep.id !== departmentId
+          );
           setTimeout(() => {
             this.selectRandomDepartment();
             this.clearMessageWithDelay();
