@@ -2,18 +2,10 @@
   <div class="guessing-area-container">
     <div v-if="gameStore.currentDepartment">
       <p class="instruction-text">
-        {{
-          gameStore.gameMode === "guessChefLieu"
-            ? "Clique sur le numéro du département du chef-lieu:"
-            : "Clique sur le numéro du département:"
-        }}
+        {{ instructionText }}
       </p>
       <h2 class="target-name">
-        {{
-          gameStore.gameMode === "guessChefLieu"
-            ? gameStore.currentDepartment.chefLieu
-            : gameStore.currentDepartment.name
-        }}
+        {{ gameStore.currentQuestionDisplay }}
       </h2>
       <SkipButton />
     </div>
@@ -35,10 +27,27 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useGameStore } from "../store/gameStore";
 import SkipButton from "./SkipButton.vue";
 
 const gameStore = useGameStore();
+
+const instructionText = computed(() => {
+  if (gameStore.gameMode === "guessChefLieu") {
+    return "Clique sur le numéro du département du chef-lieu:";
+  } else if (gameStore.gameMode === "guessDepartmentName") {
+    return "Clique sur le numéro du département:";
+  } else if (gameStore.gameMode === "guessBoth") {
+    if (gameStore.currentGuessType === "name") {
+      return "Clique sur le numéro correspondant à ce nom :";
+    } else if (gameStore.currentGuessType === "chefLieu") {
+      return "Clique sur le numéro correspondant à ce chef-lieu:";
+    }
+    return "Clique sur le numéro du département pour deviner son nom et son chef-lieu:";
+  }
+  return "";
+});
 </script>
 
 <style scoped>

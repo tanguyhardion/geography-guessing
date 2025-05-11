@@ -4,6 +4,7 @@
     <div class="mode-buttons">
       <button @click="startGame('guessChefLieu')">Chef-lieux</button>
       <button @click="startGame('guessDepartmentName')">Nom des départements</button>
+      <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
     </div>
   </div>
 </template>
