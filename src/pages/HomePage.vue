@@ -2,12 +2,8 @@
   <div class="homepage">
     <h2>Choisis ton challenge!</h2>
     <div class="mode-buttons">
-      <button @click="startGame('guessChefLieu')">
-        Devine le numéro à partir du chef-lieu
-      </button>
-      <button @click="startGame('guessDepartmentName')">
-        Devine le numéro à partir du nom du département
-      </button>
+      <button @click="startGame('guessChefLieu')">Chef-lieux</button>
+      <button @click="startGame('guessDepartmentName')">Nom des départements</button>
     </div>
   </div>
 </template>
@@ -50,7 +46,6 @@ h2 {
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }

@@ -19,7 +19,6 @@ const skip = () => {
   color: white;
   background-color: #f44336; /* Red */
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.3s ease;

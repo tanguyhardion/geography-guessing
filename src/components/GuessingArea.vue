@@ -4,15 +4,15 @@
       <p class="instruction-text">
         {{
           gameStore.gameMode === "guessChefLieu"
-            ? "Devine le numéro du département du chef-lieu:"
-            : "Devine le numéro du département:"
+            ? "Clique sur le numéro du département du chef-lieu:"
+            : "Clique sur le numéro du département:"
         }}
       </p>
       <h2 class="target-name">
         {{
           gameStore.gameMode === "guessChefLieu"
-            ? gameStore.currentDepartment.name
-            : gameStore.currentDepartment.chefLieu
+            ? gameStore.currentDepartment.chefLieu
+            : gameStore.currentDepartment.name
         }}
       </h2>
       <SkipButton />

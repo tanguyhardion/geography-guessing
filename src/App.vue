@@ -19,7 +19,6 @@ import { ref } from "vue";
 import HomePage from "./pages/HomePage.vue";
 import GamePage from "./pages/GamePage.vue";
 import { useGameStore } from "./store/gameStore";
-import type { GameMode } from "./types";
 
 const gameStore = useGameStore();
 const currentPage = ref<"home" | "game">("home");
