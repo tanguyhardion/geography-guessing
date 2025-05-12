@@ -230,7 +230,7 @@ export const useGameStore = defineStore("game", {
         } else {
           // User clicked an incorrect department ID
           this.departmentStatus[departmentId] = "incorrect"; // Mark the clicked (wrong) one red
-          this.message = "Incorrect. Essayez encore ou passez.";
+          this.message = "Incorrect. Essae encore ou passe.";
           this.clearMessageWithDelay();
         }
       } else {
@@ -249,7 +249,7 @@ export const useGameStore = defineStore("game", {
           }, 1000);
         } else {
           this.departmentStatus[departmentId] = "incorrect";
-          this.message = "Incorrect. Essayez encore ou passez.";
+          this.message = "Incorrect. Essaye encore ou passe.";
           this.clearMessageWithDelay();
         }
       }
