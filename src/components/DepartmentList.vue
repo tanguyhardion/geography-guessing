@@ -29,7 +29,7 @@ const handleGuess = (departmentId: string) => {
 };
 
 const getDepartmentClass = (
-  dep: (typeof gameStore.departmentsForList)[number]
+  dep: (typeof gameStore.departmentsForList)[number],
 ) => {
   // Use the type from store
   return {

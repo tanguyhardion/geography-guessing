@@ -7,5 +7,10 @@ export interface Department {
 export type GameMode = "guessChefLieu" | "guessDepartmentName" | "guessBoth";
 
 export interface DepartmentStatus {
-  [departmentId: string]: "correctChefLieu" | "correctName" | "correctBoth" | "incorrect" | "default";
+  [departmentId: string]:
+    | "correctChefLieu"
+    | "correctName"
+    | "correctBoth"
+    | "incorrect"
+    | "default";
 }

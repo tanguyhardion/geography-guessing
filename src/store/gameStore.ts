@@ -142,7 +142,7 @@ export const useGameStore = defineStore("game", {
       }
 
       const randomIndex = Math.floor(
-        Math.random() * this.availableDepartments.length
+        Math.random() * this.availableDepartments.length,
       );
       this.currentDepartment = this.availableDepartments[randomIndex];
 
@@ -210,7 +210,7 @@ export const useGameStore = defineStore("game", {
             this.score++;
             this.message = `Correct pour ${this.currentDepartment.name} / ${this.currentDepartment.chefLieu} !`;
             this.availableDepartments = this.availableDepartments.filter(
-              (dep) => dep.id !== currentDeptId
+              (dep) => dep.id !== currentDeptId,
             );
             this._clearTemporaryIncorrectStatuses();
           } else {
@@ -241,7 +241,7 @@ export const useGameStore = defineStore("game", {
           this.score++;
           this.message = "Correct !";
           this.availableDepartments = this.availableDepartments.filter(
-            (dep) => dep.id !== departmentId
+            (dep) => dep.id !== departmentId,
           );
           setTimeout(() => {
             this.selectRandomDepartment();
