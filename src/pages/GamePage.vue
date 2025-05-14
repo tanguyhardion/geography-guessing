@@ -1,13 +1,22 @@
 <template>
   <div class="game-page">
-    <DepartmentList class="department-list-column" />
-    <GuessingArea class="guessing-area-main" />
+    <template v-if="gameStore.gameMode === 'guessFlags'">
+      <FlagGuessing class="full-width" />
+    </template>
+    <template v-else>
+      <DepartmentList class="department-list-column" />
+      <GuessingArea class="guessing-area-main" />
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useGameStore } from "../store/gameStore";
 import DepartmentList from "../components/DepartmentList.vue";
 import GuessingArea from "../components/GuessingArea.vue";
+import FlagGuessing from "../components/FlagGuessing.vue";
+
+const gameStore = useGameStore();
 </script>
 
 <style scoped>
@@ -31,5 +40,9 @@ import GuessingArea from "../components/GuessingArea.vue";
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.full-width {
+  width: 100%;
 }
 </style>

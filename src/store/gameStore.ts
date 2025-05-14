@@ -1,32 +1,52 @@
 import { defineStore } from "pinia";
 import { departments } from "../data/departments";
-import type { Department, GameMode, DepartmentStatus } from "../types";
+import { countries } from "../data/countries";
+import type {
+  Department,
+  Country,
+  GameMode,
+  DepartmentStatus,
+  CountryStatus,
+} from "../types";
+import { areStringsSimilar } from "../utils/stringUtils";
 
 interface GameState {
   departments: Department[];
+  countries: Country[];
   currentDepartment: Department | null;
+  currentCountry: Country | null;
   gameMode: GameMode;
   departmentStatus: DepartmentStatus;
+  countryStatus: CountryStatus;
   score: number;
   message: string | null;
   availableDepartments: Department[];
+  availableCountries: Country[];
   currentGuessType: "name" | "chefLieu" | null;
   guessedParts: {
     [departmentId: string]: { nameGuessed: boolean; chefLieuGuessed: boolean };
   };
+  userGuessInput: string;
+  incorrectAttempts: number;
 }
 
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
     departments,
+    countries,
     currentDepartment: null,
+    currentCountry: null,
     gameMode: "guessChefLieu",
     departmentStatus: {},
+    countryStatus: {},
     score: 0,
     message: null,
     availableDepartments: [...departments],
+    availableCountries: [...countries],
     currentGuessType: null,
     guessedParts: {},
+    userGuessInput: "",
+    incorrectAttempts: 0,
   }),
   getters: {
     getDepartmentStatus: (state) => (departmentId: string) => {
@@ -42,7 +62,11 @@ export const useGameStore = defineStore("game", {
       }
       return state.departmentStatus[departmentId] || "default";
     },
+    getCountryStatus: (state) => (countryId: string) => {
+      return state.countryStatus[countryId] || "default";
+    },
     totalDepartments: (state) => state.departments.length,
+    totalCountries: (state) => state.countries.length,
     departmentsForList: (state) => {
       return state.departments.map((d) => {
         let status: DepartmentStatus[string] =
@@ -64,6 +88,10 @@ export const useGameStore = defineStore("game", {
       });
     },
     currentQuestionDisplay: (state) => {
+      if (state.gameMode === "guessFlags") {
+        return state.currentCountry ? state.currentCountry.id : "";
+      }
+
       if (!state.currentDepartment) return "";
       if (state.gameMode === "guessChefLieu") {
         return state.currentDepartment.name;
@@ -91,9 +119,16 @@ export const useGameStore = defineStore("game", {
       }
       return "";
     },
+    currentFlag: (state) => {
+      if (state.gameMode === "guessFlags" && state.currentCountry) {
+        return `https://flagcdn.com/${state.currentCountry.id}.svg`;
+      }
+      return "";
+    },
   },
   actions: {
     _clearTemporaryIncorrectStatuses() {
+      // Clear department statuses
       for (const id in this.departmentStatus) {
         if (this.departmentStatus[id] === "incorrect") {
           if (
@@ -117,21 +152,61 @@ export const useGameStore = defineStore("game", {
           }
         }
       }
+
+      // Clear country statuses
+      for (const id in this.countryStatus) {
+        if (this.countryStatus[id] === "incorrect") {
+          this.countryStatus[id] = "default";
+        }
+      }
     },
+
     initializeGame() {
-      this.availableDepartments = [...this.departments];
-      this.departmentStatus = {};
-      this.score = 0;
-      this.message = null;
-      this.guessedParts = {};
-      this.departments.forEach((dep) => {
-        this.guessedParts[dep.id] = {
-          nameGuessed: false,
-          chefLieuGuessed: false,
-        };
-      });
-      this.selectRandomDepartment();
+      if (this.gameMode === "guessFlags") {
+        this.availableCountries = [...this.countries];
+        this.countryStatus = {};
+        this.score = 0;
+        this.message = null;
+        this.userGuessInput = "";
+        this.incorrectAttempts = 0;
+        this.selectRandomCountry();
+      } else {
+        this.availableDepartments = [...this.departments];
+        this.departmentStatus = {};
+        this.score = 0;
+        this.message = null;
+        this.guessedParts = {};
+        this.departments.forEach((dep) => {
+          this.guessedParts[dep.id] = {
+            nameGuessed: false,
+            chefLieuGuessed: false,
+          };
+        });
+        this.selectRandomDepartment();
+      }
     },
+
+    selectRandomCountry() {
+      if (this.availableCountries.length === 0) {
+        this.currentCountry = null;
+        this.message = "Félicitations ! Vous avez deviné tous les drapeaux !";
+        return;
+      }
+
+      const randomIndex = Math.floor(
+        Math.random() * this.availableCountries.length,
+      );
+      this.currentCountry = this.availableCountries[randomIndex];
+
+      if (
+        this.message !== "Félicitations ! Vous avez deviné tous les drapeaux !"
+      ) {
+        this.message = null;
+      }
+      this.incorrectAttempts = 0; // Reset attempts counter
+      this.userGuessInput = ""; // Reset input field
+    },
+
     selectRandomDepartment() {
       if (this.availableDepartments.length === 0) {
         this.currentDepartment = null;
@@ -166,6 +241,7 @@ export const useGameStore = defineStore("game", {
       } else {
         this.currentGuessType = null;
       }
+
       if (
         this.message !==
         "Félicitations ! Vous avez deviné tous les départements !"
@@ -174,6 +250,8 @@ export const useGameStore = defineStore("game", {
       }
     },
     makeGuess(departmentId: string) {
+      // Skip if we're in flag guessing mode - use makeFlagGuess instead
+      if (this.gameMode === "guessFlags") return;
       if (!this.currentDepartment) return;
 
       const currentDeptId = this.currentDepartment.id;
@@ -230,7 +308,7 @@ export const useGameStore = defineStore("game", {
         } else {
           // User clicked an incorrect department ID
           this.departmentStatus[departmentId] = "incorrect"; // Mark the clicked (wrong) one red
-          this.message = "Incorrect. Essae encore ou passe.";
+          this.message = "Incorrect. Essaie encore ou passe.";
           this.clearMessageWithDelay();
         }
       } else {
@@ -249,12 +327,65 @@ export const useGameStore = defineStore("game", {
           }, 1000);
         } else {
           this.departmentStatus[departmentId] = "incorrect";
-          this.message = "Incorrect. Essaye encore ou passe.";
+          this.message = "Incorrect. Essaie encore ou passe.";
           this.clearMessageWithDelay();
         }
       }
     },
+
+    makeFlagGuess(guess: string) {
+      if (this.gameMode !== "guessFlags" || !this.currentCountry) return;
+
+      const currentCountry = this.currentCountry;
+
+      // Check if the guess is correct using approximate string matching
+      if (areStringsSimilar(guess, currentCountry.name)) {
+        this.countryStatus[currentCountry.id] = "correct";
+        this._clearTemporaryIncorrectStatuses();
+        this.score++;
+        this.incorrectAttempts = 0; // Reset attempts counter
+        this.message = `Correct ! C'est bien ${currentCountry.name}.`;
+        this.availableCountries = this.availableCountries.filter(
+          (country) => country.id !== currentCountry.id,
+        );
+        setTimeout(() => {
+          this.selectRandomCountry();
+          this.clearMessageWithDelay();
+        }, 1000);
+      } else {
+        this.countryStatus[currentCountry.id] = "incorrect";
+        this.incorrectAttempts++;
+
+        // After 3 incorrect attempts, show a hint (first letter)
+        if (this.incorrectAttempts >= 3) {
+          const firstLetter = currentCountry.name.charAt(0);
+          this.message = `Indice : Le pays commence par "${firstLetter}". Essaie encore ou passe.`;
+        } else {
+          this.message = "Incorrect. Essaie encore ou passe.";
+        }
+        this.clearMessageWithDelay();
+      }
+
+      // Reset input field
+      this.userGuessInput = "";
+    },
+
+    skipFlag() {
+      if (this.gameMode !== "guessFlags" || !this.currentCountry) return;
+
+      this._clearTemporaryIncorrectStatuses();
+      this.message = `Passé. C'était : ${this.currentCountry.name}.`;
+      this.incorrectAttempts = 0;
+      this.selectRandomCountry();
+      this.clearMessageWithDelay();
+    },
+
     skipDepartment() {
+      if (this.gameMode === "guessFlags") {
+        this.skipFlag();
+        return;
+      }
+
       if (!this.currentDepartment) return;
       this._clearTemporaryIncorrectStatuses();
 
@@ -273,7 +404,8 @@ export const useGameStore = defineStore("game", {
     clearMessageWithDelay() {
       if (
         this.message ===
-        "Félicitations ! Vous avez deviné tous les départements !"
+          "Félicitations ! Vous avez deviné tous les départements !" ||
+        this.message === "Félicitations ! Vous avez deviné tous les drapeaux !"
       ) {
         return;
       }

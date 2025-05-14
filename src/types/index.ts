@@ -4,7 +4,17 @@ export interface Department {
   chefLieu: string;
 }
 
-export type GameMode = "guessChefLieu" | "guessDepartmentName" | "guessBoth";
+export interface Country {
+  id: string; // ISO code e.g., 'fr', 'us'
+  name: string; // Name in French
+  nameEn: string; // Name in English for API calls
+}
+
+export type GameMode =
+  | "guessChefLieu"
+  | "guessDepartmentName"
+  | "guessBoth"
+  | "guessFlags";
 
 export interface DepartmentStatus {
   [departmentId: string]:
@@ -13,4 +23,8 @@ export interface DepartmentStatus {
     | "correctBoth"
     | "incorrect"
     | "default";
+}
+
+export interface CountryStatus {
+  [countryId: string]: "correct" | "incorrect" | "default";
 }

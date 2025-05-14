@@ -4,7 +4,7 @@
       {{ gameStore.message }}
     </div>
     <header v-if="currentPage === 'game'">
-      <h1>Quiz des Départements Français</h1>
+      <h1>{{ pageTitle }}</h1>
       <button @click="goHome" class="back-button">Retour</button>
     </header>
     <main>
@@ -15,13 +15,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import HomePage from "./pages/HomePage.vue";
 import GamePage from "./pages/GamePage.vue";
 import { useGameStore } from "./store/gameStore";
 
 const gameStore = useGameStore();
 const currentPage = ref<"home" | "game">("home");
+
+const pageTitle = computed(() => {
+  if (gameStore.gameMode === "guessFlags") {
+    return "Quiz des Drapeaux du Monde";
+  }
+  return "Quiz des Départements Français";
+});
 
 const startGame = () => {
   // Game mode is already set by HomePage, game is initialized by store's setGameMode
