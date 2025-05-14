@@ -5,7 +5,7 @@ A simple Vue.js application with two game modes:
 1. Guess French departments or their chef-lieux
 2. Guess world countries based on their flags
 
-Generated using GitHub Copilot's Agent mode with Gemini 2.5 Pro.
+Generated using GitHub Copilot's Agent mode with Gemini 2.5 Pro & Claude 3.7 Sonnet.
 
 ## Features
 
