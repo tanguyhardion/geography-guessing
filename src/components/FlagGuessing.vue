@@ -94,7 +94,7 @@ const makeGuess = () => {
 .flag-display {
   margin: 20px 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  border-radius: 24px;
   overflow: hidden;
   width: 240px;
   height: 160px;

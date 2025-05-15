@@ -130,7 +130,7 @@ h3 {
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 24px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
