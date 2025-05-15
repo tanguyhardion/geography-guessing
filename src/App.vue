@@ -1,6 +1,6 @@
 <template>
   <div id="app-container">
-    <div class="message-area-fixed" v-if="gameStore.message">
+  <div class="message-area-fixed" v-if="gameStore.message" :class="messageType">
       {{ gameStore.message }}
     </div>
     <header v-if="currentPage === 'game'">
@@ -30,6 +30,27 @@ const pageTitle = computed(() => {
     return "Quiz des Drapeaux du Monde";
   }
   return "Quiz des Départements Français";
+});
+
+const messageType = computed(() => {
+  if (!gameStore.message) return '';
+  
+  const msg = gameStore.message;
+  
+  // Check for correct messages or congratulations
+  if (msg.includes('Correct') || msg.includes('félicitations')) {
+    return 'message-success';
+  }
+  // Check for incorrect messages
+  else if (msg.includes('Incorrect')) {
+    return 'message-error';
+  }
+  // Check for hints
+  else if (msg.includes('Indice')) {
+    return 'message-hint';
+  }
+  // Default for other messages (skip, etc.)
+  return '';
 });
 
 const startGame = () => {
@@ -84,7 +105,7 @@ const goHome = () => {
   width: calc(100% - 20px);
   max-width: 580px;
   padding: 12px;
-  background-color: var(--primary-light);
+  background-color: var(--primary-light); /* Default blue color */
   color: white;
   font-weight: 600;
   z-index: 1000;
@@ -92,6 +113,21 @@ const goHome = () => {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   border-radius: 0 0 12px 12px;
   animation: slideDown 0.3s ease-in-out;
+}
+
+.message-area-fixed.message-success {
+  background-color: var(--success-color); /* Green for correct answers */
+  box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
+}
+
+.message-area-fixed.message-error {
+  background-color: var(--error-color); /* Red for incorrect answers */
+  box-shadow: 0 3px 10px rgba(244, 67, 54, 0.2);
+}
+
+.message-area-fixed.message-hint {
+  background-color: var(--secondary-color); /* Orange for hints */
+  box-shadow: 0 3px 10px rgba(255, 152, 0, 0.2);
 }
 
 @keyframes slideDown {
