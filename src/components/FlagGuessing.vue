@@ -100,9 +100,6 @@ const makeGuess = () => {
 
 .flag-display {
   margin: 25px 0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border-radius: 16px;
-  overflow: hidden;
   width: 280px;
   height: 180px;
   display: flex;
@@ -110,6 +107,7 @@ const makeGuess = () => {
   justify-content: center;
   position: relative;
   transition: transform 0.5s ease;
+  background-color: transparent;
 }
 
 .flag-display::before {
@@ -133,7 +131,8 @@ const makeGuess = () => {
   object-fit: contain;
   object-position: center;
   display: block;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.15));
+  border-radius: 3px;
 }
 
 .guess-input-area {

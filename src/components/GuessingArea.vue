@@ -74,6 +74,10 @@ const instructionText = computed(() => {
   margin-bottom: 12px;
   color: var(--text-secondary);
   font-weight: 500;
+  max-width: 90%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .target-name {
