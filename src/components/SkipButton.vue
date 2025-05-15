@@ -12,19 +12,23 @@ const skip = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .skip-button {
-  padding: 10px 20px;
-  font-size: 1em;
+  padding: 10px 22px;
+  font-size: 0.95em;
   color: white;
-  background-color: #f44336; /* Red */
+  background: linear-gradient(to right, var(--error-color), var(--error-dark));
   border: none;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
+  margin-top: 15px;
+  transition: var(--transition-default);
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(244, 67, 54, 0.2);
 }
 
 .skip-button:hover {
-  background-color: #d32f2f;
+  background: linear-gradient(to right, var(--error-light), var(--error-color));
+  transition: var(--transition-default);
 }
 </style>

@@ -42,11 +42,13 @@ const getDepartmentClass = (
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .department-list-container {
   height: 100%; /* Fill the column */
   overflow-y: auto;
-  background-color: #f9f9f9;
+  background-color: var(--primary-dark);
+  position: relative;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 ul {
@@ -56,44 +58,65 @@ ul {
 }
 
 .department-item {
-  padding: 10px;
+  padding: 12px 5px;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   text-align: center;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: var(--transition-default);
+  color: rgba(255, 255, 255, 0.85);
+  position: relative;
+  overflow: hidden;
 }
 
 .department-item:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.department-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: var(--transition-default);
+}
+
+.department-item:hover::after {
+  height: 4px;
 }
 
 .correct-guess {
-  background-color: #a5d6a7; /* Light green */
-  color: #1b5e20; /* Dark green text */
+  background-color: var(--success-color);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .correct-guess:hover {
-  background-color: #81c784;
-  cursor: not-allowed; /* Prevent hover effect */
+  background-color: var(--success-dark);
+  cursor: not-allowed;
 }
 
 .partially-correct-guess {
-  /* New style for blue */
-  background-color: #90caf9; /* Light blue */
-  color: #0d47a1; /* Dark blue text */
+  background-color: var(--secondary-color);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .partially-correct-guess:hover {
-  background-color: #64b5f6;
+  background-color: var(--secondary-dark);
 }
 
 .incorrect-guess {
-  background-color: #ef9a9a; /* Light red */
-  color: #c62828; /* Dark red text */
+  background-color: var(--error-color);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .incorrect-guess:hover {
-  background-color: #e57373;
+  background-color: var(--error-dark);
 }
 </style>

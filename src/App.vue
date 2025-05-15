@@ -8,8 +8,10 @@
       <button @click="goHome" class="back-button">Retour</button>
     </header>
     <main>
-      <HomePage v-if="currentPage === 'home'" @mode-selected="startGame" />
-      <GamePage v-else-if="currentPage === 'game'" />
+      <transition name="fade" mode="out-in">
+        <HomePage v-if="currentPage === 'home'" @mode-selected="startGame" />
+        <GamePage v-else-if="currentPage === 'game'" />
+      </transition>
     </main>
   </div>
 </template>
@@ -45,13 +47,10 @@ const goHome = () => {
 // No need to initialize game here, it's done when a mode is selected
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 #app-container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
   display: flex;
@@ -59,59 +58,115 @@ const goHome = () => {
   height: 100vh; /* Full viewport height */
   max-width: 600px; /* Max width for phone-like appearance */
   margin: 0 auto; /* Center on larger screens */
-  border: 1px solid #eee; /* Optional: border for phone appearance */
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   position: relative; /* For positioning the message area */
+  background-color: var(--background-light);
+  background-image:
+    radial-gradient(
+      circle at 20% 90%,
+      rgba(63, 81, 181, 0.03) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(255, 152, 0, 0.03) 0%,
+      transparent 20%
+    );
 }
 
 .message-area-fixed {
-  position: fixed; /* Changed from .message-area */
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 20px); /* Max width of app container minus some padding */
-  max-width: 580px; /* Ensure it doesn't exceed app's max-width */
-  padding: 10px;
-  background-color: #e7f3fe;
-  border: 1px solid #2196f3;
-  color: #2196f3;
-  font-weight: bold;
-  z-index: 1000; /* Ensure it's on top */
+  width: calc(100% - 20px);
+  max-width: 580px;
+  padding: 12px;
+  background-color: var(--primary-light);
+  color: white;
+  font-weight: 600;
+  z-index: 1000;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 5px 5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 12px 12px;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -100%);
+  }
+  to {
+    transform: translate(-50%, 0);
+  }
 }
 
 header {
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  font-size: 1.2em; /* Adjusted size */
+  font-size: 1.1em;
   margin: 0;
+  color: white;
+  font-weight: 600;
 }
 
 .back-button {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: white;
+  padding: 8px 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 20px;
   cursor: pointer;
   font-size: 0.9em;
+  font-weight: 600;
+  transition: var(--transition-default);
+  box-shadow: none;
 }
 
 .back-button:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: none;
+  box-shadow: none;
 }
-
-/* Removed .mode-selector and .message-area styles as they are handled differently or moved */
 
 main {
   flex-grow: 1;
   overflow-y: auto;
   display: flex; /* Ensure child pages can fill height */
+  background-color: var(--background-off);
+}
+
+/* Page transition animations */
+.fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

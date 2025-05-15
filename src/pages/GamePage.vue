@@ -19,27 +19,30 @@ import FlagGuessing from "../components/FlagGuessing.vue";
 const gameStore = useGameStore();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .game-page {
   display: flex;
   flex-grow: 1; /* Fill available space in main */
   width: 100%;
+  background-color: var(--background-light);
 }
 
 .department-list-column {
   width: 80px; /* Fixed width for the scrollable list */
   flex-shrink: 0; /* Prevent shrinking */
   overflow-y: auto;
-  border-right: 1px solid #ddd;
+  position: relative;
 }
 
 .guessing-area-main {
   flex-grow: 1;
-  padding: 20px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: var(--background-off);
+  position: relative;
 }
 
 .full-width {

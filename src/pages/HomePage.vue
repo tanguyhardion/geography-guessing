@@ -53,64 +53,83 @@ const startGame = (mode: GameMode) => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .homepage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   height: 100%;
-  padding: 20px;
+  padding: 24px;
+  background-color: var(--background-light);
 }
 
 h1 {
-  margin-bottom: 20px;
-  font-size: 2em;
-  color: #2c3e50;
+  margin-bottom: 30px;
+  font-size: 2.2em;
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 h2 {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 1.5em;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 h3 {
-  margin-bottom: 15px;
-  font-size: 1.2em;
-  color: #555;
+  margin-bottom: 20px;
+  font-size: 1.3em;
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .game-selector {
   display: flex;
   justify-content: space-around;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
+  gap: 15px;
 }
 
 .game-type {
-  width: 45%;
-  padding: 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  width: 250px;
+  padding: 20px;
+  border: none;
+  border-radius: 16px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition-default);
+  background-color: var(--background-off);
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
 }
 
 .game-type:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .game-type.active {
-  border-color: #4caf50;
-  background-color: #f1f8e9;
+  background-color: #e8f0fe;
+  border-left: 4px solid var(--primary-color);
+  border-top: 4px solid var(--primary-color);
 }
 
 .game-type p {
-  color: #666;
-  font-size: 0.9em;
-  margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  margin-top: 12px;
+  line-height: 1.4;
 }
 
 .mode-buttons {
@@ -118,25 +137,40 @@ h3 {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 10px;
 }
 
 .mode-buttons button {
   display: block;
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   padding: 15px;
   font-size: 1.1em;
-  margin: 10px 0;
-  background-color: #4caf50;
+  margin: 8px 0;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
   color: white;
   border: none;
-  border-radius: 24px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .mode-buttons button:hover {
-  background-color: #45a049;
+  background: linear-gradient(
+    135deg,
+    var(--primary-light),
+    var(--primary-color)
+  );
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.mode-buttons button:active {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive adjustments for mobile */
@@ -147,7 +181,7 @@ h3 {
 
   .game-type {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
   }
 }
 </style>

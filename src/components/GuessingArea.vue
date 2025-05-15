@@ -50,48 +50,85 @@ const instructionText = computed(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .guessing-area-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px;
+  padding: 25px;
   flex-grow: 1;
+  background-color: var(--background-light);
+  position: relative;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .instruction-text {
-  font-size: 1.1em;
-  margin-bottom: 8px;
-  color: #555;
+  font-size: 1.2em;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .target-name {
-  font-size: 1.8em;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  background-color: var(--background-off);
+  padding: 15px 30px;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  display: inline-block;
 }
 
 .completion-message {
-  font-size: 1.5em;
-  color: green;
-  margin-bottom: 20px;
+  font-size: 1.6em;
+  color: var(--success-color);
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .restart-button {
-  padding: 10px 20px;
-  font-size: 1em;
+  padding: 12px 25px;
+  font-size: 1.1em;
   color: white;
-  background-color: #2196f3; /* Blue */
+  background: linear-gradient(
+    135deg,
+    var(--secondary-color),
+    var(--secondary-dark)
+  );
   border: none;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
 }
 
 .restart-button:hover {
-  background-color: #1976d2;
+  background: linear-gradient(
+    135deg,
+    var(--secondary-light),
+    var(--secondary-color)
+  );
+  box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
 }
 </style>
