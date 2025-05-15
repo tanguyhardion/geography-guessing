@@ -107,15 +107,10 @@ const instructionText = computed(() => {
   }
 }
 
-.restart-button {
-  padding: 12px 25px;
+.restart-button {  padding: 12px 25px;
   font-size: 1.1em;
   color: white;
-  background: linear-gradient(
-    135deg,
-    var(--secondary-color),
-    var(--secondary-dark)
-  );
+  background-color: var(--secondary-color);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -124,11 +119,7 @@ const instructionText = computed(() => {
 }
 
 .restart-button:hover {
-  background: linear-gradient(
-    135deg,
-    var(--secondary-light),
-    var(--secondary-color)
-  );
+  background-color: var(--secondary-light);
   box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
 }
 </style>

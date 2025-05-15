@@ -17,7 +17,7 @@ const skip = () => {
   padding: 10px 22px;
   font-size: 0.95em;
   color: white;
-  background: linear-gradient(to right, var(--error-color), var(--error-dark));
+  background-color: var(--error-color);
   border: none;
   cursor: pointer;
   margin-top: 15px;
@@ -28,7 +28,7 @@ const skip = () => {
 }
 
 .skip-button:hover {
-  background: linear-gradient(to right, var(--error-light), var(--error-color));
+  background-color: var(--error-light);
   transition: var(--transition-default);
 }
 </style>

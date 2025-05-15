@@ -108,14 +108,8 @@ const makeGuess = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-off);
   position: relative;
-  transform: perspective(800px) rotateX(2deg);
   transition: transform 0.5s ease;
-}
-
-.flag-display:hover {
-  transform: perspective(800px) rotateX(0deg);
 }
 
 .flag-display::before {
@@ -169,11 +163,7 @@ const makeGuess = () => {
   padding: 12px 25px;
   font-size: 1em;
   color: white;
-  background: linear-gradient(
-    to right,
-    var(--success-color),
-    var(--success-dark)
-  );
+  background-color: var(--success-color);
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -184,11 +174,7 @@ const makeGuess = () => {
 }
 
 .guess-button:hover {
-  background: linear-gradient(
-    to right,
-    var(--success-light),
-    var(--success-color)
-  );
+  background-color: var(--success-light);
   box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
 }
 
@@ -213,11 +199,7 @@ const makeGuess = () => {
   padding: 12px 28px;
   font-size: 1.1em;
   color: white;
-  background: linear-gradient(
-    135deg,
-    var(--secondary-color),
-    var(--secondary-dark)
-  );
+  background-color: var(--secondary-color);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -227,11 +209,7 @@ const makeGuess = () => {
 }
 
 .restart-button:hover {
-  background: linear-gradient(
-    135deg,
-    var(--secondary-light),
-    var(--secondary-color)
-  );
+  background-color: var(--secondary-light);
   box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
 }
 </style>

@@ -147,11 +147,7 @@ h3 {
   padding: 15px;
   font-size: 1.1em;
   margin: 8px 0;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+  background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 12px;
@@ -161,11 +157,7 @@ h3 {
 }
 
 .mode-buttons button:hover {
-  background: linear-gradient(
-    135deg,
-    var(--primary-light),
-    var(--primary-color)
-  );
+  background-color: var(--primary-light);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
