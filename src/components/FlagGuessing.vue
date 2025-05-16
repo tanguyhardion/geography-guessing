@@ -17,6 +17,7 @@
 
       <div class="guess-input-area">
         <input
+          ref="inputField"
           v-model="gameStore.userGuessInput"
           @keyup.enter="makeGuess"
           type="text"
@@ -44,14 +45,21 @@
 <script setup lang="ts">
 import { useGameStore } from "../store/gameStore";
 import SkipButton from "./SkipButton.vue";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 
 const gameStore = useGameStore();
 const totalCountries = computed(() => gameStore.countries.length);
+const inputField = ref<HTMLInputElement | null>(null);
 
 const makeGuess = () => {
   if (gameStore.userGuessInput.trim()) {
     gameStore.makeFlagGuess(gameStore.userGuessInput);
+    // Refocus the input element to keep the keyboard open on mobile
+    setTimeout(() => {
+      if (inputField.value) {
+        inputField.value.focus();
+      }
+    }, 10);
   }
 };
 </script>
