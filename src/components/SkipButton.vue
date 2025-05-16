@@ -26,9 +26,4 @@ const skip = () => {
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(244, 67, 54, 0.2);
 }
-
-.skip-button:hover {
-  background-color: var(--error-light);
-  transition: var(--transition-default);
-}
-</style>
+  </style>

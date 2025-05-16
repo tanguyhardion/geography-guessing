@@ -173,12 +173,6 @@ h1 {
   box-shadow: none;
 }
 
-.back-button:hover {
-  background-color: rgba(255, 255, 255, 0.3);
-  transform: none;
-  box-shadow: none;
-}
-
 main {
   flex-grow: 1;
   overflow-y: auto;

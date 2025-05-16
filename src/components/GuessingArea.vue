@@ -121,9 +121,4 @@ const instructionText = computed(() => {
   transition: var(--transition-default);
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
 }
-
-.restart-button:hover {
-  background-color: var(--secondary-light);
-  box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
-}
 </style>

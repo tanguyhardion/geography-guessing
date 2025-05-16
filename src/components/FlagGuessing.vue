@@ -172,11 +172,6 @@ const makeGuess = () => {
   box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
 }
 
-.guess-button:hover {
-  background-color: var(--success-light);
-  box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
-}
-
 .completion-message {
   font-size: 1.6em;
   color: var(--success-color);
@@ -205,10 +200,5 @@ const makeGuess = () => {
   transition: var(--transition-default);
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
   font-weight: 600;
-}
-
-.restart-button:hover {
-  background-color: var(--secondary-light);
-  box-shadow: 0 6px 15px rgba(255, 152, 0, 0.3);
 }
 </style>
