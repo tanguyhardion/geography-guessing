@@ -66,6 +66,8 @@ const makeGuess = () => {
   padding: 25px;
   flex-grow: 1;
   background-color: var(--background-light);
+  width: 100%;
+  max-width: 100%;
 }
 
 .instruction-text {
@@ -80,7 +82,7 @@ const makeGuess = () => {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 800px;
 }
 
 .progress-indicator {
@@ -100,8 +102,9 @@ const makeGuess = () => {
 
 .flag-display {
   margin: 25px 0;
-  width: 280px;
-  height: 180px;
+  width: 100%;
+  max-width: 400px;
+  height: 250px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +141,7 @@ const makeGuess = () => {
 .guess-input-area {
   margin: 20px 0;
   width: 100%;
-  max-width: 300px;
+  max-width: 500px;
 }
 
 .country-input {
