@@ -33,6 +33,8 @@ const pageTitle = computed(() => {
 
 watch(() => gameStore.message, (newMessage) => {
   if (newMessage) {
+    toast.clear(); // Clear all existing toasts before showing a new one
+
     if (newMessage.includes('Correct') || newMessage.includes('félicitations') || newMessage.includes('Félicitations')) {
       toast(newMessage, { type: TYPE.SUCCESS });
     } else if (newMessage.includes('Incorrect')) {
