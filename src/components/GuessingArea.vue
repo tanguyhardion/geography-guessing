@@ -1,27 +1,14 @@
 <template>
   <div class="guessing-area-container">
     <div v-if="gameStore.currentDepartment">
-      <p class="instruction-text">
-        {{ instructionText }}
-      </p>
-      <h2 class="target-name">
-        {{ gameStore.currentQuestionDisplay }}
-      </h2>
+      <p class="instruction-text">{{ instructionText }}</p>
+      <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
       <SkipButton />
     </div>
-    <div
-      v-else-if="
-        gameStore.availableDepartments.length === 0 &&
-        gameStore.departments.length > 0
-      "
-    >
-      <p class="completion-message">Tous les départements ont été devinés !</p>
-      <button @click="gameStore.initializeGame()" class="restart-button">
-        Rejouer
-      </button>
-    </div>
-    <div v-else>
-      <p>Chargement...</p>
+    <!-- Completion message paragraph removed, toast will handle it -->
+    <div v-if="!gameStore.currentDepartment && gameStore.gameMode !== 'guessFlags'">
+      <!-- The completion message is now shown as a toast via App.vue -->
+      <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>
 </template>
@@ -48,6 +35,10 @@ const instructionText = computed(() => {
   }
   return "";
 });
+
+const restartGame = () => {
+  gameStore.initializeGame();
+};
 </script>
 
 <style scoped lang="scss">
@@ -93,13 +84,16 @@ const instructionText = computed(() => {
   display: inline-block;
 }
 
-.completion-message {
-  font-size: 1.6em;
-  color: var(--success-color);
-  margin-bottom: 25px;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.6s ease-out;
+.restart-button {  
+  padding: 12px 25px;
+  font-size: 1.1em;
+  color: white;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
 }
 
 @keyframes fadeIn {
@@ -109,16 +103,5 @@ const instructionText = computed(() => {
   to {
     opacity: 1;
   }
-}
-
-.restart-button {  padding: 12px 25px;
-  font-size: 1.1em;
-  color: white;
-  background-color: var(--secondary-color);
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: var(--transition-default);
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
 }
 </style>

@@ -1,8 +1,5 @@
 <template>
   <div id="app-container">
-  <div class="message-area-fixed" v-if="gameStore.message" :class="messageType">
-      {{ gameStore.message }}
-    </div>
     <header v-if="currentPage === 'game'">
       <h1>{{ pageTitle }}</h1>
       <button @click="goHome" class="back-button">Retour</button>
@@ -17,12 +14,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import HomePage from "./pages/HomePage.vue";
 import GamePage from "./pages/GamePage.vue";
 import { useGameStore } from "./store/gameStore";
+import { useToast, TYPE } from "vue-toastification";
 
 const gameStore = useGameStore();
+const toast = useToast();
 const currentPage = ref<"home" | "game">("home");
 
 const pageTitle = computed(() => {
@@ -32,40 +31,30 @@ const pageTitle = computed(() => {
   return "Quiz des Départements Français";
 });
 
-const messageType = computed(() => {
-  if (!gameStore.message) return '';
-  
-  const msg = gameStore.message;
-  
-  // Check for correct messages or congratulations
-  if (msg.includes('Correct') || msg.includes('félicitations')) {
-    return 'message-success';
+watch(() => gameStore.message, (newMessage) => {
+  if (newMessage) {
+    if (newMessage.includes('Correct') || newMessage.includes('félicitations') || newMessage.includes('Félicitations')) {
+      toast(newMessage, { type: TYPE.SUCCESS });
+    } else if (newMessage.includes('Incorrect')) {
+      toast(newMessage, { type: TYPE.ERROR });
+    } else if (newMessage.includes('Indice')) {
+      toast(newMessage, { type: TYPE.INFO });
+    } else if (newMessage.includes('Passé') || newMessage.includes('passé')) {
+      toast(newMessage, { type: TYPE.WARNING });
+    } else {
+      toast(newMessage, { type: TYPE.DEFAULT });
+    }
   }
-  // Check for incorrect messages
-  else if (msg.includes('Incorrect')) {
-    return 'message-error';
-  }
-  // Check for hints
-  else if (msg.includes('Indice')) {
-    return 'message-hint';
-  }
-  // Default for other messages (skip, etc.)
-  return '';
 });
 
 const startGame = () => {
-  // Game mode is already set by HomePage, game is initialized by store's setGameMode
   currentPage.value = "game";
 };
 
 const goHome = () => {
   currentPage.value = "home";
-  // Optional: Reset parts of the game state if needed when going home,
-  // though setGameMode in HomePage should handle re-initialization.
-  gameStore.message = null; // Clear any lingering messages
+  gameStore.message = null;
 };
-
-// No need to initialize game here, it's done when a mode is selected
 </script>
 
 <style scoped lang="scss">
@@ -76,13 +65,13 @@ const goHome = () => {
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  max-width: 600px; /* Max width for phone-like appearance */
-  margin: 0 auto; /* Center on larger screens */
+  height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  position: relative; /* For positioning the message area */
+  position: relative;
   background-color: var(--background-light);
   background-image:
     radial-gradient(
@@ -95,48 +84,6 @@ const goHome = () => {
       rgba(255, 152, 0, 0.03) 0%,
       transparent 20%
     );
-}
-
-.message-area-fixed {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 20px);
-  max-width: 580px;
-  padding: 12px;
-  background-color: var(--primary-light); /* Default blue color */
-  color: white;
-  font-weight: 600;
-  z-index: 1000;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 0 0 12px 12px;
-  animation: slideDown 0.3s ease-in-out;
-}
-
-.message-area-fixed.message-success {
-  background-color: var(--success-color); /* Green for correct answers */
-  box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
-}
-
-.message-area-fixed.message-error {
-  background-color: var(--error-color); /* Red for incorrect answers */
-  box-shadow: 0 3px 10px rgba(244, 67, 54, 0.2);
-}
-
-.message-area-fixed.message-hint {
-  background-color: var(--secondary-color); /* Orange for hints */
-  box-shadow: 0 3px 10px rgba(255, 152, 0, 0.2);
-}
-
-@keyframes slideDown {
-  from {
-    transform: translate(-50%, -100%);
-  }
-  to {
-    transform: translate(-50%, 0);
-  }
 }
 
 header {
@@ -176,11 +123,10 @@ h1 {
 main {
   flex-grow: 1;
   overflow-y: auto;
-  display: flex; /* Ensure child pages can fill height */
+  display: flex;
   background-color: var(--background-off);
 }
 
-/* Page transition animations */
 .fade-enter-active,
 .fade-leave-active {
   transition:
@@ -198,5 +144,9 @@ main {
 .fade-leave-from {
   opacity: 1;
   transform: translateY(0);
+}
+
+:global(.Vue-Toastification__container) {
+  z-index: 9999 !important;
 }
 </style>

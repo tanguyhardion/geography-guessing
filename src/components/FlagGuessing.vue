@@ -1,43 +1,33 @@
 <template>
   <div class="flag-guessing-container">
-    <div v-if="gameStore.currentCountry" class="flag-section">
-      <p class="instruction-text">Devinez le pays du drapeau suivant :</p>
+    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags'" class="flag-section">
       <div class="progress-indicator">
-        <span class="score"
-          >Score: {{ gameStore.score }} / {{ totalCountries }}</span
-        >
+        Drapeau {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
+        <span class="score">Score: {{ gameStore.score }}</span>
       </div>
       <div class="flag-display">
-        <img
-          :src="gameStore.currentFlag"
-          :alt="'Drapeau à deviner'"
-          class="flag-image"
-        />
+        <img :src="gameStore.currentFlag" alt="Drapeau à deviner" class="flag-image" />
       </div>
-
       <div class="guess-input-area">
         <input
           ref="inputField"
+          type="text"
           v-model="gameStore.userGuessInput"
           @keyup.enter="makeGuess"
-          type="text"
-          placeholder="Entrez le nom du pays..."
+          placeholder="Nom du pays"
           class="country-input"
-          autocomplete="off"
+          :disabled="!gameStore.currentCountry"
         />
-        <button @click="makeGuess" class="guess-button">Valider</button>
+        <button @click="makeGuess" class="guess-button" :disabled="!gameStore.userGuessInput.trim() || !gameStore.currentCountry">
+          Deviner
+        </button>
       </div>
-
-      <SkipButton />
+      <SkipButton v-if="gameStore.currentCountry" />
     </div>
-    <div v-else-if="gameStore.availableCountries.length === 0">
-      <p class="completion-message">Tous les drapeaux ont été devinés !</p>
-      <button @click="gameStore.initializeGame()" class="restart-button">
-        Rejouer
-      </button>
-    </div>
-    <div v-else>
-      <p>Chargement...</p>
+    <!-- Completion message paragraph removed, toast will handle it -->
+    <div v-if="!gameStore.currentCountry && gameStore.gameMode === 'guessFlags'" class="flag-section">
+      <!-- The completion message is now shown as a toast via App.vue -->
+      <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>
 </template>
@@ -45,23 +35,48 @@
 <script setup lang="ts">
 import { useGameStore } from "../store/gameStore";
 import SkipButton from "./SkipButton.vue";
-import { computed, ref } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 
 const gameStore = useGameStore();
 const totalCountries = computed(() => gameStore.countries.length);
 const inputField = ref<HTMLInputElement | null>(null);
 
 const makeGuess = () => {
-  if (gameStore.userGuessInput.trim()) {
+  if (gameStore.userGuessInput.trim() && gameStore.currentCountry) {
     gameStore.makeFlagGuess(gameStore.userGuessInput);
-    // Refocus the input element to keep the keyboard open on mobile
-    setTimeout(() => {
-      if (inputField.value) {
-        inputField.value.focus();
-      }
-    }, 10);
+    // Focus input field after guess only if there's a next country
+    if (gameStore.currentCountry && inputField.value) {
+      inputField.value.focus();
+    }
   }
 };
+
+const restartGame = () => {
+  gameStore.initializeGame();
+  // Focus input field when game restarts and there's a country
+  if (gameStore.currentCountry && inputField.value) {
+    // Need a slight delay for the input to be potentially re-rendered/enabled
+    setTimeout(() => {
+      inputField.value?.focus();
+    }, 0);
+  }
+};
+
+// Focus the input field when a new country is selected (and it's not game over)
+watch(() => gameStore.currentCountry, (newCountry) => {
+  if (newCountry && inputField.value) {
+    // Need a slight delay for the input to be potentially re-rendered/enabled
+     setTimeout(() => {
+      inputField.value?.focus();
+    }, 0);
+  }
+}, { immediate: true });
+
+onMounted(() => {
+  if (gameStore.currentCountry && inputField.value) {
+    inputField.value.focus();
+  }
+});
 </script>
 
 <style scoped lang="scss">
@@ -183,13 +198,17 @@ const makeGuess = () => {
   box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
 }
 
+/* .completion-message styling removed */
+/*
 .completion-message {
   font-size: 1.6em;
   color: var(--success-color);
   margin-bottom: 25px;
   font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   animation: fadeIn 0.6s ease-out;
 }
+*/
 
 @keyframes fadeIn {
   from {
