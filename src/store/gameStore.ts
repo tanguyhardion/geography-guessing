@@ -28,6 +28,7 @@ interface GameState {
   };
   userGuessInput: string;
   incorrectAttempts: number;
+  reverseFlagMode?: boolean; // true = guess flag from country, false/undefined = guess country from flag
 }
 
 export const useGameStore = defineStore("game", {
@@ -47,6 +48,7 @@ export const useGameStore = defineStore("game", {
     guessedParts: {},
     userGuessInput: "",
     incorrectAttempts: 0,
+    reverseFlagMode: false,
   }),
   getters: {
     getDepartmentStatus: (state) => (departmentId: string) => {
@@ -412,6 +414,36 @@ export const useGameStore = defineStore("game", {
       setTimeout(() => {
         this.message = null;
       }, 2000);
+    },
+    setReverseFlagMode(mode: boolean) {
+      this.reverseFlagMode = mode;
+    },
+    makeFlagGuessByFlag(flagCountryId: string) {
+      if (this.gameMode !== "guessFlags" || !this.currentCountry) return;
+      const currentCountry = this.currentCountry;
+      if (flagCountryId === currentCountry.id) {
+        this.countryStatus[currentCountry.id] = "correct";
+        this._clearTemporaryIncorrectStatuses();
+        this.score++;
+        this.incorrectAttempts = 0;
+        this.message = `Correct ! C'était bien le drapeau de ${currentCountry.name}.`;
+        this.availableCountries = this.availableCountries.filter(
+          (country) => country.id !== currentCountry.id,
+        );
+        setTimeout(() => {
+          this.selectRandomCountry();
+          this.clearMessageWithDelay();
+        }, 1000);
+      } else {
+        this.countryStatus[flagCountryId] = "incorrect";
+        this.incorrectAttempts++;
+        if (this.incorrectAttempts >= 3) {
+          this.message = `Indice : Le drapeau recherché commence par "${currentCountry.name.charAt(0)}".`;
+        } else {
+          this.message = "Incorrect. Essaie encore ou passe.";
+        }
+        this.clearMessageWithDelay();
+      }
     },
   },
 });

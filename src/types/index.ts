@@ -8,6 +8,7 @@ export interface Country {
   id: string; // ISO code e.g., 'fr', 'us'
   name: string; // Name in French
   nameEn: string; // Name in English for API calls
+  continent: string; // Continent e.g., 'Europe', 'Asie'
 }
 
 export type GameMode =

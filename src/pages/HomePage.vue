@@ -34,6 +34,7 @@
     <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessFlags')">Drapeaux du Monde</button>
+      <button @click="startReverseFlagMode">Pays → Drapeau (Nouveau)</button>
     </div>
   </div>
 </template>
@@ -48,7 +49,14 @@ const gameStore = useGameStore();
 const selectedGame = ref<"departments" | "flags">("departments");
 
 const startGame = (mode: GameMode) => {
+  gameStore.setReverseFlagMode(false);
   gameStore.setGameMode(mode); // This will also initialize the game via the store action
+  emit("mode-selected");
+};
+
+const startReverseFlagMode = () => {
+  gameStore.setReverseFlagMode(true);
+  gameStore.setGameMode("guessFlags");
   emit("mode-selected");
 };
 </script>

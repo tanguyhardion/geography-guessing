@@ -1,6 +1,7 @@
 <template>
   <div class="flag-guessing-container">
-    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags'" class="flag-section">
+    <!-- Standard flag guessing mode -->
+    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags' && !gameStore.reverseFlagMode" class="flag-section">
       <div class="progress-indicator">
         Drapeau {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
         <span class="score">Score: {{ gameStore.score }}</span>
@@ -24,6 +25,31 @@
       </div>
       <SkipButton v-if="gameStore.currentCountry" />
     </div>
+
+    <!-- Reverse flag mode: guess the flag from the country name -->
+    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags' && gameStore.reverseFlagMode" class="flag-section flag-reverse-mode">
+      <div class="reverse-layout">
+        <div class="flag-list-column">
+          <ul>
+            <li v-for="country in continentCountries" :key="country.id"
+                :class="getFlagClass(country)"
+                @click="handleFlagGuess(country.id)">
+              <img :src="getFlagUrl(country.id)" :alt="country.name" class="flag-list-image" />
+            </li>
+          </ul>
+        </div>
+        <div class="country-question-area">
+          <div class="progress-indicator">
+            Pays {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
+            <span class="score">Score: {{ gameStore.score }}</span>
+          </div>
+          <p class="instruction-text">Clique sur le drapeau du pays : </p>
+          <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
+          <SkipButton />
+        </div>
+      </div>
+    </div>
+
     <!-- Completion message paragraph removed, toast will handle it -->
     <div v-if="!gameStore.currentCountry && gameStore.gameMode === 'guessFlags'" class="flag-section">
       <!-- The completion message is now shown as a toast via App.vue -->
@@ -41,6 +67,24 @@ const gameStore = useGameStore();
 const totalCountries = computed(() => gameStore.countries.length);
 const inputField = ref<HTMLInputElement | null>(null);
 
+const continentCountries = computed(() => {
+  if (!gameStore.currentCountry) return [];
+  return gameStore.countries.filter(
+    (c) => c.continent === gameStore.currentCountry?.continent
+  );
+});
+
+const getFlagUrl = (id: string) => `https://flagcdn.com/${id}.svg`;
+
+const getFlagClass = (country: any) => {
+  const status = gameStore.countryStatus[country.id] || "default";
+  return {
+    "flag-list-item": true,
+    "correct-guess": status === "correct",
+    "incorrect-guess": status === "incorrect",
+  };
+};
+
 const makeGuess = () => {
   if (gameStore.userGuessInput.trim() && gameStore.currentCountry) {
     gameStore.makeFlagGuess(gameStore.userGuessInput);
@@ -49,6 +93,11 @@ const makeGuess = () => {
       inputField.value.focus();
     }
   }
+};
+
+const handleFlagGuess = (countryId: string) => {
+  if (!gameStore.currentCountry) return;
+  gameStore.makeFlagGuessByFlag(countryId);
 };
 
 const restartGame = () => {
@@ -83,14 +132,106 @@ onMounted(() => {
 .flag-guessing-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
   text-align: center;
-  padding: 25px;
+  padding: 0;
   flex-grow: 1;
   background-color: var(--background-light);
   width: 100%;
+  max-width: 600px; // Match the department game width
+  margin: 0 auto;
+  height: 100%; // Use 100% to fill parent, not 100vh
+  min-height: 0;
+}
+
+.flag-section.flag-reverse-mode,
+.flag-section {
+  max-width: 100%; // Remove width restriction here
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 0;
+  height: 100%; // Fill parent
+}
+
+.flag-reverse-mode .reverse-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   max-width: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex: 1 1 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.flag-list-column {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  background: var(--primary-dark);
+  border-radius: 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  flex-shrink: 0;
+}
+.flag-list-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.flag-list-item {
+  padding: 12px 5px;
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: var(--transition-default);
+  background: none;
+  border-radius: 0;
+  margin-bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flag-list-item:hover {
+  background: rgba(255,255,255,0.08);
+}
+.flag-list-image {
+  width: 48px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: white;
+}
+
+.country-question-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .instruction-text {
@@ -98,6 +239,19 @@ onMounted(() => {
   margin-bottom: 18px;
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+.target-name {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  background-color: var(--background-off);
+  padding: 15px 30px;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  display: inline-block;
 }
 
 .flag-section {
