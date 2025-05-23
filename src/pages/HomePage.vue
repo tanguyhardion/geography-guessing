@@ -18,7 +18,7 @@
         @click="selectedGame = 'flags'"
       >
         <h2>Drapeaux du Monde</h2>
-        <p>Devinez les pays à partir de leurs drapeaux</p>
+        <p>Devinez les drapeaux des pays du monde</p>
       </div>
     </div>
 
@@ -29,12 +29,10 @@
         Nom des départements
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
-    </div>
-
-    <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
+    </div>    <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessFlags')">Drapeaux du Monde</button>
-      <button @click="startReverseFlagMode">Pays → Drapeau (Nouveau)</button>
+      <button @click="startGame('guessFlags')">Deviner le pays depuis le drapeau</button>
+      <button @click="startReverseFlagMode">Deviner le drapeau depuis le pays</button>
     </div>
   </div>
 </template>
@@ -70,6 +68,8 @@ const startReverseFlagMode = () => {
   height: 100%;
   padding: 24px;
   background-color: var(--background-light);
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -102,14 +102,16 @@ h3 {
 
 .game-selector {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   width: 100%;
   margin-bottom: 35px;
   gap: 15px;
+  flex-wrap: wrap;
 }
 
 .game-type {
   width: 250px;
+  max-width: 100%;
   padding: 20px;
   border: none;
   border-radius: 16px;
@@ -120,6 +122,8 @@ h3 {
   box-shadow: var(--card-shadow);
   position: relative;
   overflow: hidden;
+  flex: 1;
+  min-width: 200px;
 }
 
 .game-type:hover {
@@ -174,14 +178,49 @@ h3 {
 }
 
 /* Responsive adjustments for mobile */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .homepage {
+    padding: 16px;
+  }
+  
   .game-selector {
     flex-direction: column;
+    gap: 20px;
   }
 
   .game-type {
     width: 100%;
-    margin-bottom: 18px;
+    margin-bottom: 0;
+    min-width: unset;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    margin-bottom: 25px;
+  }
+
+  .mode-buttons button {
+    max-width: 100%;
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .homepage {
+    padding: 12px;
+  }
+  
+  h1 {
+    font-size: 1.6em;
+    margin-bottom: 20px;
+  }
+  
+  .game-type {
+    padding: 16px;
+  }
+  
+  h2 {
+    font-size: 1.3em;
   }
 }
 </style>
