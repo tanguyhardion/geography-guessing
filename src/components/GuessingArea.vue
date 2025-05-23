@@ -22,9 +22,9 @@ const gameStore = useGameStore();
 
 const instructionText = computed(() => {
   if (gameStore.gameMode === "guessChefLieu") {
-    return "Clique sur le numéro du département du chef-lieu:";
-  } else if (gameStore.gameMode === "guessDepartmentName") {
     return "Clique sur le numéro du département:";
+  } else if (gameStore.gameMode === "guessDepartmentName") {
+    return "Clique sur le numéro du département du chef-lieu:";
   } else if (gameStore.gameMode === "guessBoth") {
     if (gameStore.currentGuessType === "name") {
       return "Clique sur le numéro correspondant à ce nom :";
@@ -72,16 +72,22 @@ const restartGame = () => {
 }
 
 .target-name {
-  font-size: 2.2em;
+  font-size: 1.8em;
   font-weight: 700;
   margin-bottom: 30px;
   color: var(--primary-color);
   background-color: var(--background-off);
-  padding: 15px 30px;
+  padding: 12px 20px;
   border-radius: 12px;
   box-shadow: var(--card-shadow);
   position: relative;
   display: inline-block;
+  min-width: 250px;
+  max-width: 320px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .restart-button {  

@@ -92,13 +92,11 @@ export const useGameStore = defineStore("game", {
     currentQuestionDisplay: (state) => {
       if (state.gameMode === "guessFlags") {
         return state.currentCountry ? state.currentCountry.id : "";
-      }
-
-      if (!state.currentDepartment) return "";
+      }      if (!state.currentDepartment) return "";
       if (state.gameMode === "guessChefLieu") {
-        return state.currentDepartment.name;
-      } else if (state.gameMode === "guessDepartmentName") {
         return state.currentDepartment.chefLieu;
+      } else if (state.gameMode === "guessDepartmentName") {
+        return state.currentDepartment.name;
       } else if (state.gameMode === "guessBoth") {
         if (state.currentGuessType === "name") {
           return state.currentDepartment.name;
@@ -370,16 +368,18 @@ export const useGameStore = defineStore("game", {
 
       // Reset input field
       this.userGuessInput = "";
-    },
-
-    skipFlag() {
+    },    skipFlag() {
       if (this.gameMode !== "guessFlags" || !this.currentCountry) return;
 
       this._clearTemporaryIncorrectStatuses();
       this.message = `Passé. C'était : ${this.currentCountry.name}.`;
       this.incorrectAttempts = 0;
-      this.selectRandomCountry();
-      this.clearMessageWithDelay();
+      
+      // Delay the next country selection to allow toast to show
+      setTimeout(() => {
+        this.selectRandomCountry();
+        this.clearMessageWithDelay();
+      }, 100);
     },
 
     skipDepartment() {

@@ -1,13 +1,9 @@
 <template>
-  <div class="flag-guessing-container">
-    <!-- Standard flag guessing mode -->
+  <div class="flag-guessing-container">    <!-- Standard flag guessing mode -->
     <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags' && !gameStore.reverseFlagMode" class="flag-section">
       <div class="progress-indicator">
         Drapeau {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
-        <span class="score">Score: {{ gameStore.score }}</span>
-      </div>
-      <div class="flag-display">
-        <img :src="gameStore.currentFlag" alt="Drapeau à deviner" class="flag-image" />
+        <span class="score">Score : {{ gameStore.score }}</span>
       </div>
       <div class="guess-input-area">
         <input
@@ -22,6 +18,9 @@
         <button @click="makeGuess" class="guess-button" :disabled="!gameStore.userGuessInput.trim() || !gameStore.currentCountry">
           Deviner
         </button>
+      </div>
+      <div class="flag-display">
+        <img :src="gameStore.currentFlag" alt="Drapeau à deviner" class="flag-image" />
       </div>
       <SkipButton v-if="gameStore.currentCountry" />
     </div>
@@ -41,7 +40,7 @@
         <div class="country-question-area">
           <div class="progress-indicator">
             Pays {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
-            <span class="score">Score: {{ gameStore.score }}</span>
+            <span class="score">Score : {{ gameStore.score }}</span>
           </div>
           <p class="instruction-text">Clique sur le drapeau du pays : </p>
           <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
@@ -138,10 +137,11 @@ onMounted(() => {
   padding: 0;
   flex-grow: 1;
   background-color: var(--background-light);
-  width: 100%;
-  max-width: 600px; // Match the department game width
+  width: 375px;
+  min-width: 375px;
+  max-width: 375px;
   margin: 0 auto;
-  height: 100%; // Use 100% to fill parent, not 100vh
+  height: 100%;
   min-height: 0;
 }
 
@@ -242,16 +242,22 @@ onMounted(() => {
 }
 
 .target-name {
-  font-size: 2.2em;
+  font-size: 1.8em;
   font-weight: 700;
   margin-bottom: 30px;
   color: var(--primary-color);
   background-color: var(--background-off);
-  padding: 15px 30px;
+  padding: 12px 20px;
   border-radius: 12px;
   box-shadow: var(--card-shadow);
   position: relative;
   display: inline-block;
+  min-width: 250px;
+  max-width: 320px;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .flag-section {
@@ -263,6 +269,7 @@ onMounted(() => {
 }
 
 .progress-indicator {
+  margin-top: 15px;
   margin-bottom: 15px;
   font-size: 1.1em;
   color: var(--text-secondary);
@@ -279,15 +286,20 @@ onMounted(() => {
 
 .flag-display {
   margin: 25px 0;
-  width: 100%;
-  max-width: 400px;
-  height: 250px;
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
+  height: 200px;
+  min-height: 200px;
+  max-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   transition: transform 0.5s ease;
   background-color: transparent;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .flag-display::before {
@@ -318,7 +330,7 @@ onMounted(() => {
 .guess-input-area {
   margin: 20px 0;
   width: 100%;
-  max-width: 500px;
+  max-width: 320px;
 }
 
 .country-input {
