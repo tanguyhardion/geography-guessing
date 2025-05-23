@@ -1,8 +1,20 @@
 <template>
-  <div class="flag-guessing-container">    <!-- Standard flag guessing mode -->
-    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags' && !gameStore.reverseFlagMode" class="flag-section">
+  <div class="flag-guessing-container">
+    <!-- Standard flag guessing mode -->
+    <div
+      v-if="
+        gameStore.currentCountry &&
+        gameStore.gameMode === 'guessFlags' &&
+        !gameStore.reverseFlagMode
+      "
+      class="flag-section"
+    >
       <div class="progress-indicator">
-        Drapeau {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
+        Drapeau
+        {{
+          gameStore.countries.length - gameStore.availableCountries.length + 1
+        }}
+        / {{ totalCountries }}
         <span class="score">Score : {{ gameStore.score }}</span>
       </div>
       <div class="guess-input-area">
@@ -15,34 +27,64 @@
           class="country-input"
           :disabled="!gameStore.currentCountry"
         />
-        <button @click="makeGuess" class="guess-button" :disabled="!gameStore.userGuessInput.trim() || !gameStore.currentCountry">
+        <button
+          @click="makeGuess"
+          class="guess-button"
+          :disabled="
+            !gameStore.userGuessInput.trim() || !gameStore.currentCountry
+          "
+        >
           Deviner
         </button>
       </div>
       <div class="flag-display">
-        <img :src="gameStore.currentFlag" alt="Drapeau à deviner" class="flag-image" />
+        <img
+          :src="gameStore.currentFlag"
+          alt="Drapeau à deviner"
+          class="flag-image"
+        />
       </div>
       <SkipButton v-if="gameStore.currentCountry" />
     </div>
 
     <!-- Reverse flag mode: guess the flag from the country name -->
-    <div v-if="gameStore.currentCountry && gameStore.gameMode === 'guessFlags' && gameStore.reverseFlagMode" class="flag-section flag-reverse-mode">
+    <div
+      v-if="
+        gameStore.currentCountry &&
+        gameStore.gameMode === 'guessFlags' &&
+        gameStore.reverseFlagMode
+      "
+      class="flag-section flag-reverse-mode"
+    >
       <div class="reverse-layout">
         <div class="flag-list-column">
           <ul>
-            <li v-for="country in continentCountries" :key="country.id"
-                :class="getFlagClass(country)"
-                @click="handleFlagGuess(country.id)">
-              <img :src="getFlagUrl(country.id)" :alt="country.name" class="flag-list-image" />
+            <li
+              v-for="country in continentCountries"
+              :key="country.id"
+              :class="getFlagClass(country)"
+              @click="handleFlagGuess(country.id)"
+            >
+              <img
+                :src="getFlagUrl(country.id)"
+                :alt="country.name"
+                class="flag-list-image"
+              />
             </li>
           </ul>
         </div>
         <div class="country-question-area">
           <div class="progress-indicator">
-            Pays {{ gameStore.countries.length - gameStore.availableCountries.length + 1 }} / {{ totalCountries }}
+            Pays
+            {{
+              gameStore.countries.length -
+              gameStore.availableCountries.length +
+              1
+            }}
+            / {{ totalCountries }}
             <span class="score">Score : {{ gameStore.score }}</span>
           </div>
-          <p class="instruction-text">Clique sur le drapeau du pays : </p>
+          <p class="instruction-text">Clique sur le drapeau du pays :</p>
           <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
           <SkipButton />
         </div>
@@ -50,7 +92,10 @@
     </div>
 
     <!-- Completion message paragraph removed, toast will handle it -->
-    <div v-if="!gameStore.currentCountry && gameStore.gameMode === 'guessFlags'" class="flag-section">
+    <div
+      v-if="!gameStore.currentCountry && gameStore.gameMode === 'guessFlags'"
+      class="flag-section"
+    >
       <!-- The completion message is now shown as a toast via App.vue -->
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
@@ -69,7 +114,7 @@ const inputField = ref<HTMLInputElement | null>(null);
 const continentCountries = computed(() => {
   if (!gameStore.currentCountry) return [];
   return gameStore.countries.filter(
-    (c) => c.continent === gameStore.currentCountry?.continent
+    (c) => c.continent === gameStore.currentCountry?.continent,
   );
 });
 
@@ -111,14 +156,18 @@ const restartGame = () => {
 };
 
 // Focus the input field when a new country is selected (and it's not game over)
-watch(() => gameStore.currentCountry, (newCountry) => {
-  if (newCountry && inputField.value) {
-    // Need a slight delay for the input to be potentially re-rendered/enabled
-     setTimeout(() => {
-      inputField.value?.focus();
-    }, 0);
-  }
-}, { immediate: true });
+watch(
+  () => gameStore.currentCountry,
+  (newCountry) => {
+    if (newCountry && inputField.value) {
+      // Need a slight delay for the input to be potentially re-rendered/enabled
+      setTimeout(() => {
+        inputField.value?.focus();
+      }, 0);
+    }
+  },
+  { immediate: true },
+);
 
 onMounted(() => {
   if (gameStore.currentCountry && inputField.value) {
@@ -201,7 +250,7 @@ onMounted(() => {
   padding: 12px 5px;
   cursor: pointer;
   text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: var(--transition-default);
   background: none;
   border-radius: 0;
@@ -212,14 +261,14 @@ onMounted(() => {
   justify-content: center;
 }
 .flag-list-item:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 .flag-list-image {
   width: 48px;
   height: 32px;
   object-fit: contain;
   border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   background: white;
 }
 

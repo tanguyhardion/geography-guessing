@@ -22,6 +22,6 @@ app.use(Toast, {
   rtl: false,
   transition: "Vue-Toastification__fade",
   maxToasts: 1, // Ensures only one toast is visible at a time
-  newestOnTop: true // New toasts replace old ones
+  newestOnTop: true, // New toasts replace old ones
 });
 app.mount("#app");

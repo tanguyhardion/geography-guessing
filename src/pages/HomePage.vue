@@ -29,10 +29,15 @@
         Nom des départements
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
-    </div>    <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
+    </div>
+    <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessFlags')">Deviner le pays depuis le drapeau</button>
-      <button @click="startReverseFlagMode">Deviner le drapeau depuis le pays</button>
+      <button @click="startGame('guessFlags')">
+        Deviner le pays depuis le drapeau
+      </button>
+      <button @click="startReverseFlagMode">
+        Deviner le drapeau depuis le pays
+      </button>
     </div>
   </div>
 </template>
@@ -182,7 +187,7 @@ h3 {
   .homepage {
     padding: 16px;
   }
-  
+
   .game-selector {
     flex-direction: column;
     gap: 20px;
@@ -209,16 +214,16 @@ h3 {
   .homepage {
     padding: 12px;
   }
-  
+
   h1 {
     font-size: 1.6em;
     margin-bottom: 20px;
   }
-  
+
   .game-type {
     padding: 16px;
   }
-  
+
   h2 {
     font-size: 1.3em;
   }

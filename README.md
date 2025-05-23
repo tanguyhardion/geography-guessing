@@ -6,6 +6,7 @@ A simple Vue.js application with two game modes:
 2. Guess world countries based on their flags
 
 Generated using GitHub Copilot's Agent mode with various AI models, including:
+
 - Gemini 2.5 Pro
 - Claude 3.7 Sonnet
 - GPT-4.1

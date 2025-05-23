@@ -6,7 +6,9 @@
       <SkipButton />
     </div>
     <!-- Completion message paragraph removed, toast will handle it -->
-    <div v-if="!gameStore.currentDepartment && gameStore.gameMode !== 'guessFlags'">
+    <div
+      v-if="!gameStore.currentDepartment && gameStore.gameMode !== 'guessFlags'"
+    >
       <!-- The completion message is now shown as a toast via App.vue -->
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
@@ -90,7 +92,7 @@ const restartGame = () => {
   hyphens: auto;
 }
 
-.restart-button {  
+.restart-button {
   padding: 12px 25px;
   font-size: 1.1em;
   color: white;

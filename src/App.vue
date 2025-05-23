@@ -31,23 +31,30 @@ const pageTitle = computed(() => {
   return "Quiz des Départements Français";
 });
 
-watch(() => gameStore.message, (newMessage) => {
-  if (newMessage) {
-    toast.clear(); // Clear all existing toasts before showing a new one
+watch(
+  () => gameStore.message,
+  (newMessage) => {
+    if (newMessage) {
+      toast.clear(); // Clear all existing toasts before showing a new one
 
-    if (newMessage.includes('Correct') || newMessage.includes('félicitations') || newMessage.includes('Félicitations')) {
-      toast(newMessage, { type: TYPE.SUCCESS });
-    } else if (newMessage.includes('Incorrect')) {
-      toast(newMessage, { type: TYPE.ERROR });
-    } else if (newMessage.includes('Indice')) {
-      toast(newMessage, { type: TYPE.INFO });
-    } else if (newMessage.includes('Passé') || newMessage.includes('passé')) {
-      toast(newMessage, { type: TYPE.WARNING });
-    } else {
-      toast(newMessage, { type: TYPE.DEFAULT });
+      if (
+        newMessage.includes("Correct") ||
+        newMessage.includes("félicitations") ||
+        newMessage.includes("Félicitations")
+      ) {
+        toast(newMessage, { type: TYPE.SUCCESS });
+      } else if (newMessage.includes("Incorrect")) {
+        toast(newMessage, { type: TYPE.ERROR });
+      } else if (newMessage.includes("Indice")) {
+        toast(newMessage, { type: TYPE.INFO });
+      } else if (newMessage.includes("Passé") || newMessage.includes("passé")) {
+        toast(newMessage, { type: TYPE.WARNING });
+      } else {
+        toast(newMessage, { type: TYPE.DEFAULT });
+      }
     }
-  }
-});
+  },
+);
 
 const startGame = () => {
   currentPage.value = "game";

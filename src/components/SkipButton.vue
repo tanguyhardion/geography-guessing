@@ -26,4 +26,4 @@ const skip = () => {
   font-weight: 600;
   box-shadow: 0 3px 8px rgba(244, 67, 54, 0.2);
 }
-  </style>
+</style>
