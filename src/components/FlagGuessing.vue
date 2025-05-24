@@ -8,11 +8,10 @@
         !gameStore.reverseFlagMode
       "
       class="flag-section"
-    >
-      <div class="progress-indicator">
+    >      <div class="progress-indicator">
         Drapeau
         {{
-          gameStore.countries.length - gameStore.availableCountries.length + 1
+          totalCountries - gameStore.availableCountries.length + 1
         }}
         / {{ totalCountries }}
         <span class="score">Score : {{ gameStore.score }}</span>
@@ -73,11 +72,10 @@
             </li>
           </ul>
         </div>
-        <div class="country-question-area">
-          <div class="progress-indicator">
+        <div class="country-question-area">          <div class="progress-indicator">
             Pays
             {{
-              gameStore.countries.length -
+              totalCountries -
               gameStore.availableCountries.length +
               1
             }}
@@ -108,7 +106,7 @@ import SkipButton from "./SkipButton.vue";
 import { computed, ref, watch, onMounted } from "vue";
 
 const gameStore = useGameStore();
-const totalCountries = computed(() => gameStore.countries.length);
+const totalCountries = computed(() => gameStore.totalCountries);
 const inputField = ref<HTMLInputElement | null>(null);
 
 const continentCountries = computed(() => {

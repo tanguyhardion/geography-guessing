@@ -17,6 +17,14 @@ export type GameMode =
   | "guessBoth"
   | "guessFlags";
 
+export type Continent =
+  | "Europe"
+  | "Asie"
+  | "Afrique"
+  | "Amérique du Nord"
+  | "Amérique du Sud"
+  | "Océanie";
+
 export interface DepartmentStatus {
   [departmentId: string]:
     | "correctChefLieu"

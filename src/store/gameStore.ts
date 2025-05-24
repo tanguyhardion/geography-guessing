@@ -7,6 +7,7 @@ import type {
   GameMode,
   DepartmentStatus,
   CountryStatus,
+  Continent,
 } from "../types";
 import { areStringsSimilar } from "../utils/stringUtils";
 
@@ -40,10 +41,10 @@ interface GameState {
   userGuessInput: string;
   incorrectAttempts: number;
   reverseFlagMode: boolean;
+  selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {
-  state: (): GameState => ({
+export const useGameStore = defineStore("game", {  state: (): GameState => ({
     departments,
     countries,
     currentDepartment: null,
@@ -60,6 +61,7 @@ export const useGameStore = defineStore("game", {
     userGuessInput: "",
     incorrectAttempts: 0,
     reverseFlagMode: false,
+    selectedContinent: null,
   }),
 
   getters: {
@@ -80,11 +82,22 @@ export const useGameStore = defineStore("game", {
 
     getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
+    },    // Totals
+    totalDepartments: (state) => state.departments.length,
+    totalCountries: (state) => {
+      if (state.selectedContinent && state.selectedContinent !== "all") {
+        return state.countries.filter(
+          (country) => country.continent === state.selectedContinent
+        ).length;
+      }
+      return state.countries.length;
     },
 
-    // Totals
-    totalDepartments: (state) => state.departments.length,
-    totalCountries: (state) => state.countries.length,
+    // Available continents
+    availableContinents: (state) => {
+      const continents = new Set(state.countries.map((c) => c.continent));
+      return Array.from(continents).sort();
+    },
 
     // Computed lists
     departmentsForList: (state) => {
@@ -162,10 +175,17 @@ export const useGameStore = defineStore("game", {
       this.message = null;
       this.userGuessInput = "";
       this.incorrectAttempts = 0;
-    },
-
-    initializeFlagGame() {
-      this.availableCountries = [...this.countries];
+    },    initializeFlagGame() {
+      let filteredCountries = [...this.countries];
+      
+      // Filter by continent if one is selected
+      if (this.selectedContinent && this.selectedContinent !== "all") {
+        filteredCountries = filteredCountries.filter(
+          (country) => country.continent === this.selectedContinent
+        );
+      }
+      
+      this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
     },
@@ -453,10 +473,12 @@ export const useGameStore = defineStore("game", {
     setGameMode(mode: GameMode) {
       this.gameMode = mode;
       this.initializeGame();
+    },    setReverseFlagMode(mode: boolean) {
+      this.reverseFlagMode = mode;
     },
 
-    setReverseFlagMode(mode: boolean) {
-      this.reverseFlagMode = mode;
+    setSelectedContinent(continent: Continent | "all" | null) {
+      this.selectedContinent = continent;
     },
 
     clearTemporaryIncorrectStatuses() {

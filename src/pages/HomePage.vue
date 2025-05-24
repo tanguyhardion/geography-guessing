@@ -21,7 +21,6 @@
         <p>Devinez les drapeaux des pays du monde</p>
       </div>
     </div>
-
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessChefLieu')">Chef-lieux</button>
@@ -30,26 +29,76 @@
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
     </div>
-    <div v-else-if="selectedGame === 'flags'" class="mode-buttons">
+    <div
+      v-else-if="selectedGame === 'flags' && !showContinentSelection"
+      class="mode-buttons"
+    >
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessFlags')">
+      <button @click="selectFlagMode('normal')">
         Deviner le pays depuis le drapeau
       </button>
-      <button @click="startReverseFlagMode">
+      <button @click="selectFlagMode('reverse')">
         Deviner le drapeau depuis le pays
       </button>
+    </div>
+    <div
+      v-else-if="selectedGame === 'flags' && showContinentSelection"
+      class="continent-selection"
+    >
+      <h3>Choisir un continent:</h3>
+      <div class="continent-buttons">
+        <button
+          @click="selectContinent('all')"
+          class="continent-button all-continents"
+        >
+          Tous les continents
+        </button>
+        <button
+          v-for="continent in availableContinents"
+          :key="continent"
+          @click="selectContinent(continent as Continent)"
+          class="continent-button"
+        >
+          {{ continent }}
+        </button>
+      </div>
+      <button @click="goBack" class="back-button">← Retour</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useGameStore } from "../store/gameStore";
-import type { GameMode } from "../types";
+import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
 const gameStore = useGameStore();
 const selectedGame = ref<"departments" | "flags">("departments");
+const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
+const showContinentSelection = ref(false);
+
+const availableContinents = computed(() => gameStore.availableContinents);
+
+const selectFlagMode = (mode: "normal" | "reverse") => {
+  selectedFlagMode.value = mode;
+  showContinentSelection.value = true;
+};
+
+const selectContinent = (continent: Continent | "all") => {
+  gameStore.setSelectedContinent(continent);
+
+  if (selectedFlagMode.value === "normal") {
+    startGame("guessFlags");
+  } else if (selectedFlagMode.value === "reverse") {
+    startReverseFlagMode();
+  }
+};
+
+const goBack = () => {
+  showContinentSelection.value = false;
+  selectedFlagMode.value = null;
+};
 
 const startGame = (mode: GameMode) => {
   gameStore.setReverseFlagMode(false);
@@ -182,6 +231,68 @@ h3 {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.continent-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.continent-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.continent-button {
+  padding: 12px 20px;
+  font-size: 1em;
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-default);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 140px;
+  text-align: center;
+}
+
+.continent-button:hover {
+  background-color: var(--secondary-dark);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.continent-button.all-continents {
+  background-color: var(--primary-color);
+  font-weight: 600;
+}
+
+.continent-button.all-continents:hover {
+  background-color: var(--primary-light);
+}
+
+.back-button {
+  padding: 10px 20px;
+  font-size: 0.95em;
+  background-color: var(--border-color);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.back-button:hover {
+  background-color: var(--background-off);
+  transform: translateY(-1px);
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .homepage {
@@ -203,10 +314,19 @@ h3 {
     font-size: 1.8em;
     margin-bottom: 25px;
   }
-
   .mode-buttons button {
     max-width: 100%;
     font-size: 1em;
+  }
+
+  .continent-buttons {
+    gap: 8px;
+  }
+
+  .continent-button {
+    min-width: 120px;
+    padding: 10px 16px;
+    font-size: 0.9em;
   }
 }
 
@@ -223,9 +343,14 @@ h3 {
   .game-type {
     padding: 16px;
   }
-
   h2 {
     font-size: 1.3em;
+  }
+
+  .continent-button {
+    min-width: 100px;
+    padding: 8px 12px;
+    font-size: 0.85em;
   }
 }
 </style>
