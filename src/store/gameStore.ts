@@ -368,7 +368,7 @@ export const useGameStore = defineStore("game", {
 
     handleCorrectFlagGuess(country: Country) {
       this.countryStatus[country.id] = "correct";
-      this.clearTemporaryIncorrectStatuses();
+      this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
       this.resetAttempts();
       this.message = `Correct ! C'est bien ${country.name}.`;
@@ -378,7 +378,7 @@ export const useGameStore = defineStore("game", {
 
     handleCorrectFlagByFlagGuess(country: Country) {
       this.countryStatus[country.id] = "correct";
-      this.clearTemporaryIncorrectStatuses();
+      this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
       this.resetAttempts();
       this.message = `Correct ! C'était bien le drapeau de ${country.name}.`;
@@ -397,13 +397,7 @@ export const useGameStore = defineStore("game", {
       this.countryStatus[flagCountryId] = "incorrect";
       this.incorrectAttempts++;
 
-      if (this.currentCountry) {
-        if (this.incorrectAttempts >= HINT_THRESHOLD) {
-          this.message = `Indice : Le drapeau recherché commence par "${this.currentCountry.name.charAt(0)}".`;
-        } else {
-          this.message = "Incorrect. Essaie encore ou passe.";
-        }
-      }
+      this.message = "Incorrect. Essaie encore ou passe.";
 
       this.clearMessageWithDelay();
     },
@@ -435,7 +429,7 @@ export const useGameStore = defineStore("game", {
     skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
-      this.clearTemporaryIncorrectStatuses();
+      this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
       this.message = `Passé. C'était : ${this.currentCountry.name}.`;
       this.resetAttempts();
 

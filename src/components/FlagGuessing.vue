@@ -263,6 +263,26 @@ onMounted(() => {
 .flag-list-item:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+.correct-guess {
+  background-color: var(--success-color);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.correct-guess:hover {
+  background-color: var(--success-dark);
+  cursor: not-allowed;
+}
+
+.incorrect-guess {
+  background-color: var(--error-color);
+  color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.incorrect-guess:hover {
+  background-color: var(--error-dark);
+}
 .flag-list-image {
   width: 48px;
   height: 32px;
