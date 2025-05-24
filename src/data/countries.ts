@@ -461,7 +461,7 @@ export const countries: Country[] = [
     id: "cy",
     name: "Chypre",
     nameEn: "cyprus",
-    continent: "Asie", // Geographically Asie
+    continent: "Europe", // Geographically Asie
   },
   {
     id: "cz",
