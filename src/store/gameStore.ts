@@ -452,7 +452,7 @@ export const useGameStore = defineStore("game", {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
-      this.message = `Passé. C'était : ${this.currentCountry.name}.`;
+      this.message = `Passé. C'était : <strong>${this.currentCountry.name}</strong>.`;
       this.resetAttempts();
 
       setTimeout(() => {
