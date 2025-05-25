@@ -75,12 +75,9 @@ const goHome = () => {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 375px;
-  min-width: 375px;
-  max-width: 375px;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   overflow: hidden;
   position: relative;
   background-color: var(--background-light);

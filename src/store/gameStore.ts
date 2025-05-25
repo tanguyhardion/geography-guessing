@@ -44,7 +44,8 @@ interface GameState {
   selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {  state: (): GameState => ({
+export const useGameStore = defineStore("game", {
+  state: (): GameState => ({
     departments,
     countries,
     currentDepartment: null,
@@ -82,12 +83,12 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
 
     getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
-    },    // Totals
+    }, // Totals
     totalDepartments: (state) => state.departments.length,
     totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
-          (country) => country.continent === state.selectedContinent
+          (country) => country.continent === state.selectedContinent,
         ).length;
       }
       return state.countries.length;
@@ -175,16 +176,17 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = null;
       this.userGuessInput = "";
       this.incorrectAttempts = 0;
-    },    initializeFlagGame() {
+    },
+    initializeFlagGame() {
       let filteredCountries = [...this.countries];
-      
+
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === this.selectedContinent
+          (country) => country.continent === this.selectedContinent,
         );
       }
-      
+
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
@@ -473,7 +475,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     setGameMode(mode: GameMode) {
       this.gameMode = mode;
       this.initializeGame();
-    },    setReverseFlagMode(mode: boolean) {
+    },
+    setReverseFlagMode(mode: boolean) {
       this.reverseFlagMode = mode;
     },
 

@@ -85,7 +85,7 @@ const restartGame = () => {
   position: relative;
   display: inline-block;
   min-width: 250px;
-  max-width: 320px;
+  width: 90%;
   text-align: center;
   word-wrap: break-word;
   overflow-wrap: break-word;

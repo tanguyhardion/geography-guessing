@@ -8,11 +8,10 @@
         !gameStore.reverseFlagMode
       "
       class="flag-section"
-    >      <div class="progress-indicator">
+    >
+      <div class="progress-indicator">
         Drapeau
-        {{
-          totalCountries - gameStore.availableCountries.length + 1
-        }}
+        {{ totalCountries - gameStore.availableCountries.length + 1 }}
         / {{ totalCountries }}
         <span class="score">Score : {{ gameStore.score }}</span>
       </div>
@@ -72,13 +71,10 @@
             </li>
           </ul>
         </div>
-        <div class="country-question-area">          <div class="progress-indicator">
+        <div class="country-question-area">
+          <div class="progress-indicator">
             Pays
-            {{
-              totalCountries -
-              gameStore.availableCountries.length +
-              1
-            }}
+            {{ totalCountries - gameStore.availableCountries.length + 1 }}
             / {{ totalCountries }}
             <span class="score">Score : {{ gameStore.score }}</span>
           </div>
@@ -184,10 +180,8 @@ onMounted(() => {
   padding: 0;
   flex-grow: 1;
   background-color: var(--background-light);
-  width: 375px;
-  min-width: 375px;
-  max-width: 375px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   height: 100%;
   min-height: 0;
 }
@@ -397,7 +391,7 @@ onMounted(() => {
 .guess-input-area {
   margin: 20px 0;
   width: 100%;
-  max-width: 320px;
+  padding: 0 20px;
 }
 
 .country-input {

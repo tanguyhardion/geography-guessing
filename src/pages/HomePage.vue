@@ -122,7 +122,7 @@ const startReverseFlagMode = () => {
   height: 100%;
   padding: 24px;
   background-color: var(--background-light);
-  max-width: 100%;
+  width: 100%;
   overflow-x: hidden;
 }
 
@@ -209,7 +209,6 @@ h3 {
 .mode-buttons button {
   display: block;
   width: 100%;
-  max-width: 320px;
   padding: 15px;
   font-size: 1.1em;
   margin: 8px 0;
@@ -245,7 +244,7 @@ h3 {
   justify-content: center;
   gap: 12px;
   margin-bottom: 30px;
-  max-width: 600px;
+  width: 100%;
 }
 
 .continent-button {
@@ -259,6 +258,7 @@ h3 {
   transition: var(--transition-default);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   min-width: 140px;
+  flex: 1;
   text-align: center;
 }
 
@@ -315,18 +315,18 @@ h3 {
     margin-bottom: 25px;
   }
   .mode-buttons button {
-    max-width: 100%;
+    width: 100%;
     font-size: 1em;
   }
 
   .continent-buttons {
     gap: 8px;
   }
-
   .continent-button {
     min-width: 120px;
     padding: 10px 16px;
     font-size: 0.9em;
+    flex: 1 1 calc(50% - 6px);
   }
 }
 
@@ -346,11 +346,11 @@ h3 {
   h2 {
     font-size: 1.3em;
   }
-
   .continent-button {
     min-width: 100px;
     padding: 8px 12px;
     font-size: 0.85em;
+    flex: 1 1 calc(50% - 4px);
   }
 }
 </style>
