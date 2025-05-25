@@ -45,7 +45,7 @@
       v-else-if="selectedGame === 'flags' && showContinentSelection"
       class="continent-selection"
     >
-      <h3>Choisir un continent:</h3>
+      <h3>Continent :</h3>
       <div class="continent-buttons">
         <button
           @click="selectContinent('all')"
@@ -62,7 +62,7 @@
           {{ continent }}
         </button>
       </div>
-      <button @click="goBack" class="back-button">← Retour</button>
+      <button @click="goBack" class="back-button">Retour</button>
     </div>
   </div>
 </template>
@@ -283,14 +283,9 @@ h3 {
   background-color: var(--border-color);
   color: var(--text-primary);
   border: none;
-  border-radius: 8px;
+  border-radius: 24px;
   cursor: pointer;
   transition: var(--transition-default);
-}
-
-.back-button:hover {
-  background-color: var(--background-off);
-  transform: translateY(-1px);
 }
 
 /* Responsive adjustments for mobile */

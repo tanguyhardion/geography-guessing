@@ -24,16 +24,16 @@ const gameStore = useGameStore();
 
 const instructionText = computed(() => {
   if (gameStore.gameMode === "guessChefLieu") {
-    return "Clique sur le numéro du département:";
+    return "Clique sur le numéro du département du chef-lieu suivant :";
   } else if (gameStore.gameMode === "guessDepartmentName") {
-    return "Clique sur le numéro du département du chef-lieu:";
+    return "Clique sur le numéro du département suivant :";
   } else if (gameStore.gameMode === "guessBoth") {
     if (gameStore.currentGuessType === "name") {
-      return "Clique sur le numéro correspondant à ce nom :";
+      return "Clique sur le numéro du département suivant :";
     } else if (gameStore.currentGuessType === "chefLieu") {
-      return "Clique sur le numéro correspondant à ce chef-lieu:";
+      return "Clique sur le numéro du département du chef-lieu suivant :";
     }
-    return "Clique sur le numéro du département pour deviner son nom et son chef-lieu:";
+    return "Clique sur le numéro du département :";
   }
   return "";
 });

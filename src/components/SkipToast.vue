@@ -1,9 +1,9 @@
 <template>
   <div class="skip-toast">
     <span>{{ prefix }}</span>
-    <strong v-if="departmentName">{{ departmentName }}</strong>
+    <strong v-if="departmentName"><span></span> {{ departmentName }}</strong>
     <span v-if="departmentName && chefLieu"> (</span>
-    <strong v-if="chefLieu">{{ chefLieu }}</strong>
+    <strong v-if="chefLieu"><span></span> {{ chefLieu }}</strong>
     <span v-if="departmentName && chefLieu">)</span>
     <span v-if="!departmentName && !chefLieu">{{ suffix }}</span>
     <span v-else>.</span>

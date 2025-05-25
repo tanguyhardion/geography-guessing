@@ -279,9 +279,7 @@ onMounted(() => {
   width: 48px;
   height: 32px;
   object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  background: white;
+  background: transparent;
 }
 
 .country-question-area {
