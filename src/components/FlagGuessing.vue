@@ -186,19 +186,32 @@ onMounted(() => {
   min-height: 0;
 }
 
-.flag-section.flag-reverse-mode,
-.flag-section {
-  max-width: 100%; // Remove width restriction here
+.flag-section.flag-reverse-mode {
+  max-width: 100%;
   width: 100%;
-  margin: 0;
+  margin: 0 auto;
   box-sizing: border-box;
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: stretch;
   min-height: 0;
-  height: 100%; // Fill parent
+  height: 100%;
+}
+
+.flag-section {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: stretch;
+  min-height: 0;
+  height: 100%;
 }
 
 .flag-reverse-mode .reverse-layout {
@@ -207,7 +220,7 @@ onMounted(() => {
   width: 100%;
   max-width: 100%;
   align-items: stretch;
-  justify-content: flex-start;
+  justify-content: center;
   flex: 1 1 0;
   height: 100%;
   min-height: 0;
@@ -319,13 +332,7 @@ onMounted(() => {
   hyphens: auto;
 }
 
-.flag-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 800px;
-}
+/* Removed duplicate .flag-section rule - handled above */
 
 .progress-indicator {
   margin-top: 15px;
