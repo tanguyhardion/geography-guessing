@@ -476,7 +476,7 @@ export const useGameStore = defineStore("game", {
         this.message = {
           component: SkipToast,
           props: {
-            prefix: "Passé. C'était :",
+            prefix: "Passé. C'était : ",
             departmentName: this.currentDepartment.name,
             chefLieu: this.currentDepartment.chefLieu
           }
