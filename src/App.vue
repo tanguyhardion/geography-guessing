@@ -37,20 +37,26 @@ watch(
     if (newMessage) {
       toast.clear(); // Clear all existing toasts before showing a new one
 
-      if (
-        newMessage.includes("Correct") ||
-        newMessage.includes("félicitations") ||
-        newMessage.includes("Félicitations")
-      ) {
-        toast(newMessage, { type: TYPE.SUCCESS });
-      } else if (newMessage.includes("Incorrect")) {
-        toast(newMessage, { type: TYPE.ERROR });
-      } else if (newMessage.includes("Indice")) {
-        toast(newMessage, { type: TYPE.INFO });
-      } else if (newMessage.includes("Passé") || newMessage.includes("passé")) {
+      if (typeof newMessage === "string") {
+        // Handle string messages
+        if (
+          newMessage.includes("Correct") ||
+          newMessage.includes("félicitations") ||
+          newMessage.includes("Félicitations")
+        ) {
+          toast(newMessage, { type: TYPE.SUCCESS });
+        } else if (newMessage.includes("Incorrect")) {
+          toast(newMessage, { type: TYPE.ERROR });
+        } else if (newMessage.includes("Indice")) {
+          toast(newMessage, { type: TYPE.INFO });
+        } else if (newMessage.includes("Passé") || newMessage.includes("passé")) {
+          toast(newMessage, { type: TYPE.WARNING });
+        } else {
+          toast(newMessage, { type: TYPE.DEFAULT });
+        }
+      } else if (typeof newMessage === "object" && newMessage.component) {
+        // Handle component messages (like skip messages with bold text)
         toast(newMessage, { type: TYPE.WARNING });
-      } else {
-        toast(newMessage, { type: TYPE.DEFAULT });
       }
     }
   },

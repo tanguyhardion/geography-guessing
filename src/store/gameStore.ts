@@ -10,6 +10,7 @@ import type {
   Continent,
 } from "../types";
 import { areStringsSimilar } from "../utils/stringUtils";
+import SkipToast from "../components/SkipToast.vue";
 
 // Constants
 const HINT_THRESHOLD = 3;
@@ -23,6 +24,7 @@ const COMPLETION_MESSAGES = {
 // Types
 type GuessType = "name" | "chefLieu";
 type DepartmentParts = { nameGuessed: boolean; chefLieuGuessed: boolean };
+type ToastMessage = string | { component: any; props: any } | null;
 
 interface GameState {
   departments: Department[];
@@ -33,7 +35,7 @@ interface GameState {
   departmentStatus: DepartmentStatus;
   countryStatus: CountryStatus;
   score: number;
-  message: string | null;
+  message: ToastMessage;
   availableDepartments: Department[];
   availableCountries: Country[];
   currentGuessType: GuessType | null;
@@ -88,7 +90,7 @@ export const useGameStore = defineStore("game", {
     totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
-          (country) => country.continent === state.selectedContinent,
+          (country) => country.continent === state.selectedContinent
         ).length;
       }
       return state.countries.length;
@@ -183,7 +185,7 @@ export const useGameStore = defineStore("game", {
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === this.selectedContinent,
+          (country) => country.continent === this.selectedContinent
         );
       }
 
@@ -217,7 +219,7 @@ export const useGameStore = defineStore("game", {
       }
 
       const randomIndex = Math.floor(
-        Math.random() * this.availableCountries.length,
+        Math.random() * this.availableCountries.length
       );
       this.currentCountry = this.availableCountries[randomIndex];
       this.resetAttempts();
@@ -231,7 +233,7 @@ export const useGameStore = defineStore("game", {
       }
 
       const randomIndex = Math.floor(
-        Math.random() * this.availableDepartments.length,
+        Math.random() * this.availableDepartments.length
       );
       this.currentDepartment = this.availableDepartments[randomIndex];
 
@@ -452,7 +454,13 @@ export const useGameStore = defineStore("game", {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
-      this.message = `Passé. C'était : <strong>${this.currentCountry.name}</strong>.`;
+      this.message = {
+        component: SkipToast,
+        props: {
+          prefix: "Passé. C'était : ",
+          departmentName: this.currentCountry.name
+        }
+      };
       this.resetAttempts();
 
       setTimeout(() => {
@@ -465,7 +473,14 @@ export const useGameStore = defineStore("game", {
       if (!this.currentDepartment) return;
 
       if (this.gameMode === "guessBoth") {
-        this.message = `Passé. C'était : ${this.currentDepartment.name} (${this.currentDepartment.chefLieu})`;
+        this.message = {
+          component: SkipToast,
+          props: {
+            prefix: "Passé. C'était :",
+            departmentName: this.currentDepartment.name,
+            chefLieu: this.currentDepartment.chefLieu
+          }
+        };
       } else {
         this.message = "Passé.";
       }
@@ -538,8 +553,10 @@ export const useGameStore = defineStore("game", {
 
     isCompletionMessage(): boolean {
       return (
-        this.message === COMPLETION_MESSAGES.departments ||
-        this.message === COMPLETION_MESSAGES.flags
+        typeof this.message === "string" && (
+          this.message === COMPLETION_MESSAGES.departments ||
+          this.message === COMPLETION_MESSAGES.flags
+        )
       );
     },
 
@@ -573,13 +590,13 @@ export const useGameStore = defineStore("game", {
 
     removeDepartmentFromAvailable(departmentId: string) {
       this.availableDepartments = this.availableDepartments.filter(
-        (dep) => dep.id !== departmentId,
+        (dep) => dep.id !== departmentId
       );
     },
 
     removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
-        (country) => country.id !== countryId,
+        (country) => country.id !== countryId
       );
     },
 
