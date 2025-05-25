@@ -448,19 +448,25 @@ export const useGameStore = defineStore("game", {
       this.setSkipMessage();
       this.selectRandomDepartment();
       this.clearMessageWithDelay();
-    },
-
-    skipFlag() {
+    },    skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
-      this.message = {
-        component: SkipToast,
-        props: {
-          prefix: "Passé. C'était : ",
-          departmentName: this.currentCountry.name
-        }
-      };
+      
+      // In reverse flag mode (country -> flag), don't show country name since user already knows it
+      // In standard flag mode (flag -> country), show country name so user learns what it was
+      if (this.reverseFlagMode) {
+        this.message = "Passé.";
+      } else {
+        this.message = {
+          component: SkipToast,
+          props: {
+            prefix: "Passé. C'était : ",
+            departmentName: this.currentCountry.name
+          }
+        };
+      }
+      
       this.resetAttempts();
 
       setTimeout(() => {
