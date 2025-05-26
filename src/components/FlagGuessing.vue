@@ -53,8 +53,18 @@
         gameStore.reverseFlagMode
       "
       class="flag-section flag-reverse-mode"
-    >
-      <div class="reverse-layout">
+    >      <div class="reverse-layout">
+        <div class="country-question-area">
+          <div class="progress-indicator">
+            Pays
+            {{ totalCountries - gameStore.availableCountries.length + 1 }}
+            / {{ totalCountries }}
+            <span class="score">Score : {{ gameStore.score }}</span>
+          </div>
+          <p class="instruction-text">Clique sur le drapeau du pays :</p>
+          <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
+          <SkipButton />
+        </div>
         <div class="flag-list-column">
           <ul>
             <li
@@ -70,17 +80,6 @@
               />
             </li>
           </ul>
-        </div>
-        <div class="country-question-area">
-          <div class="progress-indicator">
-            Pays
-            {{ totalCountries - gameStore.availableCountries.length + 1 }}
-            / {{ totalCountries }}
-            <span class="score">Score : {{ gameStore.score }}</span>
-          </div>
-          <p class="instruction-text">Clique sur le drapeau du pays :</p>
-          <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
-          <SkipButton />
         </div>
       </div>
     </div>
@@ -232,7 +231,7 @@ onMounted(() => {
   max-width: 80px;
   background: var(--primary-dark);
   border-radius: 0;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
   padding: 0;
   margin: 0;
   height: 100%;
