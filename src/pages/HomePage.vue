@@ -28,7 +28,7 @@
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
       <button @click="startGame('guessMapLocation')">
-        Localisation sur carte
+        Placement sur la carte
       </button>
     </div>
     <div
