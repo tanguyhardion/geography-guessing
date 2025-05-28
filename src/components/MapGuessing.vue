@@ -116,20 +116,10 @@ const geojsonOptions = {
       mouseout: (e: any) => {
         const status = getDepartmentStatus(departmentCode);
         e.target.setStyle(getDepartmentStyle(status));
-      },
-      click: (e: any) => {
+      },      click: (e: any) => {
         handleDepartmentClick(departmentCode);
       },
     });
-
-    // Add tooltip with department name
-    if (feature.properties.nom) {
-      layer.bindTooltip(feature.properties.nom, {
-        permanent: false,
-        direction: "center",
-        className: "department-tooltip"
-      });
-    }
   },
 };
 
@@ -241,22 +231,7 @@ onMounted(async () => {
     &:hover {
       background-color: var(--primary-light);
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);    }
   }
-}
-
-:deep(.department-tooltip) {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  font-weight: 500;
-}
-
-:deep(.department-tooltip::before) {
-  border-top-color: rgba(0, 0, 0, 0.8);
 }
 </style>
