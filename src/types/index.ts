@@ -15,7 +15,8 @@ export type GameMode =
   | "guessChefLieu"
   | "guessDepartmentName"
   | "guessBoth"
-  | "guessFlags";
+  | "guessFlags"
+  | "guessMapLocation";
 
 export type Continent =
   | "Europe"

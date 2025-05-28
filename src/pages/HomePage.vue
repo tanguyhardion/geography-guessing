@@ -20,14 +20,16 @@
         <h2>Drapeaux du Monde</h2>
         <p>Devinez les drapeaux des pays du monde</p>
       </div>
-    </div>
-    <div v-if="selectedGame === 'departments'" class="mode-buttons">
+    </div>    <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessChefLieu')">Chef-lieux</button>
       <button @click="startGame('guessDepartmentName')">
         Nom des départements
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
+      <button @click="startGame('guessMapLocation')">
+        Localisation sur carte
+      </button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"

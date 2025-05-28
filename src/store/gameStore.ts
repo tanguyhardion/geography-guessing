@@ -129,15 +129,15 @@ export const useGameStore = defineStore("game", {
         return state.currentCountry?.id || "";
       }
 
-      if (!state.currentDepartment) return "";
-
-      switch (state.gameMode) {
+      if (!state.currentDepartment) return "";      switch (state.gameMode) {
         case "guessChefLieu":
           return state.currentDepartment.chefLieu;
         case "guessDepartmentName":
           return state.currentDepartment.name;
         case "guessBoth":
           return getGuessBothDisplay(state);
+        case "guessMapLocation":
+          return state.currentDepartment.name;
         default:
           return "";
       }

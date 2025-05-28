@@ -2,7 +2,11 @@
   <div class="game-page">
     <template v-if="gameStore.gameMode === 'guessFlags'">
       <FlagGuessing class="full-width" />
-    </template>    <template v-else>
+    </template>
+    <template v-else-if="gameStore.gameMode === 'guessMapLocation'">
+      <MapGuessing class="full-width" />
+    </template>
+    <template v-else>
       <GuessingArea class="guessing-area-main" />
       <DepartmentList class="department-list-column" />
     </template>
@@ -14,6 +18,7 @@ import { useGameStore } from "../store/gameStore";
 import DepartmentList from "../components/DepartmentList.vue";
 import GuessingArea from "../components/GuessingArea.vue";
 import FlagGuessing from "../components/FlagGuessing.vue";
+import MapGuessing from "../components/MapGuessing.vue";
 
 const gameStore = useGameStore();
 </script>
