@@ -77,13 +77,6 @@ const getDepartmentStyle = (status: string) => {
         fillColor: "#ff9800",
         fillOpacity: 0.6,
       };
-    case "incorrect":
-      return {
-        weight: 2,
-        color: "#f44336",
-        fillColor: "#f44336",
-        fillOpacity: 0.4,
-      };
     default:
       return {
         weight: 2,

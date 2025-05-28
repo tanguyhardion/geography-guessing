@@ -67,17 +67,14 @@ export const useGameStore = defineStore("game", {
     selectedContinent: null,
   }),
 
-  getters: {
-    // Status getters
+  getters: {    // Status getters
     getDepartmentStatus: (state) => (departmentId: string) => {
       if (state.gameMode === "guessBoth" && state.guessedParts[departmentId]) {
         const parts = state.guessedParts[departmentId];
         if (parts.nameGuessed && parts.chefLieuGuessed) {
           return "correctBoth";
         } else if (parts.nameGuessed || parts.chefLieuGuessed) {
-          return state.departmentStatus[departmentId] === "incorrect"
-            ? "incorrect"
-            : "correctName";
+          return "correctName";
         }
       }
       return state.departmentStatus[departmentId] || "default";
@@ -105,8 +102,7 @@ export const useGameStore = defineStore("game", {
     // Available continents
     availableContinents: (state) => {
       const continents = new Set(state.countries.map((c) => c.continent));
-      return Array.from(continents).sort();
-    }, // Computed lists
+      return Array.from(continents).sort();    }, // Computed lists
     departmentsForList: (state) => {
       // Filter departments for map location mode
       const departmentsToShow =
@@ -123,9 +119,7 @@ export const useGameStore = defineStore("game", {
           if (parts.nameGuessed && parts.chefLieuGuessed) {
             status = "correctBoth";
           } else if (parts.nameGuessed || parts.chefLieuGuessed) {
-            if (state.departmentStatus[d.id] !== "incorrect") {
-              status = "correctName";
-            }
+            status = "correctName";
           }
         }
 
@@ -374,9 +368,8 @@ export const useGameStore = defineStore("game", {
       this.message = "Correct !";
       this.removeDepartmentFromAvailable(departmentId);
       this.scheduleNextQuestion();
-    },
-    handleIncorrectGuess(departmentId: string, departmentName?: string) {
-      this.departmentStatus[departmentId] = "incorrect";
+    },    handleIncorrectGuess(departmentId: string, departmentName?: string) {
+      // Don't set any status for incorrect guesses - just show message
       if (departmentName) {
         this.message = `Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`;
       } else {
@@ -432,17 +425,13 @@ export const useGameStore = defineStore("game", {
       this.message = `Correct ! C'était bien le drapeau de ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
-    },
-
-    handleIncorrectFlagGuess(country: Country) {
-      this.countryStatus[country.id] = "incorrect";
+    },    handleIncorrectFlagGuess(country: Country) {
+      // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
       this.setFlagHintMessage(country);
       this.clearMessageWithDelay();
-    },
-
-    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
-      this.countryStatus[flagCountryId] = "incorrect";
+    },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+      // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
 
       this.message = "Incorrect. Essaie encore ou passe.";
@@ -528,50 +517,18 @@ export const useGameStore = defineStore("game", {
 
     setSelectedContinent(continent: Continent | "all" | null) {
       this.selectedContinent = continent;
-    },
-
-    clearTemporaryIncorrectStatuses() {
-      this.clearDepartmentIncorrectStatuses();
-      this.clearCountryIncorrectStatuses();
+    },    clearTemporaryIncorrectStatuses() {
+      // No longer needed since we don't set incorrect statuses
+      // Keep for backward compatibility but make it a no-op
     },
 
     clearDepartmentIncorrectStatuses() {
-      Object.keys(this.departmentStatus).forEach((id) => {
-        if (this.departmentStatus[id] === "incorrect") {
-          if (this.shouldResetDepartmentStatus(id)) {
-            this.departmentStatus[id] = "default";
-          } else if (this.shouldSetPartialStatus(id)) {
-            this.departmentStatus[id] = "correctName";
-          }
-        }
-      });
-    },
-
-    shouldResetDepartmentStatus(id: string): boolean {
-      return (
-        this.gameMode !== "guessBoth" ||
-        !this.guessedParts[id] ||
-        (!this.guessedParts[id].nameGuessed &&
-          !this.guessedParts[id].chefLieuGuessed)
-      );
-    },
-
-    shouldSetPartialStatus(id: string): boolean {
-      const parts = this.guessedParts[id];
-      return (
-        this.gameMode === "guessBoth" &&
-        parts &&
-        (parts.nameGuessed || parts.chefLieuGuessed) &&
-        !(parts.nameGuessed && parts.chefLieuGuessed)
-      );
-    },
-
+      // No longer needed since we don't set incorrect statuses
+      // Keep for backward compatibility but make it a no-op
+    },    
     clearCountryIncorrectStatuses() {
-      Object.keys(this.countryStatus).forEach((id) => {
-        if (this.countryStatus[id] === "incorrect") {
-          this.countryStatus[id] = "default";
-        }
-      });
+      // No longer needed since we don't set incorrect statuses
+      // Keep for backward compatibility but make it a no-op
     },
 
     clearMessageWithDelay() {

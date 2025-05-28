@@ -37,7 +37,6 @@ const getDepartmentClass = (
     "correct-guess": dep.status === "correctBoth", // Green for fully correct
     "partially-correct-guess":
       dep.status === "correctName" || dep.status === "correctChefLieu", // Blue for partially correct
-    "incorrect-guess": dep.status === "incorrect",
   };
 };
 </script>
@@ -108,15 +107,5 @@ ul {
 
 .partially-correct-guess:hover {
   background-color: var(--secondary-dark);
-}
-
-.incorrect-guess {
-  background-color: var(--error-color);
-  color: white;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.incorrect-guess:hover {
-  background-color: var(--error-dark);
 }
 </style>

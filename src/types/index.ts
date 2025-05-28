@@ -31,10 +31,9 @@ export interface DepartmentStatus {
     | "correctChefLieu"
     | "correctName"
     | "correctBoth"
-    | "incorrect"
     | "default";
 }
 
 export interface CountryStatus {
-  [countryId: string]: "correct" | "incorrect" | "default";
+  [countryId: string]: "correct" | "default";
 }
