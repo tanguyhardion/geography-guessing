@@ -117,15 +117,16 @@ const geojsonOptions = {
         const status = getDepartmentStatus(departmentCode);
         e.target.setStyle(getDepartmentStyle(status));
       },      click: (e: any) => {
-        handleDepartmentClick(departmentCode);
+        const departmentName = feature.properties.nom; // Get department name from GeoJSON
+        handleDepartmentClick(departmentCode, departmentName);
       },
     });
   },
 };
 
-const handleDepartmentClick = (departmentCode: string) => {
+const handleDepartmentClick = (departmentCode: string, departmentName?: string) => {
   if (!gameStore.currentDepartment) return;
-  gameStore.makeGuess(departmentCode);
+  gameStore.makeGuess(departmentCode, departmentName);
 };
 
 const onMapReady = () => {

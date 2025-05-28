@@ -17,8 +17,8 @@ const HINT_THRESHOLD = 3;
 const MESSAGE_DELAY = 2000;
 const SUCCESS_DELAY = 1000;
 const COMPLETION_MESSAGES = {
-  departments: "Félicitations ! Vous avez deviné tous les départements !",
-  flags: "Félicitations ! Vous avez deviné tous les drapeaux !",
+  departments: "Félicitations ! Tu as deviné tous les départements !",
+  flags: "Félicitations ! Tu as deviné tous les drapeaux !",
 } as const;
 
 // Types
@@ -81,10 +81,11 @@ export const useGameStore = defineStore("game", {
         }
       }
       return state.departmentStatus[departmentId] || "default";
-    },    getCountryStatus: (state) => (countryId: string) => {
+    },
+    getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
     },
-    
+
     // Totals
     totalDepartments: (state) => {
       if (state.gameMode === "guessMapLocation") {
@@ -105,13 +106,14 @@ export const useGameStore = defineStore("game", {
     availableContinents: (state) => {
       const continents = new Set(state.countries.map((c) => c.continent));
       return Array.from(continents).sort();
-    },    // Computed lists
+    }, // Computed lists
     departmentsForList: (state) => {
       // Filter departments for map location mode
-      const departmentsToShow = state.gameMode === "guessMapLocation" 
-        ? state.departments.filter(isMetropolitanDepartment)
-        : state.departments;
-        
+      const departmentsToShow =
+        state.gameMode === "guessMapLocation"
+          ? state.departments.filter(isMetropolitanDepartment)
+          : state.departments;
+
       return departmentsToShow.map((d) => {
         let status: DepartmentStatus[string] =
           state.departmentStatus[d.id] || "default";
@@ -137,7 +139,8 @@ export const useGameStore = defineStore("game", {
         return state.currentCountry?.id || "";
       }
 
-      if (!state.currentDepartment) return "";      switch (state.gameMode) {
+      if (!state.currentDepartment) return "";
+      switch (state.gameMode) {
         case "guessChefLieu":
           return state.currentDepartment.chefLieu;
         case "guessDepartmentName":
@@ -200,10 +203,13 @@ export const useGameStore = defineStore("game", {
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
-    },    initializeDepartmentGame() {
+    },
+    initializeDepartmentGame() {
       if (this.gameMode === "guessMapLocation") {
         // For map location mode, only include metropolitan France departments
-        this.availableDepartments = this.departments.filter(isMetropolitanDepartment);
+        this.availableDepartments = this.departments.filter(
+          isMetropolitanDepartment
+        );
       } else {
         this.availableDepartments = [...this.departments];
       }
@@ -269,23 +275,24 @@ export const useGameStore = defineStore("game", {
       } else {
         this.currentGuessType = Math.random() < 0.5 ? "name" : "chefLieu";
       }
-    },
-
-    // Guessing logic
-    makeGuess(departmentId: string) {
+    }, // Guessing logic
+    makeGuess(departmentId: string, departmentName?: string) {
       if (this.isInFlagMode || !this.currentDepartment) return;
 
       const currentDeptId = this.currentDepartment.id;
       const isCorrect = departmentId === currentDeptId;
 
       if (this.gameMode === "guessBoth") {
-        this.handleGuessBothGuess(departmentId, isCorrect);
+        this.handleGuessBothGuess(departmentId, isCorrect, departmentName);
       } else {
-        this.handleSimpleGuess(departmentId, isCorrect);
+        this.handleSimpleGuess(departmentId, isCorrect, departmentName);
       }
     },
-
-    handleGuessBothGuess(departmentId: string, isCorrect: boolean) {
+    handleGuessBothGuess(
+      departmentId: string,
+      isCorrect: boolean,
+      departmentName?: string
+    ) {
       if (!this.currentDepartment) return;
 
       const currentDeptId = this.currentDepartment.id;
@@ -294,7 +301,7 @@ export const useGameStore = defineStore("game", {
       if (isCorrect) {
         this.handleCorrectGuessBothGuess(parts, currentDeptId);
       } else {
-        this.handleIncorrectGuess(departmentId);
+        this.handleIncorrectGuess(departmentId, departmentName);
       }
     },
 
@@ -348,12 +355,15 @@ export const useGameStore = defineStore("game", {
         ? "correctName"
         : "correctChefLieu";
     },
-
-    handleSimpleGuess(departmentId: string, isCorrect: boolean) {
+    handleSimpleGuess(
+      departmentId: string,
+      isCorrect: boolean,
+      departmentName?: string
+    ) {
       if (isCorrect) {
         this.handleCorrectSimpleGuess(departmentId);
       } else {
-        this.handleIncorrectGuess(departmentId);
+        this.handleIncorrectGuess(departmentId, departmentName);
       }
     },
 
@@ -365,10 +375,13 @@ export const useGameStore = defineStore("game", {
       this.removeDepartmentFromAvailable(departmentId);
       this.scheduleNextQuestion();
     },
-
-    handleIncorrectGuess(departmentId: string) {
+    handleIncorrectGuess(departmentId: string, departmentName?: string) {
       this.departmentStatus[departmentId] = "incorrect";
-      this.message = "Incorrect. Essaie encore ou passe.";
+      if (departmentName) {
+        this.message = `Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`;
+      } else {
+        this.message = "Incorrect. Essaie encore ou passe.";
+      }
       this.clearMessageWithDelay();
     },
 
@@ -459,11 +472,12 @@ export const useGameStore = defineStore("game", {
       this.setSkipMessage();
       this.selectRandomDepartment();
       this.clearMessageWithDelay();
-    },    skipFlag() {
+    },
+    skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
-      
+
       // In reverse flag mode (country -> flag), don't show country name since user already knows it
       // In standard flag mode (flag -> country), show country name so user learns what it was
       if (this.reverseFlagMode) {
@@ -473,11 +487,11 @@ export const useGameStore = defineStore("game", {
           component: SkipToast,
           props: {
             prefix: "Passé. C'était : ",
-            departmentName: this.currentCountry.name
-          }
+            departmentName: this.currentCountry.name,
+          },
         };
       }
-      
+
       this.resetAttempts();
 
       setTimeout(() => {
@@ -495,8 +509,8 @@ export const useGameStore = defineStore("game", {
           props: {
             prefix: "Passé. C'était : ",
             departmentName: this.currentDepartment.name,
-            chefLieu: this.currentDepartment.chefLieu
-          }
+            chefLieu: this.currentDepartment.chefLieu,
+          },
         };
       } else {
         this.message = "Passé.";
@@ -570,10 +584,9 @@ export const useGameStore = defineStore("game", {
 
     isCompletionMessage(): boolean {
       return (
-        typeof this.message === "string" && (
-          this.message === COMPLETION_MESSAGES.departments ||
-          this.message === COMPLETION_MESSAGES.flags
-        )
+        typeof this.message === "string" &&
+        (this.message === COMPLETION_MESSAGES.departments ||
+          this.message === COMPLETION_MESSAGES.flags)
       );
     },
 
