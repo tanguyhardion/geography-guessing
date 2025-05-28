@@ -81,12 +81,17 @@ export const useGameStore = defineStore("game", {
         }
       }
       return state.departmentStatus[departmentId] || "default";
-    },
-
-    getCountryStatus: (state) => (countryId: string) => {
+    },    getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
-    }, // Totals
-    totalDepartments: (state) => state.departments.length,
+    },
+    
+    // Totals
+    totalDepartments: (state) => {
+      if (state.gameMode === "guessMapLocation") {
+        return state.departments.filter(isMetropolitanDepartment).length;
+      }
+      return state.departments.length;
+    },
     totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
@@ -100,11 +105,14 @@ export const useGameStore = defineStore("game", {
     availableContinents: (state) => {
       const continents = new Set(state.countries.map((c) => c.continent));
       return Array.from(continents).sort();
-    },
-
-    // Computed lists
+    },    // Computed lists
     departmentsForList: (state) => {
-      return state.departments.map((d) => {
+      // Filter departments for map location mode
+      const departmentsToShow = state.gameMode === "guessMapLocation" 
+        ? state.departments.filter(isMetropolitanDepartment)
+        : state.departments;
+        
+      return departmentsToShow.map((d) => {
         let status: DepartmentStatus[string] =
           state.departmentStatus[d.id] || "default";
 
@@ -192,10 +200,13 @@ export const useGameStore = defineStore("game", {
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
-    },
-
-    initializeDepartmentGame() {
-      this.availableDepartments = [...this.departments];
+    },    initializeDepartmentGame() {
+      if (this.gameMode === "guessMapLocation") {
+        // For map location mode, only include metropolitan France departments
+        this.availableDepartments = this.departments.filter(isMetropolitanDepartment);
+      } else {
+        this.availableDepartments = [...this.departments];
+      }
       this.departmentStatus = {};
       this.initializeGuessedParts();
       this.selectRandomDepartment();
@@ -619,6 +630,12 @@ export const useGameStore = defineStore("game", {
 });
 
 // Helper functions
+function isMetropolitanDepartment(department: Department): boolean {
+  // Include metropolitan France departments (01-95) and Corsica (2A, 2B)
+  // Exclude overseas departments (971, 972, 973, 974, 976)
+  return !department.id.startsWith("97");
+}
+
 function getGuessBothDisplay(state: GameState): string {
   if (!state.currentDepartment) return "";
 
