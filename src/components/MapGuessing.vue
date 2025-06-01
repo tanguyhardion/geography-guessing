@@ -54,6 +54,7 @@ const totalDepartments = computed(() => gameStore.totalDepartments);
 const zoom = ref(6);
 const center = ref([46.603354, 1.888334] as [number, number]);
 const geojson = ref(null);
+const mapLayers = ref(new Map()); // Store reference to map layers by department code
 
 const getDepartmentStatus = (departmentCode: string) => {
   return gameStore.getDepartmentStatus(departmentCode);
@@ -96,6 +97,9 @@ const geojsonOptions = {
   onEachFeature: (feature: any, layer: any) => {
     const departmentCode = feature.properties.code;
     
+    // Store layer reference for later style updates
+    mapLayers.value.set(departmentCode, layer);
+    
     layer.on({
       mouseover: (e: any) => {
         const status = getDepartmentStatus(departmentCode);
@@ -117,9 +121,35 @@ const geojsonOptions = {
   },
 };
 
+const forceLayerStyleUpdate = (departmentCode: string, style: any) => {
+  const layer = mapLayers.value.get(departmentCode);
+  if (layer) {
+    layer.setStyle(style);
+  }
+};
+
 const handleDepartmentClick = (departmentCode: string, departmentName?: string) => {
   if (!gameStore.currentDepartment) return;
+  
+  const currentDepartmentId = gameStore.currentDepartment.id;
   gameStore.makeGuess(departmentCode, departmentName);
+  
+  // If this was a correct guess, immediately update the visual style
+  if (departmentCode === currentDepartmentId) {
+    // Find the layer that was clicked and update its style
+    // We need to wait for the next tick for the status to be updated
+    setTimeout(() => {
+      const status = getDepartmentStatus(departmentCode);
+      // Find the layer in the geojson and update it
+      if (geojson.value) {
+        // Force re-render of the layer style
+        const layerStyle = getDepartmentStyle(status);
+        // This will be handled by Vue's reactivity when the geojsonOptions style function is called
+        // But we need to force an immediate visual update
+        forceLayerStyleUpdate(departmentCode, layerStyle);
+      }
+    }, 0);
+  }
 };
 
 const onMapReady = () => {
