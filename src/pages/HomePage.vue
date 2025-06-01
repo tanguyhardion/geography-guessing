@@ -66,6 +66,21 @@
       </div>
       <button @click="goBack" class="back-button">Retour</button>
     </div>
+
+    <!-- Footer with credits -->
+    <footer class="page-footer">
+      <p class="made-by">
+        Made with ❤️ by 
+        <a 
+          href="https://linkedin.com/in/tanguy-hardion" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="creator-link"
+        >
+          Tanguy Hardion
+        </a>
+      </p>
+    </footer>
   </div>
 </template>
 
@@ -288,6 +303,37 @@ h3 {
   border-radius: 24px;
   cursor: pointer;
   transition: var(--transition-default);
+}
+
+.page-footer {
+  margin-top: auto;
+  padding: 20px 0 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.made-by {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin: 0;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.made-by:hover {
+  opacity: 1;
+}
+
+.creator-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition-default);
+}
+
+.creator-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
 }
 
 /* Responsive adjustments for mobile */
