@@ -136,8 +136,9 @@ const startReverseFlagMode = () => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100%;
+  min-height: 100vh;
   padding: 24px;
+  padding-bottom: 0;
   background-color: var(--background-light);
   width: 100%;
   overflow-x: hidden;
@@ -307,9 +308,11 @@ h3 {
 
 .page-footer {
   margin-top: auto;
-  padding: 20px 0 10px;
+  padding: 20px 24px 16px;
   width: 100%;
   text-align: center;
+  background-color: var(--background-light);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .made-by {
@@ -339,6 +342,11 @@ h3 {
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .homepage {
+    padding: 16px;
+    padding-bottom: 0;
+  }
+
+  .page-footer {
     padding: 16px;
   }
 
@@ -375,6 +383,11 @@ h3 {
 
 @media (max-width: 480px) {
   .homepage {
+    padding: 12px;
+    padding-bottom: 0;
+  }
+
+  .page-footer {
     padding: 12px;
   }
 
