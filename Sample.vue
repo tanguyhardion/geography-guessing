@@ -1,10 +1,5 @@
 <template>
-  <l-map
-    :zoom="zoom"
-    :center="center"
-    :use-global-leaflet="false"
-    class="map"
-  >
+  <l-map :zoom="zoom" :center="center" :use-global-leaflet="false" class="map">
     <l-tile-layer
       url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
       attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>"
@@ -51,7 +46,7 @@ const geojsonOptions = {
 onMounted(async () => {
   try {
     const response = await fetch(
-      "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements.geojson"
+      "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements.geojson",
     );
     geojson.value = await response.json();
   } catch (error) {

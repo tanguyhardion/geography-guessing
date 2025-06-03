@@ -49,7 +49,10 @@ watch(
           toast(newMessage, { type: TYPE.ERROR });
         } else if (newMessage.includes("Indice")) {
           toast(newMessage, { type: TYPE.INFO });
-        } else if (newMessage.includes("Passé") || newMessage.includes("passé")) {
+        } else if (
+          newMessage.includes("Passé") ||
+          newMessage.includes("passé")
+        ) {
           toast(newMessage, { type: TYPE.WARNING });
         } else {
           toast(newMessage, { type: TYPE.DEFAULT });

@@ -10,7 +10,7 @@ Generated using GitHub Copilot's Agent mode with various AI models, including:
 - Gemini 2.5 Pro
 - Claude 3.7 Sonnet
 - GPT-4.1
-- Claude Sonnet 4
+- Claude Sonnet 4, so far the best model for this project.
 
 ## Features
 

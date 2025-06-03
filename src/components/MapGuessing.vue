@@ -1,11 +1,13 @@
 <template>
-  <div class="map-guessing-container">    <div class="progress-indicator">
-      Département {{ totalDepartments - gameStore.availableDepartments.length + 1 }}
-      / {{ totalDepartments }}
+  <div class="map-guessing-container">
+    <div class="progress-indicator">
+      Département
+      {{ totalDepartments - gameStore.availableDepartments.length + 1 }} /
+      {{ totalDepartments }}
       <span class="score">Score : {{ gameStore.score }}</span>
       <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
     </div>
-    
+
     <div class="question-area">
       <p class="instruction-text">Trouvez le département sur la carte :</p>
       <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
@@ -24,19 +26,17 @@
           url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>"
         />
-        <l-geo-json 
-          v-if="geojson" 
-          :geojson="geojson" 
-          :options="geojsonOptions" 
+        <l-geo-json
+          v-if="geojson"
+          :geojson="geojson"
+          :options="geojsonOptions"
         />
       </l-map>
     </div>
 
     <div v-if="gameStore.isGameComplete" class="game-complete">
       <h2>{{ gameStore.message }}</h2>
-      <button @click="restartGame" class="restart-button">
-        Recommencer
-      </button>
+      <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
 </template>
@@ -96,10 +96,10 @@ const geojsonOptions = {
   },
   onEachFeature: (feature: any, layer: any) => {
     const departmentCode = feature.properties.code;
-    
+
     // Store layer reference for later style updates
     mapLayers.value.set(departmentCode, layer);
-    
+
     layer.on({
       mouseover: (e: any) => {
         const status = getDepartmentStatus(departmentCode);
@@ -113,7 +113,8 @@ const geojsonOptions = {
       mouseout: (e: any) => {
         const status = getDepartmentStatus(departmentCode);
         e.target.setStyle(getDepartmentStyle(status));
-      },      click: (e: any) => {
+      },
+      click: (e: any) => {
         const departmentName = feature.properties.nom; // Get department name from GeoJSON
         handleDepartmentClick(departmentCode, departmentName);
       },
@@ -128,12 +129,15 @@ const forceLayerStyleUpdate = (departmentCode: string, style: any) => {
   }
 };
 
-const handleDepartmentClick = (departmentCode: string, departmentName?: string) => {
+const handleDepartmentClick = (
+  departmentCode: string,
+  departmentName?: string,
+) => {
   if (!gameStore.currentDepartment) return;
-  
+
   const currentDepartmentId = gameStore.currentDepartment.id;
   gameStore.makeGuess(departmentCode, departmentName);
-  
+
   // If this was a correct guess, immediately update the visual style
   if (departmentCode === currentDepartmentId) {
     // Find the layer that was clicked and update its style
@@ -163,7 +167,7 @@ const restartGame = () => {
 onMounted(async () => {
   try {
     const response = await fetch(
-      "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements.geojson"
+      "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements.geojson",
     );
     geojson.value = await response.json();
   } catch (error) {
@@ -187,11 +191,11 @@ onMounted(async () => {
   border-bottom: 1px solid var(--border-color);
   font-weight: 600;
   color: var(--text-primary);
-    .score {
+  .score {
     margin-left: 20px;
     color: var(--primary-color);
   }
-  
+
   .accuracy {
     margin-left: 20px;
     color: var(--secondary-color);
@@ -204,13 +208,13 @@ onMounted(async () => {
   text-align: center;
   background-color: var(--background-light);
   border-bottom: 1px solid var(--border-color);
-  
+
   .instruction-text {
     margin-bottom: 10px;
     color: var(--text-secondary);
     font-size: 1.1em;
   }
-  
+
   .target-name {
     margin-bottom: 15px;
     color: var(--primary-color);
@@ -222,7 +226,7 @@ onMounted(async () => {
 .map-container {
   flex: 1;
   position: relative;
-  
+
   .map {
     height: 100%;
     width: 100%;
@@ -240,12 +244,12 @@ onMounted(async () => {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   text-align: center;
   z-index: 1000;
-  
+
   h2 {
     margin-bottom: 20px;
     color: var(--success-color);
   }
-  
+
   .restart-button {
     background-color: var(--primary-color);
     color: white;
@@ -256,11 +260,12 @@ onMounted(async () => {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-default);
-    
+
     &:hover {
       background-color: var(--primary-light);
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);    }
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
   }
 }
 </style>

@@ -8,7 +8,8 @@
         !gameStore.reverseFlagMode
       "
       class="flag-section"
-    >      <div class="progress-indicator">
+    >
+      <div class="progress-indicator">
         Drapeau
         {{ totalCountries - gameStore.availableCountries.length + 1 }}
         / {{ totalCountries }}
@@ -53,8 +54,10 @@
         gameStore.reverseFlagMode
       "
       class="flag-section flag-reverse-mode"
-    >      <div class="reverse-layout">
-        <div class="country-question-area">          <div class="progress-indicator">
+    >
+      <div class="reverse-layout">
+        <div class="country-question-area">
+          <div class="progress-indicator">
             Pays
             {{ totalCountries - gameStore.availableCountries.length + 1 }}
             / {{ totalCountries }}

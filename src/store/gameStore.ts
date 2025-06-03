@@ -48,7 +48,8 @@ interface GameState {
   selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {  state: (): GameState => ({
+export const useGameStore = defineStore("game", {
+  state: (): GameState => ({
     departments,
     countries,
     currentDepartment: null,
@@ -70,7 +71,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     selectedContinent: null,
   }),
 
-  getters: {    // Status getters
+  getters: {
+    // Status getters
     getDepartmentStatus: (state) => (departmentId: string) => {
       if (state.gameMode === "guessBoth" && state.guessedParts[departmentId]) {
         const parts = state.guessedParts[departmentId];
@@ -96,7 +98,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
-          (country) => country.continent === state.selectedContinent
+          (country) => country.continent === state.selectedContinent,
         ).length;
       }
       return state.countries.length;
@@ -105,7 +107,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     // Available continents
     availableContinents: (state) => {
       const continents = new Set(state.countries.map((c) => c.continent));
-      return Array.from(continents).sort();    }, // Computed lists
+      return Array.from(continents).sort();
+    }, // Computed lists
     departmentsForList: (state) => {
       // Filter departments for map location mode
       const departmentsToShow =
@@ -164,7 +167,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         return state.availableCountries.length === 0;
       }
       return state.availableDepartments.length === 0;
-    },    isInFlagMode: (state) => state.gameMode === "guessFlags",
+    },
+    isInFlagMode: (state) => state.gameMode === "guessFlags",
 
     // Accuracy calculation (0-100%)
     accuracy: (state) => {
@@ -183,7 +187,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       } else {
         this.initializeDepartmentGame();
       }
-    },    resetGameState() {
+    },
+    resetGameState() {
       this.score = 0;
       this.totalGuesses = 0;
       this.correctGuesses = 0;
@@ -197,7 +202,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === this.selectedContinent
+          (country) => country.continent === this.selectedContinent,
         );
       }
 
@@ -209,7 +214,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       if (this.gameMode === "guessMapLocation") {
         // For map location mode, only include metropolitan France departments
         this.availableDepartments = this.departments.filter(
-          isMetropolitanDepartment
+          isMetropolitanDepartment,
         );
       } else {
         this.availableDepartments = [...this.departments];
@@ -237,7 +242,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       }
 
       const randomIndex = Math.floor(
-        Math.random() * this.availableCountries.length
+        Math.random() * this.availableCountries.length,
       );
       this.currentCountry = this.availableCountries[randomIndex];
       this.resetAttempts();
@@ -251,7 +256,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       }
 
       const randomIndex = Math.floor(
-        Math.random() * this.availableDepartments.length
+        Math.random() * this.availableDepartments.length,
       );
       this.currentDepartment = this.availableDepartments[randomIndex];
 
@@ -292,7 +297,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     handleGuessBothGuess(
       departmentId: string,
       isCorrect: boolean,
-      departmentName?: string
+      departmentName?: string,
     ) {
       if (!this.currentDepartment) return;
 
@@ -304,7 +309,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       } else {
         this.handleIncorrectGuess(departmentId, departmentName);
       }
-    },    handleCorrectGuessBothGuess(parts: DepartmentParts, currentDeptId: string) {
+    },
+    handleCorrectGuessBothGuess(parts: DepartmentParts, currentDeptId: string) {
       if (!this.currentDepartment) return;
 
       // Track the correct guess for accuracy
@@ -361,28 +367,30 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     handleSimpleGuess(
       departmentId: string,
       isCorrect: boolean,
-      departmentName?: string
+      departmentName?: string,
     ) {
       if (isCorrect) {
         this.handleCorrectSimpleGuess(departmentId);
       } else {
         this.handleIncorrectGuess(departmentId, departmentName);
       }
-    },    handleCorrectSimpleGuess(departmentId: string) {
+    },
+    handleCorrectSimpleGuess(departmentId: string) {
       // Track the correct guess for accuracy
       this.totalGuesses++;
       this.correctGuesses++;
-      
+
       this.departmentStatus[departmentId] = "correctBoth";
       this.clearTemporaryIncorrectStatuses();
       this.score++;
       this.message = "Correct !";
       this.removeDepartmentFromAvailable(departmentId);
       this.scheduleNextQuestion();
-    },handleIncorrectGuess(departmentId: string, departmentName?: string) {
+    },
+    handleIncorrectGuess(departmentId: string, departmentName?: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
-      
+
       // Don't set any status for incorrect guesses - just show message
       if (departmentName) {
         this.message = `Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`;
@@ -419,11 +427,12 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       } else {
         this.handleIncorrectFlagByFlagGuess(flagCountryId);
       }
-    },    handleCorrectFlagGuess(country: Country) {
+    },
+    handleCorrectFlagGuess(country: Country) {
       // Track the correct guess for accuracy
       this.totalGuesses++;
       this.correctGuesses++;
-      
+
       this.countryStatus[country.id] = "correct";
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
@@ -431,11 +440,12 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = `Correct ! C'est bien ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
-    },    handleCorrectFlagByFlagGuess(country: Country) {
+    },
+    handleCorrectFlagByFlagGuess(country: Country) {
       // Track the correct guess for accuracy
       this.totalGuesses++;
       this.correctGuesses++;
-      
+
       this.countryStatus[country.id] = "correct";
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
@@ -443,18 +453,20 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = `Correct ! C'était bien le drapeau de ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
-    },    handleIncorrectFlagGuess(country: Country) {
+    },
+    handleIncorrectFlagGuess(country: Country) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
-      
+
       // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
       this.setFlagHintMessage(country);
       this.clearMessageWithDelay();
-    },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+    },
+    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
-      
+
       // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
 
@@ -541,7 +553,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
 
     setSelectedContinent(continent: Continent | "all" | null) {
       this.selectedContinent = continent;
-    },    clearTemporaryIncorrectStatuses() {
+    },
+    clearTemporaryIncorrectStatuses() {
       // No longer needed since we don't set incorrect statuses
       // Keep for backward compatibility but make it a no-op
     },
@@ -549,7 +562,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     clearDepartmentIncorrectStatuses() {
       // No longer needed since we don't set incorrect statuses
       // Keep for backward compatibility but make it a no-op
-    },    
+    },
     clearCountryIncorrectStatuses() {
       // No longer needed since we don't set incorrect statuses
       // Keep for backward compatibility but make it a no-op
@@ -601,13 +614,13 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
 
     removeDepartmentFromAvailable(departmentId: string) {
       this.availableDepartments = this.availableDepartments.filter(
-        (dep) => dep.id !== departmentId
+        (dep) => dep.id !== departmentId,
       );
     },
 
     removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
-        (country) => country.id !== countryId
+        (country) => country.id !== countryId,
       );
     },
 

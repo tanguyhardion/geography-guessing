@@ -20,7 +20,8 @@
         <h2>Drapeaux du Monde</h2>
         <p>Devinez les drapeaux des pays du monde</p>
       </div>
-    </div>    <div v-if="selectedGame === 'departments'" class="mode-buttons">
+    </div>
+    <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessChefLieu')">Chef-lieux</button>
       <button @click="startGame('guessDepartmentName')">
@@ -70,10 +71,10 @@
     <!-- Footer with credits -->
     <footer class="page-footer">
       <p class="made-by">
-        Made with ❤️ by 
-        <a 
-          href="https://linkedin.com/in/tanguy-hardion" 
-          target="_blank" 
+        Made with ❤️ by
+        <a
+          href="https://linkedin.com/in/tanguy-hardion"
+          target="_blank"
           rel="noopener noreferrer"
           class="creator-link"
         >

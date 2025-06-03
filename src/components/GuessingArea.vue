@@ -2,8 +2,9 @@
   <div class="guessing-area-container">
     <div v-if="gameStore.currentDepartment">
       <div class="progress-indicator">
-        Département {{ totalDepartments - gameStore.availableDepartments.length + 1 }}
-        / {{ totalDepartments }}
+        Département
+        {{ totalDepartments - gameStore.availableDepartments.length + 1 }} /
+        {{ totalDepartments }}
         <span class="score">Score : {{ gameStore.score }}</span>
         <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
       </div>
@@ -65,7 +66,8 @@ const restartGame = () => {
   div {
     display: flex;
     flex-direction: column;
-    align-items: center;  }
+    align-items: center;
+  }
 }
 
 .progress-indicator {
