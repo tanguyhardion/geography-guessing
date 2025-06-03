@@ -1,6 +1,12 @@
 <template>
   <div class="guessing-area-container">
     <div v-if="gameStore.currentDepartment">
+      <div class="progress-indicator">
+        Département {{ totalDepartments - gameStore.availableDepartments.length + 1 }}
+        / {{ totalDepartments }}
+        <span class="score">Score : {{ gameStore.score }}</span>
+        <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+      </div>
       <p class="instruction-text">{{ instructionText }}</p>
       <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
       <SkipButton />
@@ -21,6 +27,7 @@ import { useGameStore } from "../store/gameStore";
 import SkipButton from "./SkipButton.vue";
 
 const gameStore = useGameStore();
+const totalDepartments = computed(() => gameStore.totalDepartments);
 
 const instructionText = computed(() => {
   if (gameStore.gameMode === "guessChefLieu") {
@@ -58,8 +65,29 @@ const restartGame = () => {
   div {
     display: flex;
     flex-direction: column;
-    align-items: center;
-  }
+    align-items: center;  }
+}
+
+.progress-indicator {
+  margin-bottom: 20px;
+  font-size: 1.1em;
+  color: var(--text-secondary);
+  background-color: var(--background-off);
+  padding: 8px 20px;
+  border-radius: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.score {
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-left: 20px;
+}
+
+.accuracy {
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin-left: 20px;
 }
 
 .instruction-text {

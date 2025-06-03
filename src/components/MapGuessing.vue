@@ -1,9 +1,9 @@
 <template>
-  <div class="map-guessing-container">
-    <div class="progress-indicator">
+  <div class="map-guessing-container">    <div class="progress-indicator">
       Département {{ totalDepartments - gameStore.availableDepartments.length + 1 }}
       / {{ totalDepartments }}
       <span class="score">Score : {{ gameStore.score }}</span>
+      <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
     </div>
     
     <div class="question-area">
@@ -187,10 +187,15 @@ onMounted(async () => {
   border-bottom: 1px solid var(--border-color);
   font-weight: 600;
   color: var(--text-primary);
-  
-  .score {
+    .score {
     margin-left: 20px;
     color: var(--primary-color);
+  }
+  
+  .accuracy {
+    margin-left: 20px;
+    color: var(--secondary-color);
+    font-weight: 700;
   }
 }
 

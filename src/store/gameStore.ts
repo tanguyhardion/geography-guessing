@@ -35,6 +35,8 @@ interface GameState {
   departmentStatus: DepartmentStatus;
   countryStatus: CountryStatus;
   score: number;
+  totalGuesses: number;
+  correctGuesses: number;
   message: ToastMessage;
   availableDepartments: Department[];
   availableCountries: Country[];
@@ -46,8 +48,7 @@ interface GameState {
   selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {
-  state: (): GameState => ({
+export const useGameStore = defineStore("game", {  state: (): GameState => ({
     departments,
     countries,
     currentDepartment: null,
@@ -56,6 +57,8 @@ export const useGameStore = defineStore("game", {
     departmentStatus: {},
     countryStatus: {},
     score: 0,
+    totalGuesses: 0,
+    correctGuesses: 0,
     message: null,
     availableDepartments: [...departments],
     availableCountries: [...countries],
@@ -161,9 +164,13 @@ export const useGameStore = defineStore("game", {
         return state.availableCountries.length === 0;
       }
       return state.availableDepartments.length === 0;
-    },
+    },    isInFlagMode: (state) => state.gameMode === "guessFlags",
 
-    isInFlagMode: (state) => state.gameMode === "guessFlags",
+    // Accuracy calculation (0-100%)
+    accuracy: (state) => {
+      if (state.totalGuesses === 0) return 100; // No guesses yet, show 100%
+      return Math.round((state.correctGuesses / state.totalGuesses) * 100);
+    },
   },
 
   actions: {
@@ -176,10 +183,10 @@ export const useGameStore = defineStore("game", {
       } else {
         this.initializeDepartmentGame();
       }
-    },
-
-    resetGameState() {
+    },    resetGameState() {
       this.score = 0;
+      this.totalGuesses = 0;
+      this.correctGuesses = 0;
       this.message = null;
       this.userGuessInput = "";
       this.incorrectAttempts = 0;
@@ -297,10 +304,12 @@ export const useGameStore = defineStore("game", {
       } else {
         this.handleIncorrectGuess(departmentId, departmentName);
       }
-    },
-
-    handleCorrectGuessBothGuess(parts: DepartmentParts, currentDeptId: string) {
+    },    handleCorrectGuessBothGuess(parts: DepartmentParts, currentDeptId: string) {
       if (!this.currentDepartment) return;
+
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
 
       const partType = this.updateGuessedPart(parts);
       this.setPartialSuccessMessage(partType);
@@ -359,16 +368,21 @@ export const useGameStore = defineStore("game", {
       } else {
         this.handleIncorrectGuess(departmentId, departmentName);
       }
-    },
-
-    handleCorrectSimpleGuess(departmentId: string) {
+    },    handleCorrectSimpleGuess(departmentId: string) {
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
+      
       this.departmentStatus[departmentId] = "correctBoth";
       this.clearTemporaryIncorrectStatuses();
       this.score++;
       this.message = "Correct !";
       this.removeDepartmentFromAvailable(departmentId);
       this.scheduleNextQuestion();
-    },    handleIncorrectGuess(departmentId: string, departmentName?: string) {
+    },handleIncorrectGuess(departmentId: string, departmentName?: string) {
+      // Track the incorrect guess for accuracy
+      this.totalGuesses++;
+      
       // Don't set any status for incorrect guesses - just show message
       if (departmentName) {
         this.message = `Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`;
@@ -405,9 +419,11 @@ export const useGameStore = defineStore("game", {
       } else {
         this.handleIncorrectFlagByFlagGuess(flagCountryId);
       }
-    },
-
-    handleCorrectFlagGuess(country: Country) {
+    },    handleCorrectFlagGuess(country: Country) {
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
+      
       this.countryStatus[country.id] = "correct";
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
@@ -415,9 +431,11 @@ export const useGameStore = defineStore("game", {
       this.message = `Correct ! C'est bien ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
-    },
-
-    handleCorrectFlagByFlagGuess(country: Country) {
+    },    handleCorrectFlagByFlagGuess(country: Country) {
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
+      
       this.countryStatus[country.id] = "correct";
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, not country statuses
       this.score++;
@@ -426,11 +444,17 @@ export const useGameStore = defineStore("game", {
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
     },    handleIncorrectFlagGuess(country: Country) {
+      // Track the incorrect guess for accuracy
+      this.totalGuesses++;
+      
       // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
       this.setFlagHintMessage(country);
       this.clearMessageWithDelay();
     },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+      // Track the incorrect guess for accuracy
+      this.totalGuesses++;
+      
       // Don't set any status for incorrect guesses - just show message
       this.incorrectAttempts++;
 

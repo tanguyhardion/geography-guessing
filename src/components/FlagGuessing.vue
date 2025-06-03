@@ -8,12 +8,12 @@
         !gameStore.reverseFlagMode
       "
       class="flag-section"
-    >
-      <div class="progress-indicator">
+    >      <div class="progress-indicator">
         Drapeau
         {{ totalCountries - gameStore.availableCountries.length + 1 }}
         / {{ totalCountries }}
         <span class="score">Score : {{ gameStore.score }}</span>
+        <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
       </div>
       <div class="guess-input-area">
         <input
@@ -54,12 +54,12 @@
       "
       class="flag-section flag-reverse-mode"
     >      <div class="reverse-layout">
-        <div class="country-question-area">
-          <div class="progress-indicator">
+        <div class="country-question-area">          <div class="progress-indicator">
             Pays
             {{ totalCountries - gameStore.availableCountries.length + 1 }}
             / {{ totalCountries }}
             <span class="score">Score : {{ gameStore.score }}</span>
+            <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
           </div>
           <p class="instruction-text">Clique sur le drapeau du pays :</p>
           <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
@@ -336,6 +336,12 @@ onMounted(() => {
 .score {
   font-weight: 700;
   color: var(--primary-color);
+}
+
+.accuracy {
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin-left: 20px;
 }
 
 .flag-display {
