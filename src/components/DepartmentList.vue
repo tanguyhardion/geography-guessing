@@ -1,5 +1,9 @@
 <template>
-  <div class="department-list-container">
+  <div 
+    class="department-list-container"
+    @touchstart="handleTouchStart"
+    @touchmove="handleTouchMove"
+  >
     <ul>
       <li
         v-for="dep in gameStore.departmentsForList"
@@ -15,8 +19,10 @@
 
 <script setup lang="ts">
 import { useGameStore } from "../store/gameStore";
+import { ref } from "vue";
 
 const gameStore = useGameStore();
+const startY = ref(0);
 
 const handleGuess = (departmentId: string) => {
   const status = gameStore.getDepartmentStatus(departmentId);
@@ -26,6 +32,20 @@ const handleGuess = (departmentId: string) => {
   // to potentially reveal the other part or handle the game flow as designed in the store.
   // So, no specific block here for "correctName" or "correctChefLieu" unless the game logic strictly forbids it.
   gameStore.makeGuess(departmentId);
+};
+
+const handleTouchStart = (e: TouchEvent) => {
+  startY.value = e.touches[0].clientY;
+};
+
+const handleTouchMove = (e: TouchEvent) => {
+  const currentY = e.touches[0].clientY;
+  const container = e.currentTarget as HTMLElement;
+  
+  // If we're at the top of the scroll and trying to scroll up (pull down)
+  if (container.scrollTop === 0 && currentY > startY.value) {
+    e.preventDefault(); // Prevent pull-to-refresh
+  }
 };
 
 const getDepartmentClass = (
@@ -48,6 +68,11 @@ const getDepartmentClass = (
   background-color: var(--primary-dark);
   position: relative;
   box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Additional mobile-specific properties */
+  touch-action: pan-y;
 }
 
 ul {
