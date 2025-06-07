@@ -159,13 +159,10 @@ const startReverseFlagMode = () => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
   padding: 24px;
-  padding-bottom: 0;
   background-color: var(--background-light);
   width: 100%;
   overflow-x: hidden;
-  box-sizing: border-box;
 }
 
 h1 {
@@ -246,8 +243,6 @@ h3 {
   align-items: center;
   width: 100%;
   margin-top: 10px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
 }
 
 .mode-buttons button {
@@ -280,8 +275,6 @@ h3 {
   align-items: center;
   width: 100%;
   margin-top: 10px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
 }
 
 .continent-buttons {
@@ -335,7 +328,7 @@ h3 {
 }
 
 .page-footer {
-  margin-top: 40px;
+  margin-top: auto;
   padding: 20px 24px 16px;
   width: 100%;
   text-align: center;
@@ -371,14 +364,10 @@ h3 {
 @media (max-width: 768px) {
   .homepage {
     padding: 16px;
-    padding-bottom: 0;
-    min-height: 100vh;
-    min-height: 100dvh; /* Use dynamic viewport height for better mobile support */
   }
 
   .page-footer {
     padding: 16px;
-    margin-top: 40px; /* Add explicit margin instead of relying on auto */
   }
 
   .game-selector {
@@ -415,14 +404,10 @@ h3 {
 @media (max-width: 480px) {
   .homepage {
     padding: 12px;
-    padding-bottom: 0;
-    min-height: 100vh;
-    min-height: 100dvh; /* Use dynamic viewport height for better mobile support */
   }
 
   .page-footer {
     padding: 12px;
-    margin-top: 30px; /* Add explicit margin for very small screens */
   }
 
   h1 {
