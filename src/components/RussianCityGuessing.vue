@@ -19,7 +19,7 @@
         </label>
       </div>
       
-      <p class="instruction-text">Trouvez la ville sur la carte :</p>
+      <p class="instruction-text">Trouve la ville sur la carte :</p>
       <h2 class="target-name">{{ currentCityDisplayName }}</h2>
       
       <div class="controls">

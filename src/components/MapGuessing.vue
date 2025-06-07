@@ -9,7 +9,7 @@
     </div>
 
     <div class="question-area">
-      <p class="instruction-text">Trouvez le département sur la carte :</p>
+      <p class="instruction-text">Trouve le département sur la carte :</p>
       <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
       <SkipButton v-if="gameStore.currentDepartment" />
     </div>
