@@ -78,6 +78,7 @@ const getDepartmentClass = (
 ul {
   list-style-type: none;
   padding: 0;
+  padding-bottom: 60px; /* Add bottom padding for mobile scrolling */
   margin: 0;
 }
 

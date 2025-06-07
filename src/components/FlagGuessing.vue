@@ -247,6 +247,7 @@ onMounted(() => {
 .flag-list-column ul {
   list-style: none;
   padding: 0;
+  padding-bottom: 60px; /* Add bottom padding for mobile scrolling */
   margin: 0;
   width: 100%;
   height: 100%;
