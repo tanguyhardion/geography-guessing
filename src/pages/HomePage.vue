@@ -43,6 +43,7 @@
       <button @click="startGame('guessMapLocation')">
         Départements français
       </button>
+      <button @click="startGame('guessFrenchChefLieux')">Chef-lieux français</button>
       <button @click="startGame('guessCountryMapLocation')">
         Pays du monde
       </button>

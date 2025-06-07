@@ -4,6 +4,7 @@ import { useDepartmentStore } from "./departmentStore";
 import { useFlagStore } from "./flagStore";
 import { useCountryMapStore } from "./countryMapStore";
 import { useRussianCityStore } from "./russianCityStore";
+import { useFrenchChefLieuStore } from "./frenchChefLieuStore";
 
 interface AppGameState {
   selectedGameType: "departments" | "flags" | "map";
@@ -28,11 +29,14 @@ export const useAppGameStore = defineStore("appGame", {
 
     isInCountryMapMode(): boolean {
       return this.selectedGameType === "map";
-    },
-
-    isInRussianCitiesMode(): boolean {
+    },    isInRussianCitiesMode(): boolean {
       const departmentStore = useDepartmentStore();
       return departmentStore.gameMode === "guessRussianCities";
+    },
+
+    isInFrenchChefLieuxMode(): boolean {
+      const departmentStore = useDepartmentStore();
+      return departmentStore.gameMode === "guessFrenchChefLieux";
     },    // Check if any game is complete
     isGameComplete(): boolean {
       if (this.selectedGameType === "flags") {
@@ -41,6 +45,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         return russianCityStore.isGameComplete;
+      } else if (this.isInFrenchChefLieuxMode) {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        return frenchChefLieuStore.isGameComplete;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         return countryMapStore.isGameComplete;
@@ -56,6 +63,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         return russianCityStore.currentQuestionDisplay;
+      } else if (this.isInFrenchChefLieuxMode) {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        return frenchChefLieuStore.currentQuestionDisplay;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         return countryMapStore.currentQuestionDisplay;
@@ -89,6 +99,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         russianCityStore.initializeGame();
+      } else if (this.isInFrenchChefLieuxMode) {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        frenchChefLieuStore.initializeGame();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         countryMapStore.initializeGame();
@@ -128,6 +141,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         russianCityStore.skipRussianCity();
+      } else if (this.isInFrenchChefLieuxMode) {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        frenchChefLieuStore.skipFrenchChefLieu();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         countryMapStore.skipCountryMap();
@@ -146,6 +162,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         russianCityStore.makeRussianCityGuess(id, name);
+      } else if (this.isInFrenchChefLieuxMode) {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        frenchChefLieuStore.makeFrenchChefLieuGuess(id, name);
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         countryMapStore.makeCountryMapGuess(id, name);
@@ -181,4 +200,5 @@ export { useDepartmentStore } from "./departmentStore";
 export { useFlagStore } from "./flagStore";
 export { useCountryMapStore } from "./countryMapStore";
 export { useRussianCityStore } from "./russianCityStore";
+export { useFrenchChefLieuStore } from "./frenchChefLieuStore";
 export { useBaseGameStore } from "./baseGameStore";

@@ -12,6 +12,9 @@
     <template v-else-if="appGameStore.currentGameMode === 'guessRussianCities'">
       <RussianCityGuessing class="full-width" />
     </template>
+    <template v-else-if="appGameStore.currentGameMode === 'guessFrenchChefLieux'">
+      <FrenchChefLieuGuessing class="full-width" />
+    </template>
     <template v-else>
       <GuessingArea class="guessing-area-main" />
       <DepartmentList class="department-list-column" />
@@ -27,6 +30,7 @@ import FlagGuessing from "../components/FlagGuessing.vue";
 import MapGuessing from "../components/MapGuessing.vue";
 import CountryMapGuessing from "../components/CountryMapGuessing.vue";
 import RussianCityGuessing from "../components/RussianCityGuessing.vue";
+import FrenchChefLieuGuessing from "../components/FrenchChefLieuGuessing.vue";
 
 const appGameStore = useAppGameStore();
 </script>

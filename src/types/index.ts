@@ -20,6 +20,13 @@ export interface RussianCity {
   lng: number; // Longitude
 }
 
+export interface FrenchChefLieu {
+  id: string; // Department ID e.g., '01', '2A', '971'
+  name: string; // Chef-lieu name
+  lat: number; // Latitude
+  lng: number; // Longitude
+}
+
 export type GameMode =
   | "guessChefLieu"
   | "guessDepartmentName"
@@ -27,7 +34,8 @@ export type GameMode =
   | "guessFlags"
   | "guessMapLocation"
   | "guessCountryMapLocation"
-  | "guessRussianCities";
+  | "guessRussianCities"
+  | "guessFrenchChefLieux";
 
 export type Continent =
   | "Europe"
@@ -51,4 +59,8 @@ export interface CountryStatus {
 
 export interface RussianCityStatus {
   [cityId: string]: "correct" | "default";
+}
+
+export interface FrenchChefLieuStatus {
+  [chefLieuId: string]: "correct" | "default";
 }
