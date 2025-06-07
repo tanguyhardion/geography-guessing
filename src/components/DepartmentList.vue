@@ -6,7 +6,7 @@
   >
     <ul>
       <li
-        v-for="dep in gameStore.departmentsForList"
+        v-for="dep in departmentStore.departmentsForList"
         :key="dep.id"
         @click="handleGuess(dep.id)"
         :class="getDepartmentClass(dep)"
@@ -18,20 +18,20 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from "../store/gameStore";
+import { useDepartmentStore } from "../store/departmentStore";
 import { ref } from "vue";
 
-const gameStore = useGameStore();
+const departmentStore = useDepartmentStore();
 const startY = ref(0);
 
 const handleGuess = (departmentId: string) => {
-  const status = gameStore.getDepartmentStatus(departmentId);
+  const status = departmentStore.getDepartmentStatus(departmentId);
   // Prevent guessing if already fully correct (green)
   if (status === "correctBoth") return;
   // In "guessBoth" mode, if one part is correct (blue), clicking it again should still be handled by makeGuess
   // to potentially reveal the other part or handle the game flow as designed in the store.
   // So, no specific block here for "correctName" or "correctChefLieu" unless the game logic strictly forbids it.
-  gameStore.makeGuess(departmentId);
+  departmentStore.makeGuess(departmentId);
 };
 
 const handleTouchStart = (e: TouchEvent) => {
@@ -49,7 +49,7 @@ const handleTouchMove = (e: TouchEvent) => {
 };
 
 const getDepartmentClass = (
-  dep: (typeof gameStore.departmentsForList)[number],
+  dep: (typeof departmentStore.departmentsForList)[number],
 ) => {
   // Use the type from store
   return {

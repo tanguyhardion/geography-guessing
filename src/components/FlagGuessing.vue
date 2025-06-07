@@ -3,34 +3,33 @@
     <!-- Standard flag guessing mode -->
     <div
       v-if="
-        gameStore.currentCountry &&
-        gameStore.gameMode === 'guessFlags' &&
-        !gameStore.reverseFlagMode
+        flagStore.currentCountry &&
+        !flagStore.reverseFlagMode
       "
       class="flag-section"
     >
       <div class="progress-indicator">
         Drapeau
-        {{ totalCountries - gameStore.availableCountries.length + 1 }}
+        {{ totalCountries - flagStore.availableCountries.length + 1 }}
         / {{ totalCountries }}
-        <span class="score">Score : {{ gameStore.score }}</span>
-        <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+        <span class="score">Score : {{ baseStore.score }}</span>
+        <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
       </div>
       <div class="guess-input-area">
         <input
           ref="inputField"
           type="text"
-          v-model="gameStore.userGuessInput"
+          v-model="flagStore.userGuessInput"
           @keyup.enter="makeGuess"
           placeholder="Nom du pays"
           class="country-input"
-          :disabled="!gameStore.currentCountry"
+          :disabled="!flagStore.currentCountry"
         />
         <button
           @click="makeGuess"
           class="guess-button"
           :disabled="
-            !gameStore.userGuessInput.trim() || !gameStore.currentCountry
+            !flagStore.userGuessInput.trim() || !flagStore.currentCountry
           "
         >
           Deviner
@@ -38,20 +37,19 @@
       </div>
       <div class="flag-display">
         <img
-          :src="gameStore.currentFlag"
+          :src="flagStore.currentFlag"
           alt="Drapeau à deviner"
           class="flag-image"
         />
       </div>
-      <SkipButton v-if="gameStore.currentCountry" />
+      <SkipButton v-if="flagStore.currentCountry" />
     </div>
 
     <!-- Reverse flag mode: guess the flag from the country name -->
     <div
       v-if="
-        gameStore.currentCountry &&
-        gameStore.gameMode === 'guessFlags' &&
-        gameStore.reverseFlagMode
+        flagStore.currentCountry &&
+        flagStore.reverseFlagMode
       "
       class="flag-section flag-reverse-mode"
     >
@@ -59,13 +57,13 @@
         <div class="country-question-area">
           <div class="progress-indicator">
             Pays
-            {{ totalCountries - gameStore.availableCountries.length + 1 }}
+            {{ totalCountries - flagStore.availableCountries.length + 1 }}
             / {{ totalCountries }}
-            <span class="score">Score : {{ gameStore.score }}</span>
-            <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+            <span class="score">Score : {{ baseStore.score }}</span>
+            <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
           </div>
           <p class="instruction-text">Clique sur le drapeau du pays :</p>
-          <h2 class="target-name">{{ gameStore.currentCountry.name }}</h2>
+          <h2 class="target-name">{{ flagStore.currentCountry.name }}</h2>
           <SkipButton />
         </div>
         <div class="flag-list-column">
@@ -89,7 +87,7 @@
 
     <!-- Completion message paragraph removed, toast will handle it -->
     <div
-      v-if="!gameStore.currentCountry && gameStore.gameMode === 'guessFlags'"
+      v-if="!flagStore.currentCountry"
       class="flag-section"
     >
       <!-- The completion message is now shown as a toast via App.vue -->
@@ -99,25 +97,27 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from "../store/gameStore";
+import { useFlagStore } from "../store/flagStore";
+import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import { computed, ref, watch, onMounted } from "vue";
 
-const gameStore = useGameStore();
-const totalCountries = computed(() => gameStore.totalCountries);
+const flagStore = useFlagStore();
+const baseStore = useBaseGameStore();
+const totalCountries = computed(() => flagStore.totalCountries);
 const inputField = ref<HTMLInputElement | null>(null);
 
 const continentCountries = computed(() => {
-  if (!gameStore.currentCountry) return [];
-  return gameStore.countries.filter(
-    (c) => c.continent === gameStore.currentCountry?.continent,
+  if (!flagStore.currentCountry) return [];
+  return flagStore.continentCountries.filter(
+    (c) => c.continent === flagStore.currentCountry?.continent,
   );
 });
 
 const getFlagUrl = (id: string) => `https://flagcdn.com/${id}.svg`;
 
 const getFlagClass = (country: any) => {
-  const status = gameStore.countryStatus[country.id] || "default";
+  const status = flagStore.getCountryStatus(country.id);
   return {
     "flag-list-item": true,
     "correct-guess": status === "correct",
@@ -125,24 +125,24 @@ const getFlagClass = (country: any) => {
 };
 
 const makeGuess = () => {
-  if (gameStore.userGuessInput.trim() && gameStore.currentCountry) {
-    gameStore.makeFlagGuess(gameStore.userGuessInput);
+  if (flagStore.userGuessInput.trim() && flagStore.currentCountry) {
+    flagStore.makeFlagGuess(flagStore.userGuessInput);
     // Focus input field after guess only if there's a next country
-    if (gameStore.currentCountry && inputField.value) {
+    if (flagStore.currentCountry && inputField.value) {
       inputField.value.focus();
     }
   }
 };
 
 const handleFlagGuess = (countryId: string) => {
-  if (!gameStore.currentCountry) return;
-  gameStore.makeFlagGuessByFlag(countryId);
+  if (!flagStore.currentCountry) return;
+  flagStore.makeFlagGuessByFlag(countryId);
 };
 
 const restartGame = () => {
-  gameStore.initializeGame();
+  flagStore.initializeGame();
   // Focus input field when game restarts and there's a country
-  if (gameStore.currentCountry && inputField.value) {
+  if (flagStore.currentCountry && inputField.value) {
     // Need a slight delay for the input to be potentially re-rendered/enabled
     setTimeout(() => {
       inputField.value?.focus();
@@ -152,7 +152,7 @@ const restartGame = () => {
 
 // Focus the input field when a new country is selected (and it's not game over)
 watch(
-  () => gameStore.currentCountry,
+  () => flagStore.currentCountry,
   (newCountry) => {
     if (newCountry && inputField.value) {
       // Need a slight delay for the input to be potentially re-rendered/enabled
@@ -165,7 +165,7 @@ watch(
 );
 
 onMounted(() => {
-  if (gameStore.currentCountry && inputField.value) {
+  if (flagStore.currentCountry && inputField.value) {
     inputField.value.focus();
   }
 });

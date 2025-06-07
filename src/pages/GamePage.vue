@@ -1,15 +1,15 @@
 <template>
   <div class="game-page">
-    <template v-if="gameStore.gameMode === 'guessFlags'">
+    <template v-if="appGameStore.currentGameMode === 'guessFlags'">
       <FlagGuessing class="full-width" />
     </template>
-    <template v-else-if="gameStore.gameMode === 'guessMapLocation'">
+    <template v-else-if="appGameStore.currentGameMode === 'guessMapLocation'">
       <MapGuessing class="full-width" />
     </template>
-    <template v-else-if="gameStore.gameMode === 'guessCountryMapLocation'">
+    <template v-else-if="appGameStore.currentGameMode === 'guessCountryMapLocation'">
       <CountryMapGuessing class="full-width" />
     </template>
-    <template v-else-if="gameStore.gameMode === 'guessRussianCities'">
+    <template v-else-if="appGameStore.currentGameMode === 'guessRussianCities'">
       <RussianCityGuessing class="full-width" />
     </template>
     <template v-else>
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from "../store/gameStore";
+import { useAppGameStore } from "../store/gameStoreAdapter";
 import DepartmentList from "../components/DepartmentList.vue";
 import GuessingArea from "../components/GuessingArea.vue";
 import FlagGuessing from "../components/FlagGuessing.vue";
@@ -28,7 +28,7 @@ import MapGuessing from "../components/MapGuessing.vue";
 import CountryMapGuessing from "../components/CountryMapGuessing.vue";
 import RussianCityGuessing from "../components/RussianCityGuessing.vue";
 
-const gameStore = useGameStore();
+const appGameStore = useAppGameStore();
 </script>
 
 <style scoped lang="scss">

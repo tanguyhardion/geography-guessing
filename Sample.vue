@@ -50,7 +50,7 @@ onMounted(async () => {
     );
     geojson.value = await response.json();
   } catch (error) {
-    console.error("Error loading GeoJSON:", error);
+    // Silently handle error
   }
 });
 </script>

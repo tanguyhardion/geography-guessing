@@ -2,16 +2,16 @@
   <div class="country-map-guessing-container">
     <div class="progress-indicator">
       Pays
-      {{ totalCountries - gameStore.availableCountries.length + 1 }} /
+      {{ totalCountries - countryMapStore.availableCountries.length + 1 }} /
       {{ totalCountries }}
-      <span class="score">Score : {{ gameStore.score }}</span>
-      <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+      <span class="score">Score : {{ baseStore.score }}</span>
+      <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
     </div>
 
     <div class="question-area">
       <p class="instruction-text">Trouve le pays sur la carte :</p>
-      <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
-      <SkipButton v-if="gameStore.currentCountry" />
+      <h2 class="target-name">{{ countryMapStore.currentQuestionDisplay }}</h2>
+      <SkipButton v-if="countryMapStore.currentCountry" />
     </div>
 
     <div class="map-container">
@@ -34,8 +34,8 @@
       </l-map>
     </div>
 
-    <div v-if="gameStore.isGameComplete" class="game-complete">
-      <h2>{{ gameStore.message }}</h2>
+    <div v-if="countryMapStore.isGameComplete" class="game-complete">
+      <h2>{{ baseStore.message }}</h2>
       <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
@@ -44,12 +44,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
-import { useGameStore } from "../store/gameStore";
+import { useCountryMapStore } from "../store/countryMapStore";
+import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import "leaflet/dist/leaflet.css";
 
-const gameStore = useGameStore();
-const totalCountries = computed(() => gameStore.totalCountries);
+const countryMapStore = useCountryMapStore();
+const baseStore = useBaseGameStore();
+const totalCountries = computed(() => countryMapStore.totalCountries);
 
 const zoom = ref(2);
 const center = ref([20, 0] as [number, number]); // World center
@@ -57,7 +59,7 @@ const geojson = ref(null);
 const mapLayers = ref(new Map()); // Store reference to map layers by country code
 
 const getCountryStatus = (countryCode: string) => {
-  return gameStore.getCountryStatus(countryCode);
+  return countryMapStore.getCountryStatus(countryCode);
 };
 
 const getCountryStyle = (status: string) => {
@@ -95,7 +97,7 @@ const geojsonOptions = {
     mapLayers.value.set(countryCode, layer);
 
     // Get French country name from our countries data
-    const country = gameStore.countries.find((c) => c.id === countryCode);
+    const country = countryMapStore.countries.find((c) => c.id === countryCode);
     const frenchName = country
       ? country.name
       : feature.properties.NAME || feature.properties.NAME_EN;
@@ -131,10 +133,10 @@ const forceLayerStyleUpdate = (countryCode: string, style: any) => {
 };
 
 const handleCountryClick = (countryCode: string, countryName?: string) => {
-  if (!gameStore.currentCountry) return;
+  if (!countryMapStore.currentCountry) return;
 
-  const currentCountryId = gameStore.currentCountry.id;
-  gameStore.makeCountryMapGuess(countryCode, countryName);
+  const currentCountryId = countryMapStore.currentCountry.id;
+  countryMapStore.makeCountryMapGuess(countryCode, countryName);
 
   // If this was a correct guess, immediately update the visual style
   if (countryCode === currentCountryId) {
@@ -153,17 +155,22 @@ const onMapReady = () => {
 };
 
 const restartGame = () => {
-  gameStore.initializeGame();
+  countryMapStore.initializeGame();
 };
 
 onMounted(async () => {
+  // Initialize the country map game if not already initialized
+  if (!countryMapStore.currentCountry) {
+    countryMapStore.initializeGame();
+  }
+
   try {
     const response = await fetch(
       "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
     );
     geojson.value = await response.json();
   } catch (error) {
-    console.error("Error loading GeoJSON:", error);
+    // Silently handle error
   }
 });
 </script>

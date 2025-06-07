@@ -2,16 +2,16 @@
   <div class="map-guessing-container">
     <div class="progress-indicator">
       Département
-      {{ totalDepartments - gameStore.availableDepartments.length + 1 }} /
+      {{ totalDepartments - departmentStore.availableDepartments.length + 1 }} /
       {{ totalDepartments }}
-      <span class="score">Score : {{ gameStore.score }}</span>
-      <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+      <span class="score">Score : {{ baseStore.score }}</span>
+      <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
     </div>
 
     <div class="question-area">
       <p class="instruction-text">Trouve le département sur la carte :</p>
-      <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
-      <SkipButton v-if="gameStore.currentDepartment" />
+      <h2 class="target-name">{{ departmentStore.currentQuestionDisplay }}</h2>
+      <SkipButton v-if="departmentStore.currentDepartment" />
     </div>
 
     <div class="map-container">
@@ -34,8 +34,8 @@
       </l-map>
     </div>
 
-    <div v-if="gameStore.isGameComplete" class="game-complete">
-      <h2>{{ gameStore.message }}</h2>
+    <div v-if="departmentStore.isGameComplete" class="game-complete">
+      <h2>{{ baseStore.message }}</h2>
       <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
@@ -44,12 +44,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
-import { useGameStore } from "../store/gameStore";
+import { useDepartmentStore } from "../store/departmentStore";
+import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import "leaflet/dist/leaflet.css";
 
-const gameStore = useGameStore();
-const totalDepartments = computed(() => gameStore.totalDepartments);
+const departmentStore = useDepartmentStore();
+const baseStore = useBaseGameStore();
+const totalDepartments = computed(() => departmentStore.totalDepartments);
 
 const zoom = ref(6);
 const center = ref([46.603354, 1.888334] as [number, number]);
@@ -57,7 +59,7 @@ const geojson = ref(null);
 const mapLayers = ref(new Map()); // Store reference to map layers by department code
 
 const getDepartmentStatus = (departmentCode: string) => {
-  return gameStore.getDepartmentStatus(departmentCode);
+  return departmentStore.getDepartmentStatus(departmentCode);
 };
 
 const getDepartmentStyle = (status: string) => {
@@ -133,10 +135,10 @@ const handleDepartmentClick = (
   departmentCode: string,
   departmentName?: string,
 ) => {
-  if (!gameStore.currentDepartment) return;
+  if (!departmentStore.currentDepartment) return;
 
-  const currentDepartmentId = gameStore.currentDepartment.id;
-  gameStore.makeGuess(departmentCode, departmentName);
+  const currentDepartmentId = departmentStore.currentDepartment.id;
+  departmentStore.makeGuess(departmentCode, departmentName);
 
   // If this was a correct guess, immediately update the visual style
   if (departmentCode === currentDepartmentId) {
@@ -161,7 +163,7 @@ const onMapReady = () => {
 };
 
 const restartGame = () => {
-  gameStore.initializeGame();
+  departmentStore.initializeGame();
 };
 
 onMounted(async () => {
@@ -171,7 +173,7 @@ onMounted(async () => {
     );
     geojson.value = await response.json();
   } catch (error) {
-    console.error("Error loading GeoJSON:", error);
+    // Silently handle error
   }
 });
 </script>

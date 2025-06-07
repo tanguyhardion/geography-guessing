@@ -3,12 +3,12 @@
 </template>
 
 <script setup lang="ts">
-import { useGameStore } from "../store/gameStore";
+import { useAppGameStore } from "../store/gameStoreAdapter";
 
-const gameStore = useGameStore();
+const appGameStore = useAppGameStore();
 
 const skip = () => {
-  gameStore.skipDepartment();
+  appGameStore.skipCurrent();
 };
 </script>
 

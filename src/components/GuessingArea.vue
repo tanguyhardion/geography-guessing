@@ -1,20 +1,20 @@
 <template>
   <div class="guessing-area-container">
-    <div v-if="gameStore.currentDepartment">
+    <div v-if="departmentStore.currentDepartment">
       <div class="progress-indicator">
         Département
-        {{ totalDepartments - gameStore.availableDepartments.length + 1 }} /
+        {{ totalDepartments - departmentStore.availableDepartments.length + 1 }} /
         {{ totalDepartments }}
-        <span class="score">Score : {{ gameStore.score }}</span>
-        <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
+        <span class="score">Score : {{ baseStore.score }}</span>
+        <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
       </div>
       <p class="instruction-text">{{ instructionText }}</p>
-      <h2 class="target-name">{{ gameStore.currentQuestionDisplay }}</h2>
+      <h2 class="target-name">{{ departmentStore.currentQuestionDisplay }}</h2>
       <SkipButton />
     </div>
     <!-- Completion message paragraph removed, toast will handle it -->
     <div
-      v-if="!gameStore.currentDepartment && gameStore.gameMode !== 'guessFlags'"
+      v-if="!departmentStore.currentDepartment"
     >
       <!-- The completion message is now shown as a toast via App.vue -->
       <button @click="restartGame" class="restart-button">Rejouer</button>
@@ -24,21 +24,23 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { useGameStore } from "../store/gameStore";
+import { useDepartmentStore } from "../store/departmentStore";
+import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 
-const gameStore = useGameStore();
-const totalDepartments = computed(() => gameStore.totalDepartments);
+const departmentStore = useDepartmentStore();
+const baseStore = useBaseGameStore();
+const totalDepartments = computed(() => departmentStore.totalDepartments);
 
 const instructionText = computed(() => {
-  if (gameStore.gameMode === "guessChefLieu") {
+  if (departmentStore.gameMode === "guessChefLieu") {
     return "Clique sur le numéro du département du chef-lieu suivant :";
-  } else if (gameStore.gameMode === "guessDepartmentName") {
+  } else if (departmentStore.gameMode === "guessDepartmentName") {
     return "Clique sur le numéro du département suivant :";
-  } else if (gameStore.gameMode === "guessBoth") {
-    if (gameStore.currentGuessType === "name") {
+  } else if (departmentStore.gameMode === "guessBoth") {
+    if (departmentStore.currentGuessType === "name") {
       return "Clique sur le numéro du département suivant :";
-    } else if (gameStore.currentGuessType === "chefLieu") {
+    } else if (departmentStore.currentGuessType === "chefLieu") {
       return "Clique sur le numéro du département du chef-lieu suivant :";
     }
     return "Clique sur le numéro du département :";
@@ -47,7 +49,7 @@ const instructionText = computed(() => {
 });
 
 const restartGame = () => {
-  gameStore.initializeGame();
+  departmentStore.initializeGame();
 };
 </script>
 

@@ -17,22 +17,24 @@
 import { ref, computed, watch } from "vue";
 import HomePage from "./pages/HomePage.vue";
 import GamePage from "./pages/GamePage.vue";
-import { useGameStore } from "./store/gameStore";
+import { useBaseGameStore } from "./store/baseGameStore";
+import { useAppGameStore } from "./store/gameStoreAdapter";
 import { useToast, TYPE } from "vue-toastification";
 
-const gameStore = useGameStore();
+const baseStore = useBaseGameStore();
+const appGameStore = useAppGameStore();
 const toast = useToast();
 const currentPage = ref<"home" | "game">("home");
 
 const pageTitle = computed(() => {
-  if (gameStore.gameMode === "guessFlags") {
+  if (appGameStore.isInFlagMode) {
     return "Quiz des Drapeaux du Monde";
   }
   return "Quiz des Départements Français";
 });
 
 watch(
-  () => gameStore.message,
+  () => baseStore.message,
   (newMessage) => {
     if (newMessage) {
       toast.clear(); // Clear all existing toasts before showing a new one
@@ -71,7 +73,7 @@ const startGame = () => {
 
 const goHome = () => {
   currentPage.value = "home";
-  gameStore.message = null;
+  baseStore.message = null;
 };
 </script>
 

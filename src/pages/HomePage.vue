@@ -103,20 +103,20 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
-import { useGameStore } from "../store/gameStore";
+import { useAppGameStore } from "../store/gameStoreAdapter";
 import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
-const gameStore = useGameStore();
-const selectedGame = ref<"departments" | "flags" | "map">(gameStore.selectedGameType);
+const appGameStore = useAppGameStore();
+const selectedGame = ref<"departments" | "flags" | "map">(appGameStore.selectedGameType);
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
 
-const availableContinents = computed(() => gameStore.availableContinents);
+const availableContinents = computed(() => appGameStore.availableContinents);
 
 // Watch for changes in selectedGame and save to store
 watch(selectedGame, (newGameType) => {
-  gameStore.setSelectedGameType(newGameType);
+  appGameStore.setSelectedGameType(newGameType);
 });
 
 const selectFlagMode = (mode: "normal" | "reverse") => {
@@ -125,7 +125,7 @@ const selectFlagMode = (mode: "normal" | "reverse") => {
 };
 
 const selectContinent = (continent: Continent | "all") => {
-  gameStore.setSelectedContinent(continent);
+  appGameStore.setSelectedContinent(continent);
 
   if (selectedFlagMode.value === "normal") {
     startGame("guessFlags");
@@ -140,14 +140,14 @@ const goBack = () => {
 };
 
 const startGame = (mode: GameMode) => {
-  gameStore.setReverseFlagMode(false);
-  gameStore.setGameMode(mode); // This will also initialize the game via the store action
+  appGameStore.setReverseFlagMode(false);
+  appGameStore.setGameMode(mode); // This will also initialize the game via the store action
   emit("mode-selected");
 };
 
 const startReverseFlagMode = () => {
-  gameStore.setReverseFlagMode(true);
-  gameStore.setGameMode("guessFlags");
+  appGameStore.setReverseFlagMode(true);
+  appGameStore.setGameMode("guessFlags");
   emit("mode-selected");
 };
 </script>
