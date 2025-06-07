@@ -162,6 +162,7 @@ const startReverseFlagMode = () => {
   padding: 24px;
   background-color: var(--background-light);
   width: 100%;
+  flex: 1;
   overflow-x: hidden;
 }
 
