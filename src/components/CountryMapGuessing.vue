@@ -83,7 +83,7 @@ const geojsonOptions = {
   style: (feature: any) => {
     const countryCode = feature.properties.ISO_A2?.toLowerCase();
     if (!countryCode) return getCountryStyle("default");
-    
+
     const status = getCountryStatus(countryCode);
     return getCountryStyle(status);
   },
@@ -95,8 +95,10 @@ const geojsonOptions = {
     mapLayers.value.set(countryCode, layer);
 
     // Get French country name from our countries data
-    const country = gameStore.countries.find(c => c.id === countryCode);
-    const frenchName = country ? country.name : (feature.properties.NAME || feature.properties.NAME_EN);
+    const country = gameStore.countries.find((c) => c.id === countryCode);
+    const frenchName = country
+      ? country.name
+      : feature.properties.NAME || feature.properties.NAME_EN;
 
     layer.on({
       mouseover: (e: any) => {
@@ -107,25 +109,28 @@ const geojsonOptions = {
           weight: 3,
           fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
         });
-        
+
         // Show tooltip with French name
         if (frenchName) {
-          layer.bindTooltip(frenchName, {
-            permanent: false,
-            direction: 'center',
-            className: 'country-tooltip'
-          }).openTooltip();
+          layer
+            .bindTooltip(frenchName, {
+              permanent: false,
+              direction: "center",
+              className: "country-tooltip",
+            })
+            .openTooltip();
         }
       },
       mouseout: (e: any) => {
         const status = getCountryStatus(countryCode);
         e.target.setStyle(getCountryStyle(status));
-        
+
         // Close tooltip
         layer.closeTooltip();
       },
       click: (e: any) => {
-        const countryName = feature.properties.NAME || feature.properties.NAME_EN;
+        const countryName =
+          feature.properties.NAME || feature.properties.NAME_EN;
         handleCountryClick(countryCode, countryName);
       },
     });
@@ -139,10 +144,7 @@ const forceLayerStyleUpdate = (countryCode: string, style: any) => {
   }
 };
 
-const handleCountryClick = (
-  countryCode: string,
-  countryName?: string,
-) => {
+const handleCountryClick = (countryCode: string, countryName?: string) => {
   if (!gameStore.currentCountry) return;
 
   const currentCountryId = gameStore.currentCountry.id;
@@ -195,7 +197,7 @@ onMounted(async () => {
   border-bottom: 1px solid var(--border-color);
   font-weight: 600;
   color: var(--text-primary);
-  
+
   .score {
     margin-left: 20px;
     color: var(--primary-color);
@@ -270,7 +272,8 @@ onMounted(async () => {
       background-color: var(--primary-light);
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }  }
+    }
+  }
 }
 
 // Custom tooltip styling
@@ -283,7 +286,7 @@ onMounted(async () => {
   font-weight: 600 !important;
   padding: 8px 12px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  
+
   &::before {
     border-top-color: var(--background-dark) !important;
   }

@@ -57,7 +57,8 @@ interface GameState {
   selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {  state: (): GameState => ({
+export const useGameStore = defineStore("game", {
+  state: (): GameState => ({
     departments,
     countries,
     russianCities,
@@ -95,7 +96,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         }
       }
       return state.departmentStatus[departmentId] || "default";
-    },    getCountryStatus: (state) => (countryId: string) => {
+    },
+    getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
     },
     getRussianCityStatus: (state) => (cityId: string) => {
@@ -108,7 +110,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         return state.departments.filter(isMetropolitanDepartment).length;
       }
       return state.departments.length;
-    },    totalCountries: (state) => {
+    },
+    totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
           (country) => country.continent === state.selectedContinent,
@@ -147,7 +150,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
 
         return { id: d.id, status };
       });
-    },    // Display content
+    }, // Display content
     currentQuestionDisplay: (state) => {
       if (state.gameMode === "guessFlags") {
         return state.currentCountry?.id || "";
@@ -168,7 +171,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         case "guessDepartmentName":
           return state.currentDepartment.name;
         case "guessBoth":
-          return getGuessBothDisplay(state);        case "guessMapLocation":
+          return getGuessBothDisplay(state);
+        case "guessMapLocation":
           return state.currentDepartment.name;
         default:
           return "";
@@ -180,9 +184,12 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         return `https://flagcdn.com/${state.currentCountry.id}.svg`;
       }
       return "";
-    },    // Game state checks
+    }, // Game state checks
     isGameComplete: (state) => {
-      if (state.gameMode === "guessFlags" || state.gameMode === "guessCountryMapLocation") {
+      if (
+        state.gameMode === "guessFlags" ||
+        state.gameMode === "guessCountryMapLocation"
+      ) {
         return state.availableCountries.length === 0;
       }
       if (state.gameMode === "guessRussianCities") {
@@ -201,7 +208,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
     },
   },
 
-  actions: {    // Game initialization
+  actions: {
+    // Game initialization
     initializeGame() {
       this.resetGameState();
 
@@ -222,7 +230,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = null;
       this.userGuessInput = "";
       this.incorrectAttempts = 0;
-    },    initializeFlagGame() {
+    },
+    initializeFlagGame() {
       let filteredCountries = [...this.countries];
 
       // Filter by continent if one is selected
@@ -235,7 +244,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
-    },    initializeCountryMapGame() {
+    },
+    initializeCountryMapGame() {
       // For country map mode, include all countries
       this.availableCountries = [...this.countries];
       this.countryStatus = {};
@@ -269,7 +279,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
           chefLieuGuessed: false,
         };
       });
-    },    // Random selection
+    }, // Random selection
     selectRandomCountry() {
       if (this.availableCountries.length === 0) {
         if (this.isInCountryMapMode) {
@@ -450,7 +460,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         this.message = "Incorrect. Essaie encore ou passe.";
       }
       this.clearMessageWithDelay();
-    },    // Flag guessing
+    }, // Flag guessing
     makeFlagGuess(guess: string) {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
@@ -464,7 +474,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       }
 
       this.userGuessInput = "";
-    },    // Country map guessing
+    }, // Country map guessing
     makeCountryMapGuess(countryId: string, countryName?: string) {
       if (!this.isInCountryMapMode || !this.currentCountry) return;
 
@@ -538,7 +548,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.incorrectAttempts++;
       this.setFlagHintMessage(country);
       this.clearMessageWithDelay();
-    },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+    },
+    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
 
@@ -548,7 +559,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = "Incorrect. Essaie encore ou passe.";
 
       this.clearMessageWithDelay();
-    },    handleCorrectCountryMapGuess(country: Country) {
+    },
+    handleCorrectCountryMapGuess(country: Country) {
       // Track the correct guess for accuracy
       this.totalGuesses++;
       this.correctGuesses++;
@@ -570,16 +582,17 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.message = `Correct ! C'est bien ${city.name}.`;
       this.removeRussianCityFromAvailable(city.id);
       this.scheduleNextQuestion();
-    },    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
+    },
+    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
 
       // Don't set any status for incorrect guesses - just show message
       if (countryId) {
         // Find the French name for the clicked country
-        const clickedCountry = this.countries.find(c => c.id === countryId);
+        const clickedCountry = this.countries.find((c) => c.id === countryId);
         const frenchName = clickedCountry ? clickedCountry.name : countryName;
-        
+
         if (frenchName) {
           this.message = `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`;
         } else {
@@ -598,9 +611,9 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       // Don't set any status for incorrect guesses - just show message
       if (cityId) {
         // Find the French name for the clicked city
-        const clickedCity = this.russianCities.find(c => c.id === cityId);
+        const clickedCity = this.russianCities.find((c) => c.id === cityId);
         const frenchName = clickedCity ? clickedCity.name : cityName;
-        
+
         if (frenchName) {
           this.message = `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`;
         } else {
@@ -619,7 +632,7 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       } else {
         this.message = "Incorrect. Essaie encore ou passe.";
       }
-    },    // Skip functionality
+    }, // Skip functionality
     skipDepartment() {
       if (this.isInFlagMode) {
         this.skipFlag();
@@ -642,7 +655,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.setSkipMessage();
       this.selectRandomDepartment();
       this.clearMessageWithDelay();
-    },skipFlag() {
+    },
+    skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
@@ -667,7 +681,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
         this.selectRandomCountry();
         this.clearMessageWithDelay();
       }, 100);
-    },    skipCountryMap() {
+    },
+    skipCountryMap() {
       if (!this.isInCountryMapMode || !this.currentCountry) return;
 
       this.message = "Passé.";
@@ -738,7 +753,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       setTimeout(() => {
         this.message = null;
       }, MESSAGE_DELAY);
-    },    isCompletionMessage(): boolean {
+    },
+    isCompletionMessage(): boolean {
       return (
         typeof this.message === "string" &&
         (this.message === COMPLETION_MESSAGES.departments ||
@@ -752,13 +768,17 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       if (!this.isCompletionMessage()) {
         this.message = null;
       }
-    },    handleGameCompletion(type: "departments" | "flags" | "countries" | "russianCities") {
+    },
+    handleGameCompletion(
+      type: "departments" | "flags" | "countries" | "russianCities",
+    ) {
       this.currentDepartment = null;
       this.currentCountry = null;
       this.currentRussianCity = null;
       this.currentGuessType = null;
       this.message = COMPLETION_MESSAGES[type];
-    },    scheduleNextQuestion() {
+    },
+    scheduleNextQuestion() {
       setTimeout(() => {
         if (this.isInFlagMode || this.isInCountryMapMode) {
           this.selectRandomCountry();
@@ -779,7 +799,8 @@ export const useGameStore = defineStore("game", {  state: (): GameState => ({
       this.availableDepartments = this.availableDepartments.filter(
         (dep) => dep.id !== departmentId,
       );
-    },    removeCountryFromAvailable(countryId: string) {
+    },
+    removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
         (country) => country.id !== countryId,
       );

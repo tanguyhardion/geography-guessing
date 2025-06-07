@@ -6,22 +6,26 @@
       {{ totalRussianCities }}
       <span class="score">Score : {{ gameStore.score }}</span>
       <span class="accuracy">Précision : {{ gameStore.accuracy }}%</span>
-    </div>    <div class="question-area">
-      <div class="alphabet-switch">
-        <label class="switch-label">
-          <input 
-            type="checkbox" 
-            v-model="useCyrillic" 
-            class="switch-input"
-          />
-          <span class="switch-slider"></span>
-          <span class="switch-text">{{ useCyrillic ? 'Кириллица' : 'Latin' }}</span>
-        </label>
+    </div>
+    <div class="question-area">
+      <div class="language-switch">
+        <button
+          :class="['toggle-button', { active: !useRussian }]"
+          @click="useRussian = false"
+        >
+          Français
+        </button>
+        <button
+          :class="['toggle-button', { active: useRussian }]"
+          @click="useRussian = true"
+        >
+          Русский
+        </button>
       </div>
-      
+
       <p class="instruction-text">Trouve la ville sur la carte :</p>
       <h2 class="target-name">{{ currentCityDisplayName }}</h2>
-      
+
       <div class="controls">
         <SkipButton v-if="gameStore.currentRussianCity" />
       </div>
@@ -34,14 +38,15 @@
         :use-global-leaflet="false"
         class="map"
         @ready="onMapReady"
-      >        <l-tile-layer
+      >
+        <l-tile-layer
           url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>"
         />
-          <!-- City markers -->
+        <!-- City markers -->
         <l-circle-marker
           v-for="city in gameStore.russianCities"
-          :key="city.id"
+          :key="`${city.id}-${gameStore.getRussianCityStatus(city.id)}`"
           :lat-lng="[city.lat, city.lng]"
           :radius="getCityRadius(city)"
           :options="getCityMarkerOptions(city)"
@@ -72,31 +77,38 @@ const totalRussianCities = computed(() => gameStore.totalRussianCities);
 const zoom = ref(4);
 const center = ref([55.7558, 37.6176] as [number, number]); // Moscow coordinates
 
-// Alphabet switch - default to Cyrillic
-const useCyrillic = ref(true);
+// Language switch - default to Russian
+const useRussian = ref(true);
 
 // Computed property for current city display name
 const currentCityDisplayName = computed(() => {
   if (!gameStore.currentRussianCity) return "";
-  return useCyrillic.value 
-    ? gameStore.currentRussianCity.nameRu 
+  return useRussian.value
+    ? gameStore.currentRussianCity.nameRu
     : gameStore.currentRussianCity.name;
 });
 
 const getCityRadius = (city: RussianCity) => {
   // Scale radius based on population (larger cities get bigger dots)
-  const minRadius = 6;
-  const maxRadius = 15;
-  const minPop = 100000;
+  const minRadius = 4;
+  const maxRadius = 20;
+  const minPop = 250000;
   const maxPop = 12000000; // Approximate population of Moscow
-  
-  const normalizedPop = Math.log(city.population / minPop) / Math.log(maxPop / minPop);
-  return Math.max(minRadius, Math.min(maxRadius, minRadius + (maxRadius - minRadius) * normalizedPop));
+
+  // Use a more sensitive scaling with power function for greater differentiation
+  const normalizedPop =
+    Math.log(city.population / minPop) / Math.log(maxPop / minPop);
+  const poweredScale = Math.pow(normalizedPop, 0.7); // Power < 1 for more gradual scaling
+
+  return Math.max(
+    minRadius,
+    Math.min(maxRadius, minRadius + (maxRadius - minRadius) * poweredScale),
+  );
 };
 
 const getCityMarkerOptions = (city: RussianCity) => {
   const status = gameStore.getRussianCityStatus(city.id);
-  
+
   switch (status) {
     case "correct":
       return {
@@ -117,7 +129,7 @@ const getCityMarkerOptions = (city: RussianCity) => {
 
 const handleCityClick = (cityId: string, cityName: string) => {
   if (!gameStore.currentRussianCity) return;
-  
+
   gameStore.makeRussianCityGuess(cityId, cityName);
 };
 
@@ -131,7 +143,10 @@ const restartGame = () => {
 
 onMounted(() => {
   // Initialize the Russian cities game if not already initialized
-  if (gameStore.gameMode === "guessRussianCities" && !gameStore.currentRussianCity) {
+  if (
+    gameStore.gameMode === "guessRussianCities" &&
+    !gameStore.currentRussianCity
+  ) {
     gameStore.initializeGame();
   }
 });
@@ -152,7 +167,7 @@ onMounted(() => {
   border-bottom: 1px solid var(--border-color);
   font-weight: 600;
   color: var(--text-primary);
-  
+
   .score {
     margin-left: 20px;
     color: var(--primary-color);
@@ -170,61 +185,44 @@ onMounted(() => {
   text-align: center;
   background-color: var(--background-light);
   border-bottom: 1px solid var(--border-color);
-
-  .alphabet-switch {
+  .language-switch {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
 
-    .switch-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .switch-input {
-      display: none;
-    }
-
-    .switch-slider {
-      position: relative;
-      width: 50px;
-      height: 24px;
-      background-color: var(--border-color);
-      border-radius: 12px;
-      transition: var(--transition-default);
-      cursor: pointer;
-
-      &::before {
-        content: '';
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 20px;
-        height: 20px;
-        background-color: white;
-        border-radius: 50%;
-        transition: var(--transition-default);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-    }
-
-    .switch-input:checked + .switch-slider {
-      background-color: var(--primary-color);
-
-      &::before {
-        transform: translateX(26px);
-      }
-    }
-
-    .switch-text {
+    .toggle-button {
+      padding: 10px 20px;
+      border: 1px solid var(--border-color);
+      background-color: var(--background-light);
+      color: var(--text-secondary);
       font-size: 0.9em;
       font-weight: 600;
-      color: var(--text-secondary);
-      min-width: 60px;
+      cursor: pointer;
+      transition: var(--transition-default);
+      min-width: 80px;
+
+      &:first-child {
+        border-radius: 8px 0 0 8px;
+        border-right: none;
+      }
+
+      &:last-child {
+        border-radius: 0 8px 8px 0;
+        border-left: none;
+      }
+
+      &:hover:not(.active) {
+        background-color: var(--background-off);
+      }
+
+      &.active {
+        background-color: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+        z-index: 1;
+        position: relative;
+      }
     }
   }
 
@@ -290,7 +288,8 @@ onMounted(() => {
       background-color: var(--primary-light);
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }  }
+    }
+  }
 }
 
 // Style for city markers on hover

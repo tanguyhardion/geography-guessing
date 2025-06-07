@@ -1,2 +1,3 @@
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
+
 default vscode terminal: powershell. adjust the syntax of the commands accordingly.

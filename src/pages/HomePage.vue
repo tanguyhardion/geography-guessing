@@ -46,9 +46,7 @@
       <button @click="startGame('guessCountryMapLocation')">
         Pays du monde
       </button>
-      <button @click="startGame('guessRussianCities')">
-        Villes russes
-      </button>
+      <button @click="startGame('guessRussianCities')">Villes russes</button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"

@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="department-list-container"
     @touchstart="handleTouchStart"
     @touchmove="handleTouchMove"
@@ -41,7 +41,7 @@ const handleTouchStart = (e: TouchEvent) => {
 const handleTouchMove = (e: TouchEvent) => {
   const currentY = e.touches[0].clientY;
   const container = e.currentTarget as HTMLElement;
-  
+
   // If we're at the top of the scroll and trying to scroll up (pull down)
   if (container.scrollTop === 0 && currentY > startY.value) {
     e.preventDefault(); // Prevent pull-to-refresh

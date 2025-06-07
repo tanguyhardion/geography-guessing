@@ -103,7 +103,7 @@ export const russianCities: RussianCity[] = [
     name: "Voronej",
     nameRu: "Воронеж",
     population: 1058261,
-    lat: 51.6720,
+    lat: 51.672,
     lng: 39.1843,
   },
   {
@@ -119,7 +119,7 @@ export const russianCities: RussianCity[] = [
     name: "Volgograd",
     nameRu: "Волгоград",
     population: 1008998,
-    lat: 48.7080,
+    lat: 48.708,
     lng: 44.5133,
   },
   {
@@ -551,7 +551,7 @@ export const russianCities: RussianCity[] = [
     name: "Khimki",
     nameRu: "Химки",
     population: 259550,
-    lat: 55.8970,
+    lat: 55.897,
     lng: 37.4297,
   },
   {
@@ -575,7 +575,7 @@ export const russianCities: RussianCity[] = [
     name: "Syktyvkar",
     nameRu: "Сыктывкар",
     population: 235006,
-    lat: 61.6340,
+    lat: 61.634,
     lng: 50.8069,
   },
   {
@@ -657,5 +657,5 @@ export const russianCities: RussianCity[] = [
     population: 280050,
     lat: 53.6267,
     lng: 55.9506,
-  }
+  },
 ];
