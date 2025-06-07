@@ -94,6 +94,10 @@ const geojsonOptions = {
     // Store layer reference for later style updates
     mapLayers.value.set(countryCode, layer);
 
+    // Get French country name from our countries data
+    const country = gameStore.countries.find(c => c.id === countryCode);
+    const frenchName = country ? country.name : (feature.properties.NAME || feature.properties.NAME_EN);
+
     layer.on({
       mouseover: (e: any) => {
         const status = getCountryStatus(countryCode);
@@ -103,10 +107,22 @@ const geojsonOptions = {
           weight: 3,
           fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
         });
+        
+        // Show tooltip with French name
+        if (frenchName) {
+          layer.bindTooltip(frenchName, {
+            permanent: false,
+            direction: 'center',
+            className: 'country-tooltip'
+          }).openTooltip();
+        }
       },
       mouseout: (e: any) => {
         const status = getCountryStatus(countryCode);
         e.target.setStyle(getCountryStyle(status));
+        
+        // Close tooltip
+        layer.closeTooltip();
       },
       click: (e: any) => {
         const countryName = feature.properties.NAME || feature.properties.NAME_EN;
@@ -254,7 +270,22 @@ onMounted(async () => {
       background-color: var(--primary-light);
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
+    }  }
+}
+
+// Custom tooltip styling
+:global(.country-tooltip) {
+  background-color: var(--background-dark) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  
+  &::before {
+    border-top-color: var(--background-dark) !important;
   }
 }
 </style>

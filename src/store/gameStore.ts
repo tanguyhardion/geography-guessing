@@ -506,15 +506,21 @@ export const useGameStore = defineStore("game", {
       this.message = `Correct ! C'est bien ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
-    },
-
-    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
+    },    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
 
       // Don't set any status for incorrect guesses - just show message
-      if (countryName) {
-        this.message = `Incorrect. Tu as cliqué sur ${countryName}. Essaie encore ou passe.`;
+      if (countryId) {
+        // Find the French name for the clicked country
+        const clickedCountry = this.countries.find(c => c.id === countryId);
+        const frenchName = clickedCountry ? clickedCountry.name : countryName;
+        
+        if (frenchName) {
+          this.message = `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`;
+        } else {
+          this.message = "Incorrect. Essaie encore ou passe.";
+        }
       } else {
         this.message = "Incorrect. Essaie encore ou passe.";
       }
@@ -571,18 +577,10 @@ export const useGameStore = defineStore("game", {
         this.selectRandomCountry();
         this.clearMessageWithDelay();
       }, 100);
-    },
-
-    skipCountryMap() {
+    },    skipCountryMap() {
       if (!this.isInCountryMapMode || !this.currentCountry) return;
 
-      this.message = {
-        component: SkipToast,
-        props: {
-          prefix: "Passé. C'était : ",
-          departmentName: this.currentCountry.name,
-        },
-      };
+      this.message = "Passé.";
 
       setTimeout(() => {
         this.selectRandomCountry();
