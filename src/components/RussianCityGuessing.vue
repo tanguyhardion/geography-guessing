@@ -8,7 +8,8 @@
       <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
     </div>
     <div class="question-area">
-      <div class="language-switch">
+      <!-- Desktop language switch -->
+      <div class="language-switch desktop-only">
         <button
           :class="['toggle-button', { active: !useRussian }]"
           @click="useRussian = false"
@@ -21,6 +22,31 @@
         >
           Русский
         </button>
+      </div>
+
+      <!-- Mobile language menu -->
+      <div class="language-menu mobile-only">
+        <button class="language-menu-button" @click="toggleLanguageMenu">
+          <span>{{ useRussian ? 'RU' : 'FR' }}</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div v-if="showLanguageMenu" class="language-dropdown">
+          <button 
+            :class="['dropdown-item', { active: !useRussian }]"
+            @click="selectLanguage(false)"
+          >
+            Français
+          </button>
+          <button 
+            :class="['dropdown-item', { active: useRussian }]"
+            @click="selectLanguage(true)"
+          >
+            Русский
+          </button>
+        </div>
       </div>
 
       <p class="instruction-text">Trouve la ville sur la carte :</p>
@@ -63,7 +89,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUnmounted } from "vue";
 import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
 import { useRussianCityStore } from "../store/russianCityStore";
 import { useBaseGameStore } from "../store/baseGameStore";
@@ -81,6 +107,9 @@ const center = ref([55.7558, 37.6176] as [number, number]); // Moscow coordinate
 
 // Language switch - default to Russian
 const useRussian = ref(true);
+
+// Mobile language menu
+const showLanguageMenu = ref(false);
 
 // Computed property for current city display name
 const currentCityDisplayName = computed(() => {
@@ -173,11 +202,37 @@ const restartGame = () => {
   russianCityStore.initializeGame();
 };
 
+const toggleLanguageMenu = () => {
+  showLanguageMenu.value = !showLanguageMenu.value;
+};
+
+const selectLanguage = (russian: boolean) => {
+  useRussian.value = russian;
+  showLanguageMenu.value = false;
+};
+
+// Close menu when clicking outside
+const closeLanguageMenu = (event: Event) => {
+  const target = event.target as HTMLElement;
+  const menu = document.querySelector('.language-menu');
+  if (menu && !menu.contains(target)) {
+    showLanguageMenu.value = false;
+  }
+};
+
 onMounted(() => {
   // Initialize the Russian cities game if not already initialized
   if (!russianCityStore.currentRussianCity) {
     russianCityStore.initializeGame();
   }
+  
+  // Add click outside listener for mobile menu
+  document.addEventListener('click', closeLanguageMenu);
+});
+
+// Clean up event listener
+onUnmounted(() => {
+  document.removeEventListener('click', closeLanguageMenu);
 });
 </script>
 
@@ -200,12 +255,14 @@ onMounted(() => {
   .score {
     margin-left: 20px;
     color: var(--primary-color);
+    white-space: nowrap;
   }
 
   .accuracy {
     margin-left: 20px;
     color: var(--secondary-color);
     font-weight: 700;
+    white-space: nowrap;
   }
 }
 
@@ -218,45 +275,163 @@ onMounted(() => {
 
   .language-switch {
     position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+    bottom: 15px;
+    left: 15px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    gap: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--background-light);
 
     .toggle-button {
       padding: 8px 16px;
-      border: 1px solid var(--border-color);
+      border: none;
       background-color: var(--background-light);
       color: var(--text-secondary);
       font-size: 0.85em;
       font-weight: 600;
       cursor: pointer;
-      transition: var(--transition-default);
-      min-width: 80px;
-
-      &:first-child {
-        border-radius: 6px 6px 0 0;
-        border-bottom: none;
-      }
-
-      &:last-child {
-        border-radius: 0 0 6px 6px;
-        border-top: none;
-      }
+      transition: all 0.3s ease;
+      min-width: 70px;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 2;
 
       &:hover:not(.active) {
         background-color: var(--background-off);
+        color: var(--text-primary);
       }
 
       &.active {
         background-color: var(--primary-color);
         color: white;
-        border-color: var(--primary-color);
-        z-index: 1;
-        position: relative;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
       }
+    }
+  }
+
+  .language-menu {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    display: none;
+
+    .language-menu-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: var(--background-light);
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      touch-action: manipulation;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      min-width: 80px;
+      justify-content: space-between;
+
+      &:hover {
+        background-color: var(--background-off);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      svg {
+        transition: transform 0.3s ease;
+        opacity: 0.7;
+      }
+
+      &.open svg {
+        transform: rotate(180deg);
+      }
+    }
+
+    .language-dropdown {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 0;
+      background-color: var(--background-light);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      z-index: 1000;
+      min-width: 120px;
+      animation: dropdownFadeIn 0.2s ease-out;
+
+      .dropdown-item {
+        display: block;
+        width: 100%;
+        padding: 14px 18px;
+        border: none;
+        background: none;
+        text-align: left;
+        font-size: 0.85em;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        touch-action: manipulation;
+        margin: 0;
+        border-radius: 0;
+
+        &:first-child {
+          border-radius: 12px 12px 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 12px 12px;
+        }
+
+        &:only-child {
+          border-radius: 12px;
+        }
+
+        &:hover {
+          background-color: var(--background-off);
+          color: var(--text-primary);
+        }
+
+        &.active {
+          background-color: var(--primary-color);
+          color: white;
+          position: relative;
+        }
+      }
+    }
+  }
+
+  // Show/hide based on screen size
+  .desktop-only {
+    display: flex;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .mobile-only {
+      display: block;
+    }
+
+    .language-menu {
+      bottom: 10px;
+      left: 10px;
     }
   }
 
@@ -329,5 +504,17 @@ onMounted(() => {
 // Style for city markers on hover
 :global(.leaflet-interactive:hover) {
   cursor: pointer;
+}
+
+// Dropdown animation
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
