@@ -55,6 +55,7 @@ interface GameState {
   incorrectAttempts: number;
   reverseFlagMode: boolean;
   selectedContinent: Continent | "all" | null;
+  selectedGameType: "departments" | "flags" | "map";
 }
 
 export const useGameStore = defineStore("game", {
@@ -82,6 +83,7 @@ export const useGameStore = defineStore("game", {
     incorrectAttempts: 0,
     reverseFlagMode: false,
     selectedContinent: null,
+    selectedGameType: "departments",
   }),
 
   getters: {
@@ -732,6 +734,10 @@ export const useGameStore = defineStore("game", {
 
     setSelectedContinent(continent: Continent | "all" | null) {
       this.selectedContinent = continent;
+    },
+
+    setSelectedGameType(gameType: "departments" | "flags" | "map") {
+      this.selectedGameType = gameType;
     },
     clearTemporaryIncorrectStatuses() {
       // No longer needed since we don't set incorrect statuses

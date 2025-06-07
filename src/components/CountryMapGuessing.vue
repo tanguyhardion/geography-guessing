@@ -109,24 +109,10 @@ const geojsonOptions = {
           weight: 3,
           fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
         });
-
-        // Show tooltip with French name
-        if (frenchName) {
-          layer
-            .bindTooltip(frenchName, {
-              permanent: false,
-              direction: "center",
-              className: "country-tooltip",
-            })
-            .openTooltip();
-        }
       },
       mouseout: (e: any) => {
         const status = getCountryStatus(countryCode);
         e.target.setStyle(getCountryStyle(status));
-
-        // Close tooltip
-        layer.closeTooltip();
       },
       click: (e: any) => {
         const countryName =

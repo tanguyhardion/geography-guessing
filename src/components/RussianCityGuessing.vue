@@ -185,31 +185,36 @@ onMounted(() => {
   text-align: center;
   background-color: var(--background-light);
   border-bottom: 1px solid var(--border-color);
+  position: relative;
+
   .language-switch {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
 
     .toggle-button {
-      padding: 10px 20px;
+      padding: 8px 16px;
       border: 1px solid var(--border-color);
       background-color: var(--background-light);
       color: var(--text-secondary);
-      font-size: 0.9em;
+      font-size: 0.85em;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition-default);
       min-width: 80px;
 
       &:first-child {
-        border-radius: 8px 0 0 8px;
-        border-right: none;
+        border-radius: 6px 6px 0 0;
+        border-bottom: none;
       }
 
       &:last-child {
-        border-radius: 0 8px 8px 0;
-        border-left: none;
+        border-radius: 0 0 6px 6px;
+        border-top: none;
       }
 
       &:hover:not(.active) {
@@ -227,7 +232,7 @@ onMounted(() => {
   }
 
   .instruction-text {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: var(--text-secondary);
     font-size: 1.1em;
   }

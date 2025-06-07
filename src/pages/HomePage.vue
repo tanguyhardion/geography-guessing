@@ -9,7 +9,7 @@
         @click="selectedGame = 'departments'"
       >
         <h2>Départements Français</h2>
-        <p>Testez vos connaissances sur les départements français</p>
+        <p>Teste vos connaissances sur les départements français</p>
       </div>
 
       <div
@@ -18,7 +18,7 @@
         @click="selectedGame = 'flags'"
       >
         <h2>Drapeaux du Monde</h2>
-        <p>Devinez les drapeaux des pays du monde</p>
+        <p>Devine les drapeaux des pays du monde</p>
       </div>
 
       <div
@@ -102,17 +102,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useGameStore } from "../store/gameStore";
 import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
 const gameStore = useGameStore();
-const selectedGame = ref<"departments" | "flags" | "map">("departments");
+const selectedGame = ref<"departments" | "flags" | "map">(gameStore.selectedGameType);
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
 
 const availableContinents = computed(() => gameStore.availableContinents);
+
+// Watch for changes in selectedGame and save to store
+watch(selectedGame, (newGameType) => {
+  gameStore.setSelectedGameType(newGameType);
+});
 
 const selectFlagMode = (mode: "normal" | "reverse") => {
   selectedFlagMode.value = mode;
