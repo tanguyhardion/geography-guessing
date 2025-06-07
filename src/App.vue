@@ -134,7 +134,6 @@ h1 {
   font-size: 0.9em;
   font-weight: 600;
   transition: var(--transition-default);
-  box-shadow: none;
 }
 
 main {

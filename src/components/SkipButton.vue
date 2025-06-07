@@ -24,6 +24,5 @@ const skip = () => {
   transition: var(--transition-default);
   border-radius: 20px;
   font-weight: 600;
-  box-shadow: 0 3px 8px rgba(244, 67, 54, 0.2);
 }
 </style>
