@@ -1,12 +1,15 @@
 import { defineStore } from "pinia";
 import { departments } from "../data/departments";
 import { countries } from "../data/countries";
+import { russianCities } from "../data/russianCities";
 import type {
   Department,
   Country,
+  RussianCity,
   GameMode,
   DepartmentStatus,
   CountryStatus,
+  RussianCityStatus,
   Continent,
 } from "../types";
 import { areStringsSimilar } from "../utils/stringUtils";
@@ -20,6 +23,7 @@ const COMPLETION_MESSAGES = {
   departments: "Félicitations ! Tu as deviné tous les départements !",
   flags: "Félicitations ! Tu as deviné tous les drapeaux !",
   countries: "Félicitations ! Tu as localisé tous les pays !",
+  russianCities: "Félicitations ! Tu as localisé toutes les villes russes !",
 } as const;
 
 // Types
@@ -30,17 +34,21 @@ type ToastMessage = string | { component: any; props: any } | null;
 interface GameState {
   departments: Department[];
   countries: Country[];
+  russianCities: RussianCity[];
   currentDepartment: Department | null;
   currentCountry: Country | null;
+  currentRussianCity: RussianCity | null;
   gameMode: GameMode;
   departmentStatus: DepartmentStatus;
   countryStatus: CountryStatus;
+  russianCityStatus: RussianCityStatus;
   score: number;
   totalGuesses: number;
   correctGuesses: number;
   message: ToastMessage;
   availableDepartments: Department[];
   availableCountries: Country[];
+  availableRussianCities: RussianCity[];
   currentGuessType: GuessType | null;
   guessedParts: Record<string, DepartmentParts>;
   userGuessInput: string;
@@ -49,21 +57,24 @@ interface GameState {
   selectedContinent: Continent | "all" | null;
 }
 
-export const useGameStore = defineStore("game", {
-  state: (): GameState => ({
+export const useGameStore = defineStore("game", {  state: (): GameState => ({
     departments,
     countries,
+    russianCities,
     currentDepartment: null,
     currentCountry: null,
+    currentRussianCity: null,
     gameMode: "guessChefLieu",
     departmentStatus: {},
     countryStatus: {},
+    russianCityStatus: {},
     score: 0,
     totalGuesses: 0,
     correctGuesses: 0,
     message: null,
     availableDepartments: [...departments],
     availableCountries: [...countries],
+    availableRussianCities: [...russianCities],
     currentGuessType: null,
     guessedParts: {},
     userGuessInput: "",
@@ -84,9 +95,11 @@ export const useGameStore = defineStore("game", {
         }
       }
       return state.departmentStatus[departmentId] || "default";
-    },
-    getCountryStatus: (state) => (countryId: string) => {
+    },    getCountryStatus: (state) => (countryId: string) => {
       return state.countryStatus[countryId] || "default";
+    },
+    getRussianCityStatus: (state) => (cityId: string) => {
+      return state.russianCityStatus[cityId] || "default";
     },
 
     // Totals
@@ -95,14 +108,16 @@ export const useGameStore = defineStore("game", {
         return state.departments.filter(isMetropolitanDepartment).length;
       }
       return state.departments.length;
-    },
-    totalCountries: (state) => {
+    },    totalCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
           (country) => country.continent === state.selectedContinent,
         ).length;
       }
       return state.countries.length;
+    },
+    totalRussianCities: (state) => {
+      return state.russianCities.length;
     },
 
     // Available continents
@@ -142,6 +157,10 @@ export const useGameStore = defineStore("game", {
         return state.currentCountry?.name || "";
       }
 
+      if (state.gameMode === "guessRussianCities") {
+        return state.currentRussianCity?.name || "";
+      }
+
       if (!state.currentDepartment) return "";
       switch (state.gameMode) {
         case "guessChefLieu":
@@ -166,10 +185,14 @@ export const useGameStore = defineStore("game", {
       if (state.gameMode === "guessFlags" || state.gameMode === "guessCountryMapLocation") {
         return state.availableCountries.length === 0;
       }
+      if (state.gameMode === "guessRussianCities") {
+        return state.availableRussianCities.length === 0;
+      }
       return state.availableDepartments.length === 0;
     },
     isInFlagMode: (state) => state.gameMode === "guessFlags",
     isInCountryMapMode: (state) => state.gameMode === "guessCountryMapLocation",
+    isInRussianCitiesMode: (state) => state.gameMode === "guessRussianCities",
 
     // Accuracy calculation (0-100%)
     accuracy: (state) => {
@@ -186,6 +209,8 @@ export const useGameStore = defineStore("game", {
         this.initializeFlagGame();
       } else if (this.gameMode === "guessCountryMapLocation") {
         this.initializeCountryMapGame();
+      } else if (this.gameMode === "guessRussianCities") {
+        this.initializeRussianCitiesGame();
       } else {
         this.initializeDepartmentGame();
       }
@@ -210,13 +235,17 @@ export const useGameStore = defineStore("game", {
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.selectRandomCountry();
-    },
-
-    initializeCountryMapGame() {
+    },    initializeCountryMapGame() {
       // For country map mode, include all countries
       this.availableCountries = [...this.countries];
       this.countryStatus = {};
       this.selectRandomCountry();
+    },
+
+    initializeRussianCitiesGame() {
+      this.availableRussianCities = [...this.russianCities];
+      this.russianCityStatus = {};
+      this.selectRandomRussianCity();
     },
     initializeDepartmentGame() {
       if (this.gameMode === "guessMapLocation") {
@@ -256,6 +285,19 @@ export const useGameStore = defineStore("game", {
       );
       this.currentCountry = this.availableCountries[randomIndex];
       this.resetAttempts();
+      this.clearNonCompletionMessage();
+    },
+
+    selectRandomRussianCity() {
+      if (this.availableRussianCities.length === 0) {
+        this.handleGameCompletion("russianCities");
+        return;
+      }
+
+      const randomIndex = Math.floor(
+        Math.random() * this.availableRussianCities.length,
+      );
+      this.currentRussianCity = this.availableRussianCities[randomIndex];
       this.clearNonCompletionMessage();
     },
 
@@ -422,9 +464,7 @@ export const useGameStore = defineStore("game", {
       }
 
       this.userGuessInput = "";
-    },
-
-    // Country map guessing
+    },    // Country map guessing
     makeCountryMapGuess(countryId: string, countryName?: string) {
       if (!this.isInCountryMapMode || !this.currentCountry) return;
 
@@ -435,6 +475,20 @@ export const useGameStore = defineStore("game", {
         this.handleCorrectCountryMapGuess(this.currentCountry);
       } else {
         this.handleIncorrectCountryMapGuess(countryId, countryName);
+      }
+    },
+
+    // Russian cities guessing
+    makeRussianCityGuess(cityId: string, cityName?: string) {
+      if (!this.isInRussianCitiesMode || !this.currentRussianCity) return;
+
+      const currentCityId = this.currentRussianCity.id;
+      const isCorrect = cityId === currentCityId;
+
+      if (isCorrect) {
+        this.handleCorrectRussianCityGuess(this.currentRussianCity);
+      } else {
+        this.handleIncorrectRussianCityGuess(cityId, cityName);
       }
     },
 
@@ -494,9 +548,7 @@ export const useGameStore = defineStore("game", {
       this.message = "Incorrect. Essaie encore ou passe.";
 
       this.clearMessageWithDelay();
-    },
-
-    handleCorrectCountryMapGuess(country: Country) {
+    },    handleCorrectCountryMapGuess(country: Country) {
       // Track the correct guess for accuracy
       this.totalGuesses++;
       this.correctGuesses++;
@@ -505,6 +557,18 @@ export const useGameStore = defineStore("game", {
       this.score++;
       this.message = `Correct ! C'est bien ${country.name}.`;
       this.removeCountryFromAvailable(country.id);
+      this.scheduleNextQuestion();
+    },
+
+    handleCorrectRussianCityGuess(city: RussianCity) {
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
+
+      this.russianCityStatus[city.id] = "correct";
+      this.score++;
+      this.message = `Correct ! C'est bien ${city.name}.`;
+      this.removeRussianCityFromAvailable(city.id);
       this.scheduleNextQuestion();
     },    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
       // Track the incorrect guess for accuracy
@@ -515,6 +579,27 @@ export const useGameStore = defineStore("game", {
         // Find the French name for the clicked country
         const clickedCountry = this.countries.find(c => c.id === countryId);
         const frenchName = clickedCountry ? clickedCountry.name : countryName;
+        
+        if (frenchName) {
+          this.message = `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`;
+        } else {
+          this.message = "Incorrect. Essaie encore ou passe.";
+        }
+      } else {
+        this.message = "Incorrect. Essaie encore ou passe.";
+      }
+      this.clearMessageWithDelay();
+    },
+
+    handleIncorrectRussianCityGuess(cityId: string, cityName?: string) {
+      // Track the incorrect guess for accuracy
+      this.totalGuesses++;
+
+      // Don't set any status for incorrect guesses - just show message
+      if (cityId) {
+        // Find the French name for the clicked city
+        const clickedCity = this.russianCities.find(c => c.id === cityId);
+        const frenchName = clickedCity ? clickedCity.name : cityName;
         
         if (frenchName) {
           this.message = `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`;
@@ -546,13 +631,18 @@ export const useGameStore = defineStore("game", {
         return;
       }
 
+      if (this.isInRussianCitiesMode) {
+        this.skipRussianCity();
+        return;
+      }
+
       if (!this.currentDepartment) return;
 
       this.clearTemporaryIncorrectStatuses();
       this.setSkipMessage();
       this.selectRandomDepartment();
       this.clearMessageWithDelay();
-    },    skipFlag() {
+    },skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
@@ -584,6 +674,17 @@ export const useGameStore = defineStore("game", {
 
       setTimeout(() => {
         this.selectRandomCountry();
+        this.clearMessageWithDelay();
+      }, 100);
+    },
+
+    skipRussianCity() {
+      if (!this.isInRussianCitiesMode || !this.currentRussianCity) return;
+
+      this.message = "Passé.";
+
+      setTimeout(() => {
+        this.selectRandomRussianCity();
         this.clearMessageWithDelay();
       }, 100);
     },
@@ -637,13 +738,13 @@ export const useGameStore = defineStore("game", {
       setTimeout(() => {
         this.message = null;
       }, MESSAGE_DELAY);
-    },
-
-    isCompletionMessage(): boolean {
+    },    isCompletionMessage(): boolean {
       return (
         typeof this.message === "string" &&
         (this.message === COMPLETION_MESSAGES.departments ||
-          this.message === COMPLETION_MESSAGES.flags)
+          this.message === COMPLETION_MESSAGES.flags ||
+          this.message === COMPLETION_MESSAGES.countries ||
+          this.message === COMPLETION_MESSAGES.russianCities)
       );
     },
 
@@ -651,15 +752,18 @@ export const useGameStore = defineStore("game", {
       if (!this.isCompletionMessage()) {
         this.message = null;
       }
-    },    handleGameCompletion(type: "departments" | "flags" | "countries") {
+    },    handleGameCompletion(type: "departments" | "flags" | "countries" | "russianCities") {
       this.currentDepartment = null;
       this.currentCountry = null;
+      this.currentRussianCity = null;
       this.currentGuessType = null;
       this.message = COMPLETION_MESSAGES[type];
     },    scheduleNextQuestion() {
       setTimeout(() => {
         if (this.isInFlagMode || this.isInCountryMapMode) {
           this.selectRandomCountry();
+        } else if (this.isInRussianCitiesMode) {
+          this.selectRandomRussianCity();
         } else {
           this.selectRandomDepartment();
         }
@@ -675,11 +779,15 @@ export const useGameStore = defineStore("game", {
       this.availableDepartments = this.availableDepartments.filter(
         (dep) => dep.id !== departmentId,
       );
-    },
-
-    removeCountryFromAvailable(countryId: string) {
+    },    removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
         (country) => country.id !== countryId,
+      );
+    },
+
+    removeRussianCityFromAvailable(cityId: string) {
+      this.availableRussianCities = this.availableRussianCities.filter(
+        (city) => city.id !== cityId,
       );
     },
 
