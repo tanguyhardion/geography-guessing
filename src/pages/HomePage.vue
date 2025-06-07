@@ -20,6 +20,15 @@
         <h2>Drapeaux du Monde</h2>
         <p>Devinez les drapeaux des pays du monde</p>
       </div>
+
+      <div
+        class="game-type"
+        :class="{ active: selectedGame === 'map' }"
+        @click="selectedGame = 'map'"
+      >
+        <h2>Géographie Interactive</h2>
+        <p>Placez les départements sur la carte de France</p>
+      </div>
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
@@ -28,6 +37,9 @@
         Nom des départements
       </button>
       <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
+    </div>
+    <div v-else-if="selectedGame === 'map'" class="mode-buttons">
+      <h3>Mode de jeu:</h3>
       <button @click="startGame('guessMapLocation')">
         Placement sur la carte
       </button>
@@ -92,7 +104,7 @@ import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
 const gameStore = useGameStore();
-const selectedGame = ref<"departments" | "flags">("departments");
+const selectedGame = ref<"departments" | "flags" | "map">("departments");
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
 
@@ -183,7 +195,7 @@ h3 {
 }
 
 .game-type {
-  width: 250px;
+  width: 220px;
   max-width: 100%;
   padding: 20px;
   border: none;
