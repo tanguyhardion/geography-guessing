@@ -340,12 +340,14 @@ onMounted(() => {
 .score {
   font-weight: 700;
   color: var(--primary-color);
+  white-space: nowrap; /* Prevent breaking within "Score: X" */
 }
 
 .accuracy {
   font-weight: 700;
   color: var(--secondary-color);
   margin-left: 20px;
+  white-space: nowrap; /* Prevent breaking within "Précision: XXX%" */
 }
 
 .flag-display {
