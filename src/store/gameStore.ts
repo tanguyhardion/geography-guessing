@@ -19,6 +19,7 @@ const SUCCESS_DELAY = 1000;
 const COMPLETION_MESSAGES = {
   departments: "Félicitations ! Tu as deviné tous les départements !",
   flags: "Félicitations ! Tu as deviné tous les drapeaux !",
+  countries: "Félicitations ! Tu as localisé tous les pays !",
 } as const;
 
 // Types
@@ -131,12 +132,14 @@ export const useGameStore = defineStore("game", {
 
         return { id: d.id, status };
       });
-    },
-
-    // Display content
+    },    // Display content
     currentQuestionDisplay: (state) => {
       if (state.gameMode === "guessFlags") {
         return state.currentCountry?.id || "";
+      }
+
+      if (state.gameMode === "guessCountryMapLocation") {
+        return state.currentCountry?.name || "";
       }
 
       if (!state.currentDepartment) return "";
@@ -146,8 +149,7 @@ export const useGameStore = defineStore("game", {
         case "guessDepartmentName":
           return state.currentDepartment.name;
         case "guessBoth":
-          return getGuessBothDisplay(state);
-        case "guessMapLocation":
+          return getGuessBothDisplay(state);        case "guessMapLocation":
           return state.currentDepartment.name;
         default:
           return "";
@@ -159,16 +161,15 @@ export const useGameStore = defineStore("game", {
         return `https://flagcdn.com/${state.currentCountry.id}.svg`;
       }
       return "";
-    },
-
-    // Game state checks
+    },    // Game state checks
     isGameComplete: (state) => {
-      if (state.gameMode === "guessFlags") {
+      if (state.gameMode === "guessFlags" || state.gameMode === "guessCountryMapLocation") {
         return state.availableCountries.length === 0;
       }
       return state.availableDepartments.length === 0;
     },
     isInFlagMode: (state) => state.gameMode === "guessFlags",
+    isInCountryMapMode: (state) => state.gameMode === "guessCountryMapLocation",
 
     // Accuracy calculation (0-100%)
     accuracy: (state) => {
@@ -177,13 +178,14 @@ export const useGameStore = defineStore("game", {
     },
   },
 
-  actions: {
-    // Game initialization
+  actions: {    // Game initialization
     initializeGame() {
       this.resetGameState();
 
       if (this.isInFlagMode) {
         this.initializeFlagGame();
+      } else if (this.gameMode === "guessCountryMapLocation") {
+        this.initializeCountryMapGame();
       } else {
         this.initializeDepartmentGame();
       }
@@ -195,8 +197,7 @@ export const useGameStore = defineStore("game", {
       this.message = null;
       this.userGuessInput = "";
       this.incorrectAttempts = 0;
-    },
-    initializeFlagGame() {
+    },    initializeFlagGame() {
       let filteredCountries = [...this.countries];
 
       // Filter by continent if one is selected
@@ -207,6 +208,13 @@ export const useGameStore = defineStore("game", {
       }
 
       this.availableCountries = filteredCountries;
+      this.countryStatus = {};
+      this.selectRandomCountry();
+    },
+
+    initializeCountryMapGame() {
+      // For country map mode, include all countries
+      this.availableCountries = [...this.countries];
       this.countryStatus = {};
       this.selectRandomCountry();
     },
@@ -232,12 +240,14 @@ export const useGameStore = defineStore("game", {
           chefLieuGuessed: false,
         };
       });
-    },
-
-    // Random selection
+    },    // Random selection
     selectRandomCountry() {
       if (this.availableCountries.length === 0) {
-        this.handleGameCompletion("flags");
+        if (this.isInCountryMapMode) {
+          this.handleGameCompletion("countries");
+        } else {
+          this.handleGameCompletion("flags");
+        }
         return;
       }
 
@@ -398,9 +408,7 @@ export const useGameStore = defineStore("game", {
         this.message = "Incorrect. Essaie encore ou passe.";
       }
       this.clearMessageWithDelay();
-    },
-
-    // Flag guessing
+    },    // Flag guessing
     makeFlagGuess(guess: string) {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
@@ -414,6 +422,20 @@ export const useGameStore = defineStore("game", {
       }
 
       this.userGuessInput = "";
+    },
+
+    // Country map guessing
+    makeCountryMapGuess(countryId: string, countryName?: string) {
+      if (!this.isInCountryMapMode || !this.currentCountry) return;
+
+      const currentCountryId = this.currentCountry.id;
+      const isCorrect = countryId === currentCountryId;
+
+      if (isCorrect) {
+        this.handleCorrectCountryMapGuess(this.currentCountry);
+      } else {
+        this.handleIncorrectCountryMapGuess(countryId, countryName);
+      }
     },
 
     makeFlagGuessByFlag(flagCountryId: string) {
@@ -462,8 +484,7 @@ export const useGameStore = defineStore("game", {
       this.incorrectAttempts++;
       this.setFlagHintMessage(country);
       this.clearMessageWithDelay();
-    },
-    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+    },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
       // Track the incorrect guess for accuracy
       this.totalGuesses++;
 
@@ -475,6 +496,31 @@ export const useGameStore = defineStore("game", {
       this.clearMessageWithDelay();
     },
 
+    handleCorrectCountryMapGuess(country: Country) {
+      // Track the correct guess for accuracy
+      this.totalGuesses++;
+      this.correctGuesses++;
+
+      this.countryStatus[country.id] = "correct";
+      this.score++;
+      this.message = `Correct ! C'est bien ${country.name}.`;
+      this.removeCountryFromAvailable(country.id);
+      this.scheduleNextQuestion();
+    },
+
+    handleIncorrectCountryMapGuess(countryId: string, countryName?: string) {
+      // Track the incorrect guess for accuracy
+      this.totalGuesses++;
+
+      // Don't set any status for incorrect guesses - just show message
+      if (countryName) {
+        this.message = `Incorrect. Tu as cliqué sur ${countryName}. Essaie encore ou passe.`;
+      } else {
+        this.message = "Incorrect. Essaie encore ou passe.";
+      }
+      this.clearMessageWithDelay();
+    },
+
     setFlagHintMessage(country: Country) {
       if (this.incorrectAttempts >= HINT_THRESHOLD) {
         const firstLetter = country.name.charAt(0);
@@ -482,12 +528,15 @@ export const useGameStore = defineStore("game", {
       } else {
         this.message = "Incorrect. Essaie encore ou passe.";
       }
-    },
-
-    // Skip functionality
+    },    // Skip functionality
     skipDepartment() {
       if (this.isInFlagMode) {
         this.skipFlag();
+        return;
+      }
+
+      if (this.isInCountryMapMode) {
+        this.skipCountryMap();
         return;
       }
 
@@ -497,8 +546,7 @@ export const useGameStore = defineStore("game", {
       this.setSkipMessage();
       this.selectRandomDepartment();
       this.clearMessageWithDelay();
-    },
-    skipFlag() {
+    },    skipFlag() {
       if (!this.isInFlagMode || !this.currentCountry) return;
 
       this.clearDepartmentIncorrectStatuses(); // Only clear department statuses, keep flag statuses
@@ -518,6 +566,23 @@ export const useGameStore = defineStore("game", {
       }
 
       this.resetAttempts();
+
+      setTimeout(() => {
+        this.selectRandomCountry();
+        this.clearMessageWithDelay();
+      }, 100);
+    },
+
+    skipCountryMap() {
+      if (!this.isInCountryMapMode || !this.currentCountry) return;
+
+      this.message = {
+        component: SkipToast,
+        props: {
+          prefix: "Passé. C'était : ",
+          departmentName: this.currentCountry.name,
+        },
+      };
 
       setTimeout(() => {
         this.selectRandomCountry();
@@ -588,18 +653,14 @@ export const useGameStore = defineStore("game", {
       if (!this.isCompletionMessage()) {
         this.message = null;
       }
-    },
-
-    handleGameCompletion(type: "departments" | "flags") {
+    },    handleGameCompletion(type: "departments" | "flags" | "countries") {
       this.currentDepartment = null;
       this.currentCountry = null;
       this.currentGuessType = null;
       this.message = COMPLETION_MESSAGES[type];
-    },
-
-    scheduleNextQuestion() {
+    },    scheduleNextQuestion() {
       setTimeout(() => {
-        if (this.isInFlagMode) {
+        if (this.isInFlagMode || this.isInCountryMapMode) {
           this.selectRandomCountry();
         } else {
           this.selectRandomDepartment();

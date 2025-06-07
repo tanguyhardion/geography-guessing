@@ -27,7 +27,7 @@
         @click="selectedGame = 'map'"
       >
         <h2>Géographie Interactive</h2>
-        <p>Placez les départements sur la carte de France</p>
+        <p>Cartes interactives pour apprendre la géographie</p>
       </div>
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
@@ -41,7 +41,10 @@
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessMapLocation')">
-        Placement sur la carte
+        Départements français
+      </button>
+      <button @click="startGame('guessCountryMapLocation')">
+        Pays du monde
       </button>
     </div>
     <div
