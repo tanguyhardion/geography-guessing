@@ -7,6 +7,11 @@
         class="game-type"
         :class="{ active: selectedGame === 'map' }"
         @click="selectedGame = 'map'"
+        :key="
+          selectedGame === 'map'
+            ? 'map-active-' + animationKeySuffix
+            : 'map-inactive'
+        "
       >
         <div class="new-indicator"></div>
         <h2>Géographie Interactive</h2>
@@ -17,15 +22,25 @@
         class="game-type"
         :class="{ active: selectedGame === 'departments' }"
         @click="selectedGame = 'departments'"
+        :key="
+          selectedGame === 'departments'
+            ? 'departments-active-' + animationKeySuffix
+            : 'departments-inactive'
+        "
       >
         <h2>Départements Français</h2>
-        <p>Teste vos connaissances sur les départements français</p>
+        <p>Teste tes connaissances sur les départements français</p>
       </div>
 
       <div
         class="game-type"
         :class="{ active: selectedGame === 'flags' }"
         @click="selectedGame = 'flags'"
+        :key="
+          selectedGame === 'flags'
+            ? 'flags-active-' + animationKeySuffix
+            : 'flags-inactive'
+        "
       >
         <h2>Drapeaux du Monde</h2>
         <p>Devine les drapeaux des pays du monde</p>
@@ -125,14 +140,18 @@ const appGameStore = useAppGameStore();
 const selectedGame = ref<"departments" | "flags" | "map">(
   appGameStore.selectedGameType,
 );
+const animationKeySuffix = ref(0);
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
 
 const availableContinents = computed(() => appGameStore.availableContinents);
 
 // Watch for changes in selectedGame and save to store
-watch(selectedGame, (newGameType) => {
+watch(selectedGame, (newGameType, oldGameType) => {
   appGameStore.setSelectedGameType(newGameType);
+  if (newGameType !== oldGameType) {
+    animationKeySuffix.value++; // Increment key suffix to force re-render
+  }
 });
 
 const selectFlagMode = (mode: "normal" | "reverse") => {
@@ -242,7 +261,7 @@ h3 {
   width: 220px;
   max-width: 100%;
   padding: 20px;
-  border: none;
+  border: 3px solid transparent;
   border-radius: 16px;
   text-align: center;
   cursor: pointer;
@@ -275,7 +294,7 @@ h3 {
     opacity: 1;
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.4);
     opacity: 0.7;
   }
   100% {
@@ -285,7 +304,6 @@ h3 {
 }
 
 .game-type:hover {
-  transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -368,7 +386,6 @@ h3 {
 .continent-button:hover {
   background-color: var(--secondary-dark);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
 }
 
 .continent-button.all-continents {
@@ -443,7 +460,6 @@ h3 {
     width: 100%;
     margin-bottom: 0;
     min-width: unset;
-    border: 3px solid transparent;
   }
 
   h1 {
@@ -516,32 +532,63 @@ h3 {
   border: 1px solid rgba(255, 255, 255, 0.3);
   z-index: 1;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .nouveau-ribbon::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 100%;
-  width: 0;
-  height: 0;
-  border-left: 3px solid #cc7000;
-  border-right: 3px solid transparent;
-  border-top: 3px solid #cc7000;
-  border-bottom: 3px solid transparent;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4) 45%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.4) 55%,
+    transparent
+  );
+  animation: shimmer 3s infinite;
+  z-index: 2;
 }
 
-.nouveau-ribbon::after {
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Shadow triangles for 3D effect - moved to after pseudo-element styling */
+.button-with-ribbon::before {
   content: "";
   position: absolute;
-  right: 0;
-  top: 100%;
-  width: 0;
-  height: 0;
-  border-left: 3px solid transparent;
-  border-right: 3px solid #cc7000;
-  border-top: 3px solid #cc7000;
-  border-bottom: 3px solid transparent;
+  top: 12px;
+  right: -25px;
+  width: calc(100% + 50px);
+  height: 24px;
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.button-with-ribbon::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: -25px;
+  width: calc(100% + 50px);
+  height: 24px;
+  transform: rotate(45deg);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Ensure ribbon visibility on hover */
