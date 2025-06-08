@@ -26,6 +26,7 @@
         :class="{ active: selectedGame === 'map' }"
         @click="selectedGame = 'map'"
       >
+        <div class="new-indicator"></div>
         <h2>Géographie Interactive</h2>
         <p>Cartes interactives pour apprendre la géographie</p>
       </div>
@@ -43,11 +44,17 @@
       <button @click="startGame('guessMapLocation')">
         Départements français
       </button>
-      <button @click="startGame('guessFrenchChefLieux')">Chef-lieux français</button>
+      <button @click="startGame('guessFrenchChefLieux')" class="button-with-ribbon">
+        Chef-lieux français
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
       <button @click="startGame('guessCountryMapLocation')">
         Pays du monde
       </button>
-      <button @click="startGame('guessRussianCities')">Villes russes</button>
+      <button @click="startGame('guessRussianCities')" class="button-with-ribbon">
+        Villes de Russie
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"
@@ -109,7 +116,9 @@ import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
 const appGameStore = useAppGameStore();
-const selectedGame = ref<"departments" | "flags" | "map">(appGameStore.selectedGameType);
+const selectedGame = ref<"departments" | "flags" | "map">(
+  appGameStore.selectedGameType
+);
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
 
@@ -218,6 +227,35 @@ h3 {
   overflow: hidden;
   flex: 1;
   min-width: 200px;
+}
+
+.new-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  animation: pulse-new 2s infinite;
+}
+
+@keyframes pulse-new {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .game-type:hover {
@@ -428,5 +466,60 @@ h3 {
     font-size: 0.85em;
     flex: 1 1 calc(50% - 4px);
   }
+}
+
+/* Nouveau ribbon styles */
+.button-with-ribbon {
+  position: relative;
+  overflow: hidden;
+}
+
+.nouveau-ribbon {
+  position: absolute;
+  top: 12px;
+  right: -25px;
+  background: linear-gradient(135deg, #ff8c00, #ffd700);
+  color: white;
+  padding: 4px 30px;
+  font-size: 0.7em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.nouveau-ribbon::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border-left: 3px solid #cc7000;
+  border-right: 3px solid transparent;
+  border-top: 3px solid #cc7000;
+  border-bottom: 3px solid transparent;
+}
+
+.nouveau-ribbon::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #cc7000;
+  border-top: 3px solid #cc7000;
+  border-bottom: 3px solid transparent;
+}
+
+/* Ensure ribbon visibility on hover */
+.button-with-ribbon:hover .nouveau-ribbon {
+  background: linear-gradient(135deg, #ff9500, #ffdb00);
 }
 </style>

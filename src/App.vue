@@ -30,7 +30,7 @@ const pageTitle = computed(() => {
   if (appGameStore.isInFlagMode) {
     return "Quiz des Drapeaux du Monde";
   } else if (appGameStore.isInRussianCitiesMode) {
-    return "Quiz des Villes Russes";
+    return "Quiz des Villes de Russie";
   } else if (appGameStore.isInFrenchChefLieuxMode) {
     return "Quiz des Chef-lieux Français";
   } else if (appGameStore.currentGameMode === "guessCountryMapLocation") {

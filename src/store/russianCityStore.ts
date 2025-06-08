@@ -4,7 +4,7 @@ import type { RussianCity, RussianCityStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 
 // Constants
-const COMPLETION_MESSAGE = "Félicitations ! Tu as localisé toutes les villes russes !";
+const COMPLETION_MESSAGE = "Félicitations ! Tu as localisé toutes les villes ! D'autres villes sont à venir.";
 
 interface RussianCityGameState {
   russianCities: RussianCity[];

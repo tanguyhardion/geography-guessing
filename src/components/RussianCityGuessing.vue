@@ -1,7 +1,7 @@
 <template>
   <div class="russian-city-guessing-container">
     <div class="progress-indicator">
-      Villes russes
+      Villes de Russie
       {{ totalRussianCities - russianCityStore.availableRussianCities.length + 1 }} /
       {{ totalRussianCities }}
       <span class="score">Score : {{ baseStore.score }}</span>
