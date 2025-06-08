@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { frenchChefLieux } from "../data/frenchChefLieux";
 import type { FrenchChefLieu, FrenchChefLieuStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
+import { selectRandomItemWeighted } from "../utils/randomSelection";
 
 // Constants
 const COMPLETION_MESSAGE =
@@ -12,6 +13,7 @@ interface FrenchChefLieuGameState {
   currentFrenchChefLieu: FrenchChefLieu | null;
   frenchChefLieuStatus: FrenchChefLieuStatus;
   availableFrenchChefLieux: FrenchChefLieu[];
+  previousFrenchChefLieu: FrenchChefLieu | null; // Track previous to avoid immediate re-selection
 }
 
 // Helper function to filter metropolitan France chef-lieux
@@ -27,6 +29,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
     currentFrenchChefLieu: null,
     frenchChefLieuStatus: {},
     availableFrenchChefLieux: [...frenchChefLieux],
+    previousFrenchChefLieu: null,
   }),
 
   getters: {
@@ -66,6 +69,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
         isMetropolitanChefLieu,
       );
       this.frenchChefLieuStatus = {};
+      this.previousFrenchChefLieu = null; // Reset previous chef-lieu
       this.selectRandomFrenchChefLieu();
     },
 
@@ -77,10 +81,12 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
         return;
       }
 
-      const randomIndex = Math.floor(
-        Math.random() * this.availableFrenchChefLieux.length,
+      // Use improved random selection to avoid immediate re-selection
+      this.previousFrenchChefLieu = this.currentFrenchChefLieu;
+      this.currentFrenchChefLieu = selectRandomItemWeighted(
+        this.availableFrenchChefLieux,
+        this.previousFrenchChefLieu
       );
-      this.currentFrenchChefLieu = this.availableFrenchChefLieux[randomIndex];
     },
 
     // French chef-lieu guessing

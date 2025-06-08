@@ -6,6 +6,7 @@ import {
   SUCCESS_DELAY,
   type ToastMessage,
 } from "./baseGameStore";
+import { selectRandomItemWeighted } from "../utils/randomSelection";
 
 // Constants
 const COMPLETION_MESSAGE =
@@ -23,6 +24,7 @@ interface DepartmentGameState {
   availableDepartments: Department[];
   currentGuessType: GuessType | null;
   guessedParts: Record<string, DepartmentParts>;
+  previousDepartment: Department | null; // Track previous to avoid immediate re-selection
 }
 
 // Helper functions
@@ -67,6 +69,7 @@ export const useDepartmentStore = defineStore("departments", {
     availableDepartments: [...departments],
     currentGuessType: null,
     guessedParts: {},
+    previousDepartment: null,
   }),
 
   getters: {
@@ -158,6 +161,7 @@ export const useDepartmentStore = defineStore("departments", {
         this.availableDepartments = [...this.departments];
       }
       this.departmentStatus = {};
+      this.previousDepartment = null; // Reset previous department
       this.initializeGuessedParts();
       this.selectRandomDepartment();
     },
@@ -179,10 +183,12 @@ export const useDepartmentStore = defineStore("departments", {
         return;
       }
 
-      const randomIndex = Math.floor(
-        Math.random() * this.availableDepartments.length,
+      // Use improved random selection to avoid immediate re-selection
+      this.previousDepartment = this.currentDepartment;
+      this.currentDepartment = selectRandomItemWeighted(
+        this.availableDepartments,
+        this.previousDepartment
       );
-      this.currentDepartment = this.availableDepartments[randomIndex];
 
       if (this.gameMode === "guessBoth") {
         this.setGuessBothType();

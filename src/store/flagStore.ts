@@ -7,6 +7,7 @@ import {
   SUCCESS_DELAY,
 } from "./baseGameStore";
 import { areStringsSimilar } from "../utils/stringUtils";
+import { selectRandomItemWeighted } from "../utils/randomSelection";
 import SkipToast from "../components/SkipToast.vue";
 
 // Constants
@@ -20,6 +21,7 @@ interface FlagGameState {
   userGuessInput: string;
   reverseFlagMode: boolean;
   selectedContinent: Continent | "all" | null;
+  previousCountry: Country | null; // Track previous to avoid immediate re-selection
 }
 
 export const useFlagStore = defineStore("flags", {
@@ -31,6 +33,7 @@ export const useFlagStore = defineStore("flags", {
     userGuessInput: "",
     reverseFlagMode: false,
     selectedContinent: null,
+    previousCountry: null,
   }),
 
   getters: {
@@ -99,6 +102,7 @@ export const useFlagStore = defineStore("flags", {
 
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
+      this.previousCountry = null; // Reset previous country
       this.selectRandomCountry();
     },
 
@@ -109,10 +113,12 @@ export const useFlagStore = defineStore("flags", {
         return;
       }
 
-      const randomIndex = Math.floor(
-        Math.random() * this.availableCountries.length,
+      // Use improved random selection to avoid immediate re-selection
+      this.previousCountry = this.currentCountry;
+      this.currentCountry = selectRandomItemWeighted(
+        this.availableCountries,
+        this.previousCountry
       );
-      this.currentCountry = this.availableCountries[randomIndex];
 
       const baseStore = useBaseGameStore();
       baseStore.resetAttempts();

@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { countries } from "../data/countries";
 import type { Country, CountryStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
+import { selectRandomItemWeighted } from "../utils/randomSelection";
 import SkipToast from "../components/SkipToast.vue";
 
 // Constants
@@ -12,6 +13,7 @@ interface CountryMapGameState {
   currentCountry: Country | null;
   countryStatus: CountryStatus;
   availableCountries: Country[];
+  previousCountry: Country | null; // Track previous to avoid immediate re-selection
 }
 
 export const useCountryMapStore = defineStore("countryMap", {
@@ -20,6 +22,7 @@ export const useCountryMapStore = defineStore("countryMap", {
     currentCountry: null,
     countryStatus: {},
     availableCountries: [...countries],
+    previousCountry: null,
   }),
 
   getters: {
@@ -56,6 +59,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       // For country map mode, include all countries
       this.availableCountries = [...this.countries];
       this.countryStatus = {};
+      this.previousCountry = null; // Reset previous country
       this.selectRandomCountry();
     },
 
@@ -66,10 +70,12 @@ export const useCountryMapStore = defineStore("countryMap", {
         return;
       }
 
-      const randomIndex = Math.floor(
-        Math.random() * this.availableCountries.length,
+      // Use improved random selection to avoid immediate re-selection
+      this.previousCountry = this.currentCountry;
+      this.currentCountry = selectRandomItemWeighted(
+        this.availableCountries,
+        this.previousCountry
       );
-      this.currentCountry = this.availableCountries[randomIndex];
 
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();

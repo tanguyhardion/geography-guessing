@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { russianCities } from "../data/russianCities";
 import type { RussianCity, RussianCityStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
+import { selectRandomItemWeighted } from "../utils/randomSelection";
 
 // Constants
 const COMPLETION_MESSAGE =
@@ -12,6 +13,7 @@ interface RussianCityGameState {
   currentRussianCity: RussianCity | null;
   russianCityStatus: RussianCityStatus;
   availableRussianCities: RussianCity[];
+  previousRussianCity: RussianCity | null; // Track previous to avoid immediate re-selection
 }
 
 export const useRussianCityStore = defineStore("russianCities", {
@@ -20,6 +22,7 @@ export const useRussianCityStore = defineStore("russianCities", {
     currentRussianCity: null,
     russianCityStatus: {},
     availableRussianCities: [...russianCities],
+    previousRussianCity: null,
   }),
 
   getters: {
@@ -55,6 +58,7 @@ export const useRussianCityStore = defineStore("russianCities", {
     initializeRussianCitiesGame() {
       this.availableRussianCities = [...this.russianCities];
       this.russianCityStatus = {};
+      this.previousRussianCity = null; // Reset previous city
       this.selectRandomRussianCity();
     },
 
@@ -65,10 +69,12 @@ export const useRussianCityStore = defineStore("russianCities", {
         return;
       }
 
-      const randomIndex = Math.floor(
-        Math.random() * this.availableRussianCities.length,
+      // Use improved random selection to avoid immediate re-selection
+      this.previousRussianCity = this.currentRussianCity;
+      this.currentRussianCity = selectRandomItemWeighted(
+        this.availableRussianCities,
+        this.previousRussianCity
       );
-      this.currentRussianCity = this.availableRussianCities[randomIndex];
 
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();
