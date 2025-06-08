@@ -68,10 +68,24 @@
     </div>
 
     <div class="map-container">
+      <button
+        @click="centerMap"
+        class="center-map-button"
+        title="Centrer la carte"
+      >
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/795/795653.png"
+          alt="Center map"
+          width="24"
+          height="24"
+        />
+      </button>
       <l-map
+        ref="mapRef"
         :zoom="zoom"
         :center="center"
         :use-global-leaflet="false"
+        :options="mapOptions"
         class="map"
         @ready="onMapReady"
       >
@@ -114,6 +128,16 @@ const totalRussianCities = computed(() => russianCityStore.totalRussianCities);
 // Map configuration centered on Russia
 const zoom = ref(4);
 const center = ref([55.7558, 37.6176] as [number, number]); // Moscow coordinates
+const mapRef = ref(null); // Map reference
+
+// Store initial map state
+const initialZoom = 4;
+const initialCenter = [55.7558, 37.6176] as [number, number];
+
+// Map options to disable zoom control
+const mapOptions = {
+  zoomControl: false,
+};
 
 // Language switch - default to Russian
 const useRussian = ref(true);
@@ -209,6 +233,20 @@ const handleCityClick = (cityId: string, cityName: string) => {
 
 const onMapReady = () => {
   // Map is ready, we can add any additional setup here if needed
+};
+
+const centerMap = () => {
+  if (mapRef.value) {
+    // Reset zoom and center to initial values
+    zoom.value = initialZoom;
+    center.value = [...initialCenter];
+
+    // Use Leaflet's setView method for smooth transition
+    const leafletMap = (mapRef.value as any).leafletObject;
+    if (leafletMap) {
+      leafletMap.setView(initialCenter, initialZoom, { animate: true });
+    }
+  }
 };
 
 const restartGame = () => {
@@ -476,6 +514,56 @@ onUnmounted(() => {
     height: 100%;
     width: 100%;
   }
+
+  .center-map-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    width: 30px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+    color: #333;
+    outline: none;
+
+    // Prevent default browser button styling
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    // Prevent focus outline and color changes
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: #f4f4f4;
+      border-color: transparent;
+    }
+
+    &:active {
+      background-color: #e8e8e8;
+    }
+
+    // Ensure image inherits styling
+    img {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+  }
 }
 
 .game-complete {
@@ -529,5 +617,10 @@ onUnmounted(() => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+// Hide default Leaflet zoom controls
+:global(.leaflet-control-zoom) {
+  display: none !important;
 }
 </style>
