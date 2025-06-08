@@ -1,17 +1,15 @@
 <template>
-  <div id="app-outer-border">
-    <div id="app-container">
-      <header v-if="currentPage === 'game'">
-        <h1>{{ pageTitle }}</h1>
-        <button @click="goHome" class="back-button">Retour</button>
-      </header>
-      <main>
-        <transition name="fade" mode="out-in">
-          <HomePage v-if="currentPage === 'home'" @mode-selected="startGame" />
-          <GamePage v-else-if="currentPage === 'game'" />
-        </transition>
-      </main>
-    </div>
+  <div id="app-container">
+    <header v-if="currentPage === 'game'">
+      <h1>{{ pageTitle }}</h1>
+      <button @click="goHome" class="back-button">Retour</button>
+    </header>
+    <main>
+      <transition name="fade" mode="out-in">
+        <HomePage v-if="currentPage === 'home'" @mode-selected="startGame" />
+        <GamePage v-else-if="currentPage === 'game'" />
+      </transition>
+    </main>
   </div>
 </template>
 
@@ -86,21 +84,6 @@ const goHome = () => {
 </script>
 
 <style scoped lang="scss">
-#app-outer-border {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  border: 8px solid var(--primary-color);
-  box-sizing: border-box;
-  background-color: var(--primary-color);
-  padding: 0;
-  margin: 0;
-}
-
 #app-container {
   text-align: center;
   color: var(--text-primary);
@@ -109,11 +92,15 @@ const goHome = () => {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  min-width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: var(--background-light);
-  border-radius: 12px;
-  position: relative;
   background-image:
     radial-gradient(
       circle at 20% 90%,
