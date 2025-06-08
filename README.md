@@ -287,13 +287,14 @@ npm run deploy
 
 ## Contributing
 
-This project was developed using GitHub Copilot's Agent mode with various AI models for enhanced productivity and code quality.
+This project was developed using GitHub Copilot's Agent mode with various AI models for testing purposes.
 
 ### **AI Models Used**
 
-- **Claude 3.5 Sonnet** - Primary development assistant
-- **GPT-4** - Code review and optimization
-- **Gemini 2.0 Flash** - Feature ideation and testing
+- **Claude Sonnet 4** - Primary development assistant
+- **Claude 3.7 Sonnet** - Was secondary until the release of Sonnet 4
+- **Gemini 2.5 Pro** - Was secondary until the release of Sonnet 4
+- **GPT-4.1** - Tertiary
 
 ---
 
