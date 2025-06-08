@@ -12,7 +12,7 @@ interface AppGameState {
 
 export const useAppGameStore = defineStore("appGame", {
   state: (): AppGameState => ({
-    selectedGameType: "departments",
+    selectedGameType: "map",
   }),
 
   getters: {
