@@ -102,12 +102,12 @@ const inputField = ref<HTMLInputElement | null>(null);
 const currentProgress = computed(() => {
   const total = flagStore.totalCountries;
   const remaining = flagStore.availableCountries.length;
-  
+
   // Ensure we never get negative or invalid values
   if (total <= 0 || remaining < 0 || remaining > total) {
     return 1; // Safe fallback
   }
-  
+
   return total - remaining + 1;
 });
 

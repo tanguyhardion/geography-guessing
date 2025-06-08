@@ -22,6 +22,7 @@ interface WorldCapitalsGameState {
   userGuessInput: string;
   selectedContinent: Continent | "all" | null;
   previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  reverseCapitalsMode: boolean; // Track if in reverse mode (country -> capital)
 }
 
 export const useWorldCapitalsStore = defineStore("worldCapitals", {
@@ -33,6 +34,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
     userGuessInput: "",
     selectedContinent: null,
     previousCountry: null,
+    reverseCapitalsMode: false,
   }),
 
   getters: {
@@ -48,7 +50,10 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
 
     // Game display getters
     currentQuestionDisplay: (state) => {
-      return state.currentCountry ? state.currentCountry.capital : "";
+      if (!state.currentCountry) return "";
+      return state.reverseCapitalsMode
+        ? state.currentCountry.name
+        : state.currentCountry.capital;
     },
 
     totalCountries: (state) => {
@@ -115,6 +120,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       this.userGuessInput = "";
       this.selectedContinent = null;
       this.previousCountry = null;
+      this.reverseCapitalsMode = false;
     },
 
     // Random selection
@@ -136,15 +142,31 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       baseStore.clearNonCompletionMessage();
     },
 
-    // Capital guessing by text input
+    // Capital guessing by text input (handles both modes)
     makeCapitalsGuess(guess: string) {
       if (!this.currentCountry) return;
 
       const currentCountry = this.currentCountry;
-      const isCorrect = areStringsSimilar(
-        guess.replace("-", " "),
-        currentCountry.name.replace("-", " "),
-      );
+      let isCorrect: boolean;
+
+      if (this.reverseCapitalsMode) {
+        // Reverse mode: country shown, guess capital
+        isCorrect =
+          areStringsSimilar(
+            guess.replace("-", " "),
+            currentCountry.capital.replace("-", " "),
+          ) ||
+          areStringsSimilar(
+            guess.replace("-", " "),
+            currentCountry.capitalEn.replace("-", " "),
+          );
+      } else {
+        // Normal mode: capital shown, guess country
+        isCorrect = areStringsSimilar(
+          guess.replace("-", " "),
+          currentCountry.name.replace("-", " "),
+        );
+      }
 
       if (isCorrect) {
         this.handleCorrectCapitalsGuess(currentCountry);
@@ -161,7 +183,12 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
 
       this.countryStatus[country.id] = "correct";
       baseStore.resetAttempts();
-      baseStore.setMessage(`Correct ! C'est bien ${country.name}.`);
+
+      const message = this.reverseCapitalsMode
+        ? `Correct ! C'est bien ${country.capital}.`
+        : `Correct ! C'est bien ${country.name}.`;
+      baseStore.setMessage(message);
+
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
     },
@@ -177,14 +204,21 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
     setCapitalsHintMessage(country: Country) {
       const baseStore = useBaseGameStore();
       if (baseStore.incorrectAttempts >= HINT_THRESHOLD) {
-        const firstLetter = country.name.charAt(0);
-        baseStore.setMessage(
-          `Indice : Le pays commence par "${firstLetter}". Essaie encore ou passe.`,
-        );
+        if (this.reverseCapitalsMode) {
+          const firstLetter = country.capital.charAt(0);
+          baseStore.setMessage(
+            `Indice : La capitale commence par "${firstLetter}". Essaie encore ou passe.`,
+          );
+        } else {
+          const firstLetter = country.name.charAt(0);
+          baseStore.setMessage(
+            `Indice : Le pays commence par "${firstLetter}". Essaie encore ou passe.`,
+          );
+        }
       } else {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
-    },    // Skip functionality
+    }, // Skip functionality
     skipCapital() {
       if (!this.currentCountry) {
         return;
@@ -219,6 +253,10 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
 
     setUserGuessInput(input: string) {
       this.userGuessInput = input;
+    },
+
+    setReverseCapitalsMode(isReverse: boolean) {
+      this.reverseCapitalsMode = isReverse;
     },
 
     handleGameCompletion() {

@@ -132,14 +132,16 @@ export const useFlagStore = defineStore("flags", {
 
       // Use improved random selection to avoid immediate re-selection
       this.previousCountry = this.currentCountry;
-      
+
       // Add extra randomization by shuffling the array first if it's the first selection
       let countriesPool = this.availableCountries;
       if (this.previousCountry === null) {
         // First selection - shuffle the entire array for better randomness
-        countriesPool = [...this.availableCountries].sort(() => Math.random() - 0.5);
+        countriesPool = [...this.availableCountries].sort(
+          () => Math.random() - 0.5,
+        );
       }
-      
+
       this.currentCountry = selectRandomItemWeighted(
         countriesPool,
         this.previousCountry,

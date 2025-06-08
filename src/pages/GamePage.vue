@@ -22,6 +22,11 @@
     <template v-else-if="appGameStore.currentGameMode === 'guessWorldCapitals'">
       <WorldCapitalsGuessing class="full-width" />
     </template>
+    <template
+      v-else-if="appGameStore.currentGameMode === 'guessCountryFromCapital'"
+    >
+      <WorldCapitalsGuessing class="full-width" />
+    </template>
     <template v-else>
       <GuessingArea class="guessing-area-main" />
       <DepartmentList class="department-list-column" />

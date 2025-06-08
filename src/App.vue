@@ -35,6 +35,8 @@ const pageTitle = computed(() => {
     return "Quiz des Chef-lieux Français";
   } else if (appGameStore.isInWorldCapitalsMode) {
     return "Quiz des Capitales du Monde";
+  } else if (appGameStore.isInCountryFromCapitalMode) {
+    return "Quiz des Capitales du Monde";
   } else if (appGameStore.currentGameMode === "guessCountryMapLocation") {
     return "Quiz des Pays du Monde";
   }

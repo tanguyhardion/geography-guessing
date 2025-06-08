@@ -8,11 +8,11 @@ import { useAppGameStore } from "../store/gameStoreAdapter";
 const appGameStore = useAppGameStore();
 
 const emit = defineEmits<{
-  beforeSkip: []
+  beforeSkip: [];
 }>();
 
 const skip = () => {
-  emit('beforeSkip');
+  emit("beforeSkip");
   appGameStore.skipCurrent();
 };
 </script>

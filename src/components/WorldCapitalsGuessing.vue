@@ -3,7 +3,7 @@
     <!-- Standard capitals guessing mode -->
     <div v-if="worldCapitalsStore.currentCountry" class="capitals-section">
       <div class="progress-indicator">
-        Capitale
+        {{ worldCapitalsStore.reverseCapitalsMode ? "Capitale" : "Capitale" }}
         {{ totalCountries - worldCapitalsStore.availableCountries.length + 1 }}
         / {{ totalCountries }}
         <span class="score">Score : {{ baseStore.score }}</span>
@@ -15,19 +15,24 @@
           type="text"
           v-model="worldCapitalsStore.userGuessInput"
           @keyup.enter="makeGuess"
-          placeholder="Nom du pays"
+          :placeholder="
+            worldCapitalsStore.reverseCapitalsMode
+              ? 'Nom de la capitale'
+              : 'Nom du pays'
+          "
           class="country-input"
           :disabled="!worldCapitalsStore.currentCountry"
         />
-        <button
-          @click="makeGuess"
-          class="guess-button"
-        >
-          Deviner
-        </button>
+        <button @click="makeGuess" class="guess-button">Deviner</button>
       </div>
 
-      <p class="instruction-text">Quel pays a pour capitale :</p>
+      <p class="instruction-text">
+        {{
+          worldCapitalsStore.reverseCapitalsMode
+            ? "Quelle est la capitale de :"
+            : "Quel pays a pour capitale :"
+        }}
+      </p>
       <div class="capital-display">
         <h2 class="target-name">
           {{ worldCapitalsStore.currentQuestionDisplay }}
@@ -90,7 +95,7 @@ watch(
       }, 0);
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {

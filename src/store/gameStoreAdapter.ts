@@ -45,6 +45,11 @@ export const useAppGameStore = defineStore("appGame", {
       const departmentStore = useDepartmentStore();
       const result = departmentStore.gameMode === "guessWorldCapitals";
       return result;
+    },
+
+    isInCountryFromCapitalMode(): boolean {
+      const departmentStore = useDepartmentStore();
+      return departmentStore.gameMode === "guessCountryFromCapital";
     }, // Check if any game is complete
     isGameComplete(): boolean {
       if (this.selectedGameType === "flags") {
@@ -57,6 +62,9 @@ export const useAppGameStore = defineStore("appGame", {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         return frenchChefLieuStore.isGameComplete;
       } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.isGameComplete;
+      } else if (this.isInCountryFromCapitalMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         return worldCapitalsStore.isGameComplete;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
@@ -78,6 +86,9 @@ export const useAppGameStore = defineStore("appGame", {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         return frenchChefLieuStore.currentQuestionDisplay;
       } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.currentQuestionDisplay;
+      } else if (this.isInCountryFromCapitalMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         return worldCapitalsStore.currentQuestionDisplay;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
@@ -106,6 +117,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInWorldCapitalsMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         return worldCapitalsStore.availableContinents;
+      } else if (this.isInCountryFromCapitalMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.availableContinents;
       }
       return [];
     },
@@ -119,7 +133,7 @@ export const useAppGameStore = defineStore("appGame", {
       const russianCityStore = useRussianCityStore();
       const frenchChefLieuStore = useFrenchChefLieuStore();
       const countryMapStore = useCountryMapStore();
-      
+
       flagStore.resetStore();
       worldCapitalsStore.resetStore();
       // Note: Other stores don't have resetStore methods yet, but flagStore and worldCapitalsStore
@@ -140,6 +154,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInWorldCapitalsMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         worldCapitalsStore.initializeGame();
+      } else if (this.isInCountryFromCapitalMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.initializeGame();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         countryMapStore.initializeGame();
@@ -157,6 +174,10 @@ export const useAppGameStore = defineStore("appGame", {
       // Handle initialization for non-department modes
       if (mode === "guessWorldCapitals") {
         const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.initializeGame();
+      } else if (mode === "guessCountryFromCapital") {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.setReverseCapitalsMode(true);
         worldCapitalsStore.initializeGame();
       } else if (mode === "guessRussianCities") {
         const russianCityStore = useRussianCityStore();
@@ -192,10 +213,13 @@ export const useAppGameStore = defineStore("appGame", {
     setReverseFlagMode(isReverse: boolean) {
       const flagStore = useFlagStore();
       flagStore.setReverseFlagMode(isReverse);
-    },    // Skip current question
+    }, // Skip current question
     skipCurrent() {
       // Check specific modes first (these take priority over general game types)
       if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.skipCapital();
+      } else if (this.isInCountryFromCapitalMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         worldCapitalsStore.skipCapital();
       } else if (this.isInRussianCitiesMode) {
@@ -217,7 +241,7 @@ export const useAppGameStore = defineStore("appGame", {
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
       }
-    },// Make guess (delegates to appropriate store)
+    }, // Make guess (delegates to appropriate store)
     makeGuess(id: string, name?: string) {
       if (this.selectedGameType === "flags") {
         // Handle flag mode
