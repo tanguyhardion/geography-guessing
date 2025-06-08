@@ -175,12 +175,14 @@ onMounted(() => {
   .score {
     margin-left: 20px;
     color: var(--primary-color);
+    white-space: nowrap;
   }
 
   .accuracy {
     margin-left: 20px;
     color: var(--secondary-color);
     font-weight: 700;
+    white-space: nowrap;
   }
 }
 
