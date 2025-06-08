@@ -22,10 +22,6 @@
         <button
           @click="makeGuess"
           class="guess-button"
-          :disabled="
-            !worldCapitalsStore.userGuessInput.trim() ||
-            !worldCapitalsStore.currentCountry
-          "
         >
           Deviner
         </button>
@@ -94,7 +90,7 @@ watch(
       }, 0);
     }
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 onMounted(() => {
@@ -134,11 +130,13 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 0;
   height: 100%;
   overflow-wrap: break-word;
   hyphens: auto;
+  padding-top: 20px;
+  gap: 10px; /* Add gap between elements */
 }
 
 .progress-indicator {
@@ -166,7 +164,7 @@ onMounted(() => {
 }
 
 .capital-display {
-  margin: 25px 0;
+  margin: 5px 0;
   width: 320px;
   min-width: 320px;
   max-width: 320px;
@@ -197,13 +195,13 @@ onMounted(() => {
 
 .instruction-text {
   font-size: 1.2em;
-  margin-bottom: 18px;
+  margin-bottom: 5px;
   color: var(--text-secondary);
   font-weight: 500;
 }
 
 .guess-input-area {
-  margin: 20px 0;
+  margin: 10px 0;
   width: 100%;
   padding: 0 20px;
 }
@@ -287,6 +285,42 @@ onMounted(() => {
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .capitals-section {
+    gap: 8px;
+    padding-top: 15px;
+  }
+
+  .capital-display {
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    height: 160px;
+    min-height: 160px;
+    max-height: 160px;
+    margin: 5px 0;
+  }
+
+  .target-name {
+    font-size: 1.6em;
+    max-width: 240px;
+  }
+
+  .instruction-text {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+  }
+
+  .guess-input-area {
+    margin: 8px 0;
+  }
+
+  .country-input {
+    margin-bottom: 12px;
   }
 }
 </style>
