@@ -9,6 +9,8 @@ export interface Country {
   name: string; // Name in French
   nameEn: string; // Name in English for API calls
   continent: string; // Continent e.g., 'Europe', 'Asie'
+  capital: string; // Capital city name
+  capitalEn: string; // Capital city name in English for API calls
 }
 
 export interface RussianCity {
