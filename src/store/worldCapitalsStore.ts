@@ -88,6 +88,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       baseStore.resetGameState();
       this.initializeWorldCapitalsGame();
     },
+
     initializeWorldCapitalsGame() {
       let filteredCountries = [...this.countries];
 
@@ -102,7 +103,18 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.previousCountry = null; // Reset previous country
+      this.userGuessInput = ""; // Clear any input
       this.selectRandomCountry();
+    },
+
+    // Complete reset for when switching game modes
+    resetStore() {
+      this.currentCountry = null;
+      this.countryStatus = {};
+      this.availableCountries = [...this.countries];
+      this.userGuessInput = "";
+      this.selectedContinent = null;
+      this.previousCountry = null;
     },
 
     // Random selection

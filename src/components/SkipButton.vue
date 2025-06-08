@@ -7,7 +7,12 @@ import { useAppGameStore } from "../store/gameStoreAdapter";
 
 const appGameStore = useAppGameStore();
 
+const emit = defineEmits<{
+  beforeSkip: []
+}>();
+
 const skip = () => {
+  emit('beforeSkip');
   appGameStore.skipCurrent();
 };
 </script>

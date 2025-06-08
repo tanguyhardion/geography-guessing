@@ -7,10 +7,17 @@
     >
       <div class="progress-indicator">
         Drapeau
-        {{ totalCountries - flagStore.availableCountries.length + 1 }}
+        {{ currentProgress }}
         / {{ totalCountries }}
         <span class="score">Score : {{ baseStore.score }}</span>
         <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
+      </div>
+      <div class="flag-display">
+        <img
+          :src="flagStore.currentFlag"
+          alt="Drapeau à deviner"
+          class="flag-image"
+        />
       </div>
       <div class="guess-input-area">
         <input
@@ -32,14 +39,7 @@
           Deviner
         </button>
       </div>
-      <div class="flag-display">
-        <img
-          :src="flagStore.currentFlag"
-          alt="Drapeau à deviner"
-          class="flag-image"
-        />
-      </div>
-      <SkipButton v-if="flagStore.currentCountry" />
+      <SkipButton v-if="flagStore.currentCountry" @before-skip="blurInput" />
     </div>
 
     <!-- Reverse flag mode: guess the flag from the country name -->
@@ -51,14 +51,14 @@
         <div class="country-question-area">
           <div class="progress-indicator">
             Pays
-            {{ totalCountries - flagStore.availableCountries.length + 1 }}
+            {{ currentProgress }}
             / {{ totalCountries }}
             <span class="score">Score : {{ baseStore.score }}</span>
             <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
           </div>
           <p class="instruction-text">Clique sur le drapeau du pays :</p>
           <h2 class="target-name">{{ flagStore.currentCountry.name }}</h2>
-          <SkipButton />
+          <SkipButton @before-skip="blurInput" />
         </div>
         <div class="flag-list-column">
           <ul>
@@ -97,6 +97,19 @@ const flagStore = useFlagStore();
 const baseStore = useBaseGameStore();
 const totalCountries = computed(() => flagStore.totalCountries);
 const inputField = ref<HTMLInputElement | null>(null);
+
+// More robust current progress calculation that handles continent filtering correctly
+const currentProgress = computed(() => {
+  const total = flagStore.totalCountries;
+  const remaining = flagStore.availableCountries.length;
+  
+  // Ensure we never get negative or invalid values
+  if (total <= 0 || remaining < 0 || remaining > total) {
+    return 1; // Safe fallback
+  }
+  
+  return total - remaining + 1;
+});
 
 const continentCountries = computed(() => {
   if (!flagStore.currentCountry) return [];
@@ -138,6 +151,12 @@ const restartGame = () => {
     setTimeout(() => {
       inputField.value?.focus();
     }, 0);
+  }
+};
+
+const blurInput = () => {
+  if (inputField.value) {
+    inputField.value.blur();
   }
 };
 

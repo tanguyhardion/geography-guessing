@@ -112,6 +112,20 @@ export const useAppGameStore = defineStore("appGame", {
   },
 
   actions: {
+    // Reset all stores to ensure clean state when switching game modes
+    resetAllStores() {
+      const flagStore = useFlagStore();
+      const worldCapitalsStore = useWorldCapitalsStore();
+      const russianCityStore = useRussianCityStore();
+      const frenchChefLieuStore = useFrenchChefLieuStore();
+      const countryMapStore = useCountryMapStore();
+      
+      flagStore.resetStore();
+      worldCapitalsStore.resetStore();
+      // Note: Other stores don't have resetStore methods yet, but flagStore and worldCapitalsStore
+      // are the main concerns since they persist selectedContinent across mode switches
+    },
+
     // Initialize the appropriate game based on selected type
     initializeGame() {
       if (this.selectedGameType === "flags") {
@@ -155,6 +169,8 @@ export const useAppGameStore = defineStore("appGame", {
 
     // Set selected game type
     setSelectedGameType(gameType: "departments" | "flags" | "map") {
+      // Reset all stores before switching to ensure clean state
+      this.resetAllStores();
       this.selectedGameType = gameType;
       this.initializeGame();
     },
@@ -164,6 +180,8 @@ export const useAppGameStore = defineStore("appGame", {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
         flagStore.setSelectedContinent(continent);
+        // Reinitialize the flag game with the new continent selection
+        flagStore.initializeFlagGame();
       }
       // Always set continent for world capitals store as well, in case we're about to enter that mode
       const worldCapitalsStore = useWorldCapitalsStore();

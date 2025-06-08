@@ -22,6 +22,7 @@ interface FlagGameState {
   reverseFlagMode: boolean;
   selectedContinent: Continent | "all" | null;
   previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  currentQuestionNumber: number; // Track current question number
 }
 
 export const useFlagStore = defineStore("flags", {
@@ -34,6 +35,7 @@ export const useFlagStore = defineStore("flags", {
     reverseFlagMode: false,
     selectedContinent: null,
     previousCountry: null,
+    currentQuestionNumber: 1,
   }),
 
   getters: {
@@ -103,7 +105,22 @@ export const useFlagStore = defineStore("flags", {
       this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.previousCountry = null; // Reset previous country
+      this.currentQuestionNumber = 1; // Reset question counter
+      this.currentCountry = null; // Reset current country to ensure fresh selection
+      this.userGuessInput = ""; // Clear any input
       this.selectRandomCountry();
+    },
+
+    // Complete reset for when switching game modes
+    resetStore() {
+      this.currentCountry = null;
+      this.countryStatus = {};
+      this.availableCountries = [...this.countries];
+      this.userGuessInput = "";
+      this.reverseFlagMode = false;
+      this.selectedContinent = null;
+      this.previousCountry = null;
+      this.currentQuestionNumber = 1;
     },
 
     // Random selection
@@ -115,8 +132,16 @@ export const useFlagStore = defineStore("flags", {
 
       // Use improved random selection to avoid immediate re-selection
       this.previousCountry = this.currentCountry;
+      
+      // Add extra randomization by shuffling the array first if it's the first selection
+      let countriesPool = this.availableCountries;
+      if (this.previousCountry === null) {
+        // First selection - shuffle the entire array for better randomness
+        countriesPool = [...this.availableCountries].sort(() => Math.random() - 0.5);
+      }
+      
       this.currentCountry = selectRandomItemWeighted(
-        this.availableCountries,
+        countriesPool,
         this.previousCountry,
       );
 
@@ -163,6 +188,7 @@ export const useFlagStore = defineStore("flags", {
       baseStore.resetAttempts();
       baseStore.setMessage(`Correct ! C'est bien ${country.name}.`);
       this.removeCountryFromAvailable(country.id);
+      this.currentQuestionNumber++; // Increment question counter
       this.scheduleNextQuestion();
     },
 
@@ -176,6 +202,7 @@ export const useFlagStore = defineStore("flags", {
         `Correct ! C'était bien le drapeau de ${country.name}.`,
       );
       this.removeCountryFromAvailable(country.id);
+      this.currentQuestionNumber++; // Increment question counter
       this.scheduleNextQuestion();
     },
 
@@ -212,6 +239,7 @@ export const useFlagStore = defineStore("flags", {
       if (!this.currentCountry) return;
 
       const baseStore = useBaseGameStore();
+      const currentCountry = this.currentCountry;
 
       // In reverse flag mode (country -> flag), don't show country name since user already knows it
       // In standard flag mode (flag -> country), show country name so user learns what it was
@@ -222,12 +250,14 @@ export const useFlagStore = defineStore("flags", {
           component: SkipToast,
           props: {
             prefix: "Passé. C'était : ",
-            departmentName: this.currentCountry.name,
+            departmentName: currentCountry.name,
           },
         });
       }
 
       baseStore.resetAttempts();
+      this.removeCountryFromAvailable(currentCountry.id); // Remove skipped country from available list
+      // Don't increment currentQuestionNumber for skips - skipped questions don't count as "answered"
 
       setTimeout(() => {
         this.selectRandomCountry();
