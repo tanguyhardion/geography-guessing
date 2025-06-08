@@ -91,28 +91,12 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
     initializeWorldCapitalsGame() {
       let filteredCountries = [...this.countries];
 
-      console.log(
-        "World Capitals: initializing with continent:",
-        this.selectedContinent,
-      );
-
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
           (country) => country.continent === this.selectedContinent,
         );
-        console.log(
-          "World Capitals: filtered to",
-          filteredCountries.length,
-          "countries for",
-          this.selectedContinent,
-        );
       } else {
-        console.log(
-          "World Capitals: no continent filter, using all",
-          filteredCountries.length,
-          "countries",
-        );
       }
 
       this.availableCountries = filteredCountries;
@@ -191,15 +175,10 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
     }, // Skip functionality
     skipCapital() {
       if (!this.currentCountry) {
-        console.log("World Capitals: skip called but no current country");
         return;
       }
 
       const countryBeingSkipped = this.currentCountry;
-      console.log(
-        "World Capitals: skip called, current country:",
-        countryBeingSkipped?.name,
-      );
 
       const baseStore = useBaseGameStore();
       baseStore.setMessage({
@@ -214,10 +193,6 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
 
       setTimeout(() => {
         this.selectRandomCountry();
-        console.log(
-          "World Capitals: new current country:",
-          this.currentCountry?.name,
-        );
         const baseStore = useBaseGameStore();
         baseStore.clearMessageWithDelay();
       }, 100);
@@ -225,10 +200,6 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
 
     // Utility methods
     setSelectedContinent(continent: Continent | "all" | null) {
-      console.log(
-        "World Capitals: setSelectedContinent called with:",
-        continent,
-      );
       this.selectedContinent = continent;
     },
 

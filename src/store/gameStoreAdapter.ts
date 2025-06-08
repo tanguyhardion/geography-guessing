@@ -44,12 +44,6 @@ export const useAppGameStore = defineStore("appGame", {
     isInWorldCapitalsMode(): boolean {
       const departmentStore = useDepartmentStore();
       const result = departmentStore.gameMode === "guessWorldCapitals";
-      console.log(
-        "GameStoreAdapter: isInWorldCapitalsMode check - gameMode:",
-        departmentStore.gameMode,
-        "result:",
-        result,
-      );
       return result;
     }, // Check if any game is complete
     isGameComplete(): boolean {
@@ -143,17 +137,11 @@ export const useAppGameStore = defineStore("appGame", {
 
     // Set game mode (for departments)
     setGameMode(mode: GameMode) {
-      console.log("GameStoreAdapter: setGameMode called with:", mode);
       const departmentStore = useDepartmentStore();
       departmentStore.setGameMode(mode);
-      console.log(
-        "GameStoreAdapter: departmentStore.gameMode is now:",
-        departmentStore.gameMode,
-      );
 
       // Handle initialization for non-department modes
       if (mode === "guessWorldCapitals") {
-        console.log("GameStoreAdapter: initializing worldCapitalsStore");
         const worldCapitalsStore = useWorldCapitalsStore();
         worldCapitalsStore.initializeGame();
       } else if (mode === "guessRussianCities") {
@@ -186,56 +174,32 @@ export const useAppGameStore = defineStore("appGame", {
     setReverseFlagMode(isReverse: boolean) {
       const flagStore = useFlagStore();
       flagStore.setReverseFlagMode(isReverse);
-    }, // Skip current question
+    },    // Skip current question
     skipCurrent() {
-      console.log("GameStoreAdapter: skipCurrent called");
-      console.log("  - selectedGameType:", this.selectedGameType);
-      console.log("  - isInWorldCapitalsMode:", this.isInWorldCapitalsMode);
-      console.log("  - currentGameMode:", this.currentGameMode);
-
       // Check specific modes first (these take priority over general game types)
       if (this.isInWorldCapitalsMode) {
-        console.log(
-          "GameStoreAdapter: delegating to worldCapitalsStore.skipCapital()",
-        );
         const worldCapitalsStore = useWorldCapitalsStore();
         worldCapitalsStore.skipCapital();
       } else if (this.isInRussianCitiesMode) {
-        console.log(
-          "GameStoreAdapter: delegating to russianCityStore.skipRussianCity()",
-        );
         const russianCityStore = useRussianCityStore();
         russianCityStore.skipRussianCity();
       } else if (this.isInFrenchChefLieuxMode) {
-        console.log(
-          "GameStoreAdapter: delegating to frenchChefLieuStore.skipFrenchChefLieu()",
-        );
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.skipFrenchChefLieu();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
-        console.log(
-          "GameStoreAdapter: delegating to countryMapStore.skipCountryMap()",
-        );
         const countryMapStore = useCountryMapStore();
         countryMapStore.skipCountryMap();
       } else if (this.currentGameMode === "guessMapLocation") {
-        console.log(
-          "GameStoreAdapter: delegating to departmentStore.skipDepartment() for map location",
-        );
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
       } else if (this.selectedGameType === "flags") {
-        console.log("GameStoreAdapter: delegating to flagStore.skipFlag()");
         const flagStore = useFlagStore();
         flagStore.skipFlag();
       } else {
-        console.log(
-          "GameStoreAdapter: delegating to departmentStore.skipDepartment() as fallback",
-        );
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
       }
-    }, // Make guess (delegates to appropriate store)
+    },// Make guess (delegates to appropriate store)
     makeGuess(id: string, name?: string) {
       if (this.selectedGameType === "flags") {
         // Handle flag mode
