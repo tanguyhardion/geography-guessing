@@ -4,7 +4,8 @@ import type { RussianCity, RussianCityStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 
 // Constants
-const COMPLETION_MESSAGE = "Félicitations ! Tu as localisé toutes les villes ! D'autres villes sont à venir.";
+const COMPLETION_MESSAGE =
+  "Félicitations ! Tu as localisé toutes les villes ! D'autres villes sont à venir.";
 
 interface RussianCityGameState {
   russianCities: RussianCity[];
@@ -64,9 +65,11 @@ export const useRussianCityStore = defineStore("russianCities", {
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * this.availableRussianCities.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableRussianCities.length,
+      );
       this.currentRussianCity = this.availableRussianCities[randomIndex];
-      
+
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();
     },
@@ -105,7 +108,9 @@ export const useRussianCityStore = defineStore("russianCities", {
         const frenchName = clickedCity ? clickedCity.name : cityName;
 
         if (frenchName) {
-          baseStore.setMessage(`Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`);
+          baseStore.setMessage(
+            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`,
+          );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");
         }

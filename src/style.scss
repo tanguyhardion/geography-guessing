@@ -94,6 +94,52 @@ button {
   color: white;
   cursor: pointer;
   transition: var(--transition-default);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 20%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -150%;
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 1;
+  }
+}
+
+button.animate-click::before {
+  animation: shimmer 0.6s ease-out;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:active::before {
+  animation: shimmer 0.6s ease-out;
 }
 
 button:focus {

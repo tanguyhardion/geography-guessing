@@ -78,7 +78,8 @@ export const useBaseGameStore = defineStore("baseGame", {
       if (!this.isCompletionMessage()) {
         this.message = null;
       }
-    },    setMessage(message: ToastMessage) {
+    },
+    setMessage(message: ToastMessage) {
       this.message = message;
     },
   },

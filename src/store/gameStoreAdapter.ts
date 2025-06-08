@@ -29,7 +29,8 @@ export const useAppGameStore = defineStore("appGame", {
 
     isInCountryMapMode(): boolean {
       return this.selectedGameType === "map";
-    },    isInRussianCitiesMode(): boolean {
+    },
+    isInRussianCitiesMode(): boolean {
       const departmentStore = useDepartmentStore();
       return departmentStore.gameMode === "guessRussianCities";
     },
@@ -37,7 +38,7 @@ export const useAppGameStore = defineStore("appGame", {
     isInFrenchChefLieuxMode(): boolean {
       const departmentStore = useDepartmentStore();
       return departmentStore.gameMode === "guessFrenchChefLieux";
-    },    // Check if any game is complete
+    }, // Check if any game is complete
     isGameComplete(): boolean {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
@@ -55,7 +56,7 @@ export const useAppGameStore = defineStore("appGame", {
         const departmentStore = useDepartmentStore();
         return departmentStore.isGameComplete;
       }
-    },    // Get current question display from appropriate store
+    }, // Get current question display from appropriate store
     currentQuestionDisplay(): string {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
@@ -91,7 +92,8 @@ export const useAppGameStore = defineStore("appGame", {
     },
   },
 
-  actions: {    // Initialize the appropriate game based on selected type
+  actions: {
+    // Initialize the appropriate game based on selected type
     initializeGame() {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
@@ -133,7 +135,7 @@ export const useAppGameStore = defineStore("appGame", {
     setReverseFlagMode(isReverse: boolean) {
       const flagStore = useFlagStore();
       flagStore.setReverseFlagMode(isReverse);
-    },    // Skip current question
+    }, // Skip current question
     skipCurrent() {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
@@ -154,7 +156,7 @@ export const useAppGameStore = defineStore("appGame", {
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
       }
-    },    // Make guess (delegates to appropriate store)
+    }, // Make guess (delegates to appropriate store)
     makeGuess(id: string, name?: string) {
       if (this.selectedGameType === "flags") {
         // Handle flag mode

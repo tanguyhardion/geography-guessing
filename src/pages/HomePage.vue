@@ -33,25 +33,35 @@
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')">Numéro à partir du chef-lieu</button>
+      <button @click="startGame('guessChefLieu')">
+        Numéro à partir du chef-lieu
+      </button>
       <button @click="startGame('guessDepartmentName')">
         Numéro à partir du nom
       </button>
-      <button @click="startGame('guessBoth')">Numéro à  partir du nom ou du chef-lieu</button>
+      <button @click="startGame('guessBoth')">
+        Numéro à partir du nom ou du chef-lieu
+      </button>
     </div>
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessMapLocation')">
         Départements français
       </button>
-      <button @click="startGame('guessFrenchChefLieux')" class="button-with-ribbon">
+      <button
+        @click="startGame('guessFrenchChefLieux')"
+        class="button-with-ribbon"
+      >
         Chef-lieux français
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
       <button @click="startGame('guessCountryMapLocation')">
         Pays du monde
       </button>
-      <button @click="startGame('guessRussianCities')" class="button-with-ribbon">
+      <button
+        @click="startGame('guessRussianCities')"
+        class="button-with-ribbon"
+      >
         Villes de Russie
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
@@ -61,12 +71,8 @@
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="selectFlagMode('normal')">
-        Pays depuis le drapeau
-      </button>
-      <button @click="selectFlagMode('reverse')">
-        Drapeau depuis le pays
-      </button>
+      <button @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
+      <button @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && showContinentSelection"
@@ -117,7 +123,7 @@ import type { GameMode, Continent } from "../types";
 const emit = defineEmits(["mode-selected"]);
 const appGameStore = useAppGameStore();
 const selectedGame = ref<"departments" | "flags" | "map">(
-  appGameStore.selectedGameType
+  appGameStore.selectedGameType,
 );
 const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
 const showContinentSelection = ref(false);
@@ -179,14 +185,34 @@ h1 {
   margin-bottom: 30px;
   font-size: 2.2em;
   background: linear-gradient(
-    to right,
-    var(--primary-color),
-    var(--primary-dark)
+    -45deg,
+    #3b82f6,
+    #6366f1,
+    #8b5cf6,
+    #a855f7,
+    #c084fc,
+    #60a5fa,
+    #3b82f6,
+    #6366f1
   );
+  background-size: 400% 400%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   text-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  animation: gradientMove 4s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 h2 {
@@ -265,8 +291,7 @@ h3 {
 
 .game-type.active {
   background-color: #e8f0fe;
-  border-left: 4px solid var(--primary-color);
-  border-top: 4px solid var(--primary-color);
+  border: 3px solid var(--primary-color);
 }
 
 .game-type p {
@@ -418,6 +443,7 @@ h3 {
     width: 100%;
     margin-bottom: 0;
     min-width: unset;
+    border: 3px solid transparent;
   }
 
   h1 {
@@ -493,7 +519,7 @@ h3 {
 }
 
 .nouveau-ribbon::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 100%;
@@ -506,7 +532,7 @@ h3 {
 }
 
 .nouveau-ribbon::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   top: 100%;

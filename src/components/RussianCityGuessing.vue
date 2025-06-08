@@ -2,7 +2,10 @@
   <div class="russian-city-guessing-container">
     <div class="progress-indicator">
       Villes de Russie
-      {{ totalRussianCities - russianCityStore.availableRussianCities.length + 1 }} /
+      {{
+        totalRussianCities - russianCityStore.availableRussianCities.length + 1
+      }}
+      /
       {{ totalRussianCities }}
       <span class="score">Score : {{ baseStore.score }}</span>
       <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
@@ -27,20 +30,27 @@
       <!-- Mobile language menu -->
       <div class="language-menu mobile-only">
         <button class="language-menu-button" @click="toggleLanguageMenu">
-          <span>{{ useRussian ? 'RU' : 'FR' }}</span>
+          <span>{{ useRussian ? "RU" : "FR" }}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path
+              d="M3 4.5L6 7.5L9 4.5"
+              stroke="currentColor"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </button>
-        
+
         <div v-if="showLanguageMenu" class="language-dropdown">
-          <button 
+          <button
             :class="['dropdown-item', { active: !useRussian }]"
             @click="selectLanguage(false)"
           >
             Français
           </button>
-          <button 
+          <button
             :class="['dropdown-item', { active: useRussian }]"
             @click="selectLanguage(true)"
           >
@@ -122,23 +132,23 @@ const currentCityDisplayName = computed(() => {
 // Helper function to validate coordinates
 const isValidCoordinate = (lat: number, lng: number): boolean => {
   return (
-    typeof lat === 'number' && 
-    typeof lng === 'number' && 
-    !isNaN(lat) && 
-    !isNaN(lng) && 
-    isFinite(lat) && 
+    typeof lat === "number" &&
+    typeof lng === "number" &&
+    !isNaN(lat) &&
+    !isNaN(lng) &&
+    isFinite(lat) &&
     isFinite(lng) &&
-    lat >= -90 && 
-    lat <= 90 && 
-    lng >= -180 && 
+    lat >= -90 &&
+    lat <= 90 &&
+    lng >= -180 &&
     lng <= 180
   );
 };
 
 // Computed property for valid cities (filter out any with invalid coordinates)
 const validCities = computed(() => {
-  return russianCityStore.russianCities.filter(city => 
-    isValidCoordinate(city.lat, city.lng)
+  return russianCityStore.russianCities.filter((city) =>
+    isValidCoordinate(city.lat, city.lng),
   );
 });
 
@@ -158,13 +168,16 @@ const getCityRadius = (city: RussianCity) => {
   const clampedPop = Math.max(city.population, minPop);
 
   // Use a more sensitive scaling with power function for greater differentiation
-  const normalizedPop = Math.log(clampedPop / minPop) / Math.log(maxPop / minPop);
+  const normalizedPop =
+    Math.log(clampedPop / minPop) / Math.log(maxPop / minPop);
   const poweredScale = Math.pow(Math.max(0, normalizedPop), 0.7); // Ensure non-negative input
 
   const radius = minRadius + (maxRadius - minRadius) * poweredScale;
-  
+
   // Final safety check to ensure we return a valid number
-  return isNaN(radius) ? minRadius : Math.max(minRadius, Math.min(maxRadius, radius));
+  return isNaN(radius)
+    ? minRadius
+    : Math.max(minRadius, Math.min(maxRadius, radius));
 };
 
 const getCityMarkerOptions = (city: RussianCity) => {
@@ -214,7 +227,7 @@ const selectLanguage = (russian: boolean) => {
 // Close menu when clicking outside
 const closeLanguageMenu = (event: Event) => {
   const target = event.target as HTMLElement;
-  const menu = document.querySelector('.language-menu');
+  const menu = document.querySelector(".language-menu");
   if (menu && !menu.contains(target)) {
     showLanguageMenu.value = false;
   }
@@ -225,14 +238,14 @@ onMounted(() => {
   if (!russianCityStore.currentRussianCity) {
     russianCityStore.initializeGame();
   }
-  
+
   // Add click outside listener for mobile menu
-  document.addEventListener('click', closeLanguageMenu);
+  document.addEventListener("click", closeLanguageMenu);
 });
 
 // Clean up event listener
 onUnmounted(() => {
-  document.removeEventListener('click', closeLanguageMenu);
+  document.removeEventListener("click", closeLanguageMenu);
 });
 </script>
 

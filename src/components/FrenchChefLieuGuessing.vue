@@ -2,7 +2,12 @@
   <div class="french-chef-lieu-guessing-container">
     <div class="progress-indicator">
       Chef-lieux français
-      {{ totalFrenchChefLieux - frenchChefLieuStore.availableFrenchChefLieux.length + 1 }} /
+      {{
+        totalFrenchChefLieux -
+        frenchChefLieuStore.availableFrenchChefLieux.length +
+        1
+      }}
+      /
       {{ totalFrenchChefLieux }}
       <span class="score">Score : {{ baseStore.score }}</span>
       <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
@@ -10,7 +15,9 @@
 
     <div class="question-area">
       <p class="instruction-text">Trouve le chef-lieu sur la carte :</p>
-      <h2 class="target-name">{{ frenchChefLieuStore.currentQuestionDisplay }}</h2>
+      <h2 class="target-name">
+        {{ frenchChefLieuStore.currentQuestionDisplay }}
+      </h2>
 
       <div class="controls">
         <SkipButton v-if="frenchChefLieuStore.currentFrenchChefLieu" />
@@ -59,7 +66,9 @@ import "leaflet/dist/leaflet.css";
 
 const frenchChefLieuStore = useFrenchChefLieuStore();
 const baseStore = useBaseGameStore();
-const totalFrenchChefLieux = computed(() => frenchChefLieuStore.totalFrenchChefLieux);
+const totalFrenchChefLieux = computed(
+  () => frenchChefLieuStore.totalFrenchChefLieux,
+);
 
 // Map configuration centered on France
 const zoom = ref(6);
@@ -68,38 +77,39 @@ const center = ref([46.603354, 1.888334] as [number, number]); // France center
 // Helper function to validate coordinates
 const isValidCoordinate = (lat: number, lng: number): boolean => {
   return (
-    typeof lat === 'number' && 
-    typeof lng === 'number' && 
-    !isNaN(lat) && 
-    !isNaN(lng) && 
-    isFinite(lat) && 
+    typeof lat === "number" &&
+    typeof lng === "number" &&
+    !isNaN(lat) &&
+    !isNaN(lng) &&
+    isFinite(lat) &&
     isFinite(lng) &&
-    lat >= -90 && 
-    lat <= 90 && 
-    lng >= -180 && 
+    lat >= -90 &&
+    lat <= 90 &&
+    lng >= -180 &&
     lng <= 180
   );
 };
 
 // Computed property for valid chef-lieux (filter out any with invalid coordinates)
 const validChefLieux = computed(() => {
-  return frenchChefLieuStore.frenchChefLieux.filter(chefLieu => 
-    isValidCoordinate(chefLieu.lat, chefLieu.lng) &&
-    // Only show metropolitan France chef-lieux
-    !chefLieu.id.startsWith("97")
+  return frenchChefLieuStore.frenchChefLieux.filter(
+    (chefLieu) =>
+      isValidCoordinate(chefLieu.lat, chefLieu.lng) &&
+      // Only show metropolitan France chef-lieux
+      !chefLieu.id.startsWith("97"),
   );
 });
 
 const getChefLieuRadius = (chefLieu: FrenchChefLieu) => {
   // Use a consistent radius for all chef-lieux
   const baseRadius = 6;
-  
+
   // Make capital cities slightly larger
   const majorCities = ["75", "13", "69", "31", "59", "44", "67", "33", "35"];
   if (majorCities.includes(chefLieu.id)) {
     return baseRadius + 2;
   }
-  
+
   return baseRadius;
 };
 

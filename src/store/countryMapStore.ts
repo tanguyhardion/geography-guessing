@@ -66,9 +66,11 @@ export const useCountryMapStore = defineStore("countryMap", {
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * this.availableCountries.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableCountries.length,
+      );
       this.currentCountry = this.availableCountries[randomIndex];
-      
+
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();
     },
@@ -107,7 +109,9 @@ export const useCountryMapStore = defineStore("countryMap", {
         const frenchName = clickedCountry ? clickedCountry.name : countryName;
 
         if (frenchName) {
-          baseStore.setMessage(`Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`);
+          baseStore.setMessage(
+            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`,
+          );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");
         }
@@ -115,7 +119,7 @@ export const useCountryMapStore = defineStore("countryMap", {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
       baseStore.clearMessageWithDelay();
-    },    // Skip functionality
+    }, // Skip functionality
     skipCountryMap() {
       if (!this.currentCountry) return;
 

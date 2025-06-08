@@ -1,10 +1,15 @@
 import { defineStore } from "pinia";
 import { departments } from "../data/departments";
 import type { Department, GameMode, DepartmentStatus } from "../types";
-import { useBaseGameStore, SUCCESS_DELAY, type ToastMessage } from "./baseGameStore";
+import {
+  useBaseGameStore,
+  SUCCESS_DELAY,
+  type ToastMessage,
+} from "./baseGameStore";
 
 // Constants
-const COMPLETION_MESSAGE = "Félicitations ! Tu as deviné tous les départements !";
+const COMPLETION_MESSAGE =
+  "Félicitations ! Tu as deviné tous les départements !";
 
 // Types
 type GuessType = "name" | "chefLieu";
@@ -27,7 +32,10 @@ function isMetropolitanDepartment(department: Department): boolean {
   return !department.id.startsWith("97");
 }
 
-function getGuessBothDisplay(state: DepartmentGameState, currentDepartment: Department): string {
+function getGuessBothDisplay(
+  state: DepartmentGameState,
+  currentDepartment: Department,
+): string {
   if (state.currentGuessType === "name") {
     return currentDepartment.name;
   } else if (state.currentGuessType === "chefLieu") {
@@ -37,7 +45,9 @@ function getGuessBothDisplay(state: DepartmentGameState, currentDepartment: Depa
   const parts = state.guessedParts[currentDepartment.id];
   if (parts) {
     if (!parts.nameGuessed && !parts.chefLieuGuessed) {
-      return Math.random() < 0.5 ? currentDepartment.name : currentDepartment.chefLieu;
+      return Math.random() < 0.5
+        ? currentDepartment.name
+        : currentDepartment.chefLieu;
     } else if (!parts.nameGuessed) {
       return currentDepartment.chefLieu;
     } else if (!parts.chefLieuGuessed) {
@@ -109,7 +119,7 @@ export const useDepartmentStore = defineStore("departments", {
     // Display content
     currentQuestionDisplay: (state) => {
       if (!state.currentDepartment) return "";
-      
+
       switch (state.gameMode) {
         case "guessChefLieu":
           return state.currentDepartment.chefLieu;
@@ -141,7 +151,9 @@ export const useDepartmentStore = defineStore("departments", {
     initializeDepartmentGame() {
       if (this.gameMode === "guessMapLocation") {
         // For map location mode, only include metropolitan France departments
-        this.availableDepartments = this.departments.filter(isMetropolitanDepartment);
+        this.availableDepartments = this.departments.filter(
+          isMetropolitanDepartment,
+        );
       } else {
         this.availableDepartments = [...this.departments];
       }
@@ -167,7 +179,9 @@ export const useDepartmentStore = defineStore("departments", {
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * this.availableDepartments.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableDepartments.length,
+      );
       this.currentDepartment = this.availableDepartments[randomIndex];
 
       if (this.gameMode === "guessBoth") {
@@ -208,7 +222,11 @@ export const useDepartmentStore = defineStore("departments", {
       }
     },
 
-    handleGuessBothGuess(departmentId: string, isCorrect: boolean, departmentName?: string) {
+    handleGuessBothGuess(
+      departmentId: string,
+      isCorrect: boolean,
+      departmentName?: string,
+    ) {
       if (!this.currentDepartment) return;
 
       const currentDeptId = this.currentDepartment.id;
@@ -264,7 +282,9 @@ export const useDepartmentStore = defineStore("departments", {
 
       const baseStore = useBaseGameStore();
       this.departmentStatus[currentDeptId] = "correctBoth";
-      baseStore.setMessage(`Correct pour ${this.currentDepartment.name} / ${this.currentDepartment.chefLieu} !`);
+      baseStore.setMessage(
+        `Correct pour ${this.currentDepartment.name} / ${this.currentDepartment.chefLieu} !`,
+      );
       this.removeDepartmentFromAvailable(currentDeptId);
       this.scheduleNextQuestion();
     },
@@ -275,7 +295,11 @@ export const useDepartmentStore = defineStore("departments", {
         : "correctChefLieu";
     },
 
-    handleSimpleGuess(departmentId: string, isCorrect: boolean, departmentName?: string) {
+    handleSimpleGuess(
+      departmentId: string,
+      isCorrect: boolean,
+      departmentName?: string,
+    ) {
       if (isCorrect) {
         this.handleCorrectSimpleGuess(departmentId);
       } else {
@@ -298,12 +322,14 @@ export const useDepartmentStore = defineStore("departments", {
       baseStore.recordIncorrectGuess();
 
       if (departmentName) {
-        baseStore.setMessage(`Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`);
+        baseStore.setMessage(
+          `Incorrect. Tu as cliqué sur ${departmentName}. Essaie encore ou passe.`,
+        );
       } else {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
       baseStore.clearMessageWithDelay();
-    },    // Skip functionality
+    }, // Skip functionality
     skipDepartment() {
       if (!this.currentDepartment) return;
 
@@ -314,7 +340,8 @@ export const useDepartmentStore = defineStore("departments", {
         const baseStore = useBaseGameStore();
         baseStore.clearMessageWithDelay();
       }, 100);
-    },    setSkipMessage() {
+    },
+    setSkipMessage() {
       if (!this.currentDepartment) return;
 
       const baseStore = useBaseGameStore();

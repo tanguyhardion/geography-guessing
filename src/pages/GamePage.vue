@@ -6,13 +6,17 @@
     <template v-else-if="appGameStore.currentGameMode === 'guessMapLocation'">
       <MapGuessing class="full-width" />
     </template>
-    <template v-else-if="appGameStore.currentGameMode === 'guessCountryMapLocation'">
+    <template
+      v-else-if="appGameStore.currentGameMode === 'guessCountryMapLocation'"
+    >
       <CountryMapGuessing class="full-width" />
     </template>
     <template v-else-if="appGameStore.currentGameMode === 'guessRussianCities'">
       <RussianCityGuessing class="full-width" />
     </template>
-    <template v-else-if="appGameStore.currentGameMode === 'guessFrenchChefLieux'">
+    <template
+      v-else-if="appGameStore.currentGameMode === 'guessFrenchChefLieux'"
+    >
       <FrenchChefLieuGuessing class="full-width" />
     </template>
     <template v-else>

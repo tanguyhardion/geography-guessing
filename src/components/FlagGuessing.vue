@@ -2,10 +2,7 @@
   <div class="flag-guessing-container">
     <!-- Standard flag guessing mode -->
     <div
-      v-if="
-        flagStore.currentCountry &&
-        !flagStore.reverseFlagMode
-      "
+      v-if="flagStore.currentCountry && !flagStore.reverseFlagMode"
       class="flag-section"
     >
       <div class="progress-indicator">
@@ -47,10 +44,7 @@
 
     <!-- Reverse flag mode: guess the flag from the country name -->
     <div
-      v-if="
-        flagStore.currentCountry &&
-        flagStore.reverseFlagMode
-      "
+      v-if="flagStore.currentCountry && flagStore.reverseFlagMode"
       class="flag-section flag-reverse-mode"
     >
       <div class="reverse-layout">
@@ -86,10 +80,7 @@
     </div>
 
     <!-- Completion message paragraph removed, toast will handle it -->
-    <div
-      v-if="!flagStore.currentCountry"
-      class="flag-section"
-    >
+    <div v-if="!flagStore.currentCountry" class="flag-section">
       <!-- The completion message is now shown as a toast via App.vue -->
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>

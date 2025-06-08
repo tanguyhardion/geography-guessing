@@ -1,7 +1,11 @@
 import { defineStore } from "pinia";
 import { countries } from "../data/countries";
 import type { Country, CountryStatus, Continent } from "../types";
-import { useBaseGameStore, HINT_THRESHOLD, SUCCESS_DELAY } from "./baseGameStore";
+import {
+  useBaseGameStore,
+  HINT_THRESHOLD,
+  SUCCESS_DELAY,
+} from "./baseGameStore";
 import { areStringsSimilar } from "../utils/stringUtils";
 import SkipToast from "../components/SkipToast.vue";
 
@@ -105,9 +109,11 @@ export const useFlagStore = defineStore("flags", {
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * this.availableCountries.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableCountries.length,
+      );
       this.currentCountry = this.availableCountries[randomIndex];
-      
+
       const baseStore = useBaseGameStore();
       baseStore.resetAttempts();
       baseStore.clearNonCompletionMessage();
@@ -160,7 +166,9 @@ export const useFlagStore = defineStore("flags", {
 
       this.countryStatus[country.id] = "correct";
       baseStore.resetAttempts();
-      baseStore.setMessage(`Correct ! C'était bien le drapeau de ${country.name}.`);
+      baseStore.setMessage(
+        `Correct ! C'était bien le drapeau de ${country.name}.`,
+      );
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
     },
@@ -185,7 +193,9 @@ export const useFlagStore = defineStore("flags", {
       const baseStore = useBaseGameStore();
       if (baseStore.incorrectAttempts >= HINT_THRESHOLD) {
         const firstLetter = country.name.charAt(0);
-        baseStore.setMessage(`Indice : Le pays commence par "${firstLetter}". Essaie encore ou passe.`);
+        baseStore.setMessage(
+          `Indice : Le pays commence par "${firstLetter}". Essaie encore ou passe.`,
+        );
       } else {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
@@ -196,7 +206,7 @@ export const useFlagStore = defineStore("flags", {
       if (!this.currentCountry) return;
 
       const baseStore = useBaseGameStore();
-      
+
       // In reverse flag mode (country -> flag), don't show country name since user already knows it
       // In standard flag mode (flag -> country), show country name so user learns what it was
       if (this.reverseFlagMode) {

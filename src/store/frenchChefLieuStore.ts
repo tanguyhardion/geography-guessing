@@ -4,7 +4,8 @@ import type { FrenchChefLieu, FrenchChefLieuStatus } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 
 // Constants
-const COMPLETION_MESSAGE = "Félicitations ! Tu as trouvé tous les chef-lieux français !";
+const COMPLETION_MESSAGE =
+  "Félicitations ! Tu as trouvé tous les chef-lieux français !";
 
 interface FrenchChefLieuGameState {
   frenchChefLieux: FrenchChefLieu[];
@@ -61,7 +62,9 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
 
     initializeFrenchChefLieuGame() {
       // Only include metropolitan France chef-lieux for the game
-      this.availableFrenchChefLieux = this.frenchChefLieux.filter(isMetropolitanChefLieu);
+      this.availableFrenchChefLieux = this.frenchChefLieux.filter(
+        isMetropolitanChefLieu,
+      );
       this.frenchChefLieuStatus = {};
       this.selectRandomFrenchChefLieu();
     },
@@ -74,7 +77,9 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * this.availableFrenchChefLieux.length);
+      const randomIndex = Math.floor(
+        Math.random() * this.availableFrenchChefLieux.length,
+      );
       this.currentFrenchChefLieu = this.availableFrenchChefLieux[randomIndex];
     },
 
@@ -102,17 +107,26 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
       this.scheduleNextQuestion();
     },
 
-    handleIncorrectFrenchChefLieuGuess(chefLieuId: string, chefLieuName?: string) {
+    handleIncorrectFrenchChefLieuGuess(
+      chefLieuId: string,
+      chefLieuName?: string,
+    ) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       if (chefLieuId) {
         // Find the clicked chef-lieu name
-        const clickedChefLieu = this.frenchChefLieux.find((c) => c.id === chefLieuId);
-        const clickedName = clickedChefLieu ? clickedChefLieu.name : chefLieuName;
+        const clickedChefLieu = this.frenchChefLieux.find(
+          (c) => c.id === chefLieuId,
+        );
+        const clickedName = clickedChefLieu
+          ? clickedChefLieu.name
+          : chefLieuName;
 
         if (clickedName) {
-          baseStore.setMessage(`Incorrect. Tu as cliqué sur ${clickedName}. Essaie encore ou passe.`);
+          baseStore.setMessage(
+            `Incorrect. Tu as cliqué sur ${clickedName}. Essaie encore ou passe.`,
+          );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");
         }
@@ -120,7 +134,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
       baseStore.clearMessageWithDelay();
-    },    // Skip functionality
+    }, // Skip functionality
     skipFrenchChefLieu() {
       if (!this.currentFrenchChefLieu) return;
 
@@ -146,7 +160,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
 
     removeFrenchChefLieuFromAvailable(chefLieuId: string) {
       this.availableFrenchChefLieux = this.availableFrenchChefLieux.filter(
-        (c) => c.id !== chefLieuId
+        (c) => c.id !== chefLieuId,
       );
     },
   },

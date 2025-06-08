@@ -3,7 +3,8 @@
     <div v-if="departmentStore.currentDepartment">
       <div class="progress-indicator">
         Département
-        {{ totalDepartments - departmentStore.availableDepartments.length + 1 }} /
+        {{ totalDepartments - departmentStore.availableDepartments.length + 1 }}
+        /
         {{ totalDepartments }}
         <span class="score">Score : {{ baseStore.score }}</span>
         <span class="accuracy">Précision : {{ baseStore.accuracy }}%</span>
@@ -13,9 +14,7 @@
       <SkipButton />
     </div>
     <!-- Completion message paragraph removed, toast will handle it -->
-    <div
-      v-if="!departmentStore.currentDepartment"
-    >
+    <div v-if="!departmentStore.currentDepartment">
       <!-- The completion message is now shown as a toast via App.vue -->
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
