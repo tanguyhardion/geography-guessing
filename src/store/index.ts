@@ -9,6 +9,7 @@ export { useFlagStore } from "./flagStore";
 export { useCountryMapStore } from "./countryMapStore";
 export { useRussianCityStore } from "./russianCityStore";
 export { useFrenchChefLieuStore } from "./frenchChefLieuStore";
+export { useWorldCapitalsStore } from "./worldCapitalsStore";
 export { useAppGameStore } from "./gameStoreAdapter";
 
 // Legacy export for backwards compatibility

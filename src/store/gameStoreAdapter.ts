@@ -5,6 +5,7 @@ import { useFlagStore } from "./flagStore";
 import { useCountryMapStore } from "./countryMapStore";
 import { useRussianCityStore } from "./russianCityStore";
 import { useFrenchChefLieuStore } from "./frenchChefLieuStore";
+import { useWorldCapitalsStore } from "./worldCapitalsStore";
 
 interface AppGameState {
   selectedGameType: "departments" | "flags" | "map";
@@ -38,6 +39,18 @@ export const useAppGameStore = defineStore("appGame", {
     isInFrenchChefLieuxMode(): boolean {
       const departmentStore = useDepartmentStore();
       return departmentStore.gameMode === "guessFrenchChefLieux";
+    },
+
+    isInWorldCapitalsMode(): boolean {
+      const departmentStore = useDepartmentStore();
+      const result = departmentStore.gameMode === "guessWorldCapitals";
+      console.log(
+        "GameStoreAdapter: isInWorldCapitalsMode check - gameMode:",
+        departmentStore.gameMode,
+        "result:",
+        result,
+      );
+      return result;
     }, // Check if any game is complete
     isGameComplete(): boolean {
       if (this.selectedGameType === "flags") {
@@ -49,6 +62,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInFrenchChefLieuxMode) {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         return frenchChefLieuStore.isGameComplete;
+      } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.isGameComplete;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         return countryMapStore.isGameComplete;
@@ -67,6 +83,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInFrenchChefLieuxMode) {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         return frenchChefLieuStore.currentQuestionDisplay;
+      } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.currentQuestionDisplay;
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         return countryMapStore.currentQuestionDisplay;
@@ -87,8 +106,14 @@ export const useAppGameStore = defineStore("appGame", {
 
     // Available continents for flag mode
     availableContinents(): string[] {
-      const flagStore = useFlagStore();
-      return flagStore.availableContinents;
+      if (this.selectedGameType === "flags") {
+        const flagStore = useFlagStore();
+        return flagStore.availableContinents;
+      } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        return worldCapitalsStore.availableContinents;
+      }
+      return [];
     },
   },
 
@@ -104,6 +129,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInFrenchChefLieuxMode) {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.initializeGame();
+      } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.initializeGame();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
         const countryMapStore = useCountryMapStore();
         countryMapStore.initializeGame();
@@ -115,8 +143,26 @@ export const useAppGameStore = defineStore("appGame", {
 
     // Set game mode (for departments)
     setGameMode(mode: GameMode) {
+      console.log("GameStoreAdapter: setGameMode called with:", mode);
       const departmentStore = useDepartmentStore();
       departmentStore.setGameMode(mode);
+      console.log(
+        "GameStoreAdapter: departmentStore.gameMode is now:",
+        departmentStore.gameMode,
+      );
+
+      // Handle initialization for non-department modes
+      if (mode === "guessWorldCapitals") {
+        console.log("GameStoreAdapter: initializing worldCapitalsStore");
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.initializeGame();
+      } else if (mode === "guessRussianCities") {
+        const russianCityStore = useRussianCityStore();
+        russianCityStore.initializeGame();
+      } else if (mode === "guessFrenchChefLieux") {
+        const frenchChefLieuStore = useFrenchChefLieuStore();
+        frenchChefLieuStore.initializeGame();
+      }
     },
 
     // Set selected game type
@@ -127,8 +173,13 @@ export const useAppGameStore = defineStore("appGame", {
 
     // Set selected continent for flag mode
     setSelectedContinent(continent: Continent | "all") {
-      const flagStore = useFlagStore();
-      flagStore.setSelectedContinent(continent);
+      if (this.selectedGameType === "flags") {
+        const flagStore = useFlagStore();
+        flagStore.setSelectedContinent(continent);
+      }
+      // Always set continent for world capitals store as well, in case we're about to enter that mode
+      const worldCapitalsStore = useWorldCapitalsStore();
+      worldCapitalsStore.setSelectedContinent(continent);
     },
 
     // Set reverse flag mode
@@ -137,22 +188,50 @@ export const useAppGameStore = defineStore("appGame", {
       flagStore.setReverseFlagMode(isReverse);
     }, // Skip current question
     skipCurrent() {
-      if (this.selectedGameType === "flags") {
-        const flagStore = useFlagStore();
-        flagStore.skipFlag();
+      console.log("GameStoreAdapter: skipCurrent called");
+      console.log("  - selectedGameType:", this.selectedGameType);
+      console.log("  - isInWorldCapitalsMode:", this.isInWorldCapitalsMode);
+      console.log("  - currentGameMode:", this.currentGameMode);
+
+      // Check specific modes first (these take priority over general game types)
+      if (this.isInWorldCapitalsMode) {
+        console.log(
+          "GameStoreAdapter: delegating to worldCapitalsStore.skipCapital()",
+        );
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.skipCapital();
       } else if (this.isInRussianCitiesMode) {
+        console.log(
+          "GameStoreAdapter: delegating to russianCityStore.skipRussianCity()",
+        );
         const russianCityStore = useRussianCityStore();
         russianCityStore.skipRussianCity();
       } else if (this.isInFrenchChefLieuxMode) {
+        console.log(
+          "GameStoreAdapter: delegating to frenchChefLieuStore.skipFrenchChefLieu()",
+        );
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.skipFrenchChefLieu();
       } else if (this.currentGameMode === "guessCountryMapLocation") {
+        console.log(
+          "GameStoreAdapter: delegating to countryMapStore.skipCountryMap()",
+        );
         const countryMapStore = useCountryMapStore();
         countryMapStore.skipCountryMap();
       } else if (this.currentGameMode === "guessMapLocation") {
+        console.log(
+          "GameStoreAdapter: delegating to departmentStore.skipDepartment() for map location",
+        );
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
+      } else if (this.selectedGameType === "flags") {
+        console.log("GameStoreAdapter: delegating to flagStore.skipFlag()");
+        const flagStore = useFlagStore();
+        flagStore.skipFlag();
       } else {
+        console.log(
+          "GameStoreAdapter: delegating to departmentStore.skipDepartment() as fallback",
+        );
         const departmentStore = useDepartmentStore();
         departmentStore.skipDepartment();
       }
@@ -184,6 +263,9 @@ export const useAppGameStore = defineStore("appGame", {
       if (this.selectedGameType === "flags") {
         const flagStore = useFlagStore();
         flagStore.makeFlagGuess(guess);
+      } else if (this.isInWorldCapitalsMode) {
+        const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.makeCapitalsGuess(guess);
       }
     },
 
@@ -203,4 +285,5 @@ export { useFlagStore } from "./flagStore";
 export { useCountryMapStore } from "./countryMapStore";
 export { useRussianCityStore } from "./russianCityStore";
 export { useFrenchChefLieuStore } from "./frenchChefLieuStore";
+export { useWorldCapitalsStore } from "./worldCapitalsStore";
 export { useBaseGameStore } from "./baseGameStore";

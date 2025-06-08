@@ -13,7 +13,7 @@
             : 'map-inactive'
         "
       >
-        <div class="new-indicator"></div>
+        <div class="nouveau-indicator"></div>
         <h2>Géographie Interactive</h2>
         <p>Cartes interactives pour apprendre la géographie</p>
       </div>
@@ -42,8 +42,9 @@
             : 'flags-inactive'
         "
       >
-        <h2>Drapeaux du Monde</h2>
-        <p>Devine les drapeaux des pays du monde</p>
+        <div class="nouveau-indicator"></div>
+        <h2>Pays du Monde</h2>
+        <p>Devine les drapeaux et capitales des pays du monde</p>
       </div>
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
@@ -88,6 +89,10 @@
       <h3>Mode de jeu:</h3>
       <button @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
       <button @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
+      <button @click="selectFlagMode('capitals')">
+        Pays depuis la capitale
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && showContinentSelection"
@@ -141,7 +146,7 @@ const selectedGame = ref<"departments" | "flags" | "map">(
   appGameStore.selectedGameType,
 );
 const animationKeySuffix = ref(0);
-const selectedFlagMode = ref<"normal" | "reverse" | null>(null);
+const selectedFlagMode = ref<"normal" | "reverse" | "capitals" | null>(null);
 const showContinentSelection = ref(false);
 
 const availableContinents = computed(() => appGameStore.availableContinents);
@@ -154,7 +159,7 @@ watch(selectedGame, (newGameType, oldGameType) => {
   }
 });
 
-const selectFlagMode = (mode: "normal" | "reverse") => {
+const selectFlagMode = (mode: "normal" | "reverse" | "capitals") => {
   selectedFlagMode.value = mode;
   showContinentSelection.value = true;
 };
@@ -166,6 +171,8 @@ const selectContinent = (continent: Continent | "all") => {
     startGame("guessFlags");
   } else if (selectedFlagMode.value === "reverse") {
     startReverseFlagMode();
+  } else if (selectedFlagMode.value === "capitals") {
+    startCapitalsMode();
   }
 };
 
@@ -183,6 +190,12 @@ const startGame = (mode: GameMode) => {
 const startReverseFlagMode = () => {
   appGameStore.setReverseFlagMode(true);
   appGameStore.setGameMode("guessFlags");
+  emit("mode-selected");
+};
+
+const startCapitalsMode = () => {
+  appGameStore.setReverseFlagMode(false);
+  appGameStore.setGameMode("guessWorldCapitals");
   emit("mode-selected");
 };
 </script>
@@ -274,7 +287,7 @@ h3 {
   min-width: 200px;
 }
 
-.new-indicator {
+.nouveau-indicator {
   position: absolute;
   top: 12px;
   right: 12px;

@@ -73,7 +73,7 @@ export const useRussianCityStore = defineStore("russianCities", {
       this.previousRussianCity = this.currentRussianCity;
       this.currentRussianCity = selectRandomItemWeighted(
         this.availableRussianCities,
-        this.previousRussianCity
+        this.previousRussianCity,
       );
 
       const baseStore = useBaseGameStore();

@@ -187,7 +187,7 @@ export const useDepartmentStore = defineStore("departments", {
       this.previousDepartment = this.currentDepartment;
       this.currentDepartment = selectRandomItemWeighted(
         this.availableDepartments,
-        this.previousDepartment
+        this.previousDepartment,
       );
 
       if (this.gameMode === "guessBoth") {
@@ -351,13 +351,23 @@ export const useDepartmentStore = defineStore("departments", {
       if (!this.currentDepartment) return;
 
       const baseStore = useBaseGameStore();
-      baseStore.setMessage("Passé.");
+      baseStore.setMessage("DEPARTMENT SKIP: Passé.");
     },
 
     // Utility methods
     setGameMode(mode: GameMode) {
       this.gameMode = mode;
-      this.initializeGame();
+      // Only initialize if it's a department-related game mode
+      if (
+        mode === "guessChefLieu" ||
+        mode === "guessDepartmentName" ||
+        mode === "guessBoth" ||
+        mode === "guessMapLocation"
+      ) {
+        this.initializeGame();
+      }
+      // For other modes (world capitals, russian cities, french chef-lieux),
+      // let the game adapter handle initialization
     },
 
     handleGameCompletion() {

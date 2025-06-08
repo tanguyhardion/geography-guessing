@@ -74,7 +74,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       this.previousCountry = this.currentCountry;
       this.currentCountry = selectRandomItemWeighted(
         this.availableCountries,
-        this.previousCountry
+        this.previousCountry,
       );
 
       const baseStore = useBaseGameStore();

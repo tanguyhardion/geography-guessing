@@ -85,7 +85,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
       this.previousFrenchChefLieu = this.currentFrenchChefLieu;
       this.currentFrenchChefLieu = selectRandomItemWeighted(
         this.availableFrenchChefLieux,
-        this.previousFrenchChefLieu
+        this.previousFrenchChefLieu,
       );
     },
 

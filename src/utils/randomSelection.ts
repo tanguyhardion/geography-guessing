@@ -24,8 +24,8 @@ export function selectRandomItem<T>(items: T[], previousItem?: T): T {
   }
 
   // If we have multiple items and want to avoid the previous one
-  const availableItems = items.filter(item => item !== previousItem);
-  
+  const availableItems = items.filter((item) => item !== previousItem);
+
   // If filtering left us with no items (shouldn't happen), fall back to full array
   if (availableItems.length === 0) {
     return items[Math.floor(Math.random() * items.length)];
@@ -41,12 +41,12 @@ export function selectRandomItem<T>(items: T[], previousItem?: T): T {
  */
 export function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
-  
+
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
-  
+
   return shuffled;
 }
 
@@ -66,7 +66,7 @@ export function selectRandomItemWeighted<T>(items: T[], previousItem?: T): T {
   }
 
   // Create weights - reduce weight for previous item
-  const weights = items.map(item => {
+  const weights = items.map((item) => {
     if (previousItem && item === previousItem) {
       // Give previous item 10% of normal weight
       return 0.1;
