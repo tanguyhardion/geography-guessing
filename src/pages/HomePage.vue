@@ -5,6 +5,16 @@
     <div class="game-selector">
       <div
         class="game-type"
+        :class="{ active: selectedGame === 'map' }"
+        @click="selectedGame = 'map'"
+      >
+        <div class="new-indicator"></div>
+        <h2>Géographie Interactive</h2>
+        <p>Cartes interactives pour apprendre la géographie</p>
+      </div>
+
+      <div
+        class="game-type"
         :class="{ active: selectedGame === 'departments' }"
         @click="selectedGame = 'departments'"
       >
@@ -20,24 +30,14 @@
         <h2>Drapeaux du Monde</h2>
         <p>Devine les drapeaux des pays du monde</p>
       </div>
-
-      <div
-        class="game-type"
-        :class="{ active: selectedGame === 'map' }"
-        @click="selectedGame = 'map'"
-      >
-        <div class="new-indicator"></div>
-        <h2>Géographie Interactive</h2>
-        <p>Cartes interactives pour apprendre la géographie</p>
-      </div>
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')">Chef-lieux</button>
+      <button @click="startGame('guessChefLieu')">Numéro à partir du chef-lieu</button>
       <button @click="startGame('guessDepartmentName')">
-        Nom des départements
+        Numéro à partir du nom
       </button>
-      <button @click="startGame('guessBoth')">Chef-lieux et noms</button>
+      <button @click="startGame('guessBoth')">Numéro à  partir du nom ou du chef-lieu</button>
     </div>
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
@@ -62,10 +62,10 @@
     >
       <h3>Mode de jeu:</h3>
       <button @click="selectFlagMode('normal')">
-        Deviner le pays depuis le drapeau
+        Pays depuis le drapeau
       </button>
       <button @click="selectFlagMode('reverse')">
-        Deviner le drapeau depuis le pays
+        Drapeau depuis le pays
       </button>
     </div>
     <div
