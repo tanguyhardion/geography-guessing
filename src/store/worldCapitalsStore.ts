@@ -184,7 +184,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       } else {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
-    }, // Skip functionality
+    },    // Skip functionality
     skipCapital() {
       if (!this.currentCountry) {
         return;
@@ -202,6 +202,8 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       });
 
       baseStore.resetAttempts();
+      // Don't remove country from available list for skips - just select a new one
+      // This prevents the progress counter from incrementing
 
       setTimeout(() => {
         this.selectRandomCountry();

@@ -256,8 +256,8 @@ export const useFlagStore = defineStore("flags", {
       }
 
       baseStore.resetAttempts();
-      this.removeCountryFromAvailable(currentCountry.id); // Remove skipped country from available list
-      // Don't increment currentQuestionNumber for skips - skipped questions don't count as "answered"
+      // Don't remove country from available list for skips - just select a new one
+      // This prevents the progress counter from incrementing
 
       setTimeout(() => {
         this.selectRandomCountry();
