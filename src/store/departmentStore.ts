@@ -351,7 +351,7 @@ export const useDepartmentStore = defineStore("departments", {
       if (!this.currentDepartment) return;
 
       const baseStore = useBaseGameStore();
-      baseStore.setMessage("DEPARTMENT SKIP: Passé.");
+      baseStore.setMessage("Passé.");
     },
 
     // Utility methods
