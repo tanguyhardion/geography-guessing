@@ -28,6 +28,7 @@
             : 'departments-inactive'
         "
       >
+        <div class="nouveau-indicator"></div>
         <h2>Départements Français</h2>
         <p>Teste tes connaissances sur les départements français</p>
       </div>
@@ -49,20 +50,24 @@
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')">
+      <button @click="startGame('guessChefLieu')" class="button-with-ribbon">
         Numéro à partir du chef-lieu
+        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessDepartmentName')">
+      <button @click="startGame('guessDepartmentName')" class="button-with-ribbon">
         Numéro à partir du nom
+        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessBoth')">
+      <button @click="startGame('guessBoth')" class="button-with-ribbon">
         Numéro à partir du nom ou du chef-lieu
+        <div class="nouveau-ribbon">Nouveau</div>
       </button>
     </div>
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessMapLocation')">
+      <button @click="startGame('guessMapLocation')" class="button-with-ribbon">
         Départements français
+        <div class="nouveau-ribbon">Nouveau</div>
       </button>
       <button
         @click="startGame('guessFrenchChefLieux')"
@@ -71,8 +76,9 @@
         Chef-lieux français
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessCountryMapLocation')">
+      <button @click="startGame('guessCountryMapLocation')" class="button-with-ribbon">
         Pays du monde
+        <div class="nouveau-ribbon">Nouveau</div>
       </button>
       <button
         @click="startGame('guessRussianCities')"
@@ -87,13 +93,19 @@
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
-      <button @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
-      <button @click="selectFlagMode('capitals')">
+      <button @click="selectFlagMode('normal')" class="button-with-ribbon">
+        Pays depuis le drapeau
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
+      <button @click="selectFlagMode('reverse')" class="button-with-ribbon">
+        Drapeau depuis le pays
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
+      <button @click="selectFlagMode('capitals')" class="button-with-ribbon">
         Pays depuis la capitale
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="selectFlagMode('reverseCapitals')">
+      <button @click="selectFlagMode('reverseCapitals')" class="button-with-ribbon">
         Capitale depuis le pays
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
@@ -106,20 +118,25 @@
       <div class="continent-buttons">
         <button
           @click="selectContinent('all')"
-          class="continent-button all-continents"
+          class="continent-button all-continents button-with-ribbon"
         >
           Tous les continents
+          <div class="nouveau-ribbon">Nouveau</div>
         </button>
         <button
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectContinent(continent as Continent)"
-          class="continent-button"
+          class="continent-button button-with-ribbon"
         >
           {{ continent }}
+          <div class="nouveau-ribbon">Nouveau</div>
         </button>
       </div>
-      <button @click="goBack" class="back-button">Retour</button>
+      <button @click="goBack" class="back-button button-with-ribbon">
+        Retour
+        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
     </div>
 
     <!-- Footer with credits -->
