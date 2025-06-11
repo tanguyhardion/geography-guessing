@@ -29,6 +29,12 @@ export interface FrenchChefLieu {
   lng: number; // Longitude
 }
 
+export interface RussianOblast {
+  id: string; // Oblast ID (e.g., 'RUAL', 'RUPSK')
+  name: string; // Oblast name in English
+  nameRu?: string; // Oblast name in Russian (if available)
+}
+
 export type GameMode =
   | "guessChefLieu"
   | "guessDepartmentName"
@@ -37,6 +43,7 @@ export type GameMode =
   | "guessMapLocation"
   | "guessCountryMapLocation"
   | "guessRussianCities"
+  | "guessRussianOblasts"
   | "guessFrenchChefLieux"
   | "guessWorldCapitals"
   | "guessCountryFromCapital";
@@ -67,4 +74,8 @@ export interface RussianCityStatus {
 
 export interface FrenchChefLieuStatus {
   [chefLieuId: string]: "correct" | "default";
+}
+
+export interface RussianOblastStatus {
+  [oblastId: string]: "correct" | "default";
 }

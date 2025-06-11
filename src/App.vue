@@ -31,6 +31,8 @@ const pageTitle = computed(() => {
     return "Quiz des Drapeaux du Monde";
   } else if (appGameStore.isInRussianCitiesMode) {
     return "Quiz des Villes de Russie";
+  } else if (appGameStore.isInRussianOblastsMode) {
+    return "Quiz des Oblasts de Russie";
   } else if (appGameStore.isInFrenchChefLieuxMode) {
     return "Quiz des Chef-lieux Français";
   } else if (appGameStore.isInWorldCapitalsMode) {
@@ -40,7 +42,7 @@ const pageTitle = computed(() => {
   } else if (appGameStore.currentGameMode === "guessCountryMapLocation") {
     return "Quiz des Pays du Monde";
   }
-  return "Quiz des Départements Français";
+  return "Quiz Géographique";
 });
 
 watch(
@@ -74,7 +76,7 @@ watch(
         toast(newMessage, { type: TYPE.WARNING });
       }
     }
-  },
+  }
 );
 
 const startGame = () => {

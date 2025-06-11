@@ -14,6 +14,9 @@
     <template v-else-if="appGameStore.currentGameMode === 'guessRussianCities'">
       <RussianCityGuessing class="full-width" />
     </template>
+    <template v-else-if="appGameStore.currentGameMode === 'guessRussianOblasts'">
+      <RussianOblastGuessing class="full-width" />
+    </template>
     <template
       v-else-if="appGameStore.currentGameMode === 'guessFrenchChefLieux'"
     >
@@ -42,6 +45,7 @@ import FlagGuessing from "../components/FlagGuessing.vue";
 import FrenchDepartmentGuessing from "../components/FrenchDepartmentGuessing.vue";
 import CountryMapGuessing from "../components/CountryMapGuessing.vue";
 import RussianCityGuessing from "../components/RussianCityGuessing.vue";
+import RussianOblastGuessing from "../components/RussianOblastGuessing.vue";
 import FrenchChefLieuGuessing from "../components/FrenchChefLieuGuessing.vue";
 import WorldCapitalsGuessing from "../components/WorldCapitalsGuessing.vue";
 

@@ -4,6 +4,7 @@ import { useDepartmentStore } from "./departmentStore";
 import { useFlagStore } from "./flagStore";
 import { useCountryMapStore } from "./countryMapStore";
 import { useRussianCityStore } from "./russianCityStore";
+import { useRussianOblastStore } from "./russianOblastStore";
 import { useFrenchChefLieuStore } from "./frenchChefLieuStore";
 import { useWorldCapitalsStore } from "./worldCapitalsStore";
 
@@ -34,6 +35,11 @@ export const useAppGameStore = defineStore("appGame", {
     isInRussianCitiesMode(): boolean {
       const departmentStore = useDepartmentStore();
       return departmentStore.gameMode === "guessRussianCities";
+    },
+
+    isInRussianOblastsMode(): boolean {
+      const departmentStore = useDepartmentStore();
+      return departmentStore.gameMode === "guessRussianOblasts";
     },
 
     isInFrenchChefLieuxMode(): boolean {
@@ -225,6 +231,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         russianCityStore.skipRussianCity();
+      } else if (this.isInRussianOblastsMode) {
+        const russianOblastStore = useRussianOblastStore();
+        russianOblastStore.skipRussianOblast();
       } else if (this.isInFrenchChefLieuxMode) {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.skipFrenchChefLieu();
@@ -249,6 +258,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInRussianCitiesMode) {
         const russianCityStore = useRussianCityStore();
         russianCityStore.makeRussianCityGuess(id, name);
+      } else if (this.isInRussianOblastsMode) {
+        const russianOblastStore = useRussianOblastStore();
+        russianOblastStore.makeRussianOblastGuess(id, name);
       } else if (this.isInFrenchChefLieuxMode) {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.makeFrenchChefLieuGuess(id, name);

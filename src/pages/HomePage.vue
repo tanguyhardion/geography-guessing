@@ -28,7 +28,6 @@
             : 'departments-inactive'
         "
       >
-        <div class="nouveau-indicator"></div>
         <h2>Départements Français</h2>
         <p>Teste tes connaissances sur les départements français</p>
       </div>
@@ -43,48 +42,47 @@
             : 'flags-inactive'
         "
       >
-        <div class="nouveau-indicator"></div>
         <h2>Pays du Monde</h2>
         <p>Devine les drapeaux et capitales des pays du monde</p>
       </div>
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')" class="button-with-ribbon">
+      <button @click="startGame('guessChefLieu')" >
         Numéro à partir du chef-lieu
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessDepartmentName')" class="button-with-ribbon">
+      <button @click="startGame('guessDepartmentName')" >
         Numéro à partir du nom
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessBoth')" class="button-with-ribbon">
+      <button @click="startGame('guessBoth')" >
         Numéro à partir du nom ou du chef-lieu
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
     </div>
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessMapLocation')" class="button-with-ribbon">
+      <button @click="startGame('guessMapLocation')" >
         Départements français
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
       <button
         @click="startGame('guessFrenchChefLieux')"
-        class="button-with-ribbon"
+        
       >
         Chef-lieux français
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="startGame('guessCountryMapLocation')" class="button-with-ribbon">
+      <button @click="startGame('guessCountryMapLocation')" >
         Pays du monde
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
       <button
         @click="startGame('guessRussianCities')"
-        class="button-with-ribbon"
+        
       >
         Villes de Russie
+      </button>
+      <button
+        @click="startGame('guessRussianOblasts')"
+        class="button-with-ribbon"
+      >
+        Oblasts de Russie
         <div class="nouveau-ribbon">Nouveau</div>
       </button>
     </div>
@@ -93,21 +91,17 @@
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="selectFlagMode('normal')" class="button-with-ribbon">
+      <button @click="selectFlagMode('normal')" >
         Pays depuis le drapeau
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="selectFlagMode('reverse')" class="button-with-ribbon">
+      <button @click="selectFlagMode('reverse')" >
         Drapeau depuis le pays
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="selectFlagMode('capitals')" class="button-with-ribbon">
+      <button @click="selectFlagMode('capitals')" >
         Pays depuis la capitale
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
-      <button @click="selectFlagMode('reverseCapitals')" class="button-with-ribbon">
+      <button @click="selectFlagMode('reverseCapitals')" >
         Capitale depuis le pays
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
     </div>
     <div
@@ -121,7 +115,6 @@
           class="continent-button all-continents button-with-ribbon"
         >
           Tous les continents
-          <div class="nouveau-ribbon">Nouveau</div>
         </button>
         <button
           v-for="continent in availableContinents"
@@ -130,12 +123,10 @@
           class="continent-button button-with-ribbon"
         >
           {{ continent }}
-          <div class="nouveau-ribbon">Nouveau</div>
         </button>
       </div>
       <button @click="goBack" class="back-button button-with-ribbon">
         Retour
-        <div class="nouveau-ribbon">Nouveau</div>
       </button>
     </div>
 

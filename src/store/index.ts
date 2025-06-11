@@ -8,6 +8,7 @@ export { useDepartmentStore } from "./departmentStore";
 export { useFlagStore } from "./flagStore";
 export { useCountryMapStore } from "./countryMapStore";
 export { useRussianCityStore } from "./russianCityStore";
+export { useRussianOblastStore } from "./russianOblastStore";
 export { useFrenchChefLieuStore } from "./frenchChefLieuStore";
 export { useWorldCapitalsStore } from "./worldCapitalsStore";
 export { useAppGameStore } from "./gameStoreAdapter";
