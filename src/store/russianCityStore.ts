@@ -81,41 +81,44 @@ export const useRussianCityStore = defineStore("russianCities", {
     },
 
     // Russian cities guessing
-    makeRussianCityGuess(cityId: string, cityName?: string) {
+    makeRussianCityGuess(cityId: string, cityName?: string, useRussian?: boolean) {
       if (!this.currentRussianCity) return;
 
       const currentCityId = this.currentRussianCity.id;
       const isCorrect = cityId === currentCityId;
 
       if (isCorrect) {
-        this.handleCorrectRussianCityGuess(this.currentRussianCity);
+        this.handleCorrectRussianCityGuess(this.currentRussianCity, useRussian);
       } else {
-        this.handleIncorrectRussianCityGuess(cityId, cityName);
+        this.handleIncorrectRussianCityGuess(cityId, cityName, useRussian);
       }
     },
 
-    handleCorrectRussianCityGuess(city: RussianCity) {
+    handleCorrectRussianCityGuess(city: RussianCity, useRussian?: boolean) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
       this.russianCityStatus[city.id] = "correct";
-      baseStore.setMessage(`Correct ! C'est bien ${city.name}.`);
+      const displayName = useRussian ? city.nameRu : city.name;
+      baseStore.setMessage(`Correct ! C'est bien ${displayName}.`);
       this.removeRussianCityFromAvailable(city.id);
       this.scheduleNextQuestion();
     },
 
-    handleIncorrectRussianCityGuess(cityId: string, cityName?: string) {
+    handleIncorrectRussianCityGuess(cityId: string, cityName?: string, useRussian?: boolean) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       if (cityId) {
-        // Find the French name for the clicked city
+        // Find the clicked city and get the correct name based on language preference
         const clickedCity = this.russianCities.find((c) => c.id === cityId);
-        const frenchName = clickedCity ? clickedCity.name : cityName;
+        const displayName = clickedCity 
+          ? (useRussian ? clickedCity.nameRu : clickedCity.name)
+          : cityName;
 
-        if (frenchName) {
+        if (displayName) {
           baseStore.setMessage(
-            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`,
+            `Incorrect. Tu as cliqué sur ${displayName}. Essaie encore ou passe.`,
           );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");

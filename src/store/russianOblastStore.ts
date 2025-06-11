@@ -78,44 +78,41 @@ export const useRussianOblastStore = defineStore("russianOblasts", {
 
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();
-    },
-
-    // Russian oblasts guessing
-    makeRussianOblastGuess(oblastId: string, oblastName?: string) {
+    },    // Russian oblasts guessing
+    makeRussianOblastGuess(oblastId: string, oblastName?: string, useRussian?: boolean) {
       if (!this.currentRussianOblast) return;
 
       const currentOblastId = this.currentRussianOblast.id;
       const isCorrect = oblastId === currentOblastId;
 
       if (isCorrect) {
-        this.handleCorrectRussianOblastGuess(this.currentRussianOblast);
+        this.handleCorrectRussianOblastGuess(this.currentRussianOblast, useRussian);
       } else {
-        this.handleIncorrectRussianOblastGuess(oblastId, oblastName);
+        this.handleIncorrectRussianOblastGuess(oblastId, oblastName, useRussian);
       }
-    },
-
-    handleCorrectRussianOblastGuess(oblast: RussianOblast) {
+    },    handleCorrectRussianOblastGuess(oblast: RussianOblast, useRussian?: boolean) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
       this.russianOblastStatus[oblast.id] = "correct";
-      baseStore.setMessage(`Correct ! C'est bien ${oblast.name}.`);
+      const displayName = useRussian ? oblast.nameRu : oblast.name;
+      baseStore.setMessage(`Correct ! C'est bien ${displayName}.`);
       this.removeRussianOblastFromAvailable(oblast.id);
       this.scheduleNextQuestion();
-    },
-
-    handleIncorrectRussianOblastGuess(oblastId: string, oblastName?: string) {
+    },    handleIncorrectRussianOblastGuess(oblastId: string, oblastName?: string, useRussian?: boolean) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       if (oblastId) {
-        // Find the name for the clicked oblast
+        // Find the clicked oblast and get the correct name based on language preference
         const clickedOblast = this.russianOblasts.find((o) => o.id === oblastId);
-        const oblastDisplayName = clickedOblast ? clickedOblast.name : oblastName;
+        const displayName = clickedOblast 
+          ? (useRussian ? clickedOblast.nameRu : clickedOblast.name)
+          : oblastName;
 
-        if (oblastDisplayName) {
+        if (displayName) {
           baseStore.setMessage(
-            `Incorrect. Tu as cliqué sur ${oblastDisplayName}. Essaie encore ou passe.`,
+            `Incorrect. Tu as cliqué sur ${displayName}. Essaie encore ou passe.`,
           );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");

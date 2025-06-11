@@ -228,7 +228,7 @@ const getCityMarkerOptions = (city: RussianCity) => {
 const handleCityClick = (cityId: string, cityName: string) => {
   if (!russianCityStore.currentRussianCity) return;
 
-  russianCityStore.makeRussianCityGuess(cityId, cityName);
+  russianCityStore.makeRussianCityGuess(cityId, cityName, useRussian.value);
 };
 
 const onMapReady = () => {

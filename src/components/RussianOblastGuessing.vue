@@ -217,7 +217,7 @@ const handleOblastClick = (oblastId: string, oblastName: string) => {
   if (!russianOblastStore.currentRussianOblast) return;
 
   const currentOblastId = russianOblastStore.currentRussianOblast.id;
-  russianOblastStore.makeRussianOblastGuess(oblastId, oblastName);
+  russianOblastStore.makeRussianOblastGuess(oblastId, oblastName, useRussian.value);
 
   // If this was a correct guess, immediately update the visual style
   if (oblastId === currentOblastId) {
