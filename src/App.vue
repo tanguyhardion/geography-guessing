@@ -20,7 +20,7 @@ import GamePage from "./pages/GamePage.vue";
 import { useBaseGameStore } from "./store/baseGameStore";
 import { useAppGameStore } from "./store/gameStoreAdapter";
 import { useToast, TYPE } from "vue-toastification";
-
+ 
 const baseStore = useBaseGameStore();
 const appGameStore = useAppGameStore();
 const toast = useToast();
