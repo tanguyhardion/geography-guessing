@@ -277,10 +277,9 @@ onMounted(async () => {
   }
 
   // Add click outside listener for mobile menu
-  document.addEventListener("click", closeLanguageMenu);
-  // Load GeoJSON data from public folder
+  document.addEventListener("click", closeLanguageMenu);  // Load GeoJSON data from public folder
   try {
-    const response = await fetch("/geography-guessing/oblasts.json");
+    const response = await fetch("/geography-guessing/oblasts-optimized.json");
     geojson.value = await response.json();
   } catch (error) {
     // Silently handle error
