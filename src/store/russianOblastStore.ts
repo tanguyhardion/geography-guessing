@@ -78,19 +78,34 @@ export const useRussianOblastStore = defineStore("russianOblasts", {
 
       const baseStore = useBaseGameStore();
       baseStore.clearNonCompletionMessage();
-    },    // Russian oblasts guessing
-    makeRussianOblastGuess(oblastId: string, oblastName?: string, useRussian?: boolean) {
+    }, // Russian oblasts guessing
+    makeRussianOblastGuess(
+      oblastId: string,
+      oblastName?: string,
+      useRussian?: boolean,
+    ) {
       if (!this.currentRussianOblast) return;
 
       const currentOblastId = this.currentRussianOblast.id;
       const isCorrect = oblastId === currentOblastId;
 
       if (isCorrect) {
-        this.handleCorrectRussianOblastGuess(this.currentRussianOblast, useRussian);
+        this.handleCorrectRussianOblastGuess(
+          this.currentRussianOblast,
+          useRussian,
+        );
       } else {
-        this.handleIncorrectRussianOblastGuess(oblastId, oblastName, useRussian);
+        this.handleIncorrectRussianOblastGuess(
+          oblastId,
+          oblastName,
+          useRussian,
+        );
       }
-    },    handleCorrectRussianOblastGuess(oblast: RussianOblast, useRussian?: boolean) {
+    },
+    handleCorrectRussianOblastGuess(
+      oblast: RussianOblast,
+      useRussian?: boolean,
+    ) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
@@ -99,15 +114,24 @@ export const useRussianOblastStore = defineStore("russianOblasts", {
       baseStore.setMessage(`Correct ! C'est bien ${displayName}.`);
       this.removeRussianOblastFromAvailable(oblast.id);
       this.scheduleNextQuestion();
-    },    handleIncorrectRussianOblastGuess(oblastId: string, oblastName?: string, useRussian?: boolean) {
+    },
+    handleIncorrectRussianOblastGuess(
+      oblastId: string,
+      oblastName?: string,
+      useRussian?: boolean,
+    ) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       if (oblastId) {
         // Find the clicked oblast and get the correct name based on language preference
-        const clickedOblast = this.russianOblasts.find((o) => o.id === oblastId);
-        const displayName = clickedOblast 
-          ? (useRussian ? clickedOblast.nameRu : clickedOblast.name)
+        const clickedOblast = this.russianOblasts.find(
+          (o) => o.id === oblastId,
+        );
+        const displayName = clickedOblast
+          ? useRussian
+            ? clickedOblast.nameRu
+            : clickedOblast.name
           : oblastName;
 
         if (displayName) {

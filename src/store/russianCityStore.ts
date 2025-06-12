@@ -81,7 +81,11 @@ export const useRussianCityStore = defineStore("russianCities", {
     },
 
     // Russian cities guessing
-    makeRussianCityGuess(cityId: string, cityName?: string, useRussian?: boolean) {
+    makeRussianCityGuess(
+      cityId: string,
+      cityName?: string,
+      useRussian?: boolean,
+    ) {
       if (!this.currentRussianCity) return;
 
       const currentCityId = this.currentRussianCity.id;
@@ -105,15 +109,21 @@ export const useRussianCityStore = defineStore("russianCities", {
       this.scheduleNextQuestion();
     },
 
-    handleIncorrectRussianCityGuess(cityId: string, cityName?: string, useRussian?: boolean) {
+    handleIncorrectRussianCityGuess(
+      cityId: string,
+      cityName?: string,
+      useRussian?: boolean,
+    ) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       if (cityId) {
         // Find the clicked city and get the correct name based on language preference
         const clickedCity = this.russianCities.find((c) => c.id === cityId);
-        const displayName = clickedCity 
-          ? (useRussian ? clickedCity.nameRu : clickedCity.name)
+        const displayName = clickedCity
+          ? useRussian
+            ? clickedCity.nameRu
+            : clickedCity.name
           : cityName;
 
         if (displayName) {

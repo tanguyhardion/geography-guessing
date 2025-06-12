@@ -1,61 +1,61 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"label": "Dev Server",
-			"type": "shell",
-			"command": "npm run dev",
-			"group": "build",
-			"isBackground": true,
-			"problemMatcher": [],
-			"args": []
-		},
-		{
-			"label": "Build",
-			"type": "shell",
-			"command": "npm run build",
-			"group": "build",
-			"isBackground": false,
-			"problemMatcher": ["$tsc"],
-			"args": []
-		},
-		{
-			"label": "Preview",
-			"type": "shell",
-			"command": "npm run preview",
-			"group": "build",
-			"isBackground": true,
-			"problemMatcher": [],
-			"args": [],
-			"dependsOn": "Build"
-		},
-		{
-			"label": "Format Code",
-			"type": "shell",
-			"command": "npm run format",
-			"group": "build",
-			"isBackground": false,
-			"problemMatcher": [],
-			"args": []
-		},
-		{
-			"label": "Deploy",
-			"type": "shell",
-			"command": "npm run deploy",
-			"group": "build",
-			"isBackground": false,
-			"problemMatcher": [],
-			"args": [],
-			"dependsOn": "Build"
-		},
-		{
-			"label": "Install Dependencies",
-			"type": "shell",
-			"command": "npm install",
-			"group": "build",
-			"isBackground": false,
-			"problemMatcher": [],
-			"args": []
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Dev Server",
+      "type": "shell",
+      "command": "npm run dev",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "args": []
+    },
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "npm run build",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": ["$tsc"],
+      "args": []
+    },
+    {
+      "label": "Preview",
+      "type": "shell",
+      "command": "npm run preview",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [],
+      "args": [],
+      "dependsOn": "Build"
+    },
+    {
+      "label": "Format Code",
+      "type": "shell",
+      "command": "npm run format",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": [],
+      "args": []
+    },
+    {
+      "label": "Deploy",
+      "type": "shell",
+      "command": "npm run deploy",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": [],
+      "args": [],
+      "dependsOn": "Build"
+    },
+    {
+      "label": "Install Dependencies",
+      "type": "shell",
+      "command": "npm install",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": [],
+      "args": []
+    }
+  ]
 }

@@ -48,36 +48,28 @@
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')" >
+      <button @click="startGame('guessChefLieu')">
         Numéro à partir du chef-lieu
       </button>
-      <button @click="startGame('guessDepartmentName')" >
+      <button @click="startGame('guessDepartmentName')">
         Numéro à partir du nom
       </button>
-      <button @click="startGame('guessBoth')" >
+      <button @click="startGame('guessBoth')">
         Numéro à partir du nom ou du chef-lieu
       </button>
     </div>
     <div v-else-if="selectedGame === 'map'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessMapLocation')" >
+      <button @click="startGame('guessMapLocation')">
         Départements français
       </button>
-      <button
-        @click="startGame('guessFrenchChefLieux')"
-        
-      >
+      <button @click="startGame('guessFrenchChefLieux')">
         Chef-lieux français
       </button>
-      <button @click="startGame('guessCountryMapLocation')" >
+      <button @click="startGame('guessCountryMapLocation')">
         Pays du monde
       </button>
-      <button
-        @click="startGame('guessRussianCities')"
-        
-      >
-        Villes de Russie
-      </button>
+      <button @click="startGame('guessRussianCities')">Villes de Russie</button>
       <button
         @click="startGame('guessRussianOblasts')"
         class="button-with-ribbon"
@@ -91,16 +83,12 @@
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="selectFlagMode('normal')" >
-        Pays depuis le drapeau
-      </button>
-      <button @click="selectFlagMode('reverse')" >
-        Drapeau depuis le pays
-      </button>
-      <button @click="selectFlagMode('capitals')" >
+      <button @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
+      <button @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
+      <button @click="selectFlagMode('capitals')">
         Pays depuis la capitale
       </button>
-      <button @click="selectFlagMode('reverseCapitals')" >
+      <button @click="selectFlagMode('reverseCapitals')">
         Capitale depuis le pays
       </button>
     </div>

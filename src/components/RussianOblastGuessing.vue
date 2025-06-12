@@ -3,7 +3,9 @@
     <div class="progress-indicator">
       Oblasts de Russie
       {{
-        totalRussianOblasts - russianOblastStore.availableRussianOblasts.length + 1
+        totalRussianOblasts -
+        russianOblastStore.availableRussianOblasts.length +
+        1
       }}
       /
       {{ totalRussianOblasts }}
@@ -120,7 +122,9 @@ import "leaflet/dist/leaflet.css";
 
 const russianOblastStore = useRussianOblastStore();
 const baseStore = useBaseGameStore();
-const totalRussianOblasts = computed(() => russianOblastStore.totalRussianOblasts);
+const totalRussianOblasts = computed(
+  () => russianOblastStore.totalRussianOblasts,
+);
 
 // Map configuration centered on Russia
 const zoom = ref(3);
@@ -157,17 +161,20 @@ const currentOblastDisplayName = computed(() => {
 // GeoJSON options for styling
 const geoJsonOptions = {
   style: (feature: any) => {
-    const status = russianOblastStore.getRussianOblastStatus(feature.properties.id);
+    const status = russianOblastStore.getRussianOblastStatus(
+      feature.properties.iso,
+    );
     return getOblastStyle(status);
   },
   onEachFeature: (feature: any, layer: any) => {
-    const oblastId = feature.properties.id;
+    const oblastId = feature.properties.iso;
 
     // Store layer reference for later style updates
     mapLayers.value.set(oblastId, layer);
 
     layer.on({
-      click: () => handleOblastClick(feature.properties.id, feature.properties.name),
+      click: () =>
+        handleOblastClick(feature.properties.iso, feature.properties.name),
       mouseover: (e: any) => {
         const layer = e.target;
         const status = russianOblastStore.getRussianOblastStatus(oblastId);
@@ -217,7 +224,11 @@ const handleOblastClick = (oblastId: string, oblastName: string) => {
   if (!russianOblastStore.currentRussianOblast) return;
 
   const currentOblastId = russianOblastStore.currentRussianOblast.id;
-  russianOblastStore.makeRussianOblastGuess(oblastId, oblastName, useRussian.value);
+  russianOblastStore.makeRussianOblastGuess(
+    oblastId,
+    oblastName,
+    useRussian.value,
+  );
 
   // If this was a correct guess, immediately update the visual style
   if (oblastId === currentOblastId) {
@@ -277,7 +288,7 @@ onMounted(async () => {
   }
 
   // Add click outside listener for mobile menu
-  document.addEventListener("click", closeLanguageMenu);  // Load GeoJSON data from public folder
+  document.addEventListener("click", closeLanguageMenu); // Load GeoJSON data from public folder
   try {
     const response = await fetch("/geography-guessing/oblasts.json");
     geojson.value = await response.json();

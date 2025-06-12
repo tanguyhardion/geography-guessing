@@ -14,7 +14,9 @@
     <template v-else-if="appGameStore.currentGameMode === 'guessRussianCities'">
       <RussianCityGuessing class="full-width" />
     </template>
-    <template v-else-if="appGameStore.currentGameMode === 'guessRussianOblasts'">
+    <template
+      v-else-if="appGameStore.currentGameMode === 'guessRussianOblasts'"
+    >
       <RussianOblastGuessing class="full-width" />
     </template>
     <template
