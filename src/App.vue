@@ -1,7 +1,7 @@
 <template>
   <div id="app-container">
     <header v-if="currentPage === 'game'">
-      <h1>{{ pageTitle }}</h1>TITLE TEST
+      <h1>{{ pageTitle }}</h1>
       <button @click="goHome" class="back-button">Retour</button>
     </header>
     <main>
@@ -76,7 +76,7 @@ watch(
         toast(newMessage, { type: TYPE.WARNING });
       }
     }
-  },
+  }
 );
 
 const startGame = () => {
