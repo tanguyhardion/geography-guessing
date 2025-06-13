@@ -214,15 +214,22 @@ export const useFlagStore = defineStore("flags", {
 
       this.setFlagHintMessage(country);
       baseStore.clearMessageWithDelay();
-    },    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
+    },
+    handleIncorrectFlagByFlagGuess(flagCountryId: string) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       // Find the country that was clicked to show its name
-      const clickedCountry = this.countries.find(country => country.id === flagCountryId);
-      const clickedCountryName = clickedCountry ? clickedCountry.name : "pays inconnu";
+      const clickedCountry = this.countries.find(
+        (country) => country.id === flagCountryId,
+      );
+      const clickedCountryName = clickedCountry
+        ? clickedCountry.name
+        : "pays inconnu";
 
-      baseStore.setMessage(`Incorrect. Tu as cliqué sur ${clickedCountryName}. Essaie encore ou passe.`);
+      baseStore.setMessage(
+        `Incorrect. Tu as cliqué sur ${clickedCountryName}. Essaie encore ou passe.`,
+      );
       baseStore.clearMessageWithDelay();
     },
 

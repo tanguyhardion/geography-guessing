@@ -321,12 +321,15 @@ export const useDepartmentStore = defineStore("departments", {
       baseStore.setMessage("Correct !");
       this.removeDepartmentFromAvailable(departmentId);
       this.scheduleNextQuestion();
-    },    handleIncorrectGuess(departmentId: string, departmentName?: string) {
+    },
+    handleIncorrectGuess(departmentId: string, departmentName?: string) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
       // Find the department name from our data if not provided
-      const clickedDepartment = this.departments.find(dept => dept.id === departmentId);
+      const clickedDepartment = this.departments.find(
+        (dept) => dept.id === departmentId,
+      );
       const displayName = departmentName || clickedDepartment?.name;
 
       if (displayName) {
@@ -337,7 +340,7 @@ export const useDepartmentStore = defineStore("departments", {
         baseStore.setMessage("Incorrect. Essaie encore ou passe.");
       }
       baseStore.clearMessageWithDelay();
-    },// Skip functionality
+    }, // Skip functionality
     skipDepartment() {
       if (!this.currentDepartment) return;
 

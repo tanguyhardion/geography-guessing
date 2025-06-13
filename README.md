@@ -8,22 +8,22 @@ A Vue.js geography learning application with interactive game modes to test your
 
 ### 🗺️ Interactive Geography
 
-1. **French Departments Map** - Click on French departments on an interactive map  
-2. **World Countries Map** - Locate countries on a world map  
-3. **Russian Cities Map** - Find major Russian cities (82 cities with 200k+ population)  
-4. **Russian Oblasts Map** - Locate Russian oblasts on an interactive map  
-5. **French Chef-lieux Map** - Locate French department capitals  
+1. **French Departments Map** - Click on French departments on an interactive map
+2. **World Countries Map** - Locate countries on a world map
+3. **Russian Cities Map** - Find major Russian cities (82 cities with 200k+ population)
+4. **Russian Oblasts Map** - Locate Russian oblasts on an interactive map
+5. **French Chef-lieux Map** - Locate French department capitals
 
 ### 🏛️ French Departments Quiz
 
-6. **Chef-lieux Mode** - Guess department numbers from prefecture names  
-7. **Department Names Mode** - Guess department numbers from department names  
-8. **Combined Mode** - Mix of chef-lieu and department name questions  
+6. **Chef-lieux Mode** - Guess department numbers from prefecture names
+7. **Department Names Mode** - Guess department numbers from department names
+8. **Combined Mode** - Mix of chef-lieu and department name questions
 
 ### 🌍 World Countries
 
-9. **Flag Recognition** - Guess the country from the flag and vice versa  
-10. **Country Capitals** - Guess the capital city of each country and vice versa  
+9. **Flag Recognition** - Guess the country from the flag and vice versa
+10. **Country Capitals** - Guess the capital city of each country and vice versa
 
 ## Features
 

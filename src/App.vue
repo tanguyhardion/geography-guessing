@@ -76,7 +76,7 @@ watch(
         toast(newMessage, { type: TYPE.WARNING });
       }
     }
-  }
+  },
 );
 
 const startGame = () => {
