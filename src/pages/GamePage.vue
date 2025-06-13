@@ -76,7 +76,6 @@ const appGameStore = useAppGameStore();
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-off);
   position: relative;
 }
 
