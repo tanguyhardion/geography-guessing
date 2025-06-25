@@ -41,8 +41,9 @@
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>"
         />
         <l-geo-json
-          v-if="geojson"
-          :geojson="geojson"
+          v-if="filteredGeojson"
+          :key="`geojson-${countryMapStore.selectedContinent || 'all'}-${countryMapStore.continentCountries.length}`"
+          :geojson="filteredGeojson"
           :options="geojsonOptions"
         />
       </l-map>
@@ -66,6 +67,29 @@ import "leaflet/dist/leaflet.css";
 const countryMapStore = useCountryMapStore();
 const baseStore = useBaseGameStore();
 const totalCountries = computed(() => countryMapStore.totalCountries);
+
+// Filtered geojson data based on selected continent
+const filteredGeojson = computed(() => {
+  if (!geojson.value) return null;
+  
+  // If no continent is selected or "all" is selected, return all countries
+  if (!countryMapStore.selectedContinent || countryMapStore.selectedContinent === "all") {
+    return geojson.value;
+  }
+  
+  // Filter features to only include countries from the selected continent
+  const continentCountryIds = countryMapStore.continentCountries.map(c => c.id);
+  const geoJsonData = geojson.value as any;
+  const filteredFeatures = geoJsonData.features.filter((feature: any) => {
+    const countryCode = feature.properties.ISO_A2?.toLowerCase();
+    return countryCode && continentCountryIds.includes(countryCode);
+  });
+  
+  return {
+    ...geoJsonData,
+    features: filteredFeatures
+  };
+});
 
 const zoom = ref(2);
 const center = ref([20, 0] as [number, number]); // World center
@@ -105,49 +129,52 @@ const getCountryStyle = (status: string) => {
   }
 };
 
-const geojsonOptions = {
-  style: (feature: any) => {
-    const countryCode = feature.properties.ISO_A2?.toLowerCase();
-    if (!countryCode) return getCountryStyle("default");
+const geojsonOptions = computed(() => {
+  return {
+    style: (feature: any) => {
+      const countryCode = feature.properties.ISO_A2?.toLowerCase();
+      if (!countryCode) return getCountryStyle("default");
 
-    const status = getCountryStatus(countryCode);
-    return getCountryStyle(status);
-  },
-  onEachFeature: (feature: any, layer: any) => {
-    const countryCode = feature.properties.ISO_A2?.toLowerCase();
-    if (!countryCode) return;
+      const status = getCountryStatus(countryCode);
+      return getCountryStyle(status);
+    },
+    onEachFeature: (feature: any, layer: any) => {
+      const countryCode = feature.properties.ISO_A2?.toLowerCase();
+      if (!countryCode) return;
 
-    // Store layer reference for later style updates
-    mapLayers.value.set(countryCode, layer);
+      // Find the country in our data
+      const country = countryMapStore.countries.find((c) => c.id === countryCode);
+      if (!country) return;
 
-    // Get French country name from our countries data
-    const country = countryMapStore.countries.find((c) => c.id === countryCode);
-    const frenchName = country
-      ? country.name
-      : feature.properties.NAME || feature.properties.NAME_EN;
+      // Store layer reference for later style updates
+      mapLayers.value.set(countryCode, layer);
 
-    layer.on({
-      mouseover: (e: any) => {
-        const status = getCountryStatus(countryCode);
-        const hoverStyle = getCountryStyle(status);
-        e.target.setStyle({
-          ...hoverStyle,
-          weight: 3,
-          fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
-        });
-      },
-      mouseout: (e: any) => {
-        const status = getCountryStatus(countryCode);
-        e.target.setStyle(getCountryStyle(status));
-      },
-      click: (e: any) => {
-        const countryName =
-          feature.properties.NAME || feature.properties.NAME_EN;
-        handleCountryClick(countryCode, countryName);
-      },
-    });
-  },
-};
+      // Get French country name from our countries data
+      const frenchName = country.name;
+
+      layer.on({
+        mouseover: (e: any) => {
+          const status = getCountryStatus(countryCode);
+          const hoverStyle = getCountryStyle(status);
+          e.target.setStyle({
+            ...hoverStyle,
+            weight: 3,
+            fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
+          });
+        },
+        mouseout: (e: any) => {
+          const status = getCountryStatus(countryCode);
+          e.target.setStyle(getCountryStyle(status));
+        },
+        click: (e: any) => {
+          const countryName =
+            feature.properties.NAME || feature.properties.NAME_EN;
+          handleCountryClick(countryCode, countryName);
+        },
+      });
+    },
+  };
+});
 
 const forceLayerStyleUpdate = (countryCode: string, style: any) => {
   const layer = mapLayers.value.get(countryCode);

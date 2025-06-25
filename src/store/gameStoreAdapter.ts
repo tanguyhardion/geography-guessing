@@ -126,6 +126,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInCountryFromCapitalMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         return worldCapitalsStore.availableContinents;
+      } else if (this.currentGameMode === "guessCountryMapLocation" || this.selectedGameType === "map") {
+        const countryMapStore = useCountryMapStore();
+        return countryMapStore.availableContinents;
       }
       return [];
     },
@@ -136,14 +139,15 @@ export const useAppGameStore = defineStore("appGame", {
     resetAllStores() {
       const flagStore = useFlagStore();
       const worldCapitalsStore = useWorldCapitalsStore();
+      const countryMapStore = useCountryMapStore();
       const russianCityStore = useRussianCityStore();
       const frenchChefLieuStore = useFrenchChefLieuStore();
-      const countryMapStore = useCountryMapStore();
 
       flagStore.resetStore();
       worldCapitalsStore.resetStore();
-      // Note: Other stores don't have resetStore methods yet, but flagStore and worldCapitalsStore
-      // are the main concerns since they persist selectedContinent across mode switches
+      countryMapStore.resetStore();
+      // Note: Other stores don't have resetStore methods yet, but flagStore, worldCapitalsStore
+      // and countryMapStore are the main concerns since they persist selectedContinent across mode switches
     },
 
     // Initialize the appropriate game based on selected type
@@ -191,6 +195,9 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (mode === "guessFrenchChefLieux") {
         const frenchChefLieuStore = useFrenchChefLieuStore();
         frenchChefLieuStore.initializeGame();
+      } else if (mode === "guessCountryMapLocation") {
+        const countryMapStore = useCountryMapStore();
+        countryMapStore.initializeGame();
       }
     },
 
@@ -209,6 +216,13 @@ export const useAppGameStore = defineStore("appGame", {
         flagStore.setSelectedContinent(continent);
         // Reinitialize the flag game with the new continent selection
         flagStore.initializeFlagGame();
+      } else if (this.currentGameMode === "guessCountryMapLocation" || this.selectedGameType === "map") {
+        const countryMapStore = useCountryMapStore();
+        countryMapStore.setSelectedContinent(continent);
+        // Only reinitialize if we're already in country map mode
+        if (this.currentGameMode === "guessCountryMapLocation") {
+          countryMapStore.initializeCountryMapGame();
+        }
       }
       // Always set continent for world capitals store as well, in case we're about to enter that mode
       const worldCapitalsStore = useWorldCapitalsStore();

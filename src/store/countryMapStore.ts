@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { countries } from "../data/countries";
-import type { Country, CountryStatus } from "../types";
+import type { Country, CountryStatus, Continent } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 import { selectRandomItemWeighted } from "../utils/randomSelection";
 import SkipToast from "../components/SkipToast.vue";
@@ -14,6 +14,7 @@ interface CountryMapGameState {
   countryStatus: CountryStatus;
   availableCountries: Country[];
   previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  selectedContinent: Continent | "all" | null; // Add continent filtering
 }
 
 export const useCountryMapStore = defineStore("countryMap", {
@@ -23,6 +24,7 @@ export const useCountryMapStore = defineStore("countryMap", {
     countryStatus: {},
     availableCountries: [...countries],
     previousCountry: null,
+    selectedContinent: null,
   }),
 
   getters: {
@@ -33,7 +35,32 @@ export const useCountryMapStore = defineStore("countryMap", {
 
     // Totals
     totalCountries: (state) => {
-      return state.countries.length;
+      let filteredCountries = [...state.countries];
+
+      // Filter by continent if one is selected
+      if (state.selectedContinent && state.selectedContinent !== "all") {
+        filteredCountries = filteredCountries.filter(
+          (country) => country.continent === state.selectedContinent,
+        );
+      }
+
+      return filteredCountries.length;
+    },
+
+    // Available continents for map mode
+    availableContinents(): string[] {
+      const continents = [...new Set(this.countries.map((c) => c.continent))];
+      return continents.sort();
+    },
+
+    // Countries filtered by continent
+    continentCountries: (state) => {
+      if (state.selectedContinent && state.selectedContinent !== "all") {
+        return state.countries.filter(
+          (country) => country.continent === state.selectedContinent,
+        );
+      }
+      return state.countries;
     },
 
     // Display content
@@ -56,8 +83,16 @@ export const useCountryMapStore = defineStore("countryMap", {
     },
 
     initializeCountryMapGame() {
-      // For country map mode, include all countries
-      this.availableCountries = [...this.countries];
+      let filteredCountries = [...this.countries];
+
+      // Filter by continent if one is selected
+      if (this.selectedContinent && this.selectedContinent !== "all") {
+        filteredCountries = filteredCountries.filter(
+          (country) => country.continent === this.selectedContinent,
+        );
+      }
+
+      this.availableCountries = filteredCountries;
       this.countryStatus = {};
       this.previousCountry = null; // Reset previous country
       this.selectRandomCountry();
@@ -162,6 +197,20 @@ export const useCountryMapStore = defineStore("countryMap", {
       this.availableCountries = this.availableCountries.filter(
         (country) => country.id !== countryId,
       );
+    },
+
+    // Set selected continent
+    setSelectedContinent(continent: Continent | "all" | null) {
+      this.selectedContinent = continent;
+    },
+
+    // Complete reset for when switching game modes
+    resetStore() {
+      this.currentCountry = null;
+      this.countryStatus = {};
+      this.availableCountries = [...this.countries];
+      this.selectedContinent = null;
+      this.previousCountry = null;
     },
   },
 });

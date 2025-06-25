@@ -13,7 +13,6 @@
             : 'map-inactive'
         "
       >
-        <div class="nouveau-indicator"></div>
         <h2>Géographie Interactive</h2>
         <p>Cartes interactives pour apprendre la géographie</p>
       </div>
@@ -58,7 +57,7 @@
         Numéro à partir du nom ou du chef-lieu
       </button>
     </div>
-    <div v-else-if="selectedGame === 'map'" class="mode-buttons">
+    <div v-else-if="selectedGame === 'map' && !showCountryMapContinentSelection" class="mode-buttons">
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessMapLocation')">
         Départements français
@@ -66,16 +65,39 @@
       <button @click="startGame('guessFrenchChefLieux')">
         Chef-lieux français
       </button>
-      <button @click="startGame('guessCountryMapLocation')">
+      <button @click="selectCountryMapMode()">
         Pays du monde
       </button>
       <button @click="startGame('guessRussianCities')">Villes de Russie</button>
       <button
         @click="startGame('guessRussianOblasts')"
-        class="button-with-ribbon"
       >
         Oblasts de Russie
-        <div class="nouveau-ribbon">Nouveau</div>
+      </button>
+    </div>
+    <div
+      v-else-if="selectedGame === 'map' && showCountryMapContinentSelection"
+      class="continent-selection"
+    >
+      <h3>Continent :</h3>
+      <div class="continent-buttons">
+        <button
+          @click="selectCountryMapContinent('all')"
+          class="continent-button all-continents"
+        >
+          Tous les continents
+        </button>
+        <button
+          v-for="continent in availableContinents"
+          :key="continent"
+          @click="selectCountryMapContinent(continent as Continent)"
+          class="continent-button"
+        >
+          {{ continent }}
+        </button>
+      </div>
+      <button @click="goBackFromCountryMap" class="back-button">
+        Retour
       </button>
     </div>
     <div
@@ -100,7 +122,7 @@
       <div class="continent-buttons">
         <button
           @click="selectContinent('all')"
-          class="continent-button all-continents button-with-ribbon"
+          class="continent-button all-continents"
         >
           Tous les continents
         </button>
@@ -108,12 +130,12 @@
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectContinent(continent as Continent)"
-          class="continent-button button-with-ribbon"
+          class="continent-button"
         >
           {{ continent }}
         </button>
       </div>
-      <button @click="goBack" class="back-button button-with-ribbon">
+      <button @click="goBack" class="back-button">
         Retour
       </button>
     </div>
@@ -150,6 +172,7 @@ const selectedFlagMode = ref<
   "normal" | "reverse" | "capitals" | "reverseCapitals" | null
 >(null);
 const showContinentSelection = ref(false);
+const showCountryMapContinentSelection = ref(false);
 
 const availableContinents = computed(() => appGameStore.availableContinents);
 
@@ -209,6 +232,19 @@ const startReverseCapitalsMode = () => {
   appGameStore.setReverseFlagMode(false);
   appGameStore.setGameMode("guessCountryFromCapital");
   emit("mode-selected");
+};
+
+const selectCountryMapMode = () => {
+  showCountryMapContinentSelection.value = true;
+};
+
+const selectCountryMapContinent = (continent: Continent | "all") => {
+  appGameStore.setSelectedContinent(continent);
+  startGame("guessCountryMapLocation");
+};
+
+const goBackFromCountryMap = () => {
+  showCountryMapContinentSelection.value = false;
 };
 </script>
 
@@ -297,35 +333,6 @@ h3 {
   overflow: hidden;
   flex: 1;
   min-width: 200px;
-}
-
-.nouveau-indicator {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(135deg, #ff8c00, #ffd700);
-  border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  z-index: 2;
-  animation: pulse-new 2s infinite;
-}
-
-@keyframes pulse-new {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.4);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
 .game-type:hover {
@@ -533,91 +540,5 @@ h3 {
     font-size: 0.85em;
     flex: 1 1 calc(50% - 4px);
   }
-}
-
-/* Nouveau ribbon styles */
-.button-with-ribbon {
-  position: relative;
-  overflow: hidden;
-}
-
-.nouveau-ribbon {
-  position: absolute;
-  top: 12px;
-  right: -25px;
-  background: linear-gradient(135deg, #ff8c00, #ffd700);
-  color: white;
-  padding: 4px 30px;
-  font-size: 0.7em;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transform: rotate(45deg);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  z-index: 1;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-}
-
-.nouveau-ribbon::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4) 45%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(255, 255, 255, 0.4) 55%,
-    transparent
-  );
-  animation: shimmer 3s infinite;
-  z-index: 2;
-}
-
-@keyframes shimmer {
-  0% {
-    left: -100%;
-  }
-  50% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-/* Shadow triangles for 3D effect - moved to after pseudo-element styling */
-.button-with-ribbon::before {
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: -25px;
-  width: calc(100% + 50px);
-  height: 24px;
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.button-with-ribbon::after {
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: -25px;
-  width: calc(100% + 50px);
-  height: 24px;
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Ensure ribbon visibility on hover */
-.button-with-ribbon:hover .nouveau-ribbon {
-  background: linear-gradient(135deg, #ff9500, #ffdb00);
 }
 </style>
