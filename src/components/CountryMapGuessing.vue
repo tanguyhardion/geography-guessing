@@ -71,23 +71,28 @@ const totalCountries = computed(() => countryMapStore.totalCountries);
 // Filtered geojson data based on selected continent
 const filteredGeojson = computed(() => {
   if (!geojson.value) return null;
-  
+
   // If no continent is selected or "all" is selected, return all countries
-  if (!countryMapStore.selectedContinent || countryMapStore.selectedContinent === "all") {
+  if (
+    !countryMapStore.selectedContinent ||
+    countryMapStore.selectedContinent === "all"
+  ) {
     return geojson.value;
   }
-  
+
   // Filter features to only include countries from the selected continent
-  const continentCountryIds = countryMapStore.continentCountries.map(c => c.id);
+  const continentCountryIds = countryMapStore.continentCountries.map(
+    (c) => c.id
+  );
   const geoJsonData = geojson.value as any;
   const filteredFeatures = geoJsonData.features.filter((feature: any) => {
-    const countryCode = feature.properties.ISO_A2?.toLowerCase();
+    const countryCode = getCountryCode(feature);
     return countryCode && continentCountryIds.includes(countryCode);
   });
-  
+
   return {
     ...geoJsonData,
-    features: filteredFeatures
+    features: filteredFeatures,
   };
 });
 
@@ -129,21 +134,34 @@ const getCountryStyle = (status: string) => {
   }
 };
 
+const getCountryCode = (feature: any): string | null => {
+  let countryCode = feature.properties.ISO_A2?.toLowerCase();
+
+  // If ISO_A2 is missing or invalid (-99), try the Enhanced version (ISO_A2_EH)
+  if (!countryCode || countryCode === "-99" || countryCode === "null") {
+    countryCode = feature.properties.ISO_A2_EH?.toLowerCase();
+  }
+
+  return countryCode;
+};
+
 const geojsonOptions = computed(() => {
   return {
     style: (feature: any) => {
-      const countryCode = feature.properties.ISO_A2?.toLowerCase();
+      const countryCode = getCountryCode(feature);
       if (!countryCode) return getCountryStyle("default");
 
       const status = getCountryStatus(countryCode);
       return getCountryStyle(status);
     },
     onEachFeature: (feature: any, layer: any) => {
-      const countryCode = feature.properties.ISO_A2?.toLowerCase();
+      const countryCode = getCountryCode(feature);
       if (!countryCode) return;
 
       // Find the country in our data
-      const country = countryMapStore.countries.find((c) => c.id === countryCode);
+      const country = countryMapStore.countries.find(
+        (c) => c.id === countryCode
+      );
       if (!country) return;
 
       // Store layer reference for later style updates
@@ -185,6 +203,14 @@ const forceLayerStyleUpdate = (countryCode: string, style: any) => {
 
 const handleCountryClick = (countryCode: string, countryName?: string) => {
   if (!countryMapStore.currentCountry) return;
+
+  // Debug logging to help identify mapping issues
+  console.log("Country clicked:", {
+    countryCode,
+    countryName,
+    currentTarget: countryMapStore.currentCountry.id,
+    currentTargetName: countryMapStore.currentCountry.name,
+  });
 
   const currentCountryId = countryMapStore.currentCountry.id;
   countryMapStore.makeCountryMapGuess(countryCode, countryName);
@@ -231,7 +257,7 @@ onMounted(async () => {
 
   try {
     const response = await fetch(
-      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson"
     );
     geojson.value = await response.json();
   } catch (error) {

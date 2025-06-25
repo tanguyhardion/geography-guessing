@@ -2,6 +2,7 @@
   <div id="app-container">
     <header v-if="currentPage === 'game'">
       <h1>{{ pageTitle }}</h1>
+      <div class="timer">{{ baseStore.formattedTime }}</div>
       <button @click="goHome" class="back-button">Retour</button>
     </header>
     <main>
@@ -14,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onUnmounted } from "vue";
 import HomePage from "./pages/HomePage.vue";
 import GamePage from "./pages/GamePage.vue";
 import { useBaseGameStore } from "./store/baseGameStore";
@@ -79,6 +80,29 @@ watch(
   },
 );
 
+// Watch for game mode changes to reset timer
+watch(
+  () => appGameStore.currentGameMode,
+  (newMode, oldMode) => {
+    if (newMode !== oldMode && currentPage.value === 'game') {
+      baseStore.resetTimer();
+      baseStore.startTimer();
+    }
+  }
+);
+
+// Watch for page changes to manage timer
+watch(
+  () => currentPage.value,
+  (newPage) => {
+    if (newPage === 'game') {
+      baseStore.startTimer();
+    } else {
+      baseStore.pauseTimer();
+    }
+  }
+);
+
 const startGame = () => {
   currentPage.value = "game";
 };
@@ -86,7 +110,13 @@ const startGame = () => {
 const goHome = () => {
   currentPage.value = "home";
   baseStore.message = null;
+  baseStore.stopTimer();
 };
+
+// Clean up timer on component unmount
+onUnmounted(() => {
+  baseStore.stopTimer();
+});
 </script>
 
 <style scoped lang="scss">
@@ -132,6 +162,7 @@ header {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 h1 {
@@ -139,6 +170,22 @@ h1 {
   margin: 0;
   color: white;
   font-weight: 600;
+}
+
+.timer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2em;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 12px;
+  border-radius: 15px;
+  min-width: 60px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
 }
 
 .back-button {
