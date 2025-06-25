@@ -1554,6 +1554,14 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lusaka",
   },
   {
+    id: "ci",
+    name: "Côte d'Ivoire",
+    nameEn: "ivory coast",
+    continent: "Afrique",
+    capital: "Yamoussoukro",
+    capitalEn: "yamoussoukro",
+  },
+  {
     id: "zw",
     name: "Zimbabwe",
     nameEn: "zimbabwe",

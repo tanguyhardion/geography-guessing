@@ -142,6 +142,11 @@ const getCountryCode = (feature: any): string | null => {
     countryCode = feature.properties.ISO_A2_EH?.toLowerCase();
   }
 
+  // If still no valid code, try the POSTAL field as fallback
+  if (!countryCode || countryCode === "-99" || countryCode === "null") {
+    countryCode = feature.properties.POSTAL?.toLowerCase();
+  }
+
   return countryCode;
 };
 

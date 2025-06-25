@@ -4,7 +4,7 @@ export interface Department {
   chefLieu: string;
 }
 
-export interface SovereignState {
+export interface GeoEntity {
   id: string; // ISO code e.g., 'fr', 'us'
   name: string; // Name in French
   nameEn: string; // Name in English for API calls
@@ -12,6 +12,10 @@ export interface SovereignState {
   capital: string; // Capital city name
   capitalEn: string; // Capital city name in English for API calls
 }
+
+export interface SovereignState extends GeoEntity {}
+
+export interface Country extends GeoEntity {}
 
 export interface RussianCity {
   id: string; // Unique identifier
