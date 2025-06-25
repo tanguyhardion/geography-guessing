@@ -1,6 +1,6 @@
-import type { Country } from "../types";
+import type { SovereignState } from "../types";
 
-export const countries: Country[] = [
+export const sovereignStates: SovereignState[] = [
   {
     id: "fr",
     name: "France",

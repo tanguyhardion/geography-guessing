@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { countries } from "../data/countries";
-import type { Country, CountryStatus, Continent } from "../types";
+import { sovereignStates } from "../data/sovereignStates";
+import type { SovereignState, CountryStatus, Continent } from "../types";
 import {
   useBaseGameStore,
   HINT_THRESHOLD,
@@ -14,23 +14,23 @@ import SkipToast from "../components/SkipToast.vue";
 const COMPLETION_MESSAGE = "Félicitations ! Tu as deviné tous les drapeaux !";
 
 interface FlagGameState {
-  countries: Country[];
-  currentCountry: Country | null;
+  countries: SovereignState[];
+  currentCountry: SovereignState | null;
   countryStatus: CountryStatus;
-  availableCountries: Country[];
+  availableCountries: SovereignState[];
   userGuessInput: string;
   reverseFlagMode: boolean;
   selectedContinent: Continent | "all" | null;
-  previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  previousCountry: SovereignState | null; // Track previous to avoid immediate re-selection
   currentQuestionNumber: number; // Track current question number
 }
 
 export const useFlagStore = defineStore("flags", {
   state: (): FlagGameState => ({
-    countries,
+    countries: sovereignStates,
     currentCountry: null,
     countryStatus: {},
-    availableCountries: [...countries],
+    availableCountries: [...sovereignStates],
     userGuessInput: "",
     reverseFlagMode: false,
     selectedContinent: null,
@@ -182,7 +182,7 @@ export const useFlagStore = defineStore("flags", {
       }
     },
 
-    handleCorrectFlagGuess(country: Country) {
+    handleCorrectFlagGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
@@ -194,7 +194,7 @@ export const useFlagStore = defineStore("flags", {
       this.scheduleNextQuestion();
     },
 
-    handleCorrectFlagByFlagGuess(country: Country) {
+    handleCorrectFlagByFlagGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
@@ -208,7 +208,7 @@ export const useFlagStore = defineStore("flags", {
       this.scheduleNextQuestion();
     },
 
-    handleIncorrectFlagGuess(country: Country) {
+    handleIncorrectFlagGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
@@ -233,7 +233,7 @@ export const useFlagStore = defineStore("flags", {
       baseStore.clearMessageWithDelay();
     },
 
-    setFlagHintMessage(country: Country) {
+    setFlagHintMessage(country: SovereignState) {
       const baseStore = useBaseGameStore();
       if (baseStore.incorrectAttempts >= HINT_THRESHOLD) {
         const firstLetter = country.name.charAt(0);

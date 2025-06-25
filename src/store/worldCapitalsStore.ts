@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { countries } from "../data/countries";
-import type { Country, CountryStatus, Continent } from "../types";
+import { sovereignStates } from "../data/sovereignStates";
+import type { SovereignState, CountryStatus, Continent } from "../types";
 import {
   useBaseGameStore,
   HINT_THRESHOLD,
@@ -15,22 +15,22 @@ const COMPLETION_MESSAGE =
   "Félicitations ! Tu as deviné toutes les capitales !";
 
 interface WorldCapitalsGameState {
-  countries: Country[];
-  currentCountry: Country | null;
+  countries: SovereignState[];
+  currentCountry: SovereignState | null;
   countryStatus: CountryStatus;
-  availableCountries: Country[];
+  availableCountries: SovereignState[];
   userGuessInput: string;
   selectedContinent: Continent | "all" | null;
-  previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  previousCountry: SovereignState | null; // Track previous to avoid immediate re-selection
   reverseCapitalsMode: boolean; // Track if in reverse mode (country -> capital)
 }
 
 export const useWorldCapitalsStore = defineStore("worldCapitals", {
   state: (): WorldCapitalsGameState => ({
-    countries,
+    countries: sovereignStates,
     currentCountry: null,
     countryStatus: {},
-    availableCountries: [...countries],
+    availableCountries: [...sovereignStates],
     userGuessInput: "",
     selectedContinent: null,
     previousCountry: null,
@@ -177,7 +177,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       this.userGuessInput = "";
     },
 
-    handleCorrectCapitalsGuess(country: Country) {
+    handleCorrectCapitalsGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
@@ -193,7 +193,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       this.scheduleNextQuestion();
     },
 
-    handleIncorrectCapitalsGuess(country: Country) {
+    handleIncorrectCapitalsGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordIncorrectGuess();
 
@@ -201,7 +201,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       baseStore.clearMessageWithDelay();
     },
 
-    setCapitalsHintMessage(country: Country) {
+    setCapitalsHintMessage(country: SovereignState) {
       const baseStore = useBaseGameStore();
       if (baseStore.incorrectAttempts >= HINT_THRESHOLD) {
         if (this.reverseCapitalsMode) {

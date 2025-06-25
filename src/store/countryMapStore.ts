@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { countries } from "../data/countries";
-import type { Country, CountryStatus, Continent } from "../types";
+import { sovereignStates } from "../data/sovereignStates";
+import type { SovereignState, CountryStatus, Continent } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 import { selectRandomItemWeighted } from "../utils/randomSelection";
 import SkipToast from "../components/SkipToast.vue";
@@ -9,20 +9,20 @@ import SkipToast from "../components/SkipToast.vue";
 const COMPLETION_MESSAGE = "Félicitations ! Tu as localisé tous les pays !";
 
 interface CountryMapGameState {
-  countries: Country[];
-  currentCountry: Country | null;
+  countries: SovereignState[];
+  currentCountry: SovereignState | null;
   countryStatus: CountryStatus;
-  availableCountries: Country[];
-  previousCountry: Country | null; // Track previous to avoid immediate re-selection
+  availableCountries: SovereignState[];
+  previousCountry: SovereignState | null; // Track previous to avoid immediate re-selection
   selectedContinent: Continent | "all" | null; // Add continent filtering
 }
 
 export const useCountryMapStore = defineStore("countryMap", {
   state: (): CountryMapGameState => ({
-    countries,
+    countries: sovereignStates,
     currentCountry: null,
     countryStatus: {},
-    availableCountries: [...countries],
+    availableCountries: [...sovereignStates],
     previousCountry: null,
     selectedContinent: null,
   }),
@@ -130,7 +130,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       }
     },
 
-    handleCorrectCountryMapGuess(country: Country) {
+    handleCorrectCountryMapGuess(country: SovereignState) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 

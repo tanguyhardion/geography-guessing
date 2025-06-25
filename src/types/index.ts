@@ -4,7 +4,7 @@ export interface Department {
   chefLieu: string;
 }
 
-export interface Country {
+export interface SovereignState {
   id: string; // ISO code e.g., 'fr', 'us'
   name: string; // Name in French
   nameEn: string; // Name in English for API calls
