@@ -84,23 +84,23 @@ watch(
 watch(
   () => appGameStore.currentGameMode,
   (newMode, oldMode) => {
-    if (newMode !== oldMode && currentPage.value === 'game') {
+    if (newMode !== oldMode && currentPage.value === "game") {
       baseStore.resetTimer();
       baseStore.startTimer();
     }
-  }
+  },
 );
 
 // Watch for page changes to manage timer
 watch(
   () => currentPage.value,
   (newPage) => {
-    if (newPage === 'game') {
+    if (newPage === "game") {
       baseStore.startTimer();
     } else {
       baseStore.pauseTimer();
     }
-  }
+  },
 );
 
 const startGame = () => {
@@ -185,7 +185,7 @@ h1 {
   border-radius: 15px;
   min-width: 60px;
   text-align: center;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
 }
 
 .back-button {

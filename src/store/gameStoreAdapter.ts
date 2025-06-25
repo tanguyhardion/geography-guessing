@@ -126,7 +126,10 @@ export const useAppGameStore = defineStore("appGame", {
       } else if (this.isInCountryFromCapitalMode) {
         const worldCapitalsStore = useWorldCapitalsStore();
         return worldCapitalsStore.availableContinents;
-      } else if (this.currentGameMode === "guessCountryMapLocation" || this.selectedGameType === "map") {
+      } else if (
+        this.currentGameMode === "guessCountryMapLocation" ||
+        this.selectedGameType === "map"
+      ) {
         const countryMapStore = useCountryMapStore();
         return countryMapStore.availableContinents;
       }
@@ -216,7 +219,10 @@ export const useAppGameStore = defineStore("appGame", {
         flagStore.setSelectedContinent(continent);
         // Reinitialize the flag game with the new continent selection
         flagStore.initializeFlagGame();
-      } else if (this.currentGameMode === "guessCountryMapLocation" || this.selectedGameType === "map") {
+      } else if (
+        this.currentGameMode === "guessCountryMapLocation" ||
+        this.selectedGameType === "map"
+      ) {
         const countryMapStore = useCountryMapStore();
         countryMapStore.setSelectedContinent(continent);
         // Only reinitialize if we're already in country map mode

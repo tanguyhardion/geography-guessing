@@ -44,7 +44,7 @@ export const useBaseGameStore = defineStore("baseGame", {
     formattedTime: (state) => {
       const minutes = Math.floor(state.elapsedTime / 60);
       const seconds = state.elapsedTime % 60;
-      return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
     },
   },
 
@@ -107,7 +107,9 @@ export const useBaseGameStore = defineStore("baseGame", {
       this.elapsedTime = 0;
       this.timerInterval = setInterval(() => {
         if (this.gameStartTime) {
-          this.elapsedTime = Math.floor((Date.now() - this.gameStartTime) / 1000);
+          this.elapsedTime = Math.floor(
+            (Date.now() - this.gameStartTime) / 1000,
+          );
         }
       }, 1000);
     },
@@ -135,10 +137,12 @@ export const useBaseGameStore = defineStore("baseGame", {
     resumeTimer() {
       if (this.gameStartTime && !this.timerInterval) {
         // Adjust start time to account for elapsed time
-        this.gameStartTime = Date.now() - (this.elapsedTime * 1000);
+        this.gameStartTime = Date.now() - this.elapsedTime * 1000;
         this.timerInterval = setInterval(() => {
           if (this.gameStartTime) {
-            this.elapsedTime = Math.floor((Date.now() - this.gameStartTime) / 1000);
+            this.elapsedTime = Math.floor(
+              (Date.now() - this.gameStartTime) / 1000,
+            );
           }
         }, 1000);
       }

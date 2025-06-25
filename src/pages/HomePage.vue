@@ -57,7 +57,10 @@
         Numéro à partir du nom ou du chef-lieu
       </button>
     </div>
-    <div v-else-if="selectedGame === 'map' && !showCountryMapContinentSelection" class="mode-buttons">
+    <div
+      v-else-if="selectedGame === 'map' && !showCountryMapContinentSelection"
+      class="mode-buttons"
+    >
       <h3>Mode de jeu:</h3>
       <button @click="startGame('guessMapLocation')">
         Départements français
@@ -65,13 +68,9 @@
       <button @click="startGame('guessFrenchChefLieux')">
         Chef-lieux français
       </button>
-      <button @click="selectCountryMapMode()">
-        Pays du monde
-      </button>
+      <button @click="selectCountryMapMode()">Pays du monde</button>
       <button @click="startGame('guessRussianCities')">Villes de Russie</button>
-      <button
-        @click="startGame('guessRussianOblasts')"
-      >
+      <button @click="startGame('guessRussianOblasts')">
         Oblasts de Russie
       </button>
     </div>
@@ -96,9 +95,7 @@
           {{ continent }}
         </button>
       </div>
-      <button @click="goBackFromCountryMap" class="back-button">
-        Retour
-      </button>
+      <button @click="goBackFromCountryMap" class="back-button">Retour</button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"
@@ -135,9 +132,7 @@
           {{ continent }}
         </button>
       </div>
-      <button @click="goBack" class="back-button">
-        Retour
-      </button>
+      <button @click="goBack" class="back-button">Retour</button>
     </div>
 
     <!-- Footer with credits -->

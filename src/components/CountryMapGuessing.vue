@@ -82,7 +82,7 @@ const filteredGeojson = computed(() => {
 
   // Filter features to only include countries from the selected continent
   const continentCountryIds = countryMapStore.continentCountries.map(
-    (c) => c.id
+    (c) => c.id,
   );
   const geoJsonData = geojson.value as any;
   const filteredFeatures = geoJsonData.features.filter((feature: any) => {
@@ -160,7 +160,7 @@ const geojsonOptions = computed(() => {
 
       // Find the country in our data
       const country = countryMapStore.countries.find(
-        (c) => c.id === countryCode
+        (c) => c.id === countryCode,
       );
       if (!country) return;
 
@@ -257,7 +257,7 @@ onMounted(async () => {
 
   try {
     const response = await fetch(
-      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson"
+      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
     );
     geojson.value = await response.json();
   } catch (error) {
