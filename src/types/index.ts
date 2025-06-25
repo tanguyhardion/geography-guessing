@@ -16,7 +16,7 @@ export interface GeoEntity {
 export interface SovereignState extends GeoEntity {}
 
 export interface Country extends GeoEntity {}
- 
+
 export interface RussianCity {
   id: string; // Unique identifier
   name: string; // City name in French
