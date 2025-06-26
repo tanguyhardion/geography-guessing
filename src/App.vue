@@ -1,9 +1,11 @@
 <template>
   <div id="app-container">
     <header v-if="currentPage === 'game'">
-      <h1>{{ pageTitle }}</h1>
-      <div class="timer">{{ baseStore.formattedTime }}</div>
-      <button @click="goHome" class="back-button">Retour</button>
+      <div class="header-flex">
+        <h1>{{ pageTitle }}</h1>
+        <div class="timer">{{ baseStore.formattedTime }}</div>
+        <button @click="goHome" class="back-button">Retour</button>
+      </div>
     </header>
     <main>
       <transition name="fade" mode="out-in">
@@ -173,10 +175,6 @@ h1 {
 }
 
 .timer {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   font-size: 1.2em;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
@@ -186,6 +184,34 @@ h1 {
   min-width: 60px;
   text-align: center;
   font-family: "Courier New", monospace;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-flex h1 {
+  flex: 1;
+  text-align: left;
+  margin-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-flex .timer {
+  flex: 0 0 auto;
+  margin: 0 12px;
+  position: static;
+  transform: none;
+}
+
+.header-flex .back-button {
+  flex: 0 0 auto;
+  margin-left: 12px;
 }
 
 .back-button {
