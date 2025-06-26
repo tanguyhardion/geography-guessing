@@ -229,4 +229,29 @@ main {
 :global(.Vue-Toastification__container) {
   z-index: 9999 !important;
 }
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 5px;
+    min-height: unset;
+  }
+  h1 {
+    font-size: 1em;
+    margin-bottom: 8px;
+  }
+  .timer {
+    position: static;
+    transform: none;
+    margin-bottom: 8px;
+    margin-top: 0;
+    align-self: flex-start;
+    min-width: unset;
+  }
+  .back-button {
+    align-self: flex-end;
+    margin-top: 0;
+  }
+}
 </style>
