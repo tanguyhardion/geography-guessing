@@ -187,30 +187,24 @@ h1 {
 }
 
 .header-flex {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
 }
 
 .header-flex h1 {
-  flex: 1;
-  text-align: left;
+  justify-self: start;
   margin-right: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .header-flex .timer {
-  flex: 0 0 auto;
+  justify-self: center;
   margin: 0 12px;
-  position: static;
-  transform: none;
 }
 
 .header-flex .back-button {
-  flex: 0 0 auto;
+  justify-self: end;
   margin-left: 12px;
 }
 
