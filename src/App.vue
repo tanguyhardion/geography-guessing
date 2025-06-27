@@ -4,7 +4,9 @@
       <div class="header-flex">
         <h1>{{ pageTitle }}</h1>
         <div class="timer">{{ baseStore.formattedTime }}</div>
-        <button v-click-animate @click="goHome" class="back-button">Retour</button>
+        <button v-click-animate @click="goHome" class="back-button">
+          Retour
+        </button>
       </div>
     </header>
     <main>

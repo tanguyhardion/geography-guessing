@@ -1,21 +1,21 @@
 <template>
   <div class="stats-page">
     <h1>Mes Statistiques</h1>
-    
+
     <div v-if="stats.length === 0" class="empty-stats">
       Aucune partie terminée pour l'instant.
     </div>
-    
+
     <div v-else class="stats-content">
       <!-- Tab Navigation -->
       <div class="tab-nav">
-        <button 
+        <button
           :class="['tab-button', { active: activeTab === 'list' }]"
           @click="activeTab = 'list'"
         >
           Liste
         </button>
-        <button 
+        <button
           :class="['tab-button', { active: activeTab === 'graph' }]"
           @click="activeTab = 'graph'"
         >
@@ -23,64 +23,95 @@
         </button>
       </div>
 
+      <!-- Sorting Controls -->
+      <div v-if="activeTab === 'list'" class="sort-controls">
+        <div class="sort-group">
+          <label for="sort-field">Trier par</label>
+          <div class="select-wrapper">
+            <select id="sort-field" v-model="sortField">
+              <option value="modeName">Mode</option>
+              <option value="completedAt">Date</option>
+              <option value="totalTime">Durée</option>
+              <option value="finalScore">Score</option>
+              <option value="accuracy">Précision</option>
+            </select>
+          </div>
+        </div>
+        <div class="sort-group">
+          <label>Ordre</label>
+          <div class="select-wrapper">
+            <select v-model="sortOrder">
+              <option value="asc">Ascendant</option>
+              <option value="desc">Descendant</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <!-- List View -->
       <div v-if="activeTab === 'list'" class="stats-list-wrapper">
         <div
           ref="statsList"
           class="stats-list"
+          :class="{ sorting: isSorting }"
           @scroll="onScroll"
         >
-          <div v-for="(stat, idx) in stats" :key="idx" class="stat-item">
-            <div class="stat-row">
-              <span class="stat-label">Mode :</span>
-              <span class="stat-value">{{ stat.modeName }}</span>
+          <transition-group
+            name="stats-list"
+            tag="div"
+            class="stats-transition-group"
+          >
+            <div
+              v-for="(stat, idx) in sortedStats"
+              :key="`${stat.modeName}-${stat.completedAt}-${idx}`"
+              class="stat-item"
+            >
+              <div class="stat-row">
+                <span class="stat-label">Mode :</span>
+                <span class="stat-value">{{ stat.modeName }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Date :</span>
+                <span class="stat-value">{{
+                  formatDate(stat.completedAt)
+                }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Durée :</span>
+                <span class="stat-value">{{
+                  formatDuration(stat.totalTime)
+                }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Score :</span>
+                <span class="stat-value">{{ stat.finalScore }}</span>
+              </div>
+              <div class="stat-row">
+                <span class="stat-label">Précision :</span>
+                <span class="stat-value">{{ stat.accuracy }}%</span>
+              </div>
             </div>
-            <div class="stat-row">
-              <span class="stat-label">Date :</span>
-              <span class="stat-value">{{ formatDate(stat.completedAt) }}</span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-label">Durée :</span>
-              <span class="stat-value">{{ formatDuration(stat.totalTime) }}</span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-label">Score :</span>
-              <span class="stat-value">{{ stat.finalScore }}</span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-label">Précision :</span>
-              <span class="stat-value">{{ stat.accuracy }}%</span>
-            </div>
-          </div>
+          </transition-group>
         </div>
-        <div
-          v-if="showFade"
-          class="stats-list-fade"
-        ></div>
-        <div
-          v-if="showFadeTop"
-          class="stats-list-fade-top"
-        ></div>
+        <div v-if="showFade" class="stats-list-fade"></div>
+        <div v-if="showFadeTop" class="stats-list-fade-top"></div>
       </div>
 
       <!-- Graph View -->
       <div v-if="activeTab === 'graph'" class="stats-graph-wrapper">
         <div class="chart-container">
-          <Line
-            :data="chartData"
-            :options="chartOptions"
-          />
+          <Line :data="chartData" :options="chartOptions" />
         </div>
       </div>
     </div>
-    
+
     <button v-click-animate class="back-button" @click="goHome">Retour</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed } from "vue";
-import { Line } from 'vue-chartjs';
+import { ref, onMounted, nextTick, computed, watch } from "vue";
+import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -90,9 +121,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  TimeScale
-} from 'chart.js';
-import 'chartjs-adapter-date-fns';
+  TimeScale,
+} from "chart.js";
+import "chartjs-adapter-date-fns";
 
 // Register Chart.js components
 ChartJS.register(
@@ -103,7 +134,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale
+  TimeScale,
 );
 
 interface GameStat {
@@ -118,58 +149,99 @@ const stats = ref<GameStat[]>([]);
 const showFade = ref(false);
 const showFadeTop = ref(false);
 const statsList = ref<HTMLElement | null>(null);
-const activeTab = ref<'list' | 'graph'>('list');
+const activeTab = ref<"list" | "graph">("list");
+
+// Sorting state
+const sortField = ref<
+  "modeName" | "completedAt" | "totalTime" | "finalScore" | "accuracy"
+>("completedAt");
+const sortOrder = ref<"asc" | "desc">("desc");
+const isSorting = ref(false);
+
+// Sorted stats computed property
+const sortedStats = computed(() => {
+  const arr = [...stats.value];
+  arr.sort((a, b) => {
+    let aVal = a[sortField.value];
+    let bVal = b[sortField.value];
+    // For date, compare as date
+    if (sortField.value === "completedAt") {
+      aVal = new Date(aVal as string).getTime();
+      bVal = new Date(bVal as string).getTime();
+    }
+    if (aVal < bVal) return sortOrder.value === "asc" ? -1 : 1;
+    if (aVal > bVal) return sortOrder.value === "asc" ? 1 : -1;
+    return 0;
+  });
+  return arr;
+});
+
+// Watch for sort changes and trigger animation
+watch([sortField, sortOrder], () => {
+  if (stats.value.length > 0) {
+    isSorting.value = true;
+    setTimeout(() => {
+      isSorting.value = false;
+    }, 300);
+  }
+});
 
 // Chart data computed property
 const chartData = computed(() => {
   if (stats.value.length === 0) {
     return {
       labels: [],
-      datasets: []
+      datasets: [],
     };
   }
 
   // Group stats by mode
-  const groupedStats = stats.value.reduce((acc, stat) => {
-    if (!acc[stat.modeName]) {
-      acc[stat.modeName] = [];
-    }
-    acc[stat.modeName].push(stat);
-    return acc;
-  }, {} as Record<string, GameStat[]>);
+  const groupedStats = stats.value.reduce(
+    (acc, stat) => {
+      if (!acc[stat.modeName]) {
+        acc[stat.modeName] = [];
+      }
+      acc[stat.modeName].push(stat);
+      return acc;
+    },
+    {} as Record<string, GameStat[]>,
+  );
 
   // Sort each group by date
-  Object.keys(groupedStats).forEach(mode => {
-    groupedStats[mode].sort((a, b) => new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime());
+  Object.keys(groupedStats).forEach((mode) => {
+    groupedStats[mode].sort(
+      (a, b) =>
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime(),
+    );
   });
 
   // Create datasets for each mode
   const colors = [
-    '#3B82F6', // Blue
-    '#EF4444', // Red
-    '#10B981', // Green
-    '#F59E0B', // Yellow
-    '#8B5CF6', // Purple
-    '#EC4899', // Pink
-    '#06B6D4', // Cyan
-    '#84CC16', // Lime
+    "#3B82F6", // Blue
+    "#EF4444", // Red
+    "#10B981", // Green
+    "#F59E0B", // Yellow
+    "#8B5CF6", // Purple
+    "#EC4899", // Pink
+    "#06B6D4", // Cyan
+    "#84CC16", // Lime
   ];
 
   const datasets = Object.keys(groupedStats).map((mode, index) => ({
     label: mode,
-    data: groupedStats[mode].map(stat => ({
+    data: groupedStats[mode].map((stat) => ({
       x: new Date(stat.completedAt).getTime(),
-      y: stat.totalTime
+      y: stat.totalTime,
     })),
     borderColor: colors[index % colors.length],
-    backgroundColor: colors[index % colors.length] + '20',
+    backgroundColor: colors[index % colors.length] + "20",
     tension: 0.1,
     pointRadius: 4,
-    pointHoverRadius: 6
+    pointHoverRadius: 6,
   }));
 
   return {
-    datasets
+    datasets,
   };
 });
 
@@ -180,15 +252,15 @@ const chartOptions = computed(() => ({
   plugins: {
     title: {
       display: true,
-      text: 'Durée des parties par mode de jeu',
+      text: "Durée des parties par mode de jeu",
       font: {
         size: 16,
-        weight: 'bold' as const
-      }
+        weight: "bold" as const,
+      },
     },
     legend: {
       display: true,
-      position: 'top' as const
+      position: "top" as const,
     },
     tooltip: {
       callbacks: {
@@ -197,42 +269,44 @@ const chartOptions = computed(() => ({
         },
         label: (context: any) => {
           return `${context.dataset.label}: ${formatDuration(context.parsed.y)}`;
-        }
-      }
-    }
+        },
+      },
+    },
   },
   scales: {
     x: {
-      type: 'time' as const,
+      type: "time" as const,
       time: {
-        unit: 'day' as const,
+        unit: "day" as const,
         displayFormats: {
-          day: 'MMM dd'
-        }
+          day: "MMM dd",
+        },
       },
       title: {
         display: true,
-        text: 'Date'
-      }
+        text: "Date",
+      },
     },
     y: {
       title: {
         display: true,
-        text: 'Durée (secondes)'
+        text: "Durée (secondes)",
       },
       ticks: {
-        callback: function(value: any) {
+        callback: function (value: any) {
           return formatDuration(Number(value));
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }));
 
 function checkFade() {
   const el = statsList.value;
   if (!el) return;
-  showFade.value = el.scrollHeight > el.clientHeight && el.scrollTop + el.clientHeight < el.scrollHeight - 2;
+  showFade.value =
+    el.scrollHeight > el.clientHeight &&
+    el.scrollTop + el.clientHeight < el.scrollHeight - 2;
   showFadeTop.value = el.scrollHeight > el.clientHeight && el.scrollTop > 2;
 }
 
@@ -334,7 +408,96 @@ function goHome() {
 .tab-button.active {
   background: var(--primary-color);
   color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Sorting Controls */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+  background: var(--background-off);
+  border-radius: 12px;
+  padding: 16px 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.sort-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.sort-controls label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.sort-controls select {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--background-light);
+  background: var(--background-light);
+  color: var(--text-primary);
+  font-size: 0.95em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  min-width: 120px;
+  text-align: left;
+}
+
+.sort-controls select:hover {
+  border-color: var(--primary-color);
+  background: white;
+}
+
+.sort-controls select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.select-wrapper::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-secondary);
+  font-size: 0.8em;
+}
+
+@media (max-width: 600px) {
+  .sort-controls {
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .sort-group {
+    width: 100%;
+  }
+
+  .sort-controls select {
+    min-width: 140px;
+  }
 }
 
 /* List View Styles */
@@ -360,6 +523,38 @@ function goHome() {
   overflow-y: auto;
   position: relative;
   padding-bottom: 90px; // enough for fade + button
+  transition: opacity 0.3s ease;
+}
+
+.stats-list.sorting {
+  opacity: 0.7;
+}
+
+.stats-transition-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+/* Animation for list items */
+.stats-list-enter-active,
+.stats-list-leave-active {
+  transition: all 0.3s ease;
+}
+
+.stats-list-enter-from {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.stats-list-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.stats-list-move {
+  transition: transform 0.3s ease;
 }
 
 .stats-list-fade {
@@ -369,7 +564,12 @@ function goHome() {
   bottom: 0;
   height: 72px;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.85) 95%, var(--background-light) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.85) 95%,
+    var(--background-light) 100%
+  );
   z-index: 2;
 }
 
@@ -380,14 +580,19 @@ function goHome() {
   top: 0;
   height: 48px;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,0.85) 95%, var(--background-light) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.85) 95%,
+    var(--background-light) 100%
+  );
   z-index: 2;
 }
 
 .stat-item {
   background: var(--background-off);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 16px 18px;
   display: flex;
   flex-direction: column;
@@ -427,7 +632,7 @@ function goHome() {
   background: var(--background-off);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   position: relative;
 }
 
@@ -435,20 +640,20 @@ function goHome() {
   .stats-content {
     max-height: 75vh;
   }
-  
+
   .chart-container {
     min-height: 300px;
     padding: 15px;
   }
-  
+
   .stats-graph-wrapper {
     padding: 0 10px;
   }
-  
+
   .tab-nav {
     margin-bottom: 20px;
   }
-  
+
   .tab-button {
     padding: 6px 16px;
     font-size: 0.9em;

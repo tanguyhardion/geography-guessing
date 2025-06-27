@@ -3,7 +3,7 @@ export function logGameCompletion({
   modeName,
   totalTime,
   finalScore,
-  accuracy
+  accuracy,
 }: {
   modeName: string;
   totalTime: number; // in seconds
@@ -15,10 +15,10 @@ export function logGameCompletion({
     completedAt: new Date().toISOString(),
     totalTime,
     finalScore,
-    accuracy
+    accuracy,
   };
-  const key = 'gameCompletions';
-  const history = JSON.parse(localStorage.getItem(key) || '[]');
+  const key = "gameCompletions";
+  const history = JSON.parse(localStorage.getItem(key) || "[]");
   history.push(completion);
   localStorage.setItem(key, JSON.stringify(history));
 }

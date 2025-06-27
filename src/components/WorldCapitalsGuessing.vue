@@ -23,7 +23,9 @@
           class="country-input"
           :disabled="!worldCapitalsStore.currentCountry"
         />
-        <button v-click-animate @click="makeGuess" class="guess-button">Deviner</button>
+        <button v-click-animate @click="makeGuess" class="guess-button">
+          Deviner
+        </button>
       </div>
 
       <p class="instruction-text">
@@ -52,7 +54,9 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button v-click-animate @click="restartGame" class="restart-button">Rejouer</button>
+      <button v-click-animate @click="restartGame" class="restart-button">
+        Rejouer
+      </button>
     </div>
   </div>
 </template>

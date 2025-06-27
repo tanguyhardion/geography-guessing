@@ -29,7 +29,8 @@
           class="country-input"
           :disabled="!flagStore.currentCountry"
         />
-        <button v-click-animate
+        <button
+          v-click-animate
           @click="makeGuess"
           class="guess-button"
           :disabled="
@@ -87,7 +88,9 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button v-click-animate @click="restartGame" class="restart-button">Rejouer</button>
+      <button v-click-animate @click="restartGame" class="restart-button">
+        Rejouer
+      </button>
     </div>
   </div>
 </template>
@@ -186,7 +189,9 @@ watch(
   (isComplete) => {
     if (isComplete) {
       logGameCompletion({
-        modeName: flagStore.reverseFlagMode ? "Drapeaux inversés" : "Quiz des drapeaux",
+        modeName: flagStore.reverseFlagMode
+          ? "Drapeaux inversés"
+          : "Quiz des drapeaux",
         totalTime: baseStore.elapsedTime,
         finalScore: baseStore.score,
         accuracy: baseStore.accuracy,

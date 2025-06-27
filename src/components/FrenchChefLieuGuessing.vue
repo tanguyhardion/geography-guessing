@@ -70,11 +70,7 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button
-        v-click-animate
-        @click="restartGame"
-        class="restart-button"
-      >
+      <button v-click-animate @click="restartGame" class="restart-button">
         Recommencer
       </button>
     </div>

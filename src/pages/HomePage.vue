@@ -85,8 +85,12 @@
       <button v-click-animate @click="startGame('guessFrenchChefLieux')">
         Chef-lieux français
       </button>
-      <button v-click-animate @click="selectCountryMapMode()">Pays du monde</button>
-      <button v-click-animate @click="startGame('guessRussianCities')">Villes de Russie</button>
+      <button v-click-animate @click="selectCountryMapMode()">
+        Pays du monde
+      </button>
+      <button v-click-animate @click="startGame('guessRussianCities')">
+        Villes de Russie
+      </button>
       <button v-click-animate @click="startGame('guessRussianOblasts')">
         Oblasts de Russie
       </button>
@@ -97,13 +101,15 @@
     >
       <h3>Continent :</h3>
       <div class="continent-buttons">
-        <button v-click-animate
+        <button
+          v-click-animate
           @click="selectCountryMapContinent('all')"
           class="continent-button all-continents"
         >
           Tous les continents
         </button>
-        <button v-click-animate
+        <button
+          v-click-animate
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectCountryMapContinent(continent as Continent)"
@@ -112,15 +118,21 @@
           {{ continent }}
         </button>
       </div>
-      <button v-click-animate @click="goBackFromCountryMap" class="back-button">Retour</button>
+      <button v-click-animate @click="goBackFromCountryMap" class="back-button">
+        Retour
+      </button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button v-click-animate @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
-      <button v-click-animate @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
+      <button v-click-animate @click="selectFlagMode('normal')">
+        Pays depuis le drapeau
+      </button>
+      <button v-click-animate @click="selectFlagMode('reverse')">
+        Drapeau depuis le pays
+      </button>
       <button v-click-animate @click="selectFlagMode('capitals')">
         Pays depuis la capitale
       </button>
@@ -134,13 +146,15 @@
     >
       <h3>Continent :</h3>
       <div class="continent-buttons">
-        <button v-click-animate
+        <button
+          v-click-animate
           @click="selectContinent('all')"
           class="continent-button all-continents"
         >
           Tous les continents
         </button>
-        <button v-click-animate
+        <button
+          v-click-animate
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectContinent(continent as Continent)"
@@ -149,7 +163,9 @@
           {{ continent }}
         </button>
       </div>
-      <button v-click-animate @click="goBack" class="back-button">Retour</button>
+      <button v-click-animate @click="goBack" class="back-button">
+        Retour
+      </button>
     </div>
 
     <!-- Footer with credits -->
@@ -467,7 +483,9 @@ h3 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 8px;
   cursor: pointer;
-  transition: box-shadow 0.2s, background 0.2s;
+  transition:
+    box-shadow 0.2s,
+    background 0.2s;
   z-index: 10;
   display: flex;
   align-items: center;
