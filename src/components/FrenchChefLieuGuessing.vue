@@ -316,11 +316,6 @@ onMounted(() => {
       outline: none;
     }
 
-    &:hover {
-      background-color: #f4f4f4;
-      border-color: transparent;
-    }
-
     &:active {
       background-color: #e8e8e8;
     }
@@ -374,12 +369,6 @@ onMounted(() => {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-default);
-
-    &:hover {
-      background-color: var(--primary-light);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
   }
 }
 

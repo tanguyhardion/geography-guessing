@@ -382,11 +382,6 @@ onUnmounted(() => {
       position: relative;
       z-index: 2;
 
-      &:hover:not(.active) {
-        background-color: var(--background-off);
-        color: var(--text-primary);
-      }
-
       &.active {
         background-color: var(--primary-color);
         color: white;
@@ -418,12 +413,6 @@ onUnmounted(() => {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       min-width: 80px;
       justify-content: space-between;
-
-      &:hover {
-        background-color: var(--background-off);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-1px);
-      }
 
       &:active {
         transform: translateY(0);
@@ -477,11 +466,6 @@ onUnmounted(() => {
 
         &:only-child {
           border-radius: 12px;
-        }
-
-        &:hover {
-          background-color: var(--background-off);
-          color: var(--text-primary);
         }
 
         &.active {
@@ -580,11 +564,6 @@ onUnmounted(() => {
       outline: none;
     }
 
-    &:hover {
-      background-color: #f4f4f4;
-      border-color: transparent;
-    }
-
     &:active {
       background-color: #e8e8e8;
     }
@@ -635,18 +614,7 @@ onUnmounted(() => {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition-default);
-
-    &:hover {
-      background-color: var(--primary-light);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    }
   }
-}
-
-// Style for city markers on hover
-:global(.leaflet-interactive:hover) {
-  cursor: pointer;
 }
 
 // Dropdown animation

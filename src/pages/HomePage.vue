@@ -492,11 +492,6 @@ h3 {
   justify-content: center;
 }
 
-.stats-icon:hover {
-  background: var(--primary-light);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
-
 .page-footer {
   margin-top: auto;
   padding: 20px 24px 16px;

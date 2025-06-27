@@ -134,7 +134,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale
+  TimeScale,
 );
 
 interface GameStat {
@@ -204,14 +204,14 @@ const chartData = computed(() => {
       acc[stat.modeName].push(stat);
       return acc;
     },
-    {} as Record<string, GameStat[]>
+    {} as Record<string, GameStat[]>,
   );
 
   // Sort each group by date
   Object.keys(groupedStats).forEach((mode) => {
     groupedStats[mode].sort(
       (a, b) =>
-        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime(),
     );
   });
 
@@ -409,6 +409,11 @@ function goHome() {
   background: var(--primary-color);
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-button:not(.active):hover {
+  background: rgba(var(--primary-color-rgb, 59, 130, 246), 0.1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
 }
 
 /* Sorting Controls */
