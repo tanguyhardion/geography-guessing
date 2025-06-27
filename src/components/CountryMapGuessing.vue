@@ -62,12 +62,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 import { useCountryMapStore } from "../store/countryMapStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import "leaflet/dist/leaflet.css";
+import { logGameCompletion } from "../utils/completionLogger";
 
 const countryMapStore = useCountryMapStore();
 const baseStore = useBaseGameStore();
@@ -258,6 +259,20 @@ const centerMap = () => {
 const restartGame = () => {
   countryMapStore.initializeGame();
 };
+
+watch(
+  () => countryMapStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: "Pays du monde (carte)",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
+);
 
 onMounted(async () => {
   // Initialize the country map game if not already initialized

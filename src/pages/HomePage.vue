@@ -1,7 +1,7 @@
 <template>
   <div class="homepage">
     <h1>Quiz Géographique</h1>
-
+    <span class="mobile-title-spacer"></span>
     <div class="game-selector">
       <div
         class="game-type"
@@ -506,6 +506,23 @@ h3 {
     padding: 10px 16px;
     font-size: 0.9em;
     flex: 1 1 calc(50% - 6px);
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.6em;
+    margin: 12px 0;
+  }
+  .game-selector {
+    margin-bottom: 28px;
+  }
+  .mobile-title-spacer {
+    height: 18vw;
+    max-height: 38px;
+    min-height: 18px;
+    width: 100%;
+    display: block;
   }
 }
 

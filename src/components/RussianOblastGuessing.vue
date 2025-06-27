@@ -118,11 +118,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted } from "vue";
+import { ref, onMounted, computed, onUnmounted, watch } from "vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 import { useRussianOblastStore } from "../store/russianOblastStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { logGameCompletion } from "../utils/completionLogger";
 import "leaflet/dist/leaflet.css";
 
 const russianOblastStore = useRussianOblastStore();
@@ -302,6 +303,21 @@ onMounted(async () => {
     console.warn("Failed to load oblasts GeoJSON:", error);
   }
 });
+
+// Watch for game completion and log to localStorage
+watch(
+  () => russianOblastStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: "Russian Oblasts Map",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
+);
 
 // Clean up event listener
 onUnmounted(() => {

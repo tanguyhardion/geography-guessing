@@ -118,13 +118,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted } from "vue";
+import { ref, onMounted, computed, onUnmounted, watch } from "vue";
 import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
 import { useRussianCityStore } from "../store/russianCityStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import type { RussianCity } from "../types";
 import "leaflet/dist/leaflet.css";
+import { logGameCompletion } from "../utils/completionLogger";
 
 const russianCityStore = useRussianCityStore();
 const baseStore = useBaseGameStore();
@@ -275,6 +276,20 @@ const closeLanguageMenu = (event: Event) => {
     showLanguageMenu.value = false;
   }
 };
+
+watch(
+  () => russianCityStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: "Villes russes (carte)",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
+);
 
 onMounted(() => {
   // Initialize the Russian cities game if not already initialized

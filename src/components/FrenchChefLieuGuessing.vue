@@ -75,11 +75,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
 import { useFrenchChefLieuStore } from "../store/frenchChefLieuStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { logGameCompletion } from "../utils/completionLogger";
 import type { FrenchChefLieu } from "../types";
 import "leaflet/dist/leaflet.css";
 
@@ -190,6 +191,20 @@ const centerMap = () => {
 const restartGame = () => {
   frenchChefLieuStore.initializeGame();
 };
+
+watch(
+  () => frenchChefLieuStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: "Chef-lieux français (carte)",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
+);
 
 onMounted(() => {
   // Initialize the French chef-lieux game if not already initialized

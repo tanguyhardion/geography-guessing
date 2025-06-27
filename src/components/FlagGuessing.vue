@@ -97,6 +97,7 @@ import { useFlagStore } from "../store/flagStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import { computed, ref, watch, onMounted } from "vue";
+import { logGameCompletion } from "../utils/completionLogger";
 
 const flagStore = useFlagStore();
 const baseStore = useBaseGameStore();
@@ -177,6 +178,21 @@ watch(
     }
   },
   { immediate: true },
+);
+
+// Log game completion to localStorage
+watch(
+  () => flagStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: flagStore.reverseFlagMode ? "Drapeaux inversés" : "Quiz des drapeaux",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
 );
 
 onMounted(() => {

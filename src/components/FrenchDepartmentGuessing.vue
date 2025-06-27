@@ -66,6 +66,7 @@ import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 import { useDepartmentStore } from "../store/departmentStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { logGameCompletion } from "../utils/completionLogger";
 import "leaflet/dist/leaflet.css";
 
 const departmentStore = useDepartmentStore();
@@ -216,6 +217,12 @@ watch(
   () => departmentStore.isGameComplete,
   (isComplete) => {
     if (isComplete) {
+      logGameCompletion({
+        modeName: "Départements français (carte)",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
       showCompletionPopup.value = false;
       setTimeout(() => {
         showCompletionPopup.value = true;

@@ -62,6 +62,7 @@ import { useWorldCapitalsStore } from "../store/worldCapitalsStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import { computed, ref, watch, onMounted } from "vue";
+import { logGameCompletion } from "../utils/completionLogger";
 
 const worldCapitalsStore = useWorldCapitalsStore();
 const baseStore = useBaseGameStore();
@@ -104,6 +105,21 @@ watch(
     }
   },
   { immediate: true },
+);
+
+// Log game completion to localStorage when the game is finished
+watch(
+  () => !worldCapitalsStore.currentCountry,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: "Capitales du monde",
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
 );
 
 onMounted(() => {
