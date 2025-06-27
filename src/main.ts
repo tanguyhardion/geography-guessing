@@ -4,48 +4,11 @@ import App from "./App.vue";
 import { pinia } from "./store"; // Import Pinia instance
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import router from "./router";
 
 const app = createApp(App);
 
-// Add click animation to all buttons
-document.addEventListener("DOMContentLoaded", () => {
-  // Function to add click animation
-  const addClickAnimation = (button: HTMLButtonElement) => {
-    button.addEventListener("click", () => {
-      button.classList.remove("animate-click");
-      // Force reflow
-      button.offsetHeight;
-      button.classList.add("animate-click");
-
-      setTimeout(() => {
-        button.classList.remove("animate-click");
-      }, 600);
-    });
-  };
-
-  // Add to existing buttons
-  document.querySelectorAll("button").forEach(addClickAnimation);
-
-  // Add to dynamically created buttons
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const element = node as Element;
-          if (element.tagName === "BUTTON") {
-            addClickAnimation(element as HTMLButtonElement);
-          }
-          // Also check for buttons inside added elements
-          element.querySelectorAll?.("button").forEach(addClickAnimation);
-        }
-      });
-    });
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-});
-
-// Global directive for button click animation (alternative approach)
+// Global directive for button click animation (Vue way)
 app.directive("click-animate", {
   mounted(el: HTMLElement) {
     el.addEventListener("click", () => {
@@ -80,4 +43,5 @@ app.use(Toast, {
   maxToasts: 1, // Ensures only one toast is visible at a time
   newestOnTop: true, // New toasts replace old ones
 });
+app.use(router);
 app.mount("#app");

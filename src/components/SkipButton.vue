@@ -1,5 +1,5 @@
 <template>
-  <button @click="skip" class="skip-button">Passer</button>
+  <button v-click-animate @click="skip" class="skip-button">Passer</button>
 </template>
 
 <script setup lang="ts">

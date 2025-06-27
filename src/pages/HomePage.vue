@@ -1,5 +1,22 @@
 <template>
   <div class="homepage">
+    <div class="stats-icon" @click="goToStats" title="Voir les statistiques">
+      <!-- Simple bar chart SVG icon -->
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--primary-color)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="12" width="4" height="8" />
+        <rect x="9" y="8" width="4" height="12" />
+        <rect x="15" y="4" width="4" height="16" />
+      </svg>
+    </div>
     <h1>Quiz Géographique</h1>
     <span class="mobile-title-spacer"></span>
     <div class="game-selector">
@@ -47,13 +64,13 @@
     </div>
     <div v-if="selectedGame === 'departments'" class="mode-buttons">
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessChefLieu')">
+      <button v-click-animate @click="startGame('guessChefLieu')">
         Numéro à partir du chef-lieu
       </button>
-      <button @click="startGame('guessDepartmentName')">
+      <button v-click-animate @click="startGame('guessDepartmentName')">
         Numéro à partir du nom
       </button>
-      <button @click="startGame('guessBoth')">
+      <button v-click-animate @click="startGame('guessBoth')">
         Numéro à partir du nom ou du chef-lieu
       </button>
     </div>
@@ -62,15 +79,15 @@
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="startGame('guessMapLocation')">
+      <button v-click-animate @click="startGame('guessMapLocation')">
         Départements français
       </button>
-      <button @click="startGame('guessFrenchChefLieux')">
+      <button v-click-animate @click="startGame('guessFrenchChefLieux')">
         Chef-lieux français
       </button>
-      <button @click="selectCountryMapMode()">Pays du monde</button>
-      <button @click="startGame('guessRussianCities')">Villes de Russie</button>
-      <button @click="startGame('guessRussianOblasts')">
+      <button v-click-animate @click="selectCountryMapMode()">Pays du monde</button>
+      <button v-click-animate @click="startGame('guessRussianCities')">Villes de Russie</button>
+      <button v-click-animate @click="startGame('guessRussianOblasts')">
         Oblasts de Russie
       </button>
     </div>
@@ -80,13 +97,13 @@
     >
       <h3>Continent :</h3>
       <div class="continent-buttons">
-        <button
+        <button v-click-animate
           @click="selectCountryMapContinent('all')"
           class="continent-button all-continents"
         >
           Tous les continents
         </button>
-        <button
+        <button v-click-animate
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectCountryMapContinent(continent as Continent)"
@@ -95,19 +112,19 @@
           {{ continent }}
         </button>
       </div>
-      <button @click="goBackFromCountryMap" class="back-button">Retour</button>
+      <button v-click-animate @click="goBackFromCountryMap" class="back-button">Retour</button>
     </div>
     <div
       v-else-if="selectedGame === 'flags' && !showContinentSelection"
       class="mode-buttons"
     >
       <h3>Mode de jeu:</h3>
-      <button @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
-      <button @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
-      <button @click="selectFlagMode('capitals')">
+      <button v-click-animate @click="selectFlagMode('normal')">Pays depuis le drapeau</button>
+      <button v-click-animate @click="selectFlagMode('reverse')">Drapeau depuis le pays</button>
+      <button v-click-animate @click="selectFlagMode('capitals')">
         Pays depuis la capitale
       </button>
-      <button @click="selectFlagMode('reverseCapitals')">
+      <button v-click-animate @click="selectFlagMode('reverseCapitals')">
         Capitale depuis le pays
       </button>
     </div>
@@ -117,13 +134,13 @@
     >
       <h3>Continent :</h3>
       <div class="continent-buttons">
-        <button
+        <button v-click-animate
           @click="selectContinent('all')"
           class="continent-button all-continents"
         >
           Tous les continents
         </button>
-        <button
+        <button v-click-animate
           v-for="continent in availableContinents"
           :key="continent"
           @click="selectContinent(continent as Continent)"
@@ -132,7 +149,7 @@
           {{ continent }}
         </button>
       </div>
-      <button @click="goBack" class="back-button">Retour</button>
+      <button v-click-animate @click="goBack" class="back-button">Retour</button>
     </div>
 
     <!-- Footer with credits -->
@@ -155,10 +172,12 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import { useAppGameStore } from "../store/gameStoreAdapter";
+import { useRouter } from "vue-router";
 import type { GameMode, Continent } from "../types";
 
 const emit = defineEmits(["mode-selected"]);
 const appGameStore = useAppGameStore();
+const router = useRouter();
 const selectedGame = ref<"departments" | "flags" | "map">(
   appGameStore.selectedGameType,
 );
@@ -207,26 +226,26 @@ const goBack = () => {
 
 const startGame = (mode: GameMode) => {
   appGameStore.setReverseFlagMode(false);
-  appGameStore.setGameMode(mode); // This will also initialize the game via the store action
-  emit("mode-selected");
+  appGameStore.setGameMode(mode);
+  router.push({ name: "Game" });
 };
 
 const startReverseFlagMode = () => {
   appGameStore.setReverseFlagMode(true);
   appGameStore.setGameMode("guessFlags");
-  emit("mode-selected");
+  router.push({ name: "Game" });
 };
 
 const startCapitalsMode = () => {
   appGameStore.setReverseFlagMode(false);
   appGameStore.setGameMode("guessWorldCapitals");
-  emit("mode-selected");
+  router.push({ name: "Game" });
 };
 
 const startReverseCapitalsMode = () => {
   appGameStore.setReverseFlagMode(false);
   appGameStore.setGameMode("guessCountryFromCapital");
-  emit("mode-selected");
+  router.push({ name: "Game" });
 };
 
 const selectCountryMapMode = () => {
@@ -241,6 +260,10 @@ const selectCountryMapContinent = (continent: Continent | "all") => {
 const goBackFromCountryMap = () => {
   showCountryMapContinentSelection.value = false;
 };
+
+function goToStats() {
+  window.dispatchEvent(new CustomEvent("navigate-stats"));
+}
 </script>
 
 <style scoped lang="scss">
@@ -433,6 +456,27 @@ h3 {
   border-radius: 24px;
   cursor: pointer;
   transition: var(--transition-default);
+}
+
+.stats-icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: var(--background-off);
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  padding: 8px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, background 0.2s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-icon:hover {
+  background: var(--primary-light);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .page-footer {

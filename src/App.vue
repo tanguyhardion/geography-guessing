@@ -1,25 +1,23 @@
 <template>
   <div id="app-container">
-    <header v-if="currentPage === 'game'">
+    <header v-if="$route.name === 'Game'">
       <div class="header-flex">
         <h1>{{ pageTitle }}</h1>
         <div class="timer">{{ baseStore.formattedTime }}</div>
-        <button @click="goHome" class="back-button">Retour</button>
+        <button v-click-animate @click="goHome" class="back-button">Retour</button>
       </div>
     </header>
     <main>
       <transition name="fade" mode="out-in">
-        <HomePage v-if="currentPage === 'home'" @mode-selected="startGame" />
-        <GamePage v-else-if="currentPage === 'game'" />
+        <router-view />
       </transition>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onUnmounted } from "vue";
-import HomePage from "./pages/HomePage.vue";
-import GamePage from "./pages/GamePage.vue";
+import { computed, watch, onUnmounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useBaseGameStore } from "./store/baseGameStore";
 import { useAppGameStore } from "./store/gameStoreAdapter";
 import { useToast, TYPE } from "vue-toastification";
@@ -27,7 +25,8 @@ import { useToast, TYPE } from "vue-toastification";
 const baseStore = useBaseGameStore();
 const appGameStore = useAppGameStore();
 const toast = useToast();
-const currentPage = ref<"home" | "game">("home");
+const router = useRouter();
+const route = useRoute();
 
 const pageTitle = computed(() => {
   if (appGameStore.isInFlagMode) {
@@ -52,10 +51,8 @@ watch(
   () => baseStore.message,
   (newMessage) => {
     if (newMessage) {
-      toast.clear(); // Clear all existing toasts before showing a new one
-
+      toast.clear();
       if (typeof newMessage === "string") {
-        // Handle string messages
         if (newMessage.includes("Correct")) {
           toast(newMessage, { type: TYPE.SUCCESS });
         } else if (
@@ -76,7 +73,6 @@ watch(
           toast(newMessage, { type: TYPE.DEFAULT });
         }
       } else if (typeof newMessage === "object" && newMessage.component) {
-        // Handle component messages (like skip messages with bold text)
         toast(newMessage, { type: TYPE.WARNING });
       }
     }
@@ -87,18 +83,18 @@ watch(
 watch(
   () => appGameStore.currentGameMode,
   (newMode, oldMode) => {
-    if (newMode !== oldMode && currentPage.value === "game") {
+    if (newMode !== oldMode && route.name === "Game") {
       baseStore.resetTimer();
       baseStore.startTimer();
     }
   },
 );
 
-// Watch for page changes to manage timer
+// Watch for route changes to manage timer
 watch(
-  () => currentPage.value,
+  () => route.name,
   (newPage) => {
-    if (newPage === "game") {
+    if (newPage === "Game") {
       baseStore.startTimer();
     } else {
       baseStore.pauseTimer();
@@ -106,18 +102,25 @@ watch(
   },
 );
 
-const startGame = () => {
-  currentPage.value = "game";
-};
-
 const goHome = () => {
-  currentPage.value = "home";
+  router.push({ name: "Home" });
   baseStore.message = null;
   baseStore.stopTimer();
 };
 
-// Clean up timer on component unmount
+function handleNavigateStats() {
+  router.push({ name: "Stats" });
+}
+function handleNavigateHome() {
+  router.push({ name: "Home" });
+}
+
+window.addEventListener("navigate-stats", handleNavigateStats);
+window.addEventListener("navigate-home", handleNavigateHome);
+
 onUnmounted(() => {
+  window.removeEventListener("navigate-stats", handleNavigateStats);
+  window.removeEventListener("navigate-home", handleNavigateHome);
   baseStore.stopTimer();
 });
 </script>

@@ -15,13 +15,13 @@
     <div class="question-area">
       <!-- Desktop language switch -->
       <div class="language-switch desktop-only">
-        <button
+        <button v-click-animate
           :class="['toggle-button', { active: !useRussian }]"
           @click="useRussian = false"
         >
           English
         </button>
-        <button
+        <button v-click-animate
           :class="['toggle-button', { active: useRussian }]"
           @click="useRussian = true"
         >
@@ -31,7 +31,7 @@
 
       <!-- Mobile language menu -->
       <div class="language-menu mobile-only">
-        <button class="language-menu-button" @click="toggleLanguageMenu">
+        <button v-click-animate class="language-menu-button" @click="toggleLanguageMenu">
           <span>{{ useRussian ? "RU" : "EN" }}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
             <path
@@ -46,13 +46,13 @@
         </button>
 
         <div v-if="showLanguageMenu" class="language-dropdown">
-          <button
+          <button v-click-animate
             :class="['dropdown-item', { active: !useRussian }]"
             @click="selectLanguage(false)"
           >
             English
           </button>
-          <button
+          <button v-click-animate
             :class="['dropdown-item', { active: useRussian }]"
             @click="selectLanguage(true)"
           >
@@ -71,8 +71,7 @@
     </div>
 
     <div class="map-container">
-      <button
-        @click="centerMap"
+      <button v-click-animate @click="centerMap"
         class="center-map-button"
         title="Centrer la carte"
       >
@@ -112,7 +111,7 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button @click="restartGame" class="restart-button">Recommencer</button>
+      <button v-click-animate @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
 </template>

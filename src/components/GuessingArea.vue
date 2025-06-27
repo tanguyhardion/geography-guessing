@@ -16,7 +16,7 @@
     <!-- Completion message paragraph removed, toast will handle it -->
     <div v-if="!departmentStore.currentDepartment">
       <!-- The completion message is now shown as a toast via App.vue -->
-      <button @click="restartGame" class="restart-button">Rejouer</button>
+      <button v-click-animate @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>
 </template>

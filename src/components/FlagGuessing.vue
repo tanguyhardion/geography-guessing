@@ -29,7 +29,7 @@
           class="country-input"
           :disabled="!flagStore.currentCountry"
         />
-        <button
+        <button v-click-animate
           @click="makeGuess"
           class="guess-button"
           :disabled="
@@ -87,7 +87,7 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button @click="restartGame" class="restart-button">Rejouer</button>
+      <button v-click-animate @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>
 </template>

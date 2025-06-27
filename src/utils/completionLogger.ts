@@ -12,7 +12,7 @@ export function logGameCompletion({
 }) {
   const completion = {
     modeName,
-    date: new Date().toISOString(),
+    completedAt: new Date().toISOString(),
     totalTime,
     finalScore,
     accuracy

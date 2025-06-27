@@ -26,6 +26,7 @@
 
     <div class="map-container">
       <button
+        v-click-animate
         @click="centerMap"
         class="center-map-button"
         title="Centrer la carte"
@@ -69,7 +70,13 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button @click="restartGame" class="restart-button">Recommencer</button>
+      <button
+        v-click-animate
+        @click="restartGame"
+        class="restart-button"
+      >
+        Recommencer
+      </button>
     </div>
   </div>
 </template>
