@@ -134,7 +134,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale,
+  TimeScale
 );
 
 interface GameStat {
@@ -204,14 +204,14 @@ const chartData = computed(() => {
       acc[stat.modeName].push(stat);
       return acc;
     },
-    {} as Record<string, GameStat[]>,
+    {} as Record<string, GameStat[]>
   );
 
   // Sort each group by date
   Object.keys(groupedStats).forEach((mode) => {
     groupedStats[mode].sort(
       (a, b) =>
-        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime(),
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
     );
   });
 
@@ -444,10 +444,12 @@ function goHome() {
 
 .select-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .sort-controls select {
-  padding: 8px 16px;
+  padding: 8px 32px 8px 16px; // extra right padding for arrow
   border-radius: 8px;
   border: 2px solid var(--background-light);
   background: var(--background-light);
@@ -474,30 +476,20 @@ function goHome() {
 }
 
 .select-wrapper::after {
-  content: "▼";
+  content: "";
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: var(--text-secondary);
-  font-size: 0.8em;
-}
-
-@media (max-width: 600px) {
-  .sort-controls {
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-  }
-
-  .sort-group {
-    width: 100%;
-  }
-
-  .sort-controls select {
-    min-width: 140px;
-  }
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="16" viewBox="0 0 20 20" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>');
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
 }
 
 /* List View Styles */
@@ -667,11 +659,11 @@ function goHome() {
 }
 
 .back-button {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 24px auto 0 auto;
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  margin: 0;
   width: fit-content;
   padding: 10px 24px;
   border-radius: 24px;
@@ -681,7 +673,7 @@ function goHome() {
   font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
-  z-index: 10;
+  z-index: 100;
   display: block;
 }
 
