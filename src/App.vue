@@ -56,12 +56,13 @@ watch(
 
       if (typeof newMessage === "string") {
         // Handle string messages
-        if (
-          newMessage.includes("Correct") ||
+        if (newMessage.includes("Correct")) {
+          toast(newMessage, { type: TYPE.SUCCESS });
+        } else if (
           newMessage.includes("félicitations") ||
           newMessage.includes("Félicitations")
         ) {
-          toast(newMessage, { type: TYPE.SUCCESS });
+          // Do not show toast for completion message
         } else if (newMessage.includes("Incorrect")) {
           toast(newMessage, { type: TYPE.ERROR });
         } else if (newMessage.includes("Indice")) {

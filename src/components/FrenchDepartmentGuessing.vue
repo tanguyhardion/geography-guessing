@@ -48,15 +48,15 @@
       </l-map>
     </div>
 
-    <div v-if="departmentStore.isGameComplete" class="game-complete">
-      <h2>{{ baseStore.message }}</h2>
+    <div v-if="showCompletionPopup" class="game-complete">
+      <h2>Félicitations ! Tu as deviné tous les départements !</h2>
       <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 import { useDepartmentStore } from "../store/departmentStore";
 import { useBaseGameStore } from "../store/baseGameStore";
@@ -203,6 +203,23 @@ const centerMap = () => {
 const restartGame = () => {
   departmentStore.initializeGame();
 };
+
+const showCompletionPopup = ref(false);
+
+// Watch for game completion and delay popup
+watch(
+  () => departmentStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      showCompletionPopup.value = false;
+      setTimeout(() => {
+        showCompletionPopup.value = true;
+      }, 1200); // 1.2s delay for toast breathing room
+    } else {
+      showCompletionPopup.value = false;
+    }
+  },
+);
 
 onMounted(async () => {
   try {
