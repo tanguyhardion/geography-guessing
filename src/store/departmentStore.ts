@@ -380,6 +380,7 @@ export const useDepartmentStore = defineStore("departments", {
       this.currentGuessType = null;
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {

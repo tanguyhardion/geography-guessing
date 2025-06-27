@@ -79,9 +79,14 @@
       </div>
     </div>
 
-    <!-- Completion message paragraph removed, toast will handle it -->
-    <div v-if="!flagStore.currentCountry" class="flag-section">
-      <!-- The completion message is now shown as a toast via App.vue -->
+    <!-- Completion summary popup -->
+    <div v-if="!flagStore.currentCountry" class="flag-section game-complete">
+      <h2>Félicitations ! Tu as deviné tous les drapeaux !</h2>
+      <div class="summary">
+        <p><strong>Temps final :</strong> {{ baseStore.formattedTime }}</p>
+        <p><strong>Score final :</strong> {{ baseStore.score }}</p>
+        <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
+      </div>
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>
@@ -472,5 +477,28 @@ onMounted(() => {
   transition: var(--transition-default);
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
   font-weight: 600;
+}
+
+.game-complete {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: var(--background-off);
+  box-shadow: var(--card-shadow);
+  margin: 0 auto;
+  max-width: 600px;
+  width: 90%;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.summary {
+  margin: 20px 0;
+  font-size: 1.1em;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.summary strong {
+  color: var(--primary-color);
 }
 </style>

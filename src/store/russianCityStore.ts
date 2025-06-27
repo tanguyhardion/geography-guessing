@@ -156,6 +156,7 @@ export const useRussianCityStore = defineStore("russianCities", {
       this.currentRussianCity = null;
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {

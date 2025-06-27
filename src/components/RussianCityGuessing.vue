@@ -106,7 +106,12 @@
     </div>
 
     <div v-if="russianCityStore.isGameComplete" class="game-complete">
-      <h2>{{ baseStore.message }}</h2>
+      <h2>Félicitations ! Tu as localisé toutes les villes !</h2>
+      <div class="summary">
+        <p><strong>Temps final :</strong> {{ baseStore.formattedTime }}</p>
+        <p><strong>Score final :</strong> {{ baseStore.score }}</p>
+        <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
+      </div>
       <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
@@ -581,6 +586,17 @@ onUnmounted(() => {
   h2 {
     margin-bottom: 20px;
     color: var(--success-color);
+  }
+
+  .summary {
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 0.9em;
+    color: var(--text-primary);
+
+    p {
+      margin: 5px 0;
+    }
   }
 
   .restart-button {

@@ -156,6 +156,7 @@ export const useFrenchChefLieuStore = defineStore("frenchChefLieux", {
     handleGameCompletion() {
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {

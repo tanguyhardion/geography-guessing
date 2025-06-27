@@ -63,7 +63,12 @@
     </div>
 
     <div v-if="frenchChefLieuStore.isGameComplete" class="game-complete">
-      <h2>{{ baseStore.message }}</h2>
+      <h2>Félicitations ! Tu as trouvé tous les chef-lieux français !</h2>
+      <div class="summary">
+        <p><strong>Temps final :</strong> {{ baseStore.formattedTime }}</p>
+        <p><strong>Score final :</strong> {{ baseStore.score }}</p>
+        <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
+      </div>
       <button @click="restartGame" class="restart-button">Recommencer</button>
     </div>
   </div>
@@ -325,6 +330,20 @@ onMounted(() => {
   h2 {
     margin-bottom: 20px;
     color: var(--success-color);
+  }
+
+  .summary {
+    margin-bottom: 20px;
+    text-align: left;
+
+    p {
+      margin: 5px 0;
+      color: var(--text-primary);
+
+      strong {
+        color: var(--primary-color);
+      }
+    }
   }
 
   .restart-button {

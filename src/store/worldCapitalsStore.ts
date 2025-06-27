@@ -263,6 +263,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       this.currentCountry = null;
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {

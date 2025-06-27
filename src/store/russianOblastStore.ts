@@ -164,6 +164,7 @@ export const useRussianOblastStore = defineStore("russianOblasts", {
       this.currentRussianOblast = null;
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {

@@ -42,8 +42,16 @@
     </div>
 
     <!-- Completion message paragraph removed, toast will handle it -->
-    <div v-if="!worldCapitalsStore.currentCountry" class="capitals-section">
-      <!-- The completion message is now shown as a toast via App.vue -->
+    <div
+      v-if="!worldCapitalsStore.currentCountry"
+      class="capitals-section game-complete"
+    >
+      <h2>Félicitations ! Tu as deviné toutes les capitales !</h2>
+      <div class="summary">
+        <p><strong>Temps final :</strong> {{ baseStore.formattedTime }}</p>
+        <p><strong>Score final :</strong> {{ baseStore.score }}</p>
+        <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
+      </div>
       <button @click="restartGame" class="restart-button">Rejouer</button>
     </div>
   </div>

@@ -293,6 +293,7 @@ export const useFlagStore = defineStore("flags", {
       this.currentCountry = null;
       const baseStore = useBaseGameStore();
       baseStore.setMessage(COMPLETION_MESSAGE);
+      baseStore.stopTimer();
     },
 
     scheduleNextQuestion() {
