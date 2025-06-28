@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
-    "format": "prettier --write .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@vue-leaflet/vue-leaflet": "^0.10.1",
@@ -26,7 +24,6 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
-    "gh-pages": "^6.3.0",
     "prettier": "^3.5.3",
     "sass-embedded": "^1.88.0",
     "typescript": "~5.8.3",
