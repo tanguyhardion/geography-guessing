@@ -22,10 +22,15 @@ export function useCountryMapGuessing() {
   // Filtered geojson data based on selected continent
   const filteredGeojson = computed(() => {
     if (!geojson.value) return null;
-    if (!countryMapStore.selectedContinent || countryMapStore.selectedContinent === "all") {
+    if (
+      !countryMapStore.selectedContinent ||
+      countryMapStore.selectedContinent === "all"
+    ) {
       return geojson.value;
     }
-    const continentCountryIds = countryMapStore.continentCountries.map((c) => c.id);
+    const continentCountryIds = countryMapStore.continentCountries.map(
+      (c) => c.id,
+    );
     const geoJsonData = geojson.value as any;
     const filteredFeatures = geoJsonData.features.filter((feature: any) => {
       const countryCode = getCountryCode(feature);

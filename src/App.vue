@@ -80,7 +80,7 @@ watch(
         toast(newMessage, { type: TYPE.WARNING });
       }
     }
-  }
+  },
 );
 
 // Watch for game mode changes to reset timer
@@ -91,7 +91,7 @@ watch(
       baseStore.resetTimer();
       baseStore.startTimer();
     }
-  }
+  },
 );
 
 // Watch for route changes to manage timer
@@ -103,7 +103,7 @@ watch(
     } else {
       baseStore.pauseTimer();
     }
-  }
+  },
 );
 
 const goHome = () => {

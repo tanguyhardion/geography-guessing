@@ -9,7 +9,9 @@ import type { RussianCity } from "../types";
 export function useRussianCityGuessing() {
   const russianCityStore = useRussianCityStore();
   const baseStore = useBaseGameStore();
-  const totalRussianCities = computed(() => russianCityStore.totalRussianCities);
+  const totalRussianCities = computed(
+    () => russianCityStore.totalRussianCities,
+  );
 
   // Map configuration centered on Russia
   const zoom = ref(3); // More zoomed out

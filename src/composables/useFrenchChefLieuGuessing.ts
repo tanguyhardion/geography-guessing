@@ -9,7 +9,9 @@ import type { FrenchChefLieu } from "../types";
 export function useFrenchChefLieuGuessing() {
   const frenchChefLieuStore = useFrenchChefLieuStore();
   const baseStore = useBaseGameStore();
-  const totalFrenchChefLieux = computed(() => frenchChefLieuStore.totalFrenchChefLieux);
+  const totalFrenchChefLieux = computed(
+    () => frenchChefLieuStore.totalFrenchChefLieux,
+  );
 
   // Map configuration centered on France
   const zoom = ref(6);
