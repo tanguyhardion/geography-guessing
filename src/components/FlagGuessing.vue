@@ -96,115 +96,28 @@
 </template>
 
 <script setup lang="ts">
-import { useFlagStore } from "../store/flagStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
-import { computed, ref, watch, onMounted } from "vue";
-import { logGameCompletion } from "../utils/completionLogger";
+import { ref } from "vue";
+import { useFlagGuessing } from "../composables/useFlagGuessing";
 
-const flagStore = useFlagStore();
-const baseStore = useBaseGameStore();
-const totalCountries = computed(() => flagStore.totalCountries);
+// Use a ref for the input field to manage focus/blur
 const inputField = ref<HTMLInputElement | null>(null);
 
-// More robust current progress calculation that handles continent filtering correctly
-const currentProgress = computed(() => {
-  const total = flagStore.totalCountries;
-  const remaining = flagStore.availableCountries.length;
-
-  // Ensure we never get negative or invalid values
-  if (total <= 0 || remaining < 0 || remaining > total) {
-    return 1; // Safe fallback
-  }
-
-  return total - remaining + 1;
-});
-
-const continentCountries = computed(() => {
-  if (!flagStore.currentCountry) return [];
-  return flagStore.continentCountries.filter(
-    (c) => c.continent === flagStore.currentCountry?.continent,
-  );
-});
-
-const getFlagUrl = (id: string) => `https://flagcdn.com/${id}.svg`;
-
-const getFlagClass = (country: any) => {
-  const status = flagStore.getCountryStatus(country.id);
-  return {
-    "flag-list-item": true,
-    "correct-guess": status === "correct",
-  };
-};
-
-const makeGuess = () => {
-  if (flagStore.userGuessInput.trim() && flagStore.currentCountry) {
-    flagStore.makeFlagGuess(flagStore.userGuessInput);
-    // Focus input field after guess only if there's a next country
-    if (flagStore.currentCountry && inputField.value) {
-      inputField.value.focus();
-    }
-  }
-};
-
-const handleFlagGuess = (countryId: string) => {
-  if (!flagStore.currentCountry) return;
-  flagStore.makeFlagGuessByFlag(countryId);
-};
-
-const restartGame = () => {
-  flagStore.initializeGame();
-  // Focus input field when game restarts and there's a country
-  if (flagStore.currentCountry && inputField.value) {
-    // Need a slight delay for the input to be potentially re-rendered/enabled
-    setTimeout(() => {
-      inputField.value?.focus();
-    }, 0);
-  }
-};
-
-const blurInput = () => {
-  if (inputField.value) {
-    inputField.value.blur();
-  }
-};
-
-// Focus the input field when a new country is selected (and it's not game over)
-watch(
-  () => flagStore.currentCountry,
-  (newCountry) => {
-    if (newCountry && inputField.value) {
-      // Need a slight delay for the input to be potentially re-rendered/enabled
-      setTimeout(() => {
-        inputField.value?.focus();
-      }, 0);
-    }
-  },
-  { immediate: true },
-);
-
-// Log game completion to localStorage
-watch(
-  () => flagStore.isGameComplete,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: flagStore.reverseFlagMode
-          ? "Drapeaux inversés"
-          : "Quiz des drapeaux",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-    }
-  },
-);
-
-onMounted(() => {
-  if (flagStore.currentCountry && inputField.value) {
-    inputField.value.focus();
-  }
-});
+// All flag guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  flagStore,
+  baseStore,
+  totalCountries,
+  currentProgress,
+  continentCountries,
+  getFlagUrl,
+  getFlagClass,
+  makeGuess,
+  handleFlagGuess,
+  restartGame,
+  blurInput,
+} = useFlagGuessing(inputField);
 </script>
 
 <style scoped lang="scss">

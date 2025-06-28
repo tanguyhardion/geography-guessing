@@ -64,188 +64,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from "vue";
-import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
-import { useDepartmentStore } from "../store/departmentStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
-import { logGameCompletion } from "../utils/completionLogger";
+import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
+import { useFrenchDepartmentGuessing } from "../composables/useFrenchDepartmentGuessing";
 import "leaflet/dist/leaflet.css";
 
-const departmentStore = useDepartmentStore();
-const baseStore = useBaseGameStore();
-const totalDepartments = computed(() => departmentStore.totalDepartments);
+defineProps();
+defineEmits();
 
-const zoom = ref(6);
-const center = ref([46.603354, 1.888334] as [number, number]);
-const mapRef = ref(null); // Map reference
-const geojson = ref(null);
-const mapLayers = ref(new Map()); // Store reference to map layers by department code
-
-// Store initial map state
-const initialZoom = 6;
-const initialCenter = [46.603354, 1.888334] as [number, number];
-
-// Map options to disable zoom control
-const mapOptions = {
-  zoomControl: false,
-};
-
-const getDepartmentStatus = (departmentCode: string) => {
-  return departmentStore.getDepartmentStatus(departmentCode);
-};
-
-const getDepartmentStyle = (status: string) => {
-  switch (status) {
-    case "correct":
-    case "correctBoth":
-      return {
-        weight: 2,
-        color: "#4caf50",
-        fillColor: "#4caf50",
-        fillOpacity: 0.6,
-      };
-    case "correctName":
-    case "correctChefLieu":
-      return {
-        weight: 2,
-        color: "#ff9800",
-        fillColor: "#ff9800",
-        fillOpacity: 0.6,
-      };
-    default:
-      return {
-        weight: 2,
-        color: "#3388ff",
-        fillColor: "#3388ff",
-        fillOpacity: 0.2,
-      };
-  }
-};
-
-const geojsonOptions = {
-  style: (feature: any) => {
-    const departmentCode = feature.properties.code;
-    const status = getDepartmentStatus(departmentCode);
-    return getDepartmentStyle(status);
-  },
-  onEachFeature: (feature: any, layer: any) => {
-    const departmentCode = feature.properties.code;
-
-    // Store layer reference for later style updates
-    mapLayers.value.set(departmentCode, layer);
-
-    layer.on({
-      mouseover: (e: any) => {
-        const status = getDepartmentStatus(departmentCode);
-        const hoverStyle = getDepartmentStyle(status);
-        e.target.setStyle({
-          ...hoverStyle,
-          weight: 4,
-          fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
-        });
-      },
-      mouseout: (e: any) => {
-        const status = getDepartmentStatus(departmentCode);
-        e.target.setStyle(getDepartmentStyle(status));
-      },
-      click: (e: any) => {
-        const departmentName = feature.properties.nom; // Get department name from GeoJSON
-        handleDepartmentClick(departmentCode, departmentName);
-      },
-    });
-  },
-};
-
-const forceLayerStyleUpdate = (departmentCode: string, style: any) => {
-  const layer = mapLayers.value.get(departmentCode);
-  if (layer) {
-    layer.setStyle(style);
-  }
-};
-
-const handleDepartmentClick = (
-  departmentCode: string,
-  departmentName?: string,
-) => {
-  if (!departmentStore.currentDepartment) return;
-
-  const currentDepartmentId = departmentStore.currentDepartment.id;
-  departmentStore.makeGuess(departmentCode, departmentName);
-
-  // If this was a correct guess, immediately update the visual style
-  if (departmentCode === currentDepartmentId) {
-    // Find the layer that was clicked and update its style
-    // We need to wait for the next tick for the status to be updated
-    setTimeout(() => {
-      const status = getDepartmentStatus(departmentCode);
-      // Find the layer in the geojson and update it
-      if (geojson.value) {
-        // Force re-render of the layer style
-        const layerStyle = getDepartmentStyle(status);
-        // This will be handled by Vue's reactivity when the geojsonOptions style function is called
-        // But we need to force an immediate visual update
-        forceLayerStyleUpdate(departmentCode, layerStyle);
-      }
-    }, 0);
-  }
-};
-
-const onMapReady = () => {
-  // Map is ready, we can add any additional setup here if needed
-};
-
-const centerMap = () => {
-  if (mapRef.value) {
-    // Reset zoom and center to initial values
-    zoom.value = initialZoom;
-    center.value = [...initialCenter];
-
-    // Use Leaflet's setView method for smooth transition
-    const leafletMap = (mapRef.value as any).leafletObject;
-    if (leafletMap) {
-      leafletMap.setView(initialCenter, initialZoom, { animate: true });
-    }
-  }
-};
-
-const restartGame = () => {
-  departmentStore.initializeGame();
-};
-
-const showCompletionPopup = ref(false);
-
-// Watch for game completion and delay popup
-watch(
-  () => departmentStore.isGameComplete,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: "Départements français (carte)",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-      showCompletionPopup.value = false;
-      setTimeout(() => {
-        showCompletionPopup.value = true;
-      }, 1200); // 1.2s delay for toast breathing room
-    } else {
-      showCompletionPopup.value = false;
-    }
-  },
-);
-
-onMounted(async () => {
-  try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements.geojson",
-    );
-    geojson.value = await response.json();
-  } catch (error) {
-    // Silently handle error
-  }
-});
+// All French department map guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  departmentStore,
+  baseStore,
+  totalDepartments,
+  geojson,
+  geojsonOptions,
+  zoom,
+  center,
+  mapRef,
+  mapOptions,
+  centerMap,
+  restartGame,
+  onMapReady,
+  showCompletionPopup,
+} = useFrenchDepartmentGuessing();
 </script>
 
 <style scoped lang="scss">

@@ -65,233 +65,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from "vue";
-import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
-import { useCountryMapStore } from "../store/countryMapStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
+import { useCountryMapGuessing } from "../composables/useCountryMapGuessing";
 import "leaflet/dist/leaflet.css";
-import { logGameCompletion } from "../utils/completionLogger";
 
-const countryMapStore = useCountryMapStore();
-const baseStore = useBaseGameStore();
-const totalCountries = computed(() => countryMapStore.totalCountries);
+// Register map components locally for <script setup>
+defineProps();
+defineEmits();
 
-// Filtered geojson data based on selected continent
-const filteredGeojson = computed(() => {
-  if (!geojson.value) return null;
-
-  // If no continent is selected or "all" is selected, return all countries
-  if (
-    !countryMapStore.selectedContinent ||
-    countryMapStore.selectedContinent === "all"
-  ) {
-    return geojson.value;
-  }
-
-  // Filter features to only include countries from the selected continent
-  const continentCountryIds = countryMapStore.continentCountries.map(
-    (c) => c.id,
-  );
-  const geoJsonData = geojson.value as any;
-  const filteredFeatures = geoJsonData.features.filter((feature: any) => {
-    const countryCode = getCountryCode(feature);
-    return countryCode && continentCountryIds.includes(countryCode);
-  });
-
-  return {
-    ...geoJsonData,
-    features: filteredFeatures,
-  };
-});
-
-const zoom = ref(2);
-const center = ref([20, 0] as [number, number]); // World center
-const mapRef = ref(null); // Map reference
-const geojson = ref(null);
-const mapLayers = ref(new Map()); // Store reference to map layers by country code
-
-// Store initial map state
-const initialZoom = 2;
-const initialCenter = [20, 0] as [number, number];
-
-// Map options to disable zoom control
-const mapOptions = {
-  zoomControl: false,
-};
-
-const getCountryStatus = (countryCode: string) => {
-  return countryMapStore.getCountryStatus(countryCode);
-};
-
-const getCountryStyle = (status: string) => {
-  switch (status) {
-    case "correct":
-      return {
-        weight: 2,
-        color: "#4caf50",
-        fillColor: "#4caf50",
-        fillOpacity: 0.6,
-      };
-    default:
-      return {
-        weight: 1,
-        color: "#3388ff",
-        fillColor: "#3388ff",
-        fillOpacity: 0.2,
-      };
-  }
-};
-
-const getCountryCode = (feature: any): string | null => {
-  let countryCode = feature.properties.ISO_A2?.toLowerCase();
-
-  // If ISO_A2 is missing or invalid (-99), try the Enhanced version (ISO_A2_EH)
-  if (!countryCode || countryCode === "-99" || countryCode === "null") {
-    countryCode = feature.properties.ISO_A2_EH?.toLowerCase();
-  }
-
-  // If still no valid code, try the POSTAL field as fallback
-  if (!countryCode || countryCode === "-99" || countryCode === "null") {
-    countryCode = feature.properties.POSTAL?.toLowerCase();
-  }
-
-  return countryCode;
-};
-
-const geojsonOptions = computed(() => {
-  return {
-    style: (feature: any) => {
-      const countryCode = getCountryCode(feature);
-      if (!countryCode) return getCountryStyle("default");
-
-      const status = getCountryStatus(countryCode);
-      return getCountryStyle(status);
-    },
-    onEachFeature: (feature: any, layer: any) => {
-      const countryCode = getCountryCode(feature);
-      if (!countryCode) return;
-
-      // Find the country in our data
-      const country = countryMapStore.countries.find(
-        (c) => c.id === countryCode,
-      );
-      if (!country) return;
-
-      // Store layer reference for later style updates
-      mapLayers.value.set(countryCode, layer);
-
-      // Get French country name from our countries data
-      const frenchName = country.name;
-
-      layer.on({
-        mouseover: (e: any) => {
-          const status = getCountryStatus(countryCode);
-          const hoverStyle = getCountryStyle(status);
-          e.target.setStyle({
-            ...hoverStyle,
-            weight: 3,
-            fillOpacity: Math.min(hoverStyle.fillOpacity + 0.3, 1),
-          });
-        },
-        mouseout: (e: any) => {
-          const status = getCountryStatus(countryCode);
-          e.target.setStyle(getCountryStyle(status));
-        },
-        click: (e: any) => {
-          const countryName =
-            feature.properties.NAME || feature.properties.NAME_EN;
-          handleCountryClick(countryCode, countryName);
-        },
-      });
-    },
-  };
-});
-
-const forceLayerStyleUpdate = (countryCode: string, style: any) => {
-  const layer = mapLayers.value.get(countryCode);
-  if (layer) {
-    layer.setStyle(style);
-  }
-};
-
-const handleCountryClick = (countryCode: string, countryName?: string) => {
-  if (!countryMapStore.currentCountry) return;
-
-  // Debug logging to help identify mapping issues
-  console.log("Country clicked:", {
-    countryCode,
-    countryName,
-    currentTarget: countryMapStore.currentCountry.id,
-    currentTargetName: countryMapStore.currentCountry.name,
-  });
-
-  const currentCountryId = countryMapStore.currentCountry.id;
-  countryMapStore.makeCountryMapGuess(countryCode, countryName);
-
-  // If this was a correct guess, immediately update the visual style
-  if (countryCode === currentCountryId) {
-    // Find the layer that was clicked and update its style
-    // We need to wait for the next tick for the status to be updated
-    setTimeout(() => {
-      const status = getCountryStatus(countryCode);
-      const layerStyle = getCountryStyle(status);
-      forceLayerStyleUpdate(countryCode, layerStyle);
-    }, 0);
-  }
-};
-
-const onMapReady = () => {
-  // Map is ready, we can add any additional setup here if needed
-};
-
-const centerMap = () => {
-  if (mapRef.value) {
-    // Reset zoom and center to initial values
-    zoom.value = initialZoom;
-    center.value = [...initialCenter];
-
-    // Use Leaflet's setView method for smooth transition
-    const leafletMap = (mapRef.value as any).leafletObject;
-    if (leafletMap) {
-      leafletMap.setView(initialCenter, initialZoom, { animate: true });
-    }
-  }
-};
-
-const restartGame = () => {
-  countryMapStore.initializeGame();
-};
-
-watch(
-  () => countryMapStore.isGameComplete,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: "Pays du monde (carte)",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-    }
-  },
-);
-
-onMounted(async () => {
-  // Initialize the country map game if not already initialized
-  if (!countryMapStore.currentCountry) {
-    countryMapStore.initializeGame();
-  }
-
-  try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
-    );
-    geojson.value = await response.json();
-  } catch (error) {
-    // Silently handle error
-  }
-});
+// All country map guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  countryMapStore,
+  baseStore,
+  totalCountries,
+  filteredGeojson,
+  geojsonOptions,
+  zoom,
+  center,
+  mapRef,
+  mapOptions,
+  centerMap,
+  restartGame,
+  onMapReady,
+} = useCountryMapGuessing();
 </script>
 
 <style scoped lang="scss">

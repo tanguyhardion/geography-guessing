@@ -129,193 +129,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted, watch } from "vue";
-import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
-import { useRussianCityStore } from "../store/russianCityStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
+import { useRussianCityGuessing } from "../composables/useRussianCityGuessing";
 import type { RussianCity } from "../types";
 import "leaflet/dist/leaflet.css";
-import { logGameCompletion } from "../utils/completionLogger";
 
-const russianCityStore = useRussianCityStore();
-const baseStore = useBaseGameStore();
-const totalRussianCities = computed(() => russianCityStore.totalRussianCities);
+defineProps();
+defineEmits();
 
-// Map configuration centered on Russia
-const zoom = ref(4);
-const center = ref([55.7558, 37.6176] as [number, number]); // Moscow coordinates
-const mapRef = ref(null); // Map reference
-
-// Store initial map state
-const initialZoom = 4;
-const initialCenter = [55.7558, 37.6176] as [number, number];
-
-// Map options to disable zoom control
-const mapOptions = {
-  zoomControl: false,
-};
-
-// Language switch - default to Russian
-const useRussian = ref(true);
-
-// Mobile language menu
-const showLanguageMenu = ref(false);
-
-// Computed property for current city display name
-const currentCityDisplayName = computed(() => {
-  if (!russianCityStore.currentRussianCity) return "";
-  return useRussian.value
-    ? russianCityStore.currentRussianCity.nameRu
-    : russianCityStore.currentRussianCity.name;
-});
-
-// Helper function to validate coordinates
-const isValidCoordinate = (lat: number, lng: number): boolean => {
-  return (
-    typeof lat === "number" &&
-    typeof lng === "number" &&
-    !isNaN(lat) &&
-    !isNaN(lng) &&
-    isFinite(lat) &&
-    isFinite(lng) &&
-    lat >= -90 &&
-    lat <= 90 &&
-    lng >= -180 &&
-    lng <= 180
-  );
-};
-
-// Computed property for valid cities (filter out any with invalid coordinates)
-const validCities = computed(() => {
-  return russianCityStore.russianCities.filter((city) =>
-    isValidCoordinate(city.lat, city.lng),
-  );
-});
-
-const getCityRadius = (city: RussianCity) => {
-  // Scale radius based on population (larger cities get bigger dots)
-  const minRadius = 4;
-  const maxRadius = 20;
-  const minPop = 200000; // Lowered to include all cities in dataset
-  const maxPop = 12000000; // Approximate population of Moscow
-
-  // Ensure population is valid and within bounds
-  if (!city.population || city.population <= 0) {
-    return minRadius;
-  }
-
-  // Clamp population to minimum to avoid negative logarithms
-  const clampedPop = Math.max(city.population, minPop);
-
-  // Use a more sensitive scaling with power function for greater differentiation
-  const normalizedPop =
-    Math.log(clampedPop / minPop) / Math.log(maxPop / minPop);
-  const poweredScale = Math.pow(Math.max(0, normalizedPop), 0.7); // Ensure non-negative input
-
-  const radius = minRadius + (maxRadius - minRadius) * poweredScale;
-
-  // Final safety check to ensure we return a valid number
-  return isNaN(radius)
-    ? minRadius
-    : Math.max(minRadius, Math.min(maxRadius, radius));
-};
-
-const getCityMarkerOptions = (city: RussianCity) => {
-  const status = russianCityStore.getRussianCityStatus(city.id);
-
-  switch (status) {
-    case "correct":
-      return {
-        color: "#4caf50",
-        fillColor: "#4caf50",
-        fillOpacity: 0.8,
-        weight: 3,
-      };
-    default:
-      return {
-        color: "#2196f3",
-        fillColor: "#2196f3",
-        fillOpacity: 0.6,
-        weight: 2,
-      };
-  }
-};
-
-const handleCityClick = (cityId: string, cityName: string) => {
-  if (!russianCityStore.currentRussianCity) return;
-
-  russianCityStore.makeRussianCityGuess(cityId, cityName, useRussian.value);
-};
-
-const onMapReady = () => {
-  // Map is ready, we can add any additional setup here if needed
-};
-
-const centerMap = () => {
-  if (mapRef.value) {
-    // Reset zoom and center to initial values
-    zoom.value = initialZoom;
-    center.value = [...initialCenter];
-
-    // Use Leaflet's setView method for smooth transition
-    const leafletMap = (mapRef.value as any).leafletObject;
-    if (leafletMap) {
-      leafletMap.setView(initialCenter, initialZoom, { animate: true });
-    }
-  }
-};
-
-const restartGame = () => {
-  russianCityStore.initializeGame();
-};
-
-const toggleLanguageMenu = () => {
-  showLanguageMenu.value = !showLanguageMenu.value;
-};
-
-const selectLanguage = (russian: boolean) => {
-  useRussian.value = russian;
-  showLanguageMenu.value = false;
-};
-
-// Close menu when clicking outside
-const closeLanguageMenu = (event: Event) => {
-  const target = event.target as HTMLElement;
-  const menu = document.querySelector(".language-menu");
-  if (menu && !menu.contains(target)) {
-    showLanguageMenu.value = false;
-  }
-};
-
-watch(
-  () => russianCityStore.isGameComplete,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: "Villes russes (carte)",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-    }
-  },
-);
-
-onMounted(() => {
-  // Initialize the Russian cities game if not already initialized
-  if (!russianCityStore.currentRussianCity) {
-    russianCityStore.initializeGame();
-  }
-
-  // Add click outside listener for mobile menu
-  document.addEventListener("click", closeLanguageMenu);
-});
-
-// Clean up event listener
-onUnmounted(() => {
-  document.removeEventListener("click", closeLanguageMenu);
-});
+// All Russian city guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  russianCityStore,
+  baseStore,
+  totalRussianCities,
+  validCities,
+  getCityRadius,
+  getCityMarkerOptions,
+  handleCityClick,
+  zoom,
+  center,
+  mapRef,
+  mapOptions,
+  centerMap,
+  restartGame,
+  onMapReady,
+  useRussian,
+  showLanguageMenu,
+  toggleLanguageMenu,
+  selectLanguage,
+  currentCityDisplayName,
+} = useRussianCityGuessing();
 </script>
 
 <style scoped lang="scss">

@@ -78,143 +78,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from "vue";
-import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
-import { useFrenchChefLieuStore } from "../store/frenchChefLieuStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
-import { logGameCompletion } from "../utils/completionLogger";
+import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
+import { useFrenchChefLieuGuessing } from "../composables/useFrenchChefLieuGuessing";
 import type { FrenchChefLieu } from "../types";
 import "leaflet/dist/leaflet.css";
 
-const frenchChefLieuStore = useFrenchChefLieuStore();
-const baseStore = useBaseGameStore();
-const totalFrenchChefLieux = computed(
-  () => frenchChefLieuStore.totalFrenchChefLieux,
-);
+defineProps();
+defineEmits();
 
-// Map configuration centered on France
-const zoom = ref(6);
-const center = ref([46.603354, 1.888334] as [number, number]); // France center
-const mapRef = ref(null); // Map reference
-
-// Store initial map state
-const initialZoom = 6;
-const initialCenter = [46.603354, 1.888334] as [number, number];
-
-// Map options to disable zoom control
-const mapOptions = {
-  zoomControl: false,
-};
-
-// Helper function to validate coordinates
-const isValidCoordinate = (lat: number, lng: number): boolean => {
-  return (
-    typeof lat === "number" &&
-    typeof lng === "number" &&
-    !isNaN(lat) &&
-    !isNaN(lng) &&
-    isFinite(lat) &&
-    isFinite(lng) &&
-    lat >= -90 &&
-    lat <= 90 &&
-    lng >= -180 &&
-    lng <= 180
-  );
-};
-
-// Computed property for valid chef-lieux (filter out any with invalid coordinates)
-const validChefLieux = computed(() => {
-  return frenchChefLieuStore.frenchChefLieux.filter(
-    (chefLieu) =>
-      isValidCoordinate(chefLieu.lat, chefLieu.lng) &&
-      // Only show metropolitan France chef-lieux
-      !chefLieu.id.startsWith("97"),
-  );
-});
-
-const getChefLieuRadius = (chefLieu: FrenchChefLieu) => {
-  // Use a consistent radius for all chef-lieux
-  const baseRadius = 6;
-
-  // Make capital cities slightly larger
-  const majorCities = ["75", "13", "69", "31", "59", "44", "67", "33", "35"];
-  if (majorCities.includes(chefLieu.id)) {
-    return baseRadius + 2;
-  }
-
-  return baseRadius;
-};
-
-const getChefLieuMarkerOptions = (chefLieu: FrenchChefLieu) => {
-  const status = frenchChefLieuStore.getFrenchChefLieuStatus(chefLieu.id);
-
-  switch (status) {
-    case "correct":
-      return {
-        color: "#4caf50",
-        fillColor: "#4caf50",
-        fillOpacity: 0.8,
-        weight: 3,
-      };
-    default:
-      return {
-        color: "#2196f3",
-        fillColor: "#2196f3",
-        fillOpacity: 0.6,
-        weight: 2,
-      };
-  }
-};
-
-const handleChefLieuClick = (chefLieuId: string, chefLieuName: string) => {
-  if (!frenchChefLieuStore.currentFrenchChefLieu) return;
-
-  frenchChefLieuStore.makeFrenchChefLieuGuess(chefLieuId, chefLieuName);
-};
-
-const onMapReady = () => {
-  // Map is ready, we can add any additional setup here if needed
-};
-
-const centerMap = () => {
-  if (mapRef.value) {
-    // Reset zoom and center to initial values
-    zoom.value = initialZoom;
-    center.value = [...initialCenter];
-
-    // Use Leaflet's setView method for smooth transition
-    const leafletMap = (mapRef.value as any).leafletObject;
-    if (leafletMap) {
-      leafletMap.setView(initialCenter, initialZoom, { animate: true });
-    }
-  }
-};
-
-const restartGame = () => {
-  frenchChefLieuStore.initializeGame();
-};
-
-watch(
-  () => frenchChefLieuStore.isGameComplete,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: "Chef-lieux français (carte)",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-    }
-  },
-);
-
-onMounted(() => {
-  // Initialize the French chef-lieux game if not already initialized
-  if (!frenchChefLieuStore.currentFrenchChefLieu) {
-    frenchChefLieuStore.initializeGame();
-  }
-});
+// All French chef-lieu guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  frenchChefLieuStore,
+  baseStore,
+  totalFrenchChefLieux,
+  validChefLieux,
+  getChefLieuRadius,
+  getChefLieuMarkerOptions,
+  handleChefLieuClick,
+  zoom,
+  center,
+  mapRef,
+  mapOptions,
+  centerMap,
+  restartGame,
+  onMapReady,
+} = useFrenchChefLieuGuessing();
 </script>
 
 <style scoped lang="scss">

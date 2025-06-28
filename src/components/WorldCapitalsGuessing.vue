@@ -62,80 +62,22 @@
 </template>
 
 <script setup lang="ts">
-import { useWorldCapitalsStore } from "../store/worldCapitalsStore";
-import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
-import { computed, ref, watch, onMounted } from "vue";
-import { logGameCompletion } from "../utils/completionLogger";
+import { ref } from "vue";
+import { useWorldCapitalsGuessing } from "../composables/useWorldCapitalsGuessing";
 
-const worldCapitalsStore = useWorldCapitalsStore();
-const baseStore = useBaseGameStore();
-const totalCountries = computed(() => worldCapitalsStore.totalCountries);
+// Use a ref for the input field to manage focus/blur
 const inputField = ref<HTMLInputElement | null>(null);
 
-const makeGuess = () => {
-  if (
-    worldCapitalsStore.userGuessInput.trim() &&
-    worldCapitalsStore.currentCountry
-  ) {
-    worldCapitalsStore.makeCapitalsGuess(worldCapitalsStore.userGuessInput);
-    // Focus input field after guess only if there's a next country
-    if (worldCapitalsStore.currentCountry && inputField.value) {
-      inputField.value.focus();
-    }
-  }
-};
-
-const restartGame = () => {
-  worldCapitalsStore.initializeGame();
-  // Focus input field when game restarts and there's a country
-  if (worldCapitalsStore.currentCountry && inputField.value) {
-    // Need a slight delay for the input to be potentially re-rendered/enabled
-    setTimeout(() => {
-      inputField.value?.focus();
-    }, 0);
-  }
-};
-
-// Focus the input field when a new country is selected (and it's not game over)
-watch(
-  () => worldCapitalsStore.currentCountry,
-  (newCountry) => {
-    if (newCountry && inputField.value) {
-      // Need a slight delay for the input to be potentially re-rendered/enabled
-      setTimeout(() => {
-        inputField.value?.focus();
-      }, 0);
-    }
-  },
-  { immediate: true },
-);
-
-// Log game completion to localStorage when the game is finished
-watch(
-  () => !worldCapitalsStore.currentCountry,
-  (isComplete) => {
-    if (isComplete) {
-      logGameCompletion({
-        modeName: "Capitales du monde",
-        totalTime: baseStore.elapsedTime,
-        finalScore: baseStore.score,
-        accuracy: baseStore.accuracy,
-      });
-    }
-  },
-);
-
-onMounted(() => {
-  // Initialize the world capitals game if not already initialized
-  if (!worldCapitalsStore.currentCountry) {
-    worldCapitalsStore.initializeGame();
-  }
-
-  if (worldCapitalsStore.currentCountry && inputField.value) {
-    inputField.value.focus();
-  }
-});
+// All world capitals guessing logic is now handled by the composable
+// This keeps the component clean and maintainable
+const {
+  worldCapitalsStore,
+  baseStore,
+  totalCountries,
+  makeGuess,
+  restartGame,
+} = useWorldCapitalsGuessing(inputField);
 </script>
 
 <style scoped lang="scss">
