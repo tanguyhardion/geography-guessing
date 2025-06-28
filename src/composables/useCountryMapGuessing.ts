@@ -5,7 +5,18 @@ import { useCountryMapStore } from "../store/countryMapStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import { logGameCompletion } from "../utils/completionLogger";
 
-export function useCountryMapGuessing() {
+// Move geojson URL to a constant for maintainability
+const COUNTRIES_GEOJSON_URL =
+  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson";
+
+// Accept optional callbacks for game complete/restart for better decoupling
+export function useCountryMapGuessing({
+  onGameComplete,
+  onGameRestart,
+}: {
+  onGameComplete?: () => void;
+  onGameRestart?: () => void;
+} = {}) {
   const countryMapStore = useCountryMapStore();
   const baseStore = useBaseGameStore();
   const totalCountries = computed(() => countryMapStore.totalCountries);
@@ -50,6 +61,66 @@ export function useCountryMapGuessing() {
   // Map options to disable zoom control
   const mapOptions = { zoomControl: false };
 
+  // Get country status for styling
+  const getCountryStatus = (countryCode: string) => {
+    return countryMapStore.getCountryStatus(countryCode);
+  };
+
+  // Style countries based on their status
+  const getCountryStyle = (status: string) => {
+    switch (status) {
+      case "correct":
+        return {
+          weight: 2,
+          color: "#4caf50",
+          fillColor: "#4caf50",
+          fillOpacity: 0.6,
+        };
+      default:
+        return {
+          weight: 1,
+          color: "#2196f3",
+          fillColor: "#2196f3",
+          fillOpacity: 0.3,
+        };
+    }
+  };
+
+  // GeoJSON options for map interaction
+  const geoJsonOptions = {
+    style: (feature: any) => {
+      const countryCode = getCountryCode(feature);
+      const status = countryCode ? getCountryStatus(countryCode) : "default";
+      return getCountryStyle(status);
+    },
+    onEachFeature: (feature: any, layer: any) => {
+      const countryCode = getCountryCode(feature);
+      if (countryCode) {
+        mapLayers.value.set(countryCode, layer);
+        layer.on({
+          click: () => {
+            countryMapStore.makeCountryMapGuess(countryCode);
+          },
+          mouseover: (e: any) => {
+            const layer = e.target;
+            const status = getCountryStatus(countryCode);
+            const hoverStyle = getCountryStyle(status);
+            layer.setStyle({
+              ...hoverStyle,
+              weight: Math.max(hoverStyle.weight + 1, 3),
+              fillOpacity: Math.min(hoverStyle.fillOpacity + 0.2, 1),
+            });
+          },
+          mouseout: (e: any) => {
+            const layer = e.target;
+            const status = getCountryStatus(countryCode);
+            layer.setStyle(getCountryStyle(status));
+          },
+        });
+      }
+    },
+  };
+
   const centerMap = () => {
     if (mapRef.value) {
       zoom.value = initialZoom;
@@ -63,13 +134,14 @@ export function useCountryMapGuessing() {
 
   const restartGame = () => {
     countryMapStore.initializeGame();
+    if (onGameRestart) onGameRestart(); // Notify parent if provided
   };
 
   const onMapReady = () => {
     // Map is ready, can add additional setup if needed
   };
 
-  // Log game completion
+  // Log game completion and notify parent if callback provided
   watch(
     () => countryMapStore.isGameComplete,
     (isComplete) => {
@@ -80,6 +152,7 @@ export function useCountryMapGuessing() {
           finalScore: baseStore.score,
           accuracy: baseStore.accuracy,
         });
+        if (onGameComplete) onGameComplete();
       }
     },
   );
@@ -89,25 +162,25 @@ export function useCountryMapGuessing() {
       countryMapStore.initializeGame();
     }
     try {
-      const response = await fetch(
-        "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_50m_admin_0_countries.geojson",
-      );
+      const response = await fetch(COUNTRIES_GEOJSON_URL);
       geojson.value = await response.json();
     } catch (error) {
       // Silently handle error
     }
   });
 
+  // TODO: If map logic grows, split into useCountryMap (map only) and useCountryMapGame (game only)
+
   return {
     countryMapStore,
     baseStore,
     totalCountries,
     filteredGeojson,
-    geojsonOptions: {}, // Placeholder for future geojson options
     zoom,
     center,
     mapRef,
     mapOptions,
+    geoJsonOptions,
     centerMap,
     restartGame,
     onMapReady,

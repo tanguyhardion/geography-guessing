@@ -4,7 +4,12 @@
       <div class="header-flex">
         <h1>{{ pageTitle }}</h1>
         <div class="timer">{{ baseStore.formattedTime }}</div>
-        <button v-click-animate @click="goHome" class="back-button">
+        <button
+          v-click-animate
+          @click="goHome"
+          class="back-button"
+          aria-label="Retour à l'accueil"
+        >
           Retour
         </button>
       </div>
@@ -20,11 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch, onUnmounted } from "vue";
+import { computed, watch, onUnmounted, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useBaseGameStore } from "./store/baseGameStore";
 import { useAppGameStore } from "./store/gameStoreAdapter";
 import { useToast, TYPE } from "vue-toastification";
+import emitter from "./eventBus";
 
 const baseStore = useBaseGameStore();
 const appGameStore = useAppGameStore();
@@ -119,12 +125,15 @@ function handleNavigateHome() {
   router.push({ name: "Home" });
 }
 
-window.addEventListener("navigate-stats", handleNavigateStats);
-window.addEventListener("navigate-home", handleNavigateHome);
-
+// --- Refactor: Use a simple event bus for navigation instead of window events ---
+// This avoids polluting the global window and is more idiomatic in Vue 3
+onMounted(() => {
+  emitter.on("navigate-stats", handleNavigateStats);
+  emitter.on("navigate-home", handleNavigateHome);
+});
 onUnmounted(() => {
-  window.removeEventListener("navigate-stats", handleNavigateStats);
-  window.removeEventListener("navigate-home", handleNavigateHome);
+  emitter.off("navigate-stats", handleNavigateStats);
+  emitter.off("navigate-home", handleNavigateHome);
   baseStore.stopTimer();
 });
 </script>

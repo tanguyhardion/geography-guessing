@@ -5,6 +5,7 @@ import { useRussianCityStore } from "../store/russianCityStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import { logGameCompletion } from "../utils/completionLogger";
 import type { RussianCity } from "../types";
+import { useLanguageSwitch } from "./useLanguageSwitch";
 
 export function useRussianCityGuessing() {
   const russianCityStore = useRussianCityStore();
@@ -21,17 +22,14 @@ export function useRussianCityGuessing() {
   const initialCenter = [61.524, 105.3188] as [number, number];
   const mapOptions = { zoomControl: false };
 
-  // Language switching
-  const useRussian = ref(false);
-  const showLanguageMenu = ref(false);
-
-  const toggleLanguageMenu = () => {
-    showLanguageMenu.value = !showLanguageMenu.value;
-  };
-  const selectLanguage = (russian: boolean) => {
-    useRussian.value = russian;
-    showLanguageMenu.value = false;
-  };
+  // --- Use shared language switch composable ---
+  const {
+    useRussian,
+    showLanguageMenu,
+    toggleLanguageMenu,
+    selectLanguage,
+    closeLanguageMenu,
+  } = useLanguageSwitch(false);
 
   // Only show valid cities
   const isValidCoordinate = (lat: number, lng: number): boolean => {
@@ -144,6 +142,7 @@ export function useRussianCityGuessing() {
     showLanguageMenu,
     toggleLanguageMenu,
     selectLanguage,
+    closeLanguageMenu,
     currentCityDisplayName,
   };
 }

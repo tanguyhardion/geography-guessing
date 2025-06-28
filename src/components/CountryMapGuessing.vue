@@ -14,12 +14,17 @@
       <SkipButton v-if="countryMapStore.currentCountry" />
     </div>
 
-    <div class="map-container">
+    <div
+      class="map-container"
+      role="region"
+      aria-label="Carte interactive des pays"
+    >
       <button
         v-click-animate
         @click="centerMap"
         class="center-map-button"
         title="Centrer la carte"
+        aria-label="Centrer la carte"
       >
         <img
           src="https://cdn-icons-png.flaticon.com/128/795/795653.png"
@@ -45,7 +50,7 @@
           v-if="filteredGeojson"
           :key="`geojson-${countryMapStore.selectedContinent || 'all'}-${countryMapStore.continentCountries.length}`"
           :geojson="filteredGeojson"
-          :options="geojsonOptions"
+          :options="geoJsonOptions"
         />
       </l-map>
     </div>
@@ -57,7 +62,13 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button v-click-animate @click="restartGame" class="restart-button">
+      <!-- Accessibility: aria-label for screen readers -->
+      <button
+        v-click-animate
+        @click="restartGameAndEmit"
+        class="restart-button"
+        aria-label="Recommencer le quiz"
+      >
         Recommencer
       </button>
     </div>
@@ -68,11 +79,11 @@
 import SkipButton from "./SkipButton.vue";
 import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
 import { useCountryMapGuessing } from "../composables/useCountryMapGuessing";
+import { defineEmits } from "vue";
 import "leaflet/dist/leaflet.css";
 
-// Register map components locally for <script setup>
-defineProps();
-defineEmits();
+// Add emits for game completion and restart for better parent communication
+const emit = defineEmits(["game-complete", "game-restart"]);
 
 // All country map guessing logic is now handled by the composable
 // This keeps the component clean and maintainable
@@ -81,7 +92,7 @@ const {
   baseStore,
   totalCountries,
   filteredGeojson,
-  geojsonOptions,
+  geoJsonOptions,
   zoom,
   center,
   mapRef,
@@ -89,7 +100,17 @@ const {
   centerMap,
   restartGame,
   onMapReady,
-} = useCountryMapGuessing();
+} = useCountryMapGuessing({
+  onGameComplete: () => emit("game-complete"),
+  onGameRestart: () => emit("game-restart"),
+});
+
+// Emit game-restart event for parent listeners when restarting
+function restartGameAndEmit() {
+  restartGame();
+  emit("game-restart");
+}
+// TODO: If map/game logic grows, split into useCountryMap (map only) and useCountryMapGame (game only)
 </script>
 
 <style scoped lang="scss">

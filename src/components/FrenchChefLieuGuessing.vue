@@ -30,6 +30,7 @@
         @click="centerMap"
         class="center-map-button"
         title="Centrer la carte"
+        aria-label="Centrer la carte"
       >
         <img
           src="https://cdn-icons-png.flaticon.com/128/795/795653.png"

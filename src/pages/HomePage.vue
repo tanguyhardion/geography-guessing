@@ -1,7 +1,7 @@
 <template>
   <div class="homepage">
     <div class="stats-icon" @click="goToStats" title="Voir les statistiques">
-      <!-- Simple bar chart SVG icon -->
+      <!-- Simple bar chart SVG icon with subtle spacing between bars -->
       <svg
         width="32"
         height="32"
@@ -12,9 +12,9 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <rect x="3" y="12" width="4" height="8" />
-        <rect x="9" y="8" width="4" height="12" />
-        <rect x="15" y="4" width="4" height="16" />
+        <rect x="3" y="12" width="3.5" height="8" />
+        <rect x="9.25" y="8" width="3.5" height="12" />
+        <rect x="15.5" y="4" width="3.5" height="16" />
       </svg>
     </div>
     <h1>Quiz Géographique</h1>
@@ -278,7 +278,7 @@ const goBackFromCountryMap = () => {
 };
 
 function goToStats() {
-  window.dispatchEvent(new CustomEvent("navigate-stats"));
+  router.push({ name: "Stats" });
 }
 </script>
 
@@ -478,7 +478,7 @@ h3 {
   position: absolute;
   top: 24px;
   right: 24px;
-  background: var(--background-off);
+  background: var(--background-light);
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 8px;
@@ -490,6 +490,11 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.stats-icon:hover {
+  background: var(--background-off);
+  box-shadow: 0 4px 16px rgba(80, 80, 180, 0.13);
 }
 
 .page-footer {

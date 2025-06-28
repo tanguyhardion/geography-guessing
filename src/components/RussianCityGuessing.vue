@@ -16,14 +16,16 @@
         <button
           v-click-animate
           :class="['toggle-button', { active: !useRussian }]"
-          @click="useRussian = false"
+          @click="selectLanguage(false)"
+          aria-label="Switch to French"
         >
           Français
         </button>
         <button
           v-click-animate
           :class="['toggle-button', { active: useRussian }]"
-          @click="useRussian = true"
+          @click="selectLanguage(true)"
+          aria-label="Switch to Russian"
         >
           Русский
         </button>
@@ -129,6 +131,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onUnmounted } from "vue";
 import SkipButton from "./SkipButton.vue";
 import { LMap, LTileLayer, LCircleMarker } from "@vue-leaflet/vue-leaflet";
 import { useRussianCityGuessing } from "../composables/useRussianCityGuessing";
@@ -160,7 +163,15 @@ const {
   toggleLanguageMenu,
   selectLanguage,
   currentCityDisplayName,
+  closeLanguageMenu,
 } = useRussianCityGuessing();
+
+onMounted(() => {
+  document.addEventListener("click", closeLanguageMenu);
+});
+onUnmounted(() => {
+  document.removeEventListener("click", closeLanguageMenu);
+});
 </script>
 
 <style scoped lang="scss">

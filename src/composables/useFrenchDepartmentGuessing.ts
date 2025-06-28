@@ -65,6 +65,21 @@ export function useFrenchDepartmentGuessing() {
         click: () => {
           departmentStore.makeGuess(code);
         },
+        mouseover: (e: any) => {
+          const layer = e.target;
+          const status = getDepartmentStatus(code);
+          const hoverStyle = getDepartmentStyle(status);
+          layer.setStyle({
+            ...hoverStyle,
+            weight: Math.max(hoverStyle.weight + 1, 3),
+            fillOpacity: Math.min(hoverStyle.fillOpacity + 0.2, 1),
+          });
+        },
+        mouseout: (e: any) => {
+          const layer = e.target;
+          const status = getDepartmentStatus(code);
+          layer.setStyle(getDepartmentStyle(status));
+        },
       });
     },
   };

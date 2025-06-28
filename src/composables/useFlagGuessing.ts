@@ -5,7 +5,11 @@ import { useFlagStore } from "../store/flagStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import { logGameCompletion } from "../utils/completionLogger";
 
-export function useFlagGuessing(inputField: any) {
+// Accept optional callbacks for game complete/restart for better decoupling
+export function useFlagGuessing(
+  inputField: any,
+  { onGameComplete, onGameRestart } = {},
+) {
   const flagStore = useFlagStore();
   const baseStore = useBaseGameStore();
   const totalCountries = computed(() => flagStore.totalCountries);
@@ -53,6 +57,7 @@ export function useFlagGuessing(inputField: any) {
 
   const restartGame = () => {
     flagStore.initializeGame();
+    if (onGameRestart) onGameRestart(); // Notify parent if provided
     if (flagStore.currentCountry && inputField.value) {
       setTimeout(() => {
         inputField.value?.focus();
@@ -79,7 +84,7 @@ export function useFlagGuessing(inputField: any) {
     { immediate: true },
   );
 
-  // Log game completion to localStorage
+  // Log game completion to localStorage and notify parent if callback provided
   watch(
     () => flagStore.isGameComplete,
     (isComplete) => {
@@ -92,6 +97,7 @@ export function useFlagGuessing(inputField: any) {
           finalScore: baseStore.score,
           accuracy: baseStore.accuracy,
         });
+        if (onGameComplete) onGameComplete();
       }
     },
   );
@@ -102,6 +108,7 @@ export function useFlagGuessing(inputField: any) {
     }
   });
 
+  // Expose onGameComplete for parent communication if needed
   return {
     flagStore,
     baseStore,
@@ -114,5 +121,6 @@ export function useFlagGuessing(inputField: any) {
     handleFlagGuess,
     restartGame,
     blurInput,
+    onGameComplete,
   };
 }

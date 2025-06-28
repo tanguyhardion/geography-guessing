@@ -18,14 +18,16 @@
         <button
           v-click-animate
           :class="['toggle-button', { active: !useRussian }]"
-          @click="useRussian = false"
+          @click="selectLanguage(false)"
+          aria-label="Switch to English"
         >
           English
         </button>
         <button
           v-click-animate
           :class="['toggle-button', { active: useRussian }]"
-          @click="useRussian = true"
+          @click="selectLanguage(true)"
+          aria-label="Switch to Russian"
         >
           Русский
         </button>
@@ -136,6 +138,9 @@ import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
 import { logGameCompletion } from "../utils/completionLogger";
 import "leaflet/dist/leaflet.css";
+// --- Refactor: Use composables for map and language switch logic ---
+import { useRussianOblastMap } from "../composables/useRussianOblastMap";
+import { useLanguageSwitch } from "../composables/useLanguageSwitch";
 
 const russianOblastStore = useRussianOblastStore();
 const baseStore = useBaseGameStore();
@@ -143,29 +148,28 @@ const totalRussianOblasts = computed(
   () => russianOblastStore.totalRussianOblasts,
 );
 
-// Map configuration centered on Russia
-const zoom = ref(3);
-const center = ref([64.6863, 97.7453] as [number, number]); // Geographic center of Russia
-const mapRef = ref(null); // Map reference
+// --- Map logic from composable ---
+const {
+  zoom,
+  center,
+  mapRef,
+  geojson,
+  mapOptions,
+  geoJsonOptions,
+  centerMap,
+  onMapReady,
+  forceLayerStyleUpdate,
+  mapLayers,
+} = useRussianOblastMap();
 
-// Store initial map state
-const initialZoom = 3;
-const initialCenter = [64.6863, 97.7453] as [number, number];
-
-// Map options to disable zoom control
-const mapOptions = {
-  zoomControl: false,
-};
-
-// Language switch - default to Russian
-const useRussian = ref(true);
-
-// Mobile language menu
-const showLanguageMenu = ref(false);
-
-// GeoJSON data
-const geojson = ref(null);
-const mapLayers = ref(new Map()); // Store reference to map layers by oblast ID
+// --- Language switch logic from composable ---
+const {
+  useRussian,
+  showLanguageMenu,
+  toggleLanguageMenu,
+  selectLanguage,
+  closeLanguageMenu,
+} = useLanguageSwitch(true);
 
 // Computed property for current oblast display name
 const currentOblastDisplayName = computed(() => {
@@ -175,104 +179,47 @@ const currentOblastDisplayName = computed(() => {
     : russianOblastStore.currentRussianOblast.name;
 });
 
-// GeoJSON options for styling
-const geoJsonOptions = {
-  style: (feature: any) => {
-    const status = russianOblastStore.getRussianOblastStatus(
-      feature.properties.iso,
-    );
-    return getOblastStyle(status);
-  },
-  onEachFeature: (feature: any, layer: any) => {
-    const oblastId = feature.properties.iso;
-
-    // Store layer reference for later style updates
-    mapLayers.value.set(oblastId, layer);
-
-    layer.on({
-      click: () =>
-        handleOblastClick(feature.properties.iso, feature.properties.name),
-      mouseover: (e: any) => {
-        const layer = e.target;
-        const status = russianOblastStore.getRussianOblastStatus(oblastId);
-        const hoverStyle = getOblastStyle(status);
-        layer.setStyle({
-          ...hoverStyle,
-          weight: Math.max(hoverStyle.weight + 1, 3),
-          fillOpacity: Math.min(hoverStyle.fillOpacity + 0.2, 1),
-        });
-      },
-      mouseout: (e: any) => {
-        const layer = e.target;
-        const status = russianOblastStore.getRussianOblastStatus(oblastId);
-        layer.setStyle(getOblastStyle(status));
-      },
-    });
-  },
-};
-
-const getOblastStyle = (status: string) => {
-  switch (status) {
-    case "correct":
-      return {
-        color: "#4caf50",
-        fillColor: "#4caf50",
-        fillOpacity: 0.6,
-        weight: 2,
-      };
-    default:
-      return {
-        color: "#2196f3",
-        fillColor: "#2196f3",
-        fillOpacity: 0.3,
-        weight: 1,
-      };
-  }
-};
-
-const forceLayerStyleUpdate = (oblastId: string, style: any) => {
-  const layer = mapLayers.value.get(oblastId);
-  if (layer) {
-    layer.setStyle(style);
-  }
+// --- Map click handler (inject into geoJsonOptions) ---
+geoJsonOptions.onEachFeature = (feature: any, layer: any) => {
+  const oblastId = feature.properties.iso;
+  mapLayers.value.set(oblastId, layer);
+  layer.on({
+    click: () =>
+      handleOblastClick(feature.properties.iso, feature.properties.name),
+    mouseover: (e: any) => {
+      const layer = e.target;
+      const status = russianOblastStore.getRussianOblastStatus(oblastId);
+      const hoverStyle = geoJsonOptions.style(feature);
+      layer.setStyle({
+        ...hoverStyle,
+        weight: Math.max(hoverStyle.weight + 1, 3),
+        fillOpacity: Math.min(hoverStyle.fillOpacity + 0.2, 1),
+      });
+    },
+    mouseout: (e: any) => {
+      const layer = e.target;
+      const status = russianOblastStore.getRussianOblastStatus(oblastId);
+      layer.setStyle(geoJsonOptions.style(feature));
+    },
+  });
 };
 
 const handleOblastClick = (oblastId: string, oblastName: string) => {
   if (!russianOblastStore.currentRussianOblast) return;
-
   const currentOblastId = russianOblastStore.currentRussianOblast.id;
   russianOblastStore.makeRussianOblastGuess(
     oblastId,
     oblastName,
     useRussian.value,
   );
-
-  // If this was a correct guess, immediately update the visual style
   if (oblastId === currentOblastId) {
-    // Force immediate visual update
     setTimeout(() => {
       const status = russianOblastStore.getRussianOblastStatus(oblastId);
-      const layerStyle = getOblastStyle(status);
+      const layerStyle = geoJsonOptions.style({
+        properties: { iso: oblastId },
+      });
       forceLayerStyleUpdate(oblastId, layerStyle);
     }, 0);
-  }
-};
-
-const onMapReady = () => {
-  // Map is ready, we can add any additional setup here if needed
-};
-
-const centerMap = () => {
-  if (mapRef.value) {
-    // Reset zoom and center to initial values
-    zoom.value = initialZoom;
-    center.value = [...initialCenter];
-
-    // Use Leaflet's setView method for smooth transition
-    const leafletMap = (mapRef.value as any).leafletObject;
-    if (leafletMap) {
-      leafletMap.setView(initialCenter, initialZoom, { animate: true });
-    }
   }
 };
 
@@ -280,39 +227,20 @@ const restartGame = () => {
   russianOblastStore.initializeGame();
 };
 
-const toggleLanguageMenu = () => {
-  showLanguageMenu.value = !showLanguageMenu.value;
-};
-
-const selectLanguage = (russian: boolean) => {
-  useRussian.value = russian;
-  showLanguageMenu.value = false;
-};
-
-// Close menu when clicking outside
-const closeLanguageMenu = (event: Event) => {
-  const target = event.target as HTMLElement;
-  const menu = document.querySelector(".language-menu");
-  if (menu && !menu.contains(target)) {
-    showLanguageMenu.value = false;
-  }
-};
-
-onMounted(async () => {
-  // Initialize the Russian oblasts game if not already initialized
+// --- Language menu click outside handler ---
+onMounted(() => {
+  document.addEventListener("click", closeLanguageMenu);
+  // Initialize game if no current oblast
   if (!russianOblastStore.currentRussianOblast) {
     russianOblastStore.initializeGame();
   }
-
-  // Add click outside listener for mobile menu
-  document.addEventListener("click", closeLanguageMenu); // Load GeoJSON data from public folder
-  try {
-    const response = await fetch("/geography-guessing/oblasts.json");
-    geojson.value = await response.json();
-  } catch (error) {
-    // Silently handle error
-    console.warn("Failed to load oblasts GeoJSON:", error);
+  // Ensure timer is started on mount if not running and game is not complete
+  if (!baseStore.timerInterval && !russianOblastStore.isGameComplete) {
+    baseStore.startTimer();
   }
+});
+onUnmounted(() => {
+  document.removeEventListener("click", closeLanguageMenu);
 });
 
 // Watch for game completion and log to localStorage
@@ -329,11 +257,6 @@ watch(
     }
   },
 );
-
-// Clean up event listener
-onUnmounted(() => {
-  document.removeEventListener("click", closeLanguageMenu);
-});
 </script>
 
 <style scoped lang="scss">

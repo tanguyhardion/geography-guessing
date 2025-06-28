@@ -22,8 +22,14 @@
           "
           class="country-input"
           :disabled="!worldCapitalsStore.currentCountry"
+          aria-label="Entrer la réponse"
         />
-        <button v-click-animate @click="makeGuess" class="guess-button">
+        <button
+          v-click-animate
+          @click="makeGuess"
+          class="guess-button"
+          aria-label="Valider la réponse"
+        >
           Deviner
         </button>
       </div>

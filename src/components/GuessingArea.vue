@@ -16,7 +16,12 @@
     <!-- Completion message paragraph removed, toast will handle it -->
     <div v-if="!departmentStore.currentDepartment">
       <!-- The completion message is now shown as a toast via App.vue -->
-      <button v-click-animate @click="restartGame" class="restart-button">
+      <button
+        v-click-animate
+        @click="restartGameAndEmit"
+        class="restart-button"
+        aria-label="Rejouer"
+      >
         Rejouer
       </button>
     </div>
@@ -24,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, defineEmits } from "vue";
 import { useDepartmentStore } from "../store/departmentStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
@@ -32,6 +37,8 @@ import SkipButton from "./SkipButton.vue";
 const departmentStore = useDepartmentStore();
 const baseStore = useBaseGameStore();
 const totalDepartments = computed(() => departmentStore.totalDepartments);
+
+const emit = defineEmits(["game-complete", "game-restart"]);
 
 const instructionText = computed(() => {
   if (departmentStore.gameMode === "guessChefLieu") {
@@ -52,6 +59,12 @@ const instructionText = computed(() => {
 const restartGame = () => {
   departmentStore.initializeGame();
 };
+
+// Emit event for parent communication when game is restarted
+function restartGameAndEmit() {
+  restartGame();
+  emit("game-restart");
+}
 </script>
 
 <style scoped lang="scss">

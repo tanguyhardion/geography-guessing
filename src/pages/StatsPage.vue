@@ -111,6 +111,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick, computed, watch } from "vue";
+import { useRouter } from "vue-router";
 import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
@@ -146,6 +147,7 @@ interface GameStat {
 }
 
 const stats = ref<GameStat[]>([]);
+const router = useRouter();
 const showFade = ref(false);
 const showFadeTop = ref(false);
 const statsList = ref<HTMLElement | null>(null);
@@ -340,7 +342,7 @@ function formatDuration(seconds: number) {
 }
 
 function goHome() {
-  window.dispatchEvent(new CustomEvent("navigate-home"));
+  router.push({ name: "Home" });
 }
 </script>
 

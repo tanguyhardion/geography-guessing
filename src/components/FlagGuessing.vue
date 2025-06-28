@@ -28,6 +28,7 @@
           placeholder="Nom du pays"
           class="country-input"
           :disabled="!flagStore.currentCountry"
+          aria-label="Entrer le nom du pays"
         />
         <button
           v-click-animate
@@ -36,6 +37,7 @@
           :disabled="
             !flagStore.userGuessInput.trim() || !flagStore.currentCountry
           "
+          aria-label="Valider la réponse"
         >
           Deviner
         </button>
@@ -68,10 +70,14 @@
               :key="country.id"
               :class="getFlagClass(country)"
               @click="handleFlagGuess(country.id)"
+              tabindex="0"
+              role="button"
+              @keydown.enter="handleFlagGuess(country.id)"
+              :aria-label="`Choisir le drapeau de ${country.name}`"
             >
               <img
                 :src="getFlagUrl(country.id)"
-                :alt="country.name"
+                :alt="`Drapeau de ${country.name}`"
                 class="flag-list-image"
               />
             </li>
@@ -88,7 +94,12 @@
         <p><strong>Score final :</strong> {{ baseStore.score }}</p>
         <p><strong>Précision :</strong> {{ baseStore.accuracy }}%</p>
       </div>
-      <button v-click-animate @click="restartGame" class="restart-button">
+      <button
+        v-click-animate
+        @click="restartGameAndEmit"
+        class="restart-button"
+        aria-label="Rejouer"
+      >
         Rejouer
       </button>
     </div>
@@ -97,11 +108,14 @@
 
 <script setup lang="ts">
 import SkipButton from "./SkipButton.vue";
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import { useFlagGuessing } from "../composables/useFlagGuessing";
 
 // Use a ref for the input field to manage focus/blur
 const inputField = ref<HTMLInputElement | null>(null);
+
+// Add emits for game completion and restart for better parent communication
+const emit = defineEmits(["game-complete", "game-restart"]);
 
 // All flag guessing logic is now handled by the composable
 // This keeps the component clean and maintainable
@@ -117,7 +131,17 @@ const {
   handleFlagGuess,
   restartGame,
   blurInput,
-} = useFlagGuessing(inputField);
+  onGameComplete,
+} = useFlagGuessing(inputField, {
+  onGameComplete: () => emit("game-complete"),
+  onGameRestart: () => emit("game-restart"),
+});
+
+// Wrap restartGame to emit event
+function restartGameAndEmit() {
+  restartGame();
+  emit("game-restart");
+}
 </script>
 
 <style scoped lang="scss">
