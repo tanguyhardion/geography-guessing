@@ -6,9 +6,14 @@ import { useBaseGameStore } from "../store/baseGameStore";
 import { logGameCompletion } from "../utils/completionLogger";
 
 // Accept optional callbacks for game complete/restart for better decoupling
+interface FlagGuessingOptions {
+  onGameComplete?: () => void;
+  onGameRestart?: () => void;
+}
+
 export function useFlagGuessing(
   inputField: any,
-  { onGameComplete, onGameRestart } = {},
+  { onGameComplete, onGameRestart }: FlagGuessingOptions = {},
 ) {
   const flagStore = useFlagStore();
   const baseStore = useBaseGameStore();
