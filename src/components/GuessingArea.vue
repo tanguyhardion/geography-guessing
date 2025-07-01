@@ -29,10 +29,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits } from "vue";
+import { computed, defineEmits, watch } from "vue";
 import { useDepartmentStore } from "../store/departmentStore";
 import { useBaseGameStore } from "../store/baseGameStore";
 import SkipButton from "./SkipButton.vue";
+import { logGameCompletion } from "../utils/completionLogger";
 
 const departmentStore = useDepartmentStore();
 const baseStore = useBaseGameStore();
@@ -65,6 +66,35 @@ function restartGameAndEmit() {
   restartGame();
   emit("game-restart");
 }
+
+// Helper function to get game mode display name
+const getGameModeDisplayName = (gameMode: string) => {
+  switch (gameMode) {
+    case "guessChefLieu":
+      return "Départements français (chef-lieu)";
+    case "guessDepartmentName":
+      return "Départements français (nom)";
+    case "guessBoth":
+      return "Départements français (mixte)";
+    default:
+      return "Départements français";
+  }
+};
+
+// Watch for game completion and log statistics
+watch(
+  () => departmentStore.isGameComplete,
+  (isComplete) => {
+    if (isComplete) {
+      logGameCompletion({
+        modeName: getGameModeDisplayName(departmentStore.gameMode),
+        totalTime: baseStore.elapsedTime,
+        finalScore: baseStore.score,
+        accuracy: baseStore.accuracy,
+      });
+    }
+  },
+);
 </script>
 
 <style scoped lang="scss">

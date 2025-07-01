@@ -96,8 +96,8 @@ export function useFlagGuessing(
       if (isComplete) {
         logGameCompletion({
           modeName: flagStore.reverseFlagMode
-            ? "Drapeaux inversés"
-            : "Quiz des drapeaux",
+            ? "Drapeaux du monde (inverse)"
+            : "Drapeaux du monde",
           totalTime: baseStore.elapsedTime,
           finalScore: baseStore.score,
           accuracy: baseStore.accuracy,

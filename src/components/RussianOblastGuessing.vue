@@ -249,7 +249,7 @@ watch(
   (isComplete) => {
     if (isComplete) {
       logGameCompletion({
-        modeName: "Russian Oblasts Map",
+        modeName: "Oblasts de Russie (carte)",
         totalTime: baseStore.elapsedTime,
         finalScore: baseStore.score,
         accuracy: baseStore.accuracy,
