@@ -194,7 +194,7 @@ const emit = defineEmits(["mode-selected"]);
 const appGameStore = useAppGameStore();
 const router = useRouter();
 const selectedGame = ref<"departments" | "flags" | "map">(
-  appGameStore.selectedGameType
+  appGameStore.selectedGameType,
 );
 const animationKeySuffix = ref(0);
 const selectedFlagMode = ref<
@@ -214,7 +214,7 @@ watch(selectedGame, (newGameType, oldGameType) => {
 });
 
 const selectFlagMode = (
-  mode: "normal" | "reverse" | "capitals" | "reverseCapitals"
+  mode: "normal" | "reverse" | "capitals" | "reverseCapitals",
 ) => {
   selectedFlagMode.value = mode;
   showContinentSelection.value = true;

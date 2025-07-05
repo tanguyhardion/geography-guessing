@@ -40,7 +40,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       // Filter by continent if one is selected
       if (state.selectedContinent && state.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === state.selectedContinent
+          (country) => country.continent === state.selectedContinent,
         );
       }
 
@@ -57,7 +57,7 @@ export const useCountryMapStore = defineStore("countryMap", {
     continentCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
-          (country) => country.continent === state.selectedContinent
+          (country) => country.continent === state.selectedContinent,
         );
       }
       return state.countries;
@@ -88,7 +88,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === this.selectedContinent
+          (country) => country.continent === this.selectedContinent,
         );
       }
 
@@ -109,7 +109,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       this.previousCountry = this.currentCountry;
       this.currentCountry = selectRandomItemWeighted(
         this.availableCountries,
-        this.previousCountry
+        this.previousCountry,
       );
 
       const baseStore = useBaseGameStore();
@@ -122,9 +122,9 @@ export const useCountryMapStore = defineStore("countryMap", {
 
       const currentCountryId = this.currentCountry.id;
       // Debug logging
-      console.log('[CountryMapGuess] countryId from click:', countryId);
-      console.log('[CountryMapGuess] currentCountry.id:', currentCountryId);
-      console.log('[CountryMapGuess] currentCountry:', this.currentCountry);
+      console.log("[CountryMapGuess] countryId from click:", countryId);
+      console.log("[CountryMapGuess] currentCountry.id:", currentCountryId);
+      console.log("[CountryMapGuess] currentCountry:", this.currentCountry);
       const isCorrect = countryId === currentCountryId;
 
       if (isCorrect) {
@@ -155,7 +155,7 @@ export const useCountryMapStore = defineStore("countryMap", {
 
         if (frenchName) {
           baseStore.setMessage(
-            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`
+            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`,
           );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");
@@ -199,7 +199,7 @@ export const useCountryMapStore = defineStore("countryMap", {
 
     removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
-        (country) => country.id !== countryId
+        (country) => country.id !== countryId,
       );
     },
 

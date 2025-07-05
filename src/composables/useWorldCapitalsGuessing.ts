@@ -49,8 +49,8 @@ export function useWorldCapitalsGuessing(inputField: any) {
     () => !worldCapitalsStore.currentCountry,
     (isComplete) => {
       if (isComplete) {
-        const modeName = worldCapitalsStore.reverseCapitalsMode 
-          ? "Capitales du monde (inverse)" 
+        const modeName = worldCapitalsStore.reverseCapitalsMode
+          ? "Capitales du monde (inverse)"
           : "Capitales du monde";
         logGameCompletion({
           modeName,

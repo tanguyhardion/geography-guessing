@@ -139,7 +139,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale
+  TimeScale,
 );
 
 interface GameStat {
@@ -214,14 +214,14 @@ const chartData = computed(() => {
       acc[stat.modeName].push(stat);
       return acc;
     },
-    {} as Record<string, GameStat[]>
+    {} as Record<string, GameStat[]>,
   );
 
   // Sort each group by date
   Object.keys(groupedStats).forEach((mode) => {
     groupedStats[mode].sort(
       (a, b) =>
-        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime(),
     );
   });
 
@@ -330,7 +330,7 @@ onMounted(async () => {
   try {
     const q = query(
       collection(firestore, "gameCompletions"),
-      orderBy("completedAt", "desc")
+      orderBy("completedAt", "desc"),
     );
     const querySnapshot = await getDocs(q);
     stats.value = querySnapshot.docs.map((doc) => doc.data() as GameStat);
