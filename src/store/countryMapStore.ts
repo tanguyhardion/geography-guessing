@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { sovereignStates } from "../data/sovereignStates";
-import type { SovereignState, CountryStatus, Continent } from "../types";
+import { countries } from "../data/countries";
+import type { Country, CountryStatus, Continent } from "../types";
 import { useBaseGameStore, SUCCESS_DELAY } from "./baseGameStore";
 import { selectRandomItemWeighted } from "../utils/randomSelection";
 import SkipToast from "../components/SkipToast.vue";
@@ -9,20 +9,20 @@ import SkipToast from "../components/SkipToast.vue";
 const COMPLETION_MESSAGE = "Félicitations ! Tu as localisé tous les pays !";
 
 interface CountryMapGameState {
-  countries: SovereignState[];
-  currentCountry: SovereignState | null;
+  countries: Country[];
+  currentCountry: Country | null;
   countryStatus: CountryStatus;
-  availableCountries: SovereignState[];
-  previousCountry: SovereignState | null; // Track previous to avoid immediate re-selection
+  availableCountries: Country[];
+  previousCountry: Country | null; // Track previous to avoid immediate re-selection
   selectedContinent: Continent | "all" | null; // Add continent filtering
 }
 
 export const useCountryMapStore = defineStore("countryMap", {
   state: (): CountryMapGameState => ({
-    countries: sovereignStates,
+    countries: countries,
     currentCountry: null,
     countryStatus: {},
-    availableCountries: [...sovereignStates],
+    availableCountries: [...countries],
     previousCountry: null,
     selectedContinent: null,
   }),
@@ -40,7 +40,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       // Filter by continent if one is selected
       if (state.selectedContinent && state.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === state.selectedContinent,
+          (country) => country.continent === state.selectedContinent
         );
       }
 
@@ -57,7 +57,7 @@ export const useCountryMapStore = defineStore("countryMap", {
     continentCountries: (state) => {
       if (state.selectedContinent && state.selectedContinent !== "all") {
         return state.countries.filter(
-          (country) => country.continent === state.selectedContinent,
+          (country) => country.continent === state.selectedContinent
         );
       }
       return state.countries;
@@ -88,7 +88,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       // Filter by continent if one is selected
       if (this.selectedContinent && this.selectedContinent !== "all") {
         filteredCountries = filteredCountries.filter(
-          (country) => country.continent === this.selectedContinent,
+          (country) => country.continent === this.selectedContinent
         );
       }
 
@@ -109,7 +109,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       this.previousCountry = this.currentCountry;
       this.currentCountry = selectRandomItemWeighted(
         this.availableCountries,
-        this.previousCountry,
+        this.previousCountry
       );
 
       const baseStore = useBaseGameStore();
@@ -121,6 +121,10 @@ export const useCountryMapStore = defineStore("countryMap", {
       if (!this.currentCountry) return;
 
       const currentCountryId = this.currentCountry.id;
+      // Debug logging
+      console.log('[CountryMapGuess] countryId from click:', countryId);
+      console.log('[CountryMapGuess] currentCountry.id:', currentCountryId);
+      console.log('[CountryMapGuess] currentCountry:', this.currentCountry);
       const isCorrect = countryId === currentCountryId;
 
       if (isCorrect) {
@@ -130,7 +134,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       }
     },
 
-    handleCorrectCountryMapGuess(country: SovereignState) {
+    handleCorrectCountryMapGuess(country: Country) {
       const baseStore = useBaseGameStore();
       baseStore.recordCorrectGuess();
 
@@ -151,7 +155,7 @@ export const useCountryMapStore = defineStore("countryMap", {
 
         if (frenchName) {
           baseStore.setMessage(
-            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`,
+            `Incorrect. Tu as cliqué sur ${frenchName}. Essaie encore ou passe.`
           );
         } else {
           baseStore.setMessage("Incorrect. Essaie encore ou passe.");
@@ -168,8 +172,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       baseStore.setMessage({
         component: SkipToast,
         props: {
-          prefix: "Passé. C'était : ",
-          departmentName: this.currentCountry.name,
+          prefix: "Passé.",
         },
       });
 
@@ -196,7 +199,7 @@ export const useCountryMapStore = defineStore("countryMap", {
 
     removeCountryFromAvailable(countryId: string) {
       this.availableCountries = this.availableCountries.filter(
-        (country) => country.id !== countryId,
+        (country) => country.id !== countryId
       );
     },
 

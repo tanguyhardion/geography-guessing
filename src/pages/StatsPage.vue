@@ -2,7 +2,9 @@
   <div class="stats-page">
     <h1>Mes Statistiques</h1>
 
-    <div v-if="stats.length === 0" class="empty-stats">
+    <div v-if="loading" class="empty-stats">Chargement...</div>
+    <div v-else-if="error" class="empty-stats">{{ error }}</div>
+    <div v-else-if="stats.length === 0" class="empty-stats">
       Aucune partie terminée pour l'instant.
     </div>
 
@@ -125,6 +127,8 @@ import {
   TimeScale,
 } from "chart.js";
 import "chartjs-adapter-date-fns";
+import { firestore } from "../utils/firebase";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
 // Register Chart.js components
 ChartJS.register(
@@ -135,7 +139,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale,
+  TimeScale
 );
 
 interface GameStat {
@@ -159,6 +163,10 @@ const sortField = ref<
 >("completedAt");
 const sortOrder = ref<"asc" | "desc">("desc");
 const isSorting = ref(false);
+
+// Loading and error state
+const loading = ref(true);
+const error = ref<string | null>(null);
 
 // Sorted stats computed property
 const sortedStats = computed(() => {
@@ -206,14 +214,14 @@ const chartData = computed(() => {
       acc[stat.modeName].push(stat);
       return acc;
     },
-    {} as Record<string, GameStat[]>,
+    {} as Record<string, GameStat[]>
   );
 
   // Sort each group by date
   Object.keys(groupedStats).forEach((mode) => {
     groupedStats[mode].sort(
       (a, b) =>
-        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime(),
+        new Date(a.completedAt).getTime() - new Date(b.completedAt).getTime()
     );
   });
 
@@ -316,18 +324,25 @@ function onScroll() {
   checkFade();
 }
 
-onMounted(() => {
-  const raw = localStorage.getItem("gameCompletions");
-  if (raw) {
-    try {
-      stats.value = JSON.parse(raw);
-    } catch {
-      stats.value = [];
-    }
+onMounted(async () => {
+  loading.value = true;
+  error.value = null;
+  try {
+    const q = query(
+      collection(firestore, "gameCompletions"),
+      orderBy("completedAt", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    stats.value = querySnapshot.docs.map((doc) => doc.data() as GameStat);
+  } catch (e: any) {
+    error.value = "Erreur lors du chargement des statistiques.";
+    stats.value = [];
+  } finally {
+    loading.value = false;
+    nextTick(() => {
+      checkFade();
+    });
   }
-  nextTick(() => {
-    checkFade();
-  });
 });
 
 function formatDate(dateStr: string) {
