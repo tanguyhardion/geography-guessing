@@ -1,7 +1,6 @@
 <template>
   <div class="homepage">
     <div class="stats-icon" @click="goToStats" title="Voir les statistiques">
-      <!-- Simple bar chart SVG icon with subtle spacing between bars -->
       <svg
         width="32"
         height="32"
@@ -12,9 +11,9 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <rect x="3" y="12" width="3.5" height="8" />
-        <rect x="9.25" y="8" width="3.5" height="12" />
-        <rect x="15.5" y="4" width="3.5" height="16" />
+        <rect x="3" y="12" width="3.5" height="8" rx="1.2" />
+        <rect x="9.25" y="8" width="3.5" height="12" rx="1.2" />
+        <rect x="15.5" y="4" width="3.5" height="16" rx="1.2" />
       </svg>
     </div>
     <h1>Quiz Géographique</h1>
@@ -195,7 +194,7 @@ const emit = defineEmits(["mode-selected"]);
 const appGameStore = useAppGameStore();
 const router = useRouter();
 const selectedGame = ref<"departments" | "flags" | "map">(
-  appGameStore.selectedGameType,
+  appGameStore.selectedGameType
 );
 const animationKeySuffix = ref(0);
 const selectedFlagMode = ref<
@@ -215,7 +214,7 @@ watch(selectedGame, (newGameType, oldGameType) => {
 });
 
 const selectFlagMode = (
-  mode: "normal" | "reverse" | "capitals" | "reverseCapitals",
+  mode: "normal" | "reverse" | "capitals" | "reverseCapitals"
 ) => {
   selectedFlagMode.value = mode;
   showContinentSelection.value = true;
