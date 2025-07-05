@@ -2,7 +2,7 @@ import type { Country } from "../types";
 
 export const countries: Country[] = [
   {
-    id: "fr",
+    id: "FRA",
     name: "France",
     nameEn: "france",
     continent: "Europe",
@@ -10,7 +10,7 @@ export const countries: Country[] = [
     capitalEn: "paris",
   },
   {
-    id: "de",
+    id: "DEU",
     name: "Allemagne",
     nameEn: "germany",
     continent: "Europe",
@@ -18,7 +18,7 @@ export const countries: Country[] = [
     capitalEn: "berlin",
   },
   {
-    id: "es",
+    id: "ESP",
     name: "Espagne",
     nameEn: "spain",
     continent: "Europe",
@@ -26,7 +26,7 @@ export const countries: Country[] = [
     capitalEn: "madrid",
   },
   {
-    id: "it",
+    id: "ITA",
     name: "Italie",
     nameEn: "italy",
     continent: "Europe",
@@ -34,7 +34,7 @@ export const countries: Country[] = [
     capitalEn: "rome",
   },
   {
-    id: "gb",
+    id: "GBR",
     name: "Royaume-Uni",
     nameEn: "united kingdom",
     continent: "Europe",
@@ -42,7 +42,7 @@ export const countries: Country[] = [
     capitalEn: "london",
   },
   {
-    id: "us",
+    id: "USA",
     name: "États-Unis",
     nameEn: "united states",
     continent: "Amérique du Nord",
@@ -50,7 +50,7 @@ export const countries: Country[] = [
     capitalEn: "washington d.c.",
   },
   {
-    id: "ca",
+    id: "CAN",
     name: "Canada",
     nameEn: "canada",
     continent: "Amérique du Nord",
@@ -58,7 +58,7 @@ export const countries: Country[] = [
     capitalEn: "ottawa",
   },
   {
-    id: "au",
+    id: "AUS",
     name: "Australie",
     nameEn: "australia",
     continent: "Océanie",
@@ -66,7 +66,7 @@ export const countries: Country[] = [
     capitalEn: "canberra",
   },
   {
-    id: "jp",
+    id: "JPN",
     name: "Japon",
     nameEn: "japan",
     continent: "Asie",
@@ -74,7 +74,7 @@ export const countries: Country[] = [
     capitalEn: "tokyo",
   },
   {
-    id: "cn",
+    id: "CHN",
     name: "Chine",
     nameEn: "china",
     continent: "Asie",
@@ -82,7 +82,7 @@ export const countries: Country[] = [
     capitalEn: "beijing",
   },
   {
-    id: "hk",
+    id: "HKG",
     name: "Hong Kong",
     nameEn: "hong kong",
     continent: "Asie",
@@ -90,7 +90,7 @@ export const countries: Country[] = [
     capitalEn: "hong kong",
   },
   {
-    id: "mo",
+    id: "MAC",
     name: "Macao",
     nameEn: "macao",
     continent: "Asie",
@@ -98,7 +98,7 @@ export const countries: Country[] = [
     capitalEn: "macao",
   },
   {
-    id: "pr",
+    id: "PRI",
     name: "Porto Rico",
     nameEn: "puerto rico",
     continent: "Amérique du Nord",
@@ -106,7 +106,7 @@ export const countries: Country[] = [
     capitalEn: "san juan",
   },
   {
-    id: "gl",
+    id: "GRL",
     name: "Groenland",
     nameEn: "greenland",
     continent: "Amérique du Nord",
@@ -114,7 +114,7 @@ export const countries: Country[] = [
     capitalEn: "nuuk",
   },
   {
-    id: "aw",
+    id: "ABW",
     name: "Aruba",
     nameEn: "aruba",
     continent: "Amérique du Nord",
@@ -122,7 +122,7 @@ export const countries: Country[] = [
     capitalEn: "oranjestad",
   },
   {
-    id: "ky",
+    id: "CYM",
     name: "Îles Caïmans",
     nameEn: "cayman islands",
     continent: "Amérique du Nord",
@@ -130,7 +130,7 @@ export const countries: Country[] = [
     capitalEn: "george town",
   },
   {
-    id: "bm",
+    id: "BMU",
     name: "Bermudes",
     nameEn: "bermuda",
     continent: "Amérique du Nord",
@@ -138,7 +138,7 @@ export const countries: Country[] = [
     capitalEn: "hamilton",
   },
   {
-    id: "fk",
+    id: "FLK",
     name: "Îles Malouines",
     nameEn: "falkland islands",
     continent: "Amérique du Sud",
@@ -146,7 +146,7 @@ export const countries: Country[] = [
     capitalEn: "stanley",
   },
   {
-    id: "gi",
+    id: "GIB",
     name: "Gibraltar",
     nameEn: "gibraltar",
     continent: "Europe",
@@ -154,7 +154,7 @@ export const countries: Country[] = [
     capitalEn: "gibraltar",
   },
   {
-    id: "gu",
+    id: "GUM",
     name: "Guam",
     nameEn: "guam",
     continent: "Océanie",
@@ -162,7 +162,7 @@ export const countries: Country[] = [
     capitalEn: "hagatna",
   },
   {
-    id: "mp",
+    id: "MNP",
     name: "Îles Mariannes du Nord",
     nameEn: "northern mariana islands",
     continent: "Océanie",
@@ -170,7 +170,7 @@ export const countries: Country[] = [
     capitalEn: "saipan",
   },
   {
-    id: "as",
+    id: "ASM",
     name: "Samoa américaines",
     nameEn: "american samoa",
     continent: "Océanie",
@@ -178,7 +178,7 @@ export const countries: Country[] = [
     capitalEn: "pago pago",
   },
   {
-    id: "pf",
+    id: "PYF",
     name: "Polynésie française",
     nameEn: "french polynesia",
     continent: "Océanie",
@@ -186,7 +186,7 @@ export const countries: Country[] = [
     capitalEn: "papeete",
   },
   {
-    id: "nc",
+    id: "NCL",
     name: "Nouvelle-Calédonie",
     nameEn: "new caledonia",
     continent: "Océanie",
@@ -194,7 +194,7 @@ export const countries: Country[] = [
     capitalEn: "noumea",
   },
   {
-    id: "fo",
+    id: "FRO",
     name: "Îles Féroé",
     nameEn: "faroe islands",
     continent: "Europe",
@@ -202,7 +202,7 @@ export const countries: Country[] = [
     capitalEn: "torshavn",
   },
   {
-    id: "je",
+    id: "JEY",
     name: "Jersey",
     nameEn: "jersey",
     continent: "Europe",
@@ -210,7 +210,7 @@ export const countries: Country[] = [
     capitalEn: "saint helier",
   },
   {
-    id: "gg",
+    id: "GGY",
     name: "Guernesey",
     nameEn: "guernsey",
     continent: "Europe",
@@ -218,7 +218,7 @@ export const countries: Country[] = [
     capitalEn: "saint peter port",
   },
   {
-    id: "im",
+    id: "IMN",
     name: "Île de Man",
     nameEn: "isle of man",
     continent: "Europe",
@@ -226,7 +226,7 @@ export const countries: Country[] = [
     capitalEn: "douglas",
   },
   {
-    id: "ax",
+    id: "ALA",
     name: "Åland",
     nameEn: "aland islands",
     continent: "Europe",
@@ -234,7 +234,7 @@ export const countries: Country[] = [
     capitalEn: "mariehamn",
   },
   {
-    id: "br",
+    id: "BRA",
     name: "Brésil",
     nameEn: "brazil",
     continent: "Amérique du Sud",
@@ -242,7 +242,7 @@ export const countries: Country[] = [
     capitalEn: "brasilia",
   },
   {
-    id: "in",
+    id: "IND",
     name: "Inde",
     nameEn: "india",
     continent: "Asie",
@@ -250,7 +250,7 @@ export const countries: Country[] = [
     capitalEn: "new delhi",
   },
   {
-    id: "za",
+    id: "ZAF",
     name: "Afrique du Sud",
     nameEn: "south africa",
     continent: "Afrique",
@@ -258,7 +258,7 @@ export const countries: Country[] = [
     capitalEn: "cape town",
   },
   {
-    id: "ru",
+    id: "RUS",
     name: "Russie",
     nameEn: "russia",
     continent: "Europe",
@@ -266,7 +266,7 @@ export const countries: Country[] = [
     capitalEn: "moscow",
   },
   {
-    id: "mx",
+    id: "MEX",
     name: "Mexique",
     nameEn: "mexico",
     continent: "Amérique du Nord",
@@ -274,7 +274,7 @@ export const countries: Country[] = [
     capitalEn: "mexico city",
   },
   {
-    id: "nz",
+    id: "NZL",
     name: "Nouvelle-Zélande",
     nameEn: "new zealand",
     continent: "Océanie",
@@ -282,7 +282,7 @@ export const countries: Country[] = [
     capitalEn: "wellington",
   },
   {
-    id: "af",
+    id: "AFG",
     name: "Afghanistan",
     nameEn: "afghanistan",
     continent: "Asie",
@@ -290,7 +290,7 @@ export const countries: Country[] = [
     capitalEn: "kabul",
   },
   {
-    id: "al",
+    id: "ALB",
     name: "Albanie",
     nameEn: "albania",
     continent: "Europe",
@@ -298,7 +298,7 @@ export const countries: Country[] = [
     capitalEn: "tirana",
   },
   {
-    id: "dz",
+    id: "DZA",
     name: "Algérie",
     nameEn: "algeria",
     continent: "Afrique",
@@ -306,7 +306,7 @@ export const countries: Country[] = [
     capitalEn: "algiers",
   },
   {
-    id: "ad",
+    id: "AND",
     name: "Andorre",
     nameEn: "andorra",
     continent: "Europe",
@@ -314,7 +314,7 @@ export const countries: Country[] = [
     capitalEn: "andorra la vella",
   },
   {
-    id: "ao",
+    id: "AGO",
     name: "Angola",
     nameEn: "angola",
     continent: "Afrique",
@@ -322,7 +322,7 @@ export const countries: Country[] = [
     capitalEn: "luanda",
   },
   {
-    id: "ag",
+    id: "ATG",
     name: "Antigua-et-Barbuda",
     nameEn: "antigua and barbuda",
     continent: "Amérique du Nord",
@@ -330,7 +330,7 @@ export const countries: Country[] = [
     capitalEn: "saint john's",
   },
   {
-    id: "ar",
+    id: "ARG",
     name: "Argentine",
     nameEn: "argentina",
     continent: "Amérique du Sud",
@@ -338,7 +338,7 @@ export const countries: Country[] = [
     capitalEn: "buenos aires",
   },
   {
-    id: "am",
+    id: "ARM",
     name: "Arménie",
     nameEn: "armenia",
     continent: "Asie",
@@ -346,7 +346,7 @@ export const countries: Country[] = [
     capitalEn: "yerevan",
   },
   {
-    id: "aw",
+    id: "ABW",
     name: "Aruba",
     nameEn: "aruba",
     continent: "Amérique du Nord",
@@ -354,7 +354,7 @@ export const countries: Country[] = [
     capitalEn: "oranjestad",
   },
   {
-    id: "at",
+    id: "AUT",
     name: "Autriche",
     nameEn: "austria",
     continent: "Europe",
@@ -362,7 +362,7 @@ export const countries: Country[] = [
     capitalEn: "vienna",
   },
   {
-    id: "az",
+    id: "AZE",
     name: "Azerbaïdjan",
     nameEn: "azerbaijan",
     continent: "Asie",
@@ -370,7 +370,7 @@ export const countries: Country[] = [
     capitalEn: "baku",
   },
   {
-    id: "bs",
+    id: "BHS",
     name: "Bahamas",
     nameEn: "bahamas",
     continent: "Amérique du Nord",
@@ -378,7 +378,7 @@ export const countries: Country[] = [
     capitalEn: "nassau",
   },
   {
-    id: "bh",
+    id: "BHR",
     name: "Bahreïn",
     nameEn: "bahrain",
     continent: "Asie",
@@ -386,7 +386,7 @@ export const countries: Country[] = [
     capitalEn: "manama",
   },
   {
-    id: "bd",
+    id: "BGD",
     name: "Bangladesh",
     nameEn: "bangladesh",
     continent: "Asie",
@@ -394,7 +394,7 @@ export const countries: Country[] = [
     capitalEn: "dhaka",
   },
   {
-    id: "bb",
+    id: "BRB",
     name: "Barbade",
     nameEn: "barbados",
     continent: "Amérique du Nord",
@@ -402,7 +402,7 @@ export const countries: Country[] = [
     capitalEn: "bridgetown",
   },
   {
-    id: "by",
+    id: "BLR",
     name: "Biélorussie",
     nameEn: "belarus",
     continent: "Europe",
@@ -410,7 +410,7 @@ export const countries: Country[] = [
     capitalEn: "minsk",
   },
   {
-    id: "be",
+    id: "BEL",
     name: "Belgique",
     nameEn: "belgium",
     continent: "Europe",
@@ -418,7 +418,7 @@ export const countries: Country[] = [
     capitalEn: "brussels",
   },
   {
-    id: "bz",
+    id: "BLZ",
     name: "Belize",
     nameEn: "belize",
     continent: "Amérique du Nord",
@@ -426,7 +426,7 @@ export const countries: Country[] = [
     capitalEn: "belmopan",
   },
   {
-    id: "bj",
+    id: "BEN",
     name: "Bénin",
     nameEn: "benin",
     continent: "Afrique",
@@ -434,7 +434,7 @@ export const countries: Country[] = [
     capitalEn: "porto-novo",
   },
   {
-    id: "bt",
+    id: "BTN",
     name: "Bhoutan",
     nameEn: "bhutan",
     continent: "Asie",
@@ -442,15 +442,15 @@ export const countries: Country[] = [
     capitalEn: "thimphu",
   },
   {
-    id: "bo",
-    name: "Bol+ie",
+    id: "BOL",
+    name: "Bolivie",
     nameEn: "bolivia",
     continent: "Amérique du Sud",
     capital: "Sucre",
     capitalEn: "sucre",
   },
   {
-    id: "ba",
+    id: "BIH",
     name: "Bosnie-Herzégovine",
     nameEn: "bosnia and herzegovina",
     continent: "Europe",
@@ -458,7 +458,7 @@ export const countries: Country[] = [
     capitalEn: "sarajevo",
   },
   {
-    id: "bw",
+    id: "BWA",
     name: "Botswana",
     nameEn: "botswana",
     continent: "Afrique",
@@ -466,7 +466,7 @@ export const countries: Country[] = [
     capitalEn: "gaborone",
   },
   {
-    id: "bn",
+    id: "BRN",
     name: "Brunei",
     nameEn: "brunei",
     continent: "Asie",
@@ -474,7 +474,7 @@ export const countries: Country[] = [
     capitalEn: "bandar seri begawan",
   },
   {
-    id: "bg",
+    id: "BGR",
     name: "Bulgarie",
     nameEn: "bulgaria",
     continent: "Europe",
@@ -482,7 +482,7 @@ export const countries: Country[] = [
     capitalEn: "sofia",
   },
   {
-    id: "bf",
+    id: "BFA",
     name: "Burkina Faso",
     nameEn: "burkina faso",
     continent: "Afrique",
@@ -490,7 +490,7 @@ export const countries: Country[] = [
     capitalEn: "ouagadougou",
   },
   {
-    id: "bi",
+    id: "BDI",
     name: "Burundi",
     nameEn: "burundi",
     continent: "Afrique",
@@ -498,7 +498,7 @@ export const countries: Country[] = [
     capitalEn: "gitega",
   },
   {
-    id: "cv",
+    id: "CPV",
     name: "Cap-Vert",
     nameEn: "cape verde",
     continent: "Afrique",
@@ -506,7 +506,7 @@ export const countries: Country[] = [
     capitalEn: "praia",
   },
   {
-    id: "kh",
+    id: "KHM",
     name: "Cambodge",
     nameEn: "cambodia",
     continent: "Asie",
@@ -514,7 +514,7 @@ export const countries: Country[] = [
     capitalEn: "phnom penh",
   },
   {
-    id: "cm",
+    id: "CMR",
     name: "Cameroun",
     nameEn: "cameroon",
     continent: "Afrique",
@@ -522,7 +522,7 @@ export const countries: Country[] = [
     capitalEn: "yaounde",
   },
   {
-    id: "cf",
+    id: "CAF",
     name: "République centrafricaine",
     nameEn: "central african republic",
     continent: "Afrique",
@@ -530,7 +530,7 @@ export const countries: Country[] = [
     capitalEn: "bangui",
   },
   {
-    id: "td",
+    id: "TCD",
     name: "Tchad",
     nameEn: "chad",
     continent: "Afrique",
@@ -538,7 +538,7 @@ export const countries: Country[] = [
     capitalEn: "n'djamena",
   },
   {
-    id: "cl",
+    id: "CHL",
     name: "Chili",
     nameEn: "chile",
     continent: "Amérique du Sud",
@@ -546,7 +546,7 @@ export const countries: Country[] = [
     capitalEn: "santiago",
   },
   {
-    id: "co",
+    id: "COL",
     name: "Colombie",
     nameEn: "colombia",
     continent: "Amérique du Sud",
@@ -554,7 +554,7 @@ export const countries: Country[] = [
     capitalEn: "bogota",
   },
   {
-    id: "km",
+    id: "COM",
     name: "Comores",
     nameEn: "comoros",
     continent: "Afrique",
@@ -562,7 +562,7 @@ export const countries: Country[] = [
     capitalEn: "moroni",
   },
   {
-    id: "cg",
+    id: "COG",
     name: "Congo",
     nameEn: "congo",
     continent: "Afrique",
@@ -570,7 +570,7 @@ export const countries: Country[] = [
     capitalEn: "brazzaville",
   },
   {
-    id: "cd",
+    id: "COD",
     name: "République démocratique du Congo",
     nameEn: "democratic republic of the congo",
     continent: "Afrique",
@@ -578,7 +578,7 @@ export const countries: Country[] = [
     capitalEn: "kinshasa",
   },
   {
-    id: "cr",
+    id: "CRI",
     name: "Costa Rica",
     nameEn: "costa rica",
     continent: "Amérique du Nord",
@@ -586,7 +586,7 @@ export const countries: Country[] = [
     capitalEn: "san jose",
   },
   {
-    id: "hr",
+    id: "HRV",
     name: "Croatie",
     nameEn: "croatia",
     continent: "Europe",
@@ -594,7 +594,7 @@ export const countries: Country[] = [
     capitalEn: "zagreb",
   },
   {
-    id: "cu",
+    id: "CUB",
     name: "Cuba",
     nameEn: "cuba",
     continent: "Amérique du Nord",
@@ -602,7 +602,7 @@ export const countries: Country[] = [
     capitalEn: "havana",
   },
   {
-    id: "cy",
+    id: "CYP",
     name: "Chypre",
     nameEn: "cyprus",
     continent: "Europe",
@@ -610,7 +610,7 @@ export const countries: Country[] = [
     capitalEn: "nicosia",
   },
   {
-    id: "cz",
+    id: "CZE",
     name: "Tchéquie",
     nameEn: "czech republic",
     continent: "Europe",
@@ -618,7 +618,7 @@ export const countries: Country[] = [
     capitalEn: "prague",
   },
   {
-    id: "dk",
+    id: "DNK",
     name: "Danemark",
     nameEn: "denmark",
     continent: "Europe",
@@ -626,7 +626,7 @@ export const countries: Country[] = [
     capitalEn: "copenhagen",
   },
   {
-    id: "dj",
+    id: "DJI",
     name: "Djibouti",
     nameEn: "djibouti",
     continent: "Afrique",
@@ -634,7 +634,7 @@ export const countries: Country[] = [
     capitalEn: "djibouti",
   },
   {
-    id: "dm",
+    id: "DMA",
     name: "Dominique",
     nameEn: "dominica",
     continent: "Amérique du Nord",
@@ -642,7 +642,7 @@ export const countries: Country[] = [
     capitalEn: "roseau",
   },
   {
-    id: "do",
+    id: "DOM",
     name: "République dominicaine",
     nameEn: "dominican republic",
     continent: "Amérique du Nord",
@@ -650,7 +650,7 @@ export const countries: Country[] = [
     capitalEn: "santo domingo",
   },
   {
-    id: "tl",
+    id: "TLS",
     name: "Timor oriental",
     nameEn: "east timor",
     continent: "Asie",
@@ -658,7 +658,7 @@ export const countries: Country[] = [
     capitalEn: "dili",
   },
   {
-    id: "ec",
+    id: "ECU",
     name: "Équateur",
     nameEn: "ecuador",
     continent: "Amérique du Sud",
@@ -666,7 +666,7 @@ export const countries: Country[] = [
     capitalEn: "quito",
   },
   {
-    id: "eg",
+    id: "EGY",
     name: "Égypte",
     nameEn: "egypt",
     continent: "Afrique",
@@ -674,7 +674,7 @@ export const countries: Country[] = [
     capitalEn: "cairo",
   },
   {
-    id: "sv",
+    id: "SLV",
     name: "Salvador",
     nameEn: "el salvador",
     continent: "Amérique du Nord",
@@ -682,7 +682,7 @@ export const countries: Country[] = [
     capitalEn: "san salvador",
   },
   {
-    id: "gq",
+    id: "GNQ",
     name: "Guinée équatoriale",
     nameEn: "equatorial guinea",
     continent: "Afrique",
@@ -690,7 +690,7 @@ export const countries: Country[] = [
     capitalEn: "malabo",
   },
   {
-    id: "er",
+    id: "ERI",
     name: "Érythrée",
     nameEn: "eritrea",
     continent: "Afrique",
@@ -698,7 +698,7 @@ export const countries: Country[] = [
     capitalEn: "asmara",
   },
   {
-    id: "ee",
+    id: "EST",
     name: "Estonie",
     nameEn: "estonia",
     continent: "Europe",
@@ -706,7 +706,7 @@ export const countries: Country[] = [
     capitalEn: "tallinn",
   },
   {
-    id: "sz",
+    id: "SWZ",
     name: "Eswatini",
     nameEn: "eswatini",
     continent: "Afrique",
@@ -714,7 +714,7 @@ export const countries: Country[] = [
     capitalEn: "mbabane",
   },
   {
-    id: "et",
+    id: "ETH",
     name: "Éthiopie",
     nameEn: "ethiopia",
     continent: "Afrique",
@@ -722,7 +722,7 @@ export const countries: Country[] = [
     capitalEn: "addis ababa",
   },
   {
-    id: "fj",
+    id: "FJI",
     name: "Fidji",
     nameEn: "fiji",
     continent: "Océanie",
@@ -730,7 +730,7 @@ export const countries: Country[] = [
     capitalEn: "suva",
   },
   {
-    id: "fi",
+    id: "FIN",
     name: "Finlande",
     nameEn: "finland",
     continent: "Europe",
@@ -738,7 +738,7 @@ export const countries: Country[] = [
     capitalEn: "helsinki",
   },
   {
-    id: "ga",
+    id: "GAB",
     name: "Gabon",
     nameEn: "gabon",
     continent: "Afrique",
@@ -746,7 +746,7 @@ export const countries: Country[] = [
     capitalEn: "libreville",
   },
   {
-    id: "gm",
+    id: "GMB",
     name: "Gambie",
     nameEn: "gambia",
     continent: "Afrique",
@@ -754,7 +754,7 @@ export const countries: Country[] = [
     capitalEn: "banjul",
   },
   {
-    id: "ge",
+    id: "GEO",
     name: "Géorgie",
     nameEn: "georgia",
     continent: "Asie",
@@ -762,7 +762,7 @@ export const countries: Country[] = [
     capitalEn: "tbilisi",
   },
   {
-    id: "gh",
+    id: "GHA",
     name: "Ghana",
     nameEn: "ghana",
     continent: "Afrique",
@@ -770,7 +770,7 @@ export const countries: Country[] = [
     capitalEn: "accra",
   },
   {
-    id: "gr",
+    id: "GRC",
     name: "Grèce",
     nameEn: "greece",
     continent: "Europe",
@@ -778,7 +778,7 @@ export const countries: Country[] = [
     capitalEn: "athens",
   },
   {
-    id: "gd",
+    id: "GRD",
     name: "Grenade",
     nameEn: "grenada",
     continent: "Amérique du Nord",
@@ -786,7 +786,7 @@ export const countries: Country[] = [
     capitalEn: "saint george's",
   },
   {
-    id: "gt",
+    id: "GTM",
     name: "Guatemala",
     nameEn: "guatemala",
     continent: "Amérique du Nord",
@@ -794,7 +794,7 @@ export const countries: Country[] = [
     capitalEn: "guatemala city",
   },
   {
-    id: "gn",
+    id: "GIN",
     name: "Guinée",
     nameEn: "guinea",
     continent: "Afrique",
@@ -802,7 +802,7 @@ export const countries: Country[] = [
     capitalEn: "conakry",
   },
   {
-    id: "gw",
+    id: "GNB",
     name: "Guinée-Bissau",
     nameEn: "guinea-bissau",
     continent: "Afrique",
@@ -810,7 +810,7 @@ export const countries: Country[] = [
     capitalEn: "bissau",
   },
   {
-    id: "gy",
+    id: "GUY",
     name: "Guyana",
     nameEn: "guyana",
     continent: "Amérique du Sud",
@@ -818,7 +818,7 @@ export const countries: Country[] = [
     capitalEn: "georgetown",
   },
   {
-    id: "ht",
+    id: "HTI",
     name: "Haïti",
     nameEn: "haiti",
     continent: "Amérique du Nord",
@@ -826,7 +826,7 @@ export const countries: Country[] = [
     capitalEn: "port-au-prince",
   },
   {
-    id: "hn",
+    id: "HND",
     name: "Honduras",
     nameEn: "honduras",
     continent: "Amérique du Nord",
@@ -834,7 +834,7 @@ export const countries: Country[] = [
     capitalEn: "tegucigalpa",
   },
   {
-    id: "hu",
+    id: "HUN",
     name: "Hongrie",
     nameEn: "hungary",
     continent: "Europe",
@@ -842,7 +842,7 @@ export const countries: Country[] = [
     capitalEn: "budapest",
   },
   {
-    id: "is",
+    id: "ISL",
     name: "Islande",
     nameEn: "iceland",
     continent: "Europe",
@@ -850,7 +850,7 @@ export const countries: Country[] = [
     capitalEn: "reykjavik",
   },
   {
-    id: "id",
+    id: "IDN",
     name: "Indonésie",
     nameEn: "indonesia",
     continent: "Asie",
@@ -858,7 +858,7 @@ export const countries: Country[] = [
     capitalEn: "jakarta",
   },
   {
-    id: "ir",
+    id: "IRN",
     name: "Iran",
     nameEn: "iran",
     continent: "Asie",
@@ -866,7 +866,7 @@ export const countries: Country[] = [
     capitalEn: "tehran",
   },
   {
-    id: "iq",
+    id: "IRQ",
     name: "Irak",
     nameEn: "iraq",
     continent: "Asie",
@@ -874,7 +874,7 @@ export const countries: Country[] = [
     capitalEn: "baghdad",
   },
   {
-    id: "ie",
+    id: "IRL",
     name: "Irlande",
     nameEn: "ireland",
     continent: "Europe",
@@ -882,7 +882,7 @@ export const countries: Country[] = [
     capitalEn: "dublin",
   },
   {
-    id: "il",
+    id: "ISR",
     name: "Israël",
     nameEn: "israel",
     continent: "Asie",
@@ -890,7 +890,7 @@ export const countries: Country[] = [
     capitalEn: "jerusalem",
   },
   {
-    id: "jm",
+    id: "JAM",
     name: "Jamaïque",
     nameEn: "jamaica",
     continent: "Amérique du Nord",
@@ -898,7 +898,7 @@ export const countries: Country[] = [
     capitalEn: "kingston",
   },
   {
-    id: "jo",
+    id: "JOR",
     name: "Jordanie",
     nameEn: "jordan",
     continent: "Asie",
@@ -906,7 +906,7 @@ export const countries: Country[] = [
     capitalEn: "amman",
   },
   {
-    id: "kz",
+    id: "KAZ",
     name: "Kazakhstan",
     nameEn: "kazakhstan",
     continent: "Asie",
@@ -914,7 +914,7 @@ export const countries: Country[] = [
     capitalEn: "astana",
   },
   {
-    id: "ke",
+    id: "KEN",
     name: "Kenya",
     nameEn: "kenya",
     continent: "Afrique",
@@ -922,7 +922,7 @@ export const countries: Country[] = [
     capitalEn: "nairobi",
   },
   {
-    id: "ki",
+    id: "KIR",
     name: "Kiribati",
     nameEn: "kiribati",
     continent: "Océanie",
@@ -930,7 +930,7 @@ export const countries: Country[] = [
     capitalEn: "south tarawa",
   },
   {
-    id: "kp",
+    id: "PRK",
     name: "Corée du Nord",
     nameEn: "north korea",
     continent: "Asie",
@@ -938,7 +938,7 @@ export const countries: Country[] = [
     capitalEn: "pyongyang",
   },
   {
-    id: "kr",
+    id: "KOR",
     name: "Corée du Sud",
     nameEn: "south korea",
     continent: "Asie",
@@ -946,7 +946,7 @@ export const countries: Country[] = [
     capitalEn: "seoul",
   },
   {
-    id: "xk",
+    id: "XKX",
     name: "Kosovo",
     nameEn: "kosovo",
     continent: "Europe",
@@ -954,7 +954,7 @@ export const countries: Country[] = [
     capitalEn: "pristina",
   },
   {
-    id: "kw",
+    id: "KWT",
     name: "Koweït",
     nameEn: "kuwait",
     continent: "Asie",
@@ -962,7 +962,7 @@ export const countries: Country[] = [
     capitalEn: "kuwait city",
   },
   {
-    id: "kg",
+    id: "KGZ",
     name: "Kirghizistan",
     nameEn: "kyrgyzstan",
     continent: "Asie",
@@ -970,7 +970,7 @@ export const countries: Country[] = [
     capitalEn: "bishkek",
   },
   {
-    id: "la",
+    id: "LAO",
     name: "Laos",
     nameEn: "laos",
     continent: "Asie",
@@ -978,7 +978,7 @@ export const countries: Country[] = [
     capitalEn: "vientiane",
   },
   {
-    id: "lv",
+    id: "LVA",
     name: "Lettonie",
     nameEn: "latvia",
     continent: "Europe",
@@ -986,7 +986,7 @@ export const countries: Country[] = [
     capitalEn: "riga",
   },
   {
-    id: "lb",
+    id: "LIB",
     name: "Liban",
     nameEn: "lebanon",
     continent: "Asie",
@@ -994,7 +994,7 @@ export const countries: Country[] = [
     capitalEn: "beirut",
   },
   {
-    id: "ls",
+    id: "LSO",
     name: "Lesotho",
     nameEn: "lesotho",
     continent: "Afrique",
@@ -1002,7 +1002,7 @@ export const countries: Country[] = [
     capitalEn: "maseru",
   },
   {
-    id: "lr",
+    id: "LBR",
     name: "Libéria",
     nameEn: "liberia",
     continent: "Afrique",
@@ -1010,7 +1010,7 @@ export const countries: Country[] = [
     capitalEn: "monrovia",
   },
   {
-    id: "ly",
+    id: "LBY",
     name: "Libye",
     nameEn: "libya",
     continent: "Afrique",
@@ -1018,7 +1018,7 @@ export const countries: Country[] = [
     capitalEn: "tripoli",
   },
   {
-    id: "li",
+    id: "LIE",
     name: "Liechtenstein",
     nameEn: "liechtenstein",
     continent: "Europe",
@@ -1026,7 +1026,7 @@ export const countries: Country[] = [
     capitalEn: "vaduz",
   },
   {
-    id: "lt",
+    id: "LTU",
     name: "Lituanie",
     nameEn: "lithuania",
     continent: "Europe",
@@ -1034,7 +1034,7 @@ export const countries: Country[] = [
     capitalEn: "vilnius",
   },
   {
-    id: "lu",
+    id: "LUX",
     name: "Luxembourg",
     nameEn: "luxembourg",
     continent: "Europe",
@@ -1042,7 +1042,7 @@ export const countries: Country[] = [
     capitalEn: "luxembourg",
   },
   {
-    id: "mg",
+    id: "MDG",
     name: "Madagascar",
     nameEn: "madagascar",
     continent: "Afrique",
@@ -1050,7 +1050,7 @@ export const countries: Country[] = [
     capitalEn: "antananarivo",
   },
   {
-    id: "mw",
+    id: "MWI",
     name: "Malawi",
     nameEn: "malawi",
     continent: "Afrique",
@@ -1058,7 +1058,7 @@ export const countries: Country[] = [
     capitalEn: "lilongwe",
   },
   {
-    id: "my",
+    id: "MYS",
     name: "Malaisie",
     nameEn: "malaysia",
     continent: "Asie",
@@ -1066,7 +1066,7 @@ export const countries: Country[] = [
     capitalEn: "kuala lumpur",
   },
   {
-    id: "mv",
+    id: "MDV",
     name: "Maldives",
     nameEn: "maldives",
     continent: "Asie",
@@ -1074,7 +1074,7 @@ export const countries: Country[] = [
     capitalEn: "male",
   },
   {
-    id: "ml",
+    id: "MLI",
     name: "Mali",
     nameEn: "mali",
     continent: "Afrique",
@@ -1082,7 +1082,7 @@ export const countries: Country[] = [
     capitalEn: "bamako",
   },
   {
-    id: "mt",
+    id: "MLT",
     name: "Malte",
     nameEn: "malta",
     continent: "Europe",
@@ -1090,7 +1090,7 @@ export const countries: Country[] = [
     capitalEn: "valletta",
   },
   {
-    id: "mh",
+    id: "MHL",
     name: "Îles Marshall",
     nameEn: "marshall islands",
     continent: "Océanie",
@@ -1098,7 +1098,7 @@ export const countries: Country[] = [
     capitalEn: "majuro",
   },
   {
-    id: "mr",
+    id: "MRT",
     name: "Mauritanie",
     nameEn: "mauritania",
     continent: "Afrique",
@@ -1106,7 +1106,7 @@ export const countries: Country[] = [
     capitalEn: "nouakchott",
   },
   {
-    id: "mu",
+    id: "MUS",
     name: "Maurice",
     nameEn: "mauritius",
     continent: "Afrique",
@@ -1114,7 +1114,7 @@ export const countries: Country[] = [
     capitalEn: "port louis",
   },
   {
-    id: "fm",
+    id: "FSM",
     name: "Micronésie",
     nameEn: "micronesia",
     continent: "Océanie",
@@ -1122,7 +1122,7 @@ export const countries: Country[] = [
     capitalEn: "palikir",
   },
   {
-    id: "md",
+    id: "MDA",
     name: "Moldavie",
     nameEn: "moldova",
     continent: "Europe",
@@ -1130,7 +1130,7 @@ export const countries: Country[] = [
     capitalEn: "chisinau",
   },
   {
-    id: "mc",
+    id: "MCO",
     name: "Monaco",
     nameEn: "monaco",
     continent: "Europe",
@@ -1138,7 +1138,7 @@ export const countries: Country[] = [
     capitalEn: "monaco",
   },
   {
-    id: "mn",
+    id: "MNG",
     name: "Mongolie",
     nameEn: "mongolia",
     continent: "Asie",
@@ -1146,7 +1146,7 @@ export const countries: Country[] = [
     capitalEn: "ulaanbaatar",
   },
   {
-    id: "me",
+    id: "MNE",
     name: "Monténégro",
     nameEn: "montenegro",
     continent: "Europe",
@@ -1154,7 +1154,7 @@ export const countries: Country[] = [
     capitalEn: "podgorica",
   },
   {
-    id: "ma",
+    id: "MAR",
     name: "Maroc",
     nameEn: "morocco",
     continent: "Afrique",
@@ -1162,7 +1162,7 @@ export const countries: Country[] = [
     capitalEn: "rabat",
   },
   {
-    id: "mz",
+    id: "MOZ",
     name: "Mozambique",
     nameEn: "mozambique",
     continent: "Afrique",
@@ -1170,7 +1170,7 @@ export const countries: Country[] = [
     capitalEn: "maputo",
   },
   {
-    id: "mm",
+    id: "MMR",
     name: "Myanmar",
     nameEn: "myanmar",
     continent: "Asie",
@@ -1178,7 +1178,7 @@ export const countries: Country[] = [
     capitalEn: "naypyidaw",
   },
   {
-    id: "na",
+    id: "NAM",
     name: "Namibie",
     nameEn: "namibia",
     continent: "Afrique",
@@ -1186,7 +1186,7 @@ export const countries: Country[] = [
     capitalEn: "windhoek",
   },
   {
-    id: "nr",
+    id: "NRU",
     name: "Nauru",
     nameEn: "nauru",
     continent: "Océanie",
@@ -1194,7 +1194,7 @@ export const countries: Country[] = [
     capitalEn: "yaren",
   },
   {
-    id: "np",
+    id: "NPL",
     name: "Népal",
     nameEn: "nepal",
     continent: "Asie",
@@ -1202,7 +1202,7 @@ export const countries: Country[] = [
     capitalEn: "kathmandu",
   },
   {
-    id: "nl",
+    id: "NLD",
     name: "Pays-Bas",
     nameEn: "netherlands",
     continent: "Europe",
@@ -1210,7 +1210,7 @@ export const countries: Country[] = [
     capitalEn: "amsterdam",
   },
   {
-    id: "ni",
+    id: "NIC",
     name: "Nicaragua",
     nameEn: "nicaragua",
     continent: "Amérique du Nord",
@@ -1218,7 +1218,7 @@ export const countries: Country[] = [
     capitalEn: "managua",
   },
   {
-    id: "ne",
+    id: "NER",
     name: "Niger",
     nameEn: "niger",
     continent: "Afrique",
@@ -1226,7 +1226,7 @@ export const countries: Country[] = [
     capitalEn: "niamey",
   },
   {
-    id: "ng",
+    id: "NGA",
     name: "Nigeria",
     nameEn: "nigeria",
     continent: "Afrique",
@@ -1234,7 +1234,7 @@ export const countries: Country[] = [
     capitalEn: "abuja",
   },
   {
-    id: "mk",
+    id: "MKD",
     name: "Macédoine du Nord",
     nameEn: "north macedonia",
     continent: "Europe",
@@ -1242,7 +1242,7 @@ export const countries: Country[] = [
     capitalEn: "skopje",
   },
   {
-    id: "no",
+    id: "NOR",
     name: "Norvège",
     nameEn: "norway",
     continent: "Europe",
@@ -1250,7 +1250,7 @@ export const countries: Country[] = [
     capitalEn: "oslo",
   },
   {
-    id: "om",
+    id: "OMN",
     name: "Oman",
     nameEn: "oman",
     continent: "Asie",
@@ -1258,7 +1258,7 @@ export const countries: Country[] = [
     capitalEn: "muscat",
   },
   {
-    id: "pk",
+    id: "PAK",
     name: "Pakistan",
     nameEn: "pakistan",
     continent: "Asie",
@@ -1266,7 +1266,7 @@ export const countries: Country[] = [
     capitalEn: "islamabad",
   },
   {
-    id: "pw",
+    id: "PLW",
     name: "Palaos",
     nameEn: "palau",
     continent: "Océanie",
@@ -1274,7 +1274,7 @@ export const countries: Country[] = [
     capitalEn: "ngerulmud",
   },
   {
-    id: "pa",
+    id: "PAN",
     name: "Panama",
     nameEn: "panama",
     continent: "Amérique du Nord",
@@ -1282,7 +1282,7 @@ export const countries: Country[] = [
     capitalEn: "panama city",
   },
   {
-    id: "pg",
+    id: "PNG",
     name: "Papouasie-Nouvelle-Guinée",
     nameEn: "papua new guinea",
     continent: "Océanie",
@@ -1290,7 +1290,7 @@ export const countries: Country[] = [
     capitalEn: "port moresby",
   },
   {
-    id: "py",
+    id: "PRY",
     name: "Paraguay",
     nameEn: "paraguay",
     continent: "Amérique du Sud",
@@ -1298,7 +1298,7 @@ export const countries: Country[] = [
     capitalEn: "asuncion",
   },
   {
-    id: "pe",
+    id: "PER",
     name: "Pérou",
     nameEn: "peru",
     continent: "Amérique du Sud",
@@ -1306,7 +1306,7 @@ export const countries: Country[] = [
     capitalEn: "lima",
   },
   {
-    id: "ph",
+    id: "PHL",
     name: "Philippines",
     nameEn: "philippines",
     continent: "Asie",
@@ -1314,7 +1314,7 @@ export const countries: Country[] = [
     capitalEn: "manila",
   },
   {
-    id: "pl",
+    id: "POL",
     name: "Pologne",
     nameEn: "poland",
     continent: "Europe",
@@ -1322,7 +1322,7 @@ export const countries: Country[] = [
     capitalEn: "warsaw",
   },
   {
-    id: "pt",
+    id: "PRT",
     name: "Portugal",
     nameEn: "portugal",
     continent: "Europe",
@@ -1330,7 +1330,7 @@ export const countries: Country[] = [
     capitalEn: "lisbon",
   },
   {
-    id: "qa",
+    id: "QAT",
     name: "Qatar",
     nameEn: "qatar",
     continent: "Asie",
@@ -1338,7 +1338,7 @@ export const countries: Country[] = [
     capitalEn: "doha",
   },
   {
-    id: "ro",
+    id: "ROU",
     name: "Roumanie",
     nameEn: "romania",
     continent: "Europe",
@@ -1346,7 +1346,7 @@ export const countries: Country[] = [
     capitalEn: "bucharest",
   },
   {
-    id: "rw",
+    id: "RWA",
     name: "Rwanda",
     nameEn: "rwanda",
     continent: "Afrique",
@@ -1354,7 +1354,7 @@ export const countries: Country[] = [
     capitalEn: "kigali",
   },
   {
-    id: "kn",
+    id: "KNA",
     name: "Saint-Christophe-et-Niévès",
     nameEn: "saint kitts and nevis",
     continent: "Amérique du Nord",
@@ -1362,7 +1362,7 @@ export const countries: Country[] = [
     capitalEn: "basseterre",
   },
   {
-    id: "lc",
+    id: "LCA",
     name: "Sainte-Lucie",
     nameEn: "saint lucia",
     continent: "Amérique du Nord",
@@ -1370,7 +1370,7 @@ export const countries: Country[] = [
     capitalEn: "castries",
   },
   {
-    id: "vc",
+    id: "VCT",
     name: "Saint-Vincent-et-les-Grenadines",
     nameEn: "saint vincent and the grenadines",
     continent: "Amérique du Nord",
@@ -1378,7 +1378,7 @@ export const countries: Country[] = [
     capitalEn: "kingstown",
   },
   {
-    id: "ws",
+    id: "WSM",
     name: "Samoa",
     nameEn: "samoa",
     continent: "Océanie",
@@ -1386,7 +1386,7 @@ export const countries: Country[] = [
     capitalEn: "apia",
   },
   {
-    id: "sm",
+    id: "SMR",
     name: "Saint-Marin",
     nameEn: "san marino",
     continent: "Europe",
@@ -1394,7 +1394,7 @@ export const countries: Country[] = [
     capitalEn: "san marino",
   },
   {
-    id: "st",
+    id: "STP",
     name: "Sao Tomé-et-Principe",
     nameEn: "sao tome and principe",
     continent: "Afrique",
@@ -1402,7 +1402,7 @@ export const countries: Country[] = [
     capitalEn: "sao tome",
   },
   {
-    id: "sa",
+    id: "SAU",
     name: "Arabie Saoudite",
     nameEn: "saudi arabia",
     continent: "Asie",
@@ -1410,7 +1410,7 @@ export const countries: Country[] = [
     capitalEn: "riyadh",
   },
   {
-    id: "sn",
+    id: "SEN",
     name: "Sénégal",
     nameEn: "senegal",
     continent: "Afrique",
@@ -1418,7 +1418,7 @@ export const countries: Country[] = [
     capitalEn: "dakar",
   },
   {
-    id: "rs",
+    id: "SRB",
     name: "Serbie",
     nameEn: "serbia",
     continent: "Europe",
@@ -1426,7 +1426,7 @@ export const countries: Country[] = [
     capitalEn: "belgrade",
   },
   {
-    id: "sc",
+    id: "SYC",
     name: "Seychelles",
     nameEn: "seychelles",
     continent: "Afrique",
@@ -1434,7 +1434,7 @@ export const countries: Country[] = [
     capitalEn: "victoria",
   },
   {
-    id: "sl",
+    id: "SLE",
     name: "Sierra Leone",
     nameEn: "sierra leone",
     continent: "Afrique",
@@ -1442,7 +1442,7 @@ export const countries: Country[] = [
     capitalEn: "freetown",
   },
   {
-    id: "sg",
+    id: "SGP",
     name: "Singapour",
     nameEn: "singapore",
     continent: "Asie",
@@ -1450,7 +1450,7 @@ export const countries: Country[] = [
     capitalEn: "singapore",
   },
   {
-    id: "sk",
+    id: "SVK",
     name: "Slovaquie",
     nameEn: "slovakia",
     continent: "Europe",
@@ -1458,7 +1458,7 @@ export const countries: Country[] = [
     capitalEn: "bratislava",
   },
   {
-    id: "si",
+    id: "SVN",
     name: "Slovénie",
     nameEn: "slovenia",
     continent: "Europe",
@@ -1466,7 +1466,7 @@ export const countries: Country[] = [
     capitalEn: "ljubljana",
   },
   {
-    id: "sb",
+    id: "SLB",
     name: "Îles Salomon",
     nameEn: "solomon islands",
     continent: "Océanie",
@@ -1474,7 +1474,7 @@ export const countries: Country[] = [
     capitalEn: "honiara",
   },
   {
-    id: "so",
+    id: "SOM",
     name: "Somalie",
     nameEn: "somalia",
     continent: "Afrique",
@@ -1482,7 +1482,7 @@ export const countries: Country[] = [
     capitalEn: "mogadishu",
   },
   {
-    id: "so",
+    id: "SOM",
     name: "Somaliland",
     nameEn: "somaliland",
     continent: "Afrique",
@@ -1490,7 +1490,7 @@ export const countries: Country[] = [
     capitalEn: "hargeisa",
   },
   {
-    id: "ss",
+    id: "SSD",
     name: "Soudan du Sud",
     nameEn: "south sudan",
     continent: "Afrique",
@@ -1498,7 +1498,7 @@ export const countries: Country[] = [
     capitalEn: "juba",
   },
   {
-    id: "lk",
+    id: "LKA",
     name: "Sri Lanka",
     nameEn: "sri lanka",
     continent: "Asie",
@@ -1506,7 +1506,7 @@ export const countries: Country[] = [
     capitalEn: "sri jayawardenepura kotte",
   },
   {
-    id: "sd",
+    id: "SDN",
     name: "Soudan",
     nameEn: "sudan",
     continent: "Afrique",
@@ -1514,7 +1514,7 @@ export const countries: Country[] = [
     capitalEn: "khartoum",
   },
   {
-    id: "sr",
+    id: "SUR",
     name: "Suriname",
     nameEn: "suriname",
     continent: "Amérique du Sud",
@@ -1522,7 +1522,7 @@ export const countries: Country[] = [
     capitalEn: "paramaribo",
   },
   {
-    id: "se",
+    id: "SWE",
     name: "Suède",
     nameEn: "sweden",
     continent: "Europe",
@@ -1530,7 +1530,7 @@ export const countries: Country[] = [
     capitalEn: "stockholm",
   },
   {
-    id: "ch",
+    id: "CHE",
     name: "Suisse",
     nameEn: "switzerland",
     continent: "Europe",
@@ -1538,7 +1538,7 @@ export const countries: Country[] = [
     capitalEn: "bern",
   },
   {
-    id: "sy",
+    id: "SYR",
     name: "Syrie",
     nameEn: "syria",
     continent: "Asie",
@@ -1546,7 +1546,7 @@ export const countries: Country[] = [
     capitalEn: "damascus",
   },
   {
-    id: "tw",
+    id: "TWN",
     name: "Taïwan",
     nameEn: "taiwan",
     continent: "Asie",
@@ -1554,7 +1554,7 @@ export const countries: Country[] = [
     capitalEn: "taipei",
   },
   {
-    id: "tj",
+    id: "TJK",
     name: "Tadjikistan",
     nameEn: "tajikistan",
     continent: "Asie",
@@ -1562,7 +1562,7 @@ export const countries: Country[] = [
     capitalEn: "dushanbe",
   },
   {
-    id: "tz",
+    id: "TZA",
     name: "Tanzanie",
     nameEn: "tanzania",
     continent: "Afrique",
@@ -1570,7 +1570,7 @@ export const countries: Country[] = [
     capitalEn: "dodoma",
   },
   {
-    id: "th",
+    id: "THA",
     name: "Thaïlande",
     nameEn: "thailand",
     continent: "Asie",
@@ -1578,7 +1578,7 @@ export const countries: Country[] = [
     capitalEn: "bangkok",
   },
   {
-    id: "tg",
+    id: "TGO",
     name: "Togo",
     nameEn: "togo",
     continent: "Afrique",
@@ -1586,7 +1586,7 @@ export const countries: Country[] = [
     capitalEn: "lome",
   },
   {
-    id: "to",
+    id: "TON",
     name: "Tonga",
     nameEn: "tonga",
     continent: "Océanie",
@@ -1594,7 +1594,7 @@ export const countries: Country[] = [
     capitalEn: "nuku'alofa",
   },
   {
-    id: "tt",
+    id: "TTO",
     name: "Trinité-et-Tobago",
     nameEn: "trinidad and tobago",
     continent: "Amérique du Nord",
@@ -1602,7 +1602,7 @@ export const countries: Country[] = [
     capitalEn: "port of spain",
   },
   {
-    id: "tn",
+    id: "TUN",
     name: "Tunisie",
     nameEn: "tunisia",
     continent: "Afrique",
@@ -1610,7 +1610,7 @@ export const countries: Country[] = [
     capitalEn: "tunis",
   },
   {
-    id: "tr",
+    id: "TUR",
     name: "Turquie",
     nameEn: "turkey",
     continent: "Asie",
@@ -1618,7 +1618,7 @@ export const countries: Country[] = [
     capitalEn: "ankara",
   },
   {
-    id: "tm",
+    id: "TKM",
     name: "Turkménistan",
     nameEn: "turkmenistan",
     continent: "Asie",
@@ -1626,7 +1626,7 @@ export const countries: Country[] = [
     capitalEn: "ashgabat",
   },
   {
-    id: "tv",
+    id: "TUV",
     name: "Tuvalu",
     nameEn: "tuvalu",
     continent: "Océanie",
@@ -1634,7 +1634,7 @@ export const countries: Country[] = [
     capitalEn: "funafuti",
   },
   {
-    id: "ug",
+    id: "UGA",
     name: "Ouganda",
     nameEn: "uganda",
     continent: "Afrique",
@@ -1642,7 +1642,7 @@ export const countries: Country[] = [
     capitalEn: "kampala",
   },
   {
-    id: "ua",
+    id: "UKR",
     name: "Ukraine",
     nameEn: "ukraine",
     continent: "Europe",
@@ -1650,7 +1650,7 @@ export const countries: Country[] = [
     capitalEn: "kyiv",
   },
   {
-    id: "ae",
+    id: "ARE",
     name: "Émirats Arabes Unis",
     nameEn: "united arab emirates",
     continent: "Asie",
@@ -1658,7 +1658,7 @@ export const countries: Country[] = [
     capitalEn: "abu dhabi",
   },
   {
-    id: "uy",
+    id: "URY",
     name: "Uruguay",
     nameEn: "uruguay",
     continent: "Amérique du Sud",
@@ -1666,7 +1666,7 @@ export const countries: Country[] = [
     capitalEn: "montevideo",
   },
   {
-    id: "uz",
+    id: "UZB",
     name: "Ouzbékistan",
     nameEn: "uzbekistan",
     continent: "Asie",
@@ -1674,7 +1674,7 @@ export const countries: Country[] = [
     capitalEn: "tashkent",
   },
   {
-    id: "vu",
+    id: "VUT",
     name: "Vanuatu",
     nameEn: "vanuatu",
     continent: "Océanie",
@@ -1682,7 +1682,7 @@ export const countries: Country[] = [
     capitalEn: "port vila",
   },
   {
-    id: "va",
+    id: "VAT",
     name: "Vatican",
     nameEn: "vatican city",
     continent: "Europe",
@@ -1690,7 +1690,7 @@ export const countries: Country[] = [
     capitalEn: "vatican city",
   },
   {
-    id: "ve",
+    id: "VEN",
     name: "Venezuela",
     nameEn: "venezuela",
     continent: "Amérique du Sud",
@@ -1698,7 +1698,7 @@ export const countries: Country[] = [
     capitalEn: "caracas",
   },
   {
-    id: "vn",
+    id: "VNM",
     name: "Vietnam",
     nameEn: "vietnam",
     continent: "Asie",
@@ -1706,7 +1706,7 @@ export const countries: Country[] = [
     capitalEn: "hanoi",
   },
   {
-    id: "ye",
+    id: "YEM",
     name: "Yémen",
     nameEn: "yemen",
     continent: "Asie",
@@ -1714,7 +1714,7 @@ export const countries: Country[] = [
     capitalEn: "sanaa",
   },
   {
-    id: "zm",
+    id: "ZMB",
     name: "Zambie",
     nameEn: "zambia",
     continent: "Afrique",
@@ -1722,7 +1722,7 @@ export const countries: Country[] = [
     capitalEn: "lusaka",
   },
   {
-    id: "zw",
+    id: "ZWE",
     name: "Zimbabwe",
     nameEn: "zimbabwe",
     continent: "Afrique",

@@ -2,7 +2,7 @@ import type { SovereignState } from "../types";
 
 export const sovereignStates: SovereignState[] = [
   {
-    id: "fr",
+    id: "FRA",
     name: "France",
     nameEn: "france",
     continent: "Europe",
@@ -10,7 +10,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "paris",
   },
   {
-    id: "de",
+    id: "DEU",
     name: "Allemagne",
     nameEn: "germany",
     continent: "Europe",
@@ -18,7 +18,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "berlin",
   },
   {
-    id: "es",
+    id: "ESP",
     name: "Espagne",
     nameEn: "spain",
     continent: "Europe",
@@ -26,7 +26,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "madrid",
   },
   {
-    id: "it",
+    id: "ITA",
     name: "Italie",
     nameEn: "italy",
     continent: "Europe",
@@ -34,7 +34,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "rome",
   },
   {
-    id: "gb",
+    id: "GBR",
     name: "Royaume-Uni",
     nameEn: "united kingdom",
     continent: "Europe",
@@ -42,7 +42,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "london",
   },
   {
-    id: "pt",
+    id: "PRT",
     name: "Portugal",
     nameEn: "portugal",
     continent: "Europe",
@@ -50,7 +50,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lisbon",
   },
   {
-    id: "be",
+    id: "BEL",
     name: "Belgique",
     nameEn: "belgium",
     continent: "Europe",
@@ -58,7 +58,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "brussels",
   },
   {
-    id: "nl",
+    id: "NLD",
     name: "Pays-Bas",
     nameEn: "netherlands",
     continent: "Europe",
@@ -66,7 +66,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "amsterdam",
   },
   {
-    id: "ch",
+    id: "CHE",
     name: "Suisse",
     nameEn: "switzerland",
     continent: "Europe",
@@ -74,7 +74,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bern",
   },
   {
-    id: "at",
+    id: "AUT",
     name: "Autriche",
     nameEn: "austria",
     continent: "Europe",
@@ -82,7 +82,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "vienna",
   },
   {
-    id: "ie",
+    id: "IRL",
     name: "Irlande",
     nameEn: "ireland",
     continent: "Europe",
@@ -90,7 +90,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dublin",
   },
   {
-    id: "gr",
+    id: "GRC",
     name: "Grèce",
     nameEn: "greece",
     continent: "Europe",
@@ -98,7 +98,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "athens",
   },
   {
-    id: "pl",
+    id: "POL",
     name: "Pologne",
     nameEn: "poland",
     continent: "Europe",
@@ -106,7 +106,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "warsaw",
   },
   {
-    id: "se",
+    id: "SWE",
     name: "Suède",
     nameEn: "sweden",
     continent: "Europe",
@@ -114,7 +114,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "stockholm",
   },
   {
-    id: "dk",
+    id: "DNK",
     name: "Danemark",
     nameEn: "denmark",
     continent: "Europe",
@@ -122,7 +122,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "copenhagen",
   },
   {
-    id: "no",
+    id: "NOR",
     name: "Norvège",
     nameEn: "norway",
     continent: "Europe",
@@ -130,7 +130,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "oslo",
   },
   {
-    id: "fi",
+    id: "FIN",
     name: "Finlande",
     nameEn: "finland",
     continent: "Europe",
@@ -138,7 +138,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "helsinki",
   },
   {
-    id: "ru",
+    id: "RUS",
     name: "Russie",
     nameEn: "russia",
     continent: "Europe",
@@ -146,7 +146,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "moscow",
   },
   {
-    id: "us",
+    id: "USA",
     name: "États-Unis",
     nameEn: "united states",
     continent: "Amérique du Nord",
@@ -154,7 +154,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "washington d.c.",
   },
   {
-    id: "ca",
+    id: "CAN",
     name: "Canada",
     nameEn: "canada",
     continent: "Amérique du Nord",
@@ -162,7 +162,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ottawa",
   },
   {
-    id: "mx",
+    id: "MEX",
     name: "Mexique",
     nameEn: "mexico",
     continent: "Amérique du Nord",
@@ -170,7 +170,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "mexico city",
   },
   {
-    id: "br",
+    id: "BRA",
     name: "Brésil",
     nameEn: "brazil",
     continent: "Amérique du Sud",
@@ -178,7 +178,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "brasilia",
   },
   {
-    id: "ar",
+    id: "ARG",
     name: "Argentine",
     nameEn: "argentina",
     continent: "Amérique du Sud",
@@ -186,7 +186,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "buenos aires",
   },
   {
-    id: "au",
+    id: "AUS",
     name: "Australie",
     nameEn: "australia",
     continent: "Océanie",
@@ -194,7 +194,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "canberra",
   },
   {
-    id: "nz",
+    id: "NZL",
     name: "Nouvelle-Zélande",
     nameEn: "new zealand",
     continent: "Océanie",
@@ -202,7 +202,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "wellington",
   },
   {
-    id: "jp",
+    id: "JPN",
     name: "Japon",
     nameEn: "japan",
     continent: "Asie",
@@ -210,7 +210,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tokyo",
   },
   {
-    id: "cn",
+    id: "CHN",
     name: "Chine",
     nameEn: "china",
     continent: "Asie",
@@ -218,7 +218,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "beijing",
   },
   {
-    id: "in",
+    id: "IND",
     name: "Inde",
     nameEn: "india",
     continent: "Asie",
@@ -226,7 +226,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "new delhi",
   },
   {
-    id: "za",
+    id: "ZAF",
     name: "Afrique du Sud",
     nameEn: "south africa",
     continent: "Afrique",
@@ -234,7 +234,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "cape town",
   },
   {
-    id: "eg",
+    id: "EGY",
     name: "Égypte",
     nameEn: "egypt",
     continent: "Afrique",
@@ -242,7 +242,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "cairo",
   },
   {
-    id: "ma",
+    id: "MAR",
     name: "Maroc",
     nameEn: "morocco",
     continent: "Afrique",
@@ -250,7 +250,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "rabat",
   },
   {
-    id: "tr",
+    id: "TUR",
     name: "Turquie",
     nameEn: "turkey",
     continent: "Asie",
@@ -258,7 +258,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ankara",
   },
   {
-    id: "il",
+    id: "ISR",
     name: "Israël",
     nameEn: "israel",
     continent: "Asie",
@@ -266,7 +266,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "jerusalem",
   },
   {
-    id: "ae",
+    id: "ARE",
     name: "Émirats Arabes Unis",
     nameEn: "united arab emirates",
     continent: "Asie",
@@ -274,7 +274,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "abu dhabi",
   },
   {
-    id: "sa",
+    id: "SAU",
     name: "Arabie Saoudite",
     nameEn: "saudi arabia",
     continent: "Asie",
@@ -282,7 +282,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "riyadh",
   },
   {
-    id: "kr",
+    id: "KOR",
     name: "Corée du Sud",
     nameEn: "south korea",
     continent: "Asie",
@@ -290,7 +290,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "seoul",
   },
   {
-    id: "th",
+    id: "THA",
     name: "Thaïlande",
     nameEn: "thailand",
     continent: "Asie",
@@ -298,7 +298,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bangkok",
   },
   {
-    id: "vn",
+    id: "VNM",
     name: "Vietnam",
     nameEn: "vietnam",
     continent: "Asie",
@@ -306,7 +306,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "hanoi",
   },
   {
-    id: "sg",
+    id: "SGP",
     name: "Singapour",
     nameEn: "singapore",
     continent: "Asie",
@@ -314,7 +314,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "singapore",
   },
   {
-    id: "my",
+    id: "MYS",
     name: "Malaisie",
     nameEn: "malaysia",
     continent: "Asie",
@@ -322,7 +322,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kuala lumpur",
   },
   {
-    id: "af",
+    id: "AFG",
     name: "Afghanistan",
     nameEn: "afghanistan",
     continent: "Asie",
@@ -330,7 +330,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kabul",
   },
   {
-    id: "al",
+    id: "ALB",
     name: "Albanie",
     nameEn: "albania",
     continent: "Europe",
@@ -338,7 +338,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tirana",
   },
   {
-    id: "dz",
+    id: "DZA",
     name: "Algérie",
     nameEn: "algeria",
     continent: "Afrique",
@@ -346,7 +346,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "algiers",
   },
   {
-    id: "ad",
+    id: "AND",
     name: "Andorre",
     nameEn: "andorra",
     continent: "Europe",
@@ -354,7 +354,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "andorra la vella",
   },
   {
-    id: "ao",
+    id: "AOA",
     name: "Angola",
     nameEn: "angola",
     continent: "Afrique",
@@ -362,7 +362,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "luanda",
   },
   {
-    id: "ag",
+    id: "ATG",
     name: "Antigua-et-Barbuda",
     nameEn: "antigua and barbuda",
     continent: "Amérique du Nord",
@@ -370,7 +370,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "saint john's",
   },
   {
-    id: "am",
+    id: "ARM",
     name: "Arménie",
     nameEn: "armenia",
     continent: "Asie",
@@ -378,7 +378,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "yerevan",
   },
   {
-    id: "az",
+    id: "AZE",
     name: "Azerbaïdjan",
     nameEn: "azerbaijan",
     continent: "Asie",
@@ -386,7 +386,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "baku",
   },
   {
-    id: "bs",
+    id: "BHS",
     name: "Bahamas",
     nameEn: "bahamas",
     continent: "Amérique du Nord",
@@ -394,7 +394,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "nassau",
   },
   {
-    id: "bh",
+    id: "BHR",
     name: "Bahreïn",
     nameEn: "bahrain",
     continent: "Asie",
@@ -402,7 +402,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "manama",
   },
   {
-    id: "bd",
+    id: "BGD",
     name: "Bangladesh",
     nameEn: "bangladesh",
     continent: "Asie",
@@ -410,7 +410,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dhaka",
   },
   {
-    id: "bb",
+    id: "BRB",
     name: "Barbade",
     nameEn: "barbados",
     continent: "Amérique du Nord",
@@ -418,7 +418,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bridgetown",
   },
   {
-    id: "by",
+    id: "BLR",
     name: "Biélorussie",
     nameEn: "belarus",
     continent: "Europe",
@@ -426,7 +426,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "minsk",
   },
   {
-    id: "bz",
+    id: "BLZ",
     name: "Belize",
     nameEn: "belize",
     continent: "Amérique du Nord",
@@ -434,7 +434,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "belmopan",
   },
   {
-    id: "bj",
+    id: "BEN",
     name: "Bénin",
     nameEn: "benin",
     continent: "Afrique",
@@ -442,7 +442,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "porto-novo",
   },
   {
-    id: "bt",
+    id: "BTN",
     name: "Bhoutan",
     nameEn: "bhutan",
     continent: "Asie",
@@ -450,7 +450,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "thimphu",
   },
   {
-    id: "bo",
+    id: "BOL",
     name: "Bolivie",
     nameEn: "bolivia",
     continent: "Amérique du Sud",
@@ -458,7 +458,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sucre",
   },
   {
-    id: "ba",
+    id: "BIH",
     name: "Bosnie-Herzégovine",
     nameEn: "bosnia and herzegovina",
     continent: "Europe",
@@ -466,7 +466,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sarajevo",
   },
   {
-    id: "bw",
+    id: "BWA",
     name: "Botswana",
     nameEn: "botswana",
     continent: "Afrique",
@@ -474,7 +474,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "gaborone",
   },
   {
-    id: "bn",
+    id: "BRN",
     name: "Brunei",
     nameEn: "brunei",
     continent: "Asie",
@@ -482,7 +482,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bandar seri begawan",
   },
   {
-    id: "bg",
+    id: "BGR",
     name: "Bulgarie",
     nameEn: "bulgaria",
     continent: "Europe",
@@ -490,7 +490,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sofia",
   },
   {
-    id: "bf",
+    id: "BFA",
     name: "Burkina Faso",
     nameEn: "burkina faso",
     continent: "Afrique",
@@ -498,7 +498,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ouagadougou",
   },
   {
-    id: "bi",
+    id: "BDI",
     name: "Burundi",
     nameEn: "burundi",
     continent: "Afrique",
@@ -506,7 +506,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "gitega",
   },
   {
-    id: "cv",
+    id: "CPV",
     name: "Cap-Vert",
     nameEn: "cape verde",
     continent: "Afrique",
@@ -514,7 +514,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "praia",
   },
   {
-    id: "kh",
+    id: "KHM",
     name: "Cambodge",
     nameEn: "cambodia",
     continent: "Asie",
@@ -522,7 +522,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "phnom penh",
   },
   {
-    id: "cm",
+    id: "CMR",
     name: "Cameroun",
     nameEn: "cameroon",
     continent: "Afrique",
@@ -530,7 +530,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "yaounde",
   },
   {
-    id: "cf",
+    id: "CAF",
     name: "République centrafricaine",
     nameEn: "central african republic",
     continent: "Afrique",
@@ -538,7 +538,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bangui",
   },
   {
-    id: "td",
+    id: "TCD",
     name: "Tchad",
     nameEn: "chad",
     continent: "Afrique",
@@ -546,7 +546,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "n'djamena",
   },
   {
-    id: "cl",
+    id: "CHL",
     name: "Chili",
     nameEn: "chile",
     continent: "Amérique du Sud",
@@ -554,7 +554,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "santiago",
   },
   {
-    id: "co",
+    id: "COL",
     name: "Colombie",
     nameEn: "colombia",
     continent: "Amérique du Sud",
@@ -562,7 +562,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bogota",
   },
   {
-    id: "km",
+    id: "COM",
     name: "Comores",
     nameEn: "comoros",
     continent: "Afrique",
@@ -570,7 +570,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "moroni",
   },
   {
-    id: "cg",
+    id: "COG",
     name: "Congo",
     nameEn: "congo",
     continent: "Afrique",
@@ -578,7 +578,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "brazzaville",
   },
   {
-    id: "cd",
+    id: "COD",
     name: "République démocratique du Congo",
     nameEn: "democratic republic of the congo",
     continent: "Afrique",
@@ -586,7 +586,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kinshasa",
   },
   {
-    id: "cr",
+    id: "CRI",
     name: "Costa Rica",
     nameEn: "costa rica",
     continent: "Amérique du Nord",
@@ -594,7 +594,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "san jose",
   },
   {
-    id: "hr",
+    id: "HRV",
     name: "Croatie",
     nameEn: "croatia",
     continent: "Europe",
@@ -602,7 +602,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "zagreb",
   },
   {
-    id: "cu",
+    id: "CUB",
     name: "Cuba",
     nameEn: "cuba",
     continent: "Amérique du Nord",
@@ -610,7 +610,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "havana",
   },
   {
-    id: "cy",
+    id: "CYP",
     name: "Chypre",
     nameEn: "cyprus",
     continent: "Europe",
@@ -618,7 +618,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "nicosia",
   },
   {
-    id: "cz",
+    id: "CZE",
     name: "Tchéquie",
     nameEn: "czech republic",
     continent: "Europe",
@@ -626,7 +626,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "prague",
   },
   {
-    id: "dj",
+    id: "DJI",
     name: "Djibouti",
     nameEn: "djibouti",
     continent: "Afrique",
@@ -634,7 +634,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "djibouti",
   },
   {
-    id: "dm",
+    id: "DMA",
     name: "Dominique",
     nameEn: "dominica",
     continent: "Amérique du Nord",
@@ -642,7 +642,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "roseau",
   },
   {
-    id: "do",
+    id: "DOM",
     name: "République dominicaine",
     nameEn: "dominican republic",
     continent: "Amérique du Nord",
@@ -650,7 +650,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "santo domingo",
   },
   {
-    id: "tl",
+    id: "TLS",
     name: "Timor oriental",
     nameEn: "east timor",
     continent: "Asie",
@@ -658,7 +658,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dili",
   },
   {
-    id: "ec",
+    id: "ECU",
     name: "Équateur",
     nameEn: "ecuador",
     continent: "Amérique du Sud",
@@ -666,7 +666,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "quito",
   },
   {
-    id: "sv",
+    id: "SLV",
     name: "Salvador",
     nameEn: "el salvador",
     continent: "Amérique du Nord",
@@ -674,7 +674,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "san salvador",
   },
   {
-    id: "gq",
+    id: "GNQ",
     name: "Guinée équatoriale",
     nameEn: "equatorial guinea",
     continent: "Afrique",
@@ -682,7 +682,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "malabo",
   },
   {
-    id: "er",
+    id: "ERI",
     name: "Érythrée",
     nameEn: "eritrea",
     continent: "Afrique",
@@ -690,7 +690,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "asmara",
   },
   {
-    id: "ee",
+    id: "EST",
     name: "Estonie",
     nameEn: "estonia",
     continent: "Europe",
@@ -698,7 +698,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tallinn",
   },
   {
-    id: "sz",
+    id: "SWZ",
     name: "Eswatini",
     nameEn: "eswatini",
     continent: "Afrique",
@@ -706,7 +706,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "mbabane",
   },
   {
-    id: "et",
+    id: "ETH",
     name: "Éthiopie",
     nameEn: "ethiopia",
     continent: "Afrique",
@@ -714,7 +714,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "addis ababa",
   },
   {
-    id: "fj",
+    id: "FJI",
     name: "Fidji",
     nameEn: "fiji",
     continent: "Océanie",
@@ -722,7 +722,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "suva",
   },
   {
-    id: "ga",
+    id: "GAB",
     name: "Gabon",
     nameEn: "gabon",
     continent: "Afrique",
@@ -730,7 +730,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "libreville",
   },
   {
-    id: "gm",
+    id: "GMB",
     name: "Gambie",
     nameEn: "gambia",
     continent: "Afrique",
@@ -738,7 +738,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "banjul",
   },
   {
-    id: "ge",
+    id: "GEO",
     name: "Géorgie",
     nameEn: "georgia",
     continent: "Asie",
@@ -746,7 +746,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tbilisi",
   },
   {
-    id: "gh",
+    id: "GHA",
     name: "Ghana",
     nameEn: "ghana",
     continent: "Afrique",
@@ -754,7 +754,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "accra",
   },
   {
-    id: "gd",
+    id: "GRD",
     name: "Grenade",
     nameEn: "grenada",
     continent: "Amérique du Nord",
@@ -762,7 +762,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "saint george's",
   },
   {
-    id: "gt",
+    id: "GTM",
     name: "Guatemala",
     nameEn: "guatemala",
     continent: "Amérique du Nord",
@@ -770,7 +770,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "guatemala city",
   },
   {
-    id: "gn",
+    id: "GIN",
     name: "Guinée",
     nameEn: "guinea",
     continent: "Afrique",
@@ -778,7 +778,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "conakry",
   },
   {
-    id: "gw",
+    id: "GNB",
     name: "Guinée-Bissau",
     nameEn: "guinea-bissau",
     continent: "Afrique",
@@ -786,7 +786,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bissau",
   },
   {
-    id: "gy",
+    id: "GUY",
     name: "Guyana",
     nameEn: "guyana",
     continent: "Amérique du Sud",
@@ -794,7 +794,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "georgetown",
   },
   {
-    id: "ht",
+    id: "HTI",
     name: "Haïti",
     nameEn: "haiti",
     continent: "Amérique du Nord",
@@ -802,7 +802,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "port-au-prince",
   },
   {
-    id: "hn",
+    id: "HND",
     name: "Honduras",
     nameEn: "honduras",
     continent: "Amérique du Nord",
@@ -810,7 +810,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tegucigalpa",
   },
   {
-    id: "hu",
+    id: "HUN",
     name: "Hongrie",
     nameEn: "hungary",
     continent: "Europe",
@@ -818,7 +818,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "budapest",
   },
   {
-    id: "is",
+    id: "ISL",
     name: "Islande",
     nameEn: "iceland",
     continent: "Europe",
@@ -826,7 +826,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "reykjavik",
   },
   {
-    id: "id",
+    id: "IDN",
     name: "Indonésie",
     nameEn: "indonesia",
     continent: "Asie",
@@ -834,7 +834,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "jakarta",
   },
   {
-    id: "ir",
+    id: "IRN",
     name: "Iran",
     nameEn: "iran",
     continent: "Asie",
@@ -842,7 +842,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tehran",
   },
   {
-    id: "iq",
+    id: "IRQ",
     name: "Irak",
     nameEn: "iraq",
     continent: "Asie",
@@ -850,7 +850,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "baghdad",
   },
   {
-    id: "jm",
+    id: "JAM",
     name: "Jamaïque",
     nameEn: "jamaica",
     continent: "Amérique du Nord",
@@ -858,7 +858,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kingston",
   },
   {
-    id: "jo",
+    id: "JOR",
     name: "Jordanie",
     nameEn: "jordan",
     continent: "Asie",
@@ -866,7 +866,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "amman",
   },
   {
-    id: "kz",
+    id: "KAZ",
     name: "Kazakhstan",
     nameEn: "kazakhstan",
     continent: "Asie",
@@ -874,7 +874,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "astana",
   },
   {
-    id: "ke",
+    id: "KEN",
     name: "Kenya",
     nameEn: "kenya",
     continent: "Afrique",
@@ -882,7 +882,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "nairobi",
   },
   {
-    id: "ki",
+    id: "KIR",
     name: "Kiribati",
     nameEn: "kiribati",
     continent: "Océanie",
@@ -890,7 +890,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "south tarawa",
   },
   {
-    id: "kp",
+    id: "KOR",
     name: "Corée du Nord",
     nameEn: "north korea",
     continent: "Asie",
@@ -898,7 +898,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "pyongyang",
   },
   {
-    id: "xk",
+    id: "XKX",
     name: "Kosovo",
     nameEn: "kosovo",
     continent: "Europe",
@@ -906,7 +906,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "pristina",
   },
   {
-    id: "kw",
+    id: "KWT",
     name: "Koweït",
     nameEn: "kuwait",
     continent: "Asie",
@@ -914,7 +914,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kuwait city",
   },
   {
-    id: "kg",
+    id: "KGZ",
     name: "Kirghizistan",
     nameEn: "kyrgyzstan",
     continent: "Asie",
@@ -922,7 +922,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bishkek",
   },
   {
-    id: "la",
+    id: "LAO",
     name: "Laos",
     nameEn: "laos",
     continent: "Asie",
@@ -930,7 +930,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "vientiane",
   },
   {
-    id: "lv",
+    id: "LVA",
     name: "Lettonie",
     nameEn: "latvia",
     continent: "Europe",
@@ -938,7 +938,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "riga",
   },
   {
-    id: "lb",
+    id: "LBN",
     name: "Liban",
     nameEn: "lebanon",
     continent: "Asie",
@@ -946,7 +946,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "beirut",
   },
   {
-    id: "ls",
+    id: "LSO",
     name: "Lesotho",
     nameEn: "lesotho",
     continent: "Afrique",
@@ -954,7 +954,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "maseru",
   },
   {
-    id: "lr",
+    id: "LBR",
     name: "Libéria",
     nameEn: "liberia",
     continent: "Afrique",
@@ -962,7 +962,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "monrovia",
   },
   {
-    id: "ly",
+    id: "LBY",
     name: "Libye",
     nameEn: "libya",
     continent: "Afrique",
@@ -970,7 +970,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tripoli",
   },
   {
-    id: "li",
+    id: "LIE",
     name: "Liechtenstein",
     nameEn: "liechtenstein",
     continent: "Europe",
@@ -978,7 +978,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "vaduz",
   },
   {
-    id: "lt",
+    id: "LTU",
     name: "Lituanie",
     nameEn: "lithuania",
     continent: "Europe",
@@ -986,7 +986,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "vilnius",
   },
   {
-    id: "lu",
+    id: "LUX",
     name: "Luxembourg",
     nameEn: "luxembourg",
     continent: "Europe",
@@ -994,7 +994,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "luxembourg",
   },
   {
-    id: "mg",
+    id: "MDG",
     name: "Madagascar",
     nameEn: "madagascar",
     continent: "Afrique",
@@ -1002,7 +1002,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "antananarivo",
   },
   {
-    id: "mw",
+    id: "MWI",
     name: "Malawi",
     nameEn: "malawi",
     continent: "Afrique",
@@ -1010,7 +1010,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lilongwe",
   },
   {
-    id: "mv",
+    id: "MDV",
     name: "Maldives",
     nameEn: "maldives",
     continent: "Asie",
@@ -1018,7 +1018,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "male",
   },
   {
-    id: "ml",
+    id: "MLI",
     name: "Mali",
     nameEn: "mali",
     continent: "Afrique",
@@ -1026,7 +1026,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bamako",
   },
   {
-    id: "mt",
+    id: "MLT",
     name: "Malte",
     nameEn: "malta",
     continent: "Europe",
@@ -1034,7 +1034,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "valletta",
   },
   {
-    id: "mh",
+    id: "MHL",
     name: "Îles Marshall",
     nameEn: "marshall islands",
     continent: "Océanie",
@@ -1042,7 +1042,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "majuro",
   },
   {
-    id: "mr",
+    id: "MRT",
     name: "Mauritanie",
     nameEn: "mauritania",
     continent: "Afrique",
@@ -1050,7 +1050,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "nouakchott",
   },
   {
-    id: "mu",
+    id: "MUS",
     name: "Maurice",
     nameEn: "mauritius",
     continent: "Afrique",
@@ -1058,7 +1058,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "port louis",
   },
   {
-    id: "fm",
+    id: "FSM",
     name: "Micronésie",
     nameEn: "micronesia",
     continent: "Océanie",
@@ -1066,7 +1066,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "palikir",
   },
   {
-    id: "md",
+    id: "MDA",
     name: "Moldavie",
     nameEn: "moldova",
     continent: "Europe",
@@ -1074,7 +1074,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "chisinau",
   },
   {
-    id: "mc",
+    id: "MCO",
     name: "Monaco",
     nameEn: "monaco",
     continent: "Europe",
@@ -1082,7 +1082,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "monaco",
   },
   {
-    id: "mn",
+    id: "MNG",
     name: "Mongolie",
     nameEn: "mongolia",
     continent: "Asie",
@@ -1090,7 +1090,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ulaanbaatar",
   },
   {
-    id: "me",
+    id: "MNE",
     name: "Monténégro",
     nameEn: "montenegro",
     continent: "Europe",
@@ -1098,7 +1098,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "podgorica",
   },
   {
-    id: "mz",
+    id: "MOZ",
     name: "Mozambique",
     nameEn: "mozambique",
     continent: "Afrique",
@@ -1106,7 +1106,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "maputo",
   },
   {
-    id: "mm",
+    id: "MMR",
     name: "Myanmar",
     nameEn: "myanmar",
     continent: "Asie",
@@ -1114,7 +1114,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "naypyidaw",
   },
   {
-    id: "na",
+    id: "NAM",
     name: "Namibie",
     nameEn: "namibia",
     continent: "Afrique",
@@ -1122,7 +1122,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "windhoek",
   },
   {
-    id: "nr",
+    id: "NRU",
     name: "Nauru",
     nameEn: "nauru",
     continent: "Océanie",
@@ -1130,7 +1130,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "yaren",
   },
   {
-    id: "np",
+    id: "NPL",
     name: "Népal",
     nameEn: "nepal",
     continent: "Asie",
@@ -1138,7 +1138,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kathmandu",
   },
   {
-    id: "ni",
+    id: "NIC",
     name: "Nicaragua",
     nameEn: "nicaragua",
     continent: "Amérique du Nord",
@@ -1146,7 +1146,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "managua",
   },
   {
-    id: "ne",
+    id: "NER",
     name: "Niger",
     nameEn: "niger",
     continent: "Afrique",
@@ -1154,7 +1154,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "niamey",
   },
   {
-    id: "ng",
+    id: "NGA",
     name: "Nigeria",
     nameEn: "nigeria",
     continent: "Afrique",
@@ -1162,7 +1162,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "abuja",
   },
   {
-    id: "mk",
+    id: "MKD",
     name: "Macédoine du Nord",
     nameEn: "north macedonia",
     continent: "Europe",
@@ -1170,7 +1170,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "skopje",
   },
   {
-    id: "om",
+    id: "OMN",
     name: "Oman",
     nameEn: "oman",
     continent: "Asie",
@@ -1178,7 +1178,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "muscat",
   },
   {
-    id: "pk",
+    id: "PAK",
     name: "Pakistan",
     nameEn: "pakistan",
     continent: "Asie",
@@ -1186,7 +1186,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "islamabad",
   },
   {
-    id: "pw",
+    id: "PLW",
     name: "Palaos",
     nameEn: "palau",
     continent: "Océanie",
@@ -1194,7 +1194,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ngerulmud",
   },
   {
-    id: "pa",
+    id: "PAN",
     name: "Panama",
     nameEn: "panama",
     continent: "Amérique du Nord",
@@ -1202,7 +1202,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "panama city",
   },
   {
-    id: "pg",
+    id: "PNG",
     name: "Papouasie-Nouvelle-Guinée",
     nameEn: "papua new guinea",
     continent: "Océanie",
@@ -1210,7 +1210,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "port moresby",
   },
   {
-    id: "py",
+    id: "PRY",
     name: "Paraguay",
     nameEn: "paraguay",
     continent: "Amérique du Sud",
@@ -1218,7 +1218,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "asuncion",
   },
   {
-    id: "pe",
+    id: "PER",
     name: "Pérou",
     nameEn: "peru",
     continent: "Amérique du Sud",
@@ -1226,7 +1226,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lima",
   },
   {
-    id: "ph",
+    id: "PHL",
     name: "Philippines",
     nameEn: "philippines",
     continent: "Asie",
@@ -1234,7 +1234,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "manila",
   },
   {
-    id: "qa",
+    id: "QAT",
     name: "Qatar",
     nameEn: "qatar",
     continent: "Asie",
@@ -1242,7 +1242,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "doha",
   },
   {
-    id: "ro",
+    id: "ROU",
     name: "Roumanie",
     nameEn: "romania",
     continent: "Europe",
@@ -1250,7 +1250,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bucharest",
   },
   {
-    id: "rw",
+    id: "RWA",
     name: "Rwanda",
     nameEn: "rwanda",
     continent: "Afrique",
@@ -1258,7 +1258,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kigali",
   },
   {
-    id: "kn",
+    id: "KNA",
     name: "Saint-Christophe-et-Niévès",
     nameEn: "saint kitts and nevis",
     continent: "Amérique du Nord",
@@ -1266,7 +1266,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "basseterre",
   },
   {
-    id: "lc",
+    id: "LCA",
     name: "Sainte-Lucie",
     nameEn: "saint lucia",
     continent: "Amérique du Nord",
@@ -1274,7 +1274,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "castries",
   },
   {
-    id: "vc",
+    id: "VCT",
     name: "Saint-Vincent-et-les-Grenadines",
     nameEn: "saint vincent and the grenadines",
     continent: "Amérique du Nord",
@@ -1282,7 +1282,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kingstown",
   },
   {
-    id: "ws",
+    id: "WSM",
     name: "Samoa",
     nameEn: "samoa",
     continent: "Océanie",
@@ -1290,7 +1290,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "apia",
   },
   {
-    id: "sm",
+    id: "SMR",
     name: "Saint-Marin",
     nameEn: "san marino",
     continent: "Europe",
@@ -1298,7 +1298,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "san marino",
   },
   {
-    id: "st",
+    id: "STP",
     name: "Sao Tomé-et-Principe",
     nameEn: "sao tome and principe",
     continent: "Afrique",
@@ -1306,7 +1306,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sao tome",
   },
   {
-    id: "sn",
+    id: "SEN",
     name: "Sénégal",
     nameEn: "senegal",
     continent: "Afrique",
@@ -1314,7 +1314,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dakar",
   },
   {
-    id: "rs",
+    id: "SRB",
     name: "Serbie",
     nameEn: "serbia",
     continent: "Europe",
@@ -1322,7 +1322,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "belgrade",
   },
   {
-    id: "sc",
+    id: "SYC",
     name: "Seychelles",
     nameEn: "seychelles",
     continent: "Afrique",
@@ -1330,7 +1330,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "victoria",
   },
   {
-    id: "sl",
+    id: "SLE",
     name: "Sierra Leone",
     nameEn: "sierra leone",
     continent: "Afrique",
@@ -1338,7 +1338,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "freetown",
   },
   {
-    id: "sk",
+    id: "SVK",
     name: "Slovaquie",
     nameEn: "slovakia",
     continent: "Europe",
@@ -1346,7 +1346,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "bratislava",
   },
   {
-    id: "si",
+    id: "SVN",
     name: "Slovénie",
     nameEn: "slovenia",
     continent: "Europe",
@@ -1354,7 +1354,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ljubljana",
   },
   {
-    id: "sb",
+    id: "SLB",
     name: "Îles Salomon",
     nameEn: "solomon islands",
     continent: "Océanie",
@@ -1362,7 +1362,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "honiara",
   },
   {
-    id: "so",
+    id: "SOM",
     name: "Somalie",
     nameEn: "somalia",
     continent: "Afrique",
@@ -1370,7 +1370,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "mogadishu",
   },
   {
-    id: "ss",
+    id: "SSD",
     name: "Soudan du Sud",
     nameEn: "south sudan",
     continent: "Afrique",
@@ -1378,7 +1378,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "juba",
   },
   {
-    id: "lk",
+    id: "LKA",
     name: "Sri Lanka",
     nameEn: "sri lanka",
     continent: "Asie",
@@ -1386,7 +1386,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sri jayawardenepura kotte",
   },
   {
-    id: "sd",
+    id: "SDN",
     name: "Soudan",
     nameEn: "sudan",
     continent: "Afrique",
@@ -1394,7 +1394,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "khartoum",
   },
   {
-    id: "sr",
+    id: "SUR",
     name: "Suriname",
     nameEn: "suriname",
     continent: "Amérique du Sud",
@@ -1402,7 +1402,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "paramaribo",
   },
   {
-    id: "sy",
+    id: "SYR",
     name: "Syrie",
     nameEn: "syria",
     continent: "Asie",
@@ -1410,7 +1410,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "damascus",
   },
   {
-    id: "tw",
+    id: "TWN",
     name: "Taïwan",
     nameEn: "taiwan",
     continent: "Asie",
@@ -1418,7 +1418,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "taipei",
   },
   {
-    id: "tj",
+    id: "TJK",
     name: "Tadjikistan",
     nameEn: "tajikistan",
     continent: "Asie",
@@ -1426,7 +1426,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dushanbe",
   },
   {
-    id: "tz",
+    id: "TZA",
     name: "Tanzanie",
     nameEn: "tanzania",
     continent: "Afrique",
@@ -1434,7 +1434,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "dodoma",
   },
   {
-    id: "tg",
+    id: "TGO",
     name: "Togo",
     nameEn: "togo",
     continent: "Afrique",
@@ -1442,7 +1442,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lome",
   },
   {
-    id: "to",
+    id: "TON",
     name: "Tonga",
     nameEn: "tonga",
     continent: "Océanie",
@@ -1450,7 +1450,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "nuku'alofa",
   },
   {
-    id: "tt",
+    id: "TTO",
     name: "Trinité-et-Tobago",
     nameEn: "trinidad and tobago",
     continent: "Amérique du Nord",
@@ -1458,7 +1458,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "port of spain",
   },
   {
-    id: "tn",
+    id: "TUN",
     name: "Tunisie",
     nameEn: "tunisia",
     continent: "Afrique",
@@ -1466,7 +1466,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tunis",
   },
   {
-    id: "tm",
+    id: "TKM",
     name: "Turkménistan",
     nameEn: "turkmenistan",
     continent: "Asie",
@@ -1474,7 +1474,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "ashgabat",
   },
   {
-    id: "tv",
+    id: "TVL",
     name: "Tuvalu",
     nameEn: "tuvalu",
     continent: "Océanie",
@@ -1482,7 +1482,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "funafuti",
   },
   {
-    id: "ug",
+    id: "UGA",
     name: "Ouganda",
     nameEn: "uganda",
     continent: "Afrique",
@@ -1490,7 +1490,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kampala",
   },
   {
-    id: "ua",
+    id: "UKR",
     name: "Ukraine",
     nameEn: "ukraine",
     continent: "Europe",
@@ -1498,7 +1498,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "kyiv",
   },
   {
-    id: "uy",
+    id: "URY",
     name: "Uruguay",
     nameEn: "uruguay",
     continent: "Amérique du Sud",
@@ -1506,7 +1506,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "montevideo",
   },
   {
-    id: "uz",
+    id: "UZB",
     name: "Ouzbékistan",
     nameEn: "uzbekistan",
     continent: "Asie",
@@ -1514,7 +1514,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "tashkent",
   },
   {
-    id: "vu",
+    id: "VUT",
     name: "Vanuatu",
     nameEn: "vanuatu",
     continent: "Océanie",
@@ -1522,7 +1522,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "port vila",
   },
   {
-    id: "va",
+    id: "VAT",
     name: "Vatican",
     nameEn: "vatican city",
     continent: "Europe",
@@ -1530,7 +1530,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "vatican city",
   },
   {
-    id: "ve",
+    id: "VEN",
     name: "Venezuela",
     nameEn: "venezuela",
     continent: "Amérique du Sud",
@@ -1538,7 +1538,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "caracas",
   },
   {
-    id: "ye",
+    id: "YEM",
     name: "Yémen",
     nameEn: "yemen",
     continent: "Asie",
@@ -1546,7 +1546,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "sanaa",
   },
   {
-    id: "zm",
+    id: "ZMB",
     name: "Zambie",
     nameEn: "zambia",
     continent: "Afrique",
@@ -1554,7 +1554,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "lusaka",
   },
   {
-    id: "ci",
+    id: "CIV",
     name: "Côte d'Ivoire",
     nameEn: "ivory coast",
     continent: "Afrique",
@@ -1562,7 +1562,7 @@ export const sovereignStates: SovereignState[] = [
     capitalEn: "yamoussoukro",
   },
   {
-    id: "zw",
+    id: "ZWE",
     name: "Zimbabwe",
     nameEn: "zimbabwe",
     continent: "Afrique",
