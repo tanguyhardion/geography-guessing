@@ -36,7 +36,8 @@ export function useFlagGuessing(
     );
   });
 
-  const getFlagUrl = (id: string) => `https://flagcdn.com/${id}.svg`;
+  const getFlagUrl = (idAlpha2: string | undefined) =>
+    `https://flagcdn.com/${idAlpha2?.toLowerCase()}.svg`;
 
   const getFlagClass = (country: any) => {
     const status = flagStore.getCountryStatus(country.id);

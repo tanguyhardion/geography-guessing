@@ -76,7 +76,7 @@
               :aria-label="`Choisir le drapeau de ${country.name}`"
             >
               <img
-                :src="getFlagUrl(country.id)"
+                :src="getFlagUrl(country.idAlpha2)"
                 :alt="`Drapeau de ${country.name}`"
                 class="flag-list-image"
               />

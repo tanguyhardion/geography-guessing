@@ -63,7 +63,7 @@ export const useFlagStore = defineStore("flags", {
     // Current flag display
     currentFlag: (state) => {
       if (state.currentCountry) {
-        return `https://flagcdn.com/${state.currentCountry.id}.svg`;
+        return `https://flagcdn.com/${state.currentCountry.idAlpha2?.toLowerCase()}.svg`;
       }
       return "";
     },

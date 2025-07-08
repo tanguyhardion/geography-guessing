@@ -3,6 +3,7 @@ import type { Country } from "../types";
 export const countries: Country[] = [
   {
     id: "FRA",
+    idAlpha2: "FR",
     name: "France",
     nameEn: "france",
     continent: "Europe",
@@ -11,6 +12,7 @@ export const countries: Country[] = [
   },
   {
     id: "DEU",
+    idAlpha2: "DE",
     name: "Allemagne",
     nameEn: "germany",
     continent: "Europe",
@@ -19,6 +21,7 @@ export const countries: Country[] = [
   },
   {
     id: "ESP",
+    idAlpha2: "ES",
     name: "Espagne",
     nameEn: "spain",
     continent: "Europe",
@@ -27,6 +30,7 @@ export const countries: Country[] = [
   },
   {
     id: "ITA",
+    idAlpha2: "IT",
     name: "Italie",
     nameEn: "italy",
     continent: "Europe",
@@ -35,6 +39,7 @@ export const countries: Country[] = [
   },
   {
     id: "GBR",
+    idAlpha2: "GB",
     name: "Royaume-Uni",
     nameEn: "united kingdom",
     continent: "Europe",
@@ -43,6 +48,7 @@ export const countries: Country[] = [
   },
   {
     id: "USA",
+    idAlpha2: "US",
     name: "États-Unis",
     nameEn: "united states",
     continent: "Amérique du Nord",
@@ -51,6 +57,7 @@ export const countries: Country[] = [
   },
   {
     id: "CAN",
+    idAlpha2: "CA",
     name: "Canada",
     nameEn: "canada",
     continent: "Amérique du Nord",
@@ -59,6 +66,7 @@ export const countries: Country[] = [
   },
   {
     id: "AUS",
+    idAlpha2: "AU",
     name: "Australie",
     nameEn: "australia",
     continent: "Océanie",
@@ -67,6 +75,7 @@ export const countries: Country[] = [
   },
   {
     id: "JPN",
+    idAlpha2: "JP",
     name: "Japon",
     nameEn: "japan",
     continent: "Asie",
@@ -75,6 +84,7 @@ export const countries: Country[] = [
   },
   {
     id: "CHN",
+    idAlpha2: "CN",
     name: "Chine",
     nameEn: "china",
     continent: "Asie",
@@ -83,6 +93,7 @@ export const countries: Country[] = [
   },
   {
     id: "HKG",
+    idAlpha2: "HK",
     name: "Hong Kong",
     nameEn: "hong kong",
     continent: "Asie",
@@ -91,6 +102,7 @@ export const countries: Country[] = [
   },
   {
     id: "MAC",
+    idAlpha2: "MO",
     name: "Macao",
     nameEn: "macao",
     continent: "Asie",
@@ -99,6 +111,7 @@ export const countries: Country[] = [
   },
   {
     id: "PRI",
+    idAlpha2: "PR",
     name: "Porto Rico",
     nameEn: "puerto rico",
     continent: "Amérique du Nord",
@@ -107,6 +120,7 @@ export const countries: Country[] = [
   },
   {
     id: "GRL",
+    idAlpha2: "GL",
     name: "Groenland",
     nameEn: "greenland",
     continent: "Amérique du Nord",
@@ -115,6 +129,7 @@ export const countries: Country[] = [
   },
   {
     id: "ABW",
+    idAlpha2: "AW",
     name: "Aruba",
     nameEn: "aruba",
     continent: "Amérique du Nord",
@@ -123,6 +138,7 @@ export const countries: Country[] = [
   },
   {
     id: "CYM",
+    idAlpha2: "KY",
     name: "Îles Caïmans",
     nameEn: "cayman islands",
     continent: "Amérique du Nord",
@@ -131,6 +147,7 @@ export const countries: Country[] = [
   },
   {
     id: "BMU",
+    idAlpha2: "BM",
     name: "Bermudes",
     nameEn: "bermuda",
     continent: "Amérique du Nord",
@@ -139,6 +156,7 @@ export const countries: Country[] = [
   },
   {
     id: "FLK",
+    idAlpha2: "FK",
     name: "Îles Malouines",
     nameEn: "falkland islands",
     continent: "Amérique du Sud",
@@ -147,6 +165,7 @@ export const countries: Country[] = [
   },
   {
     id: "GIB",
+    idAlpha2: "GI",
     name: "Gibraltar",
     nameEn: "gibraltar",
     continent: "Europe",
@@ -155,6 +174,7 @@ export const countries: Country[] = [
   },
   {
     id: "GUM",
+    idAlpha2: "GU",
     name: "Guam",
     nameEn: "guam",
     continent: "Océanie",
@@ -163,6 +183,7 @@ export const countries: Country[] = [
   },
   {
     id: "MNP",
+    idAlpha2: "MP",
     name: "Îles Mariannes du Nord",
     nameEn: "northern mariana islands",
     continent: "Océanie",
@@ -171,6 +192,7 @@ export const countries: Country[] = [
   },
   {
     id: "ASM",
+    idAlpha2: "AS",
     name: "Samoa américaines",
     nameEn: "american samoa",
     continent: "Océanie",
@@ -179,6 +201,7 @@ export const countries: Country[] = [
   },
   {
     id: "PYF",
+    idAlpha2: "PF",
     name: "Polynésie française",
     nameEn: "french polynesia",
     continent: "Océanie",
@@ -187,6 +210,7 @@ export const countries: Country[] = [
   },
   {
     id: "NCL",
+    idAlpha2: "NC",
     name: "Nouvelle-Calédonie",
     nameEn: "new caledonia",
     continent: "Océanie",
@@ -195,6 +219,7 @@ export const countries: Country[] = [
   },
   {
     id: "FRO",
+    idAlpha2: "FO",
     name: "Îles Féroé",
     nameEn: "faroe islands",
     continent: "Europe",
@@ -203,6 +228,7 @@ export const countries: Country[] = [
   },
   {
     id: "JEY",
+    idAlpha2: "JE",
     name: "Jersey",
     nameEn: "jersey",
     continent: "Europe",
@@ -211,6 +237,7 @@ export const countries: Country[] = [
   },
   {
     id: "GGY",
+    idAlpha2: "GG",
     name: "Guernesey",
     nameEn: "guernsey",
     continent: "Europe",
@@ -219,6 +246,7 @@ export const countries: Country[] = [
   },
   {
     id: "IMN",
+    idAlpha2: "IM",
     name: "Île de Man",
     nameEn: "isle of man",
     continent: "Europe",
@@ -227,6 +255,7 @@ export const countries: Country[] = [
   },
   {
     id: "ALA",
+    idAlpha2: "AX",
     name: "Åland",
     nameEn: "aland islands",
     continent: "Europe",
@@ -235,6 +264,7 @@ export const countries: Country[] = [
   },
   {
     id: "BRA",
+    idAlpha2: "BR",
     name: "Brésil",
     nameEn: "brazil",
     continent: "Amérique du Sud",
@@ -243,6 +273,7 @@ export const countries: Country[] = [
   },
   {
     id: "IND",
+    idAlpha2: "IN",
     name: "Inde",
     nameEn: "india",
     continent: "Asie",
@@ -251,6 +282,7 @@ export const countries: Country[] = [
   },
   {
     id: "ZAF",
+    idAlpha2: "ZA",
     name: "Afrique du Sud",
     nameEn: "south africa",
     continent: "Afrique",
@@ -259,6 +291,7 @@ export const countries: Country[] = [
   },
   {
     id: "RUS",
+    idAlpha2: "RU",
     name: "Russie",
     nameEn: "russia",
     continent: "Europe",
@@ -267,6 +300,7 @@ export const countries: Country[] = [
   },
   {
     id: "MEX",
+    idAlpha2: "MX",
     name: "Mexique",
     nameEn: "mexico",
     continent: "Amérique du Nord",
@@ -275,6 +309,7 @@ export const countries: Country[] = [
   },
   {
     id: "NZL",
+    idAlpha2: "NZ",
     name: "Nouvelle-Zélande",
     nameEn: "new zealand",
     continent: "Océanie",
@@ -283,6 +318,7 @@ export const countries: Country[] = [
   },
   {
     id: "AFG",
+    idAlpha2: "AF",
     name: "Afghanistan",
     nameEn: "afghanistan",
     continent: "Asie",
@@ -291,6 +327,7 @@ export const countries: Country[] = [
   },
   {
     id: "ALB",
+    idAlpha2: "AL",
     name: "Albanie",
     nameEn: "albania",
     continent: "Europe",
@@ -299,6 +336,7 @@ export const countries: Country[] = [
   },
   {
     id: "DZA",
+    idAlpha2: "DZ",
     name: "Algérie",
     nameEn: "algeria",
     continent: "Afrique",
@@ -307,6 +345,7 @@ export const countries: Country[] = [
   },
   {
     id: "AND",
+    idAlpha2: "AD",
     name: "Andorre",
     nameEn: "andorra",
     continent: "Europe",
@@ -315,6 +354,7 @@ export const countries: Country[] = [
   },
   {
     id: "AGO",
+    idAlpha2: "AO",
     name: "Angola",
     nameEn: "angola",
     continent: "Afrique",
@@ -323,6 +363,7 @@ export const countries: Country[] = [
   },
   {
     id: "ATG",
+    idAlpha2: "AG",
     name: "Antigua-et-Barbuda",
     nameEn: "antigua and barbuda",
     continent: "Amérique du Nord",
@@ -331,6 +372,7 @@ export const countries: Country[] = [
   },
   {
     id: "ARG",
+    idAlpha2: "AR",
     name: "Argentine",
     nameEn: "argentina",
     continent: "Amérique du Sud",
@@ -339,6 +381,7 @@ export const countries: Country[] = [
   },
   {
     id: "ARM",
+    idAlpha2: "AM",
     name: "Arménie",
     nameEn: "armenia",
     continent: "Asie",
@@ -346,15 +389,8 @@ export const countries: Country[] = [
     capitalEn: "yerevan",
   },
   {
-    id: "ABW",
-    name: "Aruba",
-    nameEn: "aruba",
-    continent: "Amérique du Nord",
-    capital: "Oranjestad",
-    capitalEn: "oranjestad",
-  },
-  {
     id: "AUT",
+    idAlpha2: "AT",
     name: "Autriche",
     nameEn: "austria",
     continent: "Europe",
@@ -363,6 +399,7 @@ export const countries: Country[] = [
   },
   {
     id: "AZE",
+    idAlpha2: "AZ",
     name: "Azerbaïdjan",
     nameEn: "azerbaijan",
     continent: "Asie",
@@ -371,6 +408,7 @@ export const countries: Country[] = [
   },
   {
     id: "BHS",
+    idAlpha2: "BS",
     name: "Bahamas",
     nameEn: "bahamas",
     continent: "Amérique du Nord",
@@ -379,6 +417,7 @@ export const countries: Country[] = [
   },
   {
     id: "BHR",
+    idAlpha2: "BH",
     name: "Bahreïn",
     nameEn: "bahrain",
     continent: "Asie",
@@ -387,6 +426,7 @@ export const countries: Country[] = [
   },
   {
     id: "BGD",
+    idAlpha2: "BD",
     name: "Bangladesh",
     nameEn: "bangladesh",
     continent: "Asie",
@@ -395,6 +435,7 @@ export const countries: Country[] = [
   },
   {
     id: "BRB",
+    idAlpha2: "BB",
     name: "Barbade",
     nameEn: "barbados",
     continent: "Amérique du Nord",
@@ -403,6 +444,7 @@ export const countries: Country[] = [
   },
   {
     id: "BLR",
+    idAlpha2: "BY",
     name: "Biélorussie",
     nameEn: "belarus",
     continent: "Europe",
@@ -411,6 +453,7 @@ export const countries: Country[] = [
   },
   {
     id: "BEL",
+    idAlpha2: "BE",
     name: "Belgique",
     nameEn: "belgium",
     continent: "Europe",
@@ -419,6 +462,7 @@ export const countries: Country[] = [
   },
   {
     id: "BLZ",
+    idAlpha2: "BZ",
     name: "Belize",
     nameEn: "belize",
     continent: "Amérique du Nord",
@@ -427,6 +471,7 @@ export const countries: Country[] = [
   },
   {
     id: "BEN",
+    idAlpha2: "BJ",
     name: "Bénin",
     nameEn: "benin",
     continent: "Afrique",
@@ -435,6 +480,7 @@ export const countries: Country[] = [
   },
   {
     id: "BTN",
+    idAlpha2: "BT",
     name: "Bhoutan",
     nameEn: "bhutan",
     continent: "Asie",
@@ -443,6 +489,7 @@ export const countries: Country[] = [
   },
   {
     id: "BOL",
+    idAlpha2: "BO",
     name: "Bolivie",
     nameEn: "bolivia",
     continent: "Amérique du Sud",
@@ -451,6 +498,7 @@ export const countries: Country[] = [
   },
   {
     id: "BIH",
+    idAlpha2: "BA",
     name: "Bosnie-Herzégovine",
     nameEn: "bosnia and herzegovina",
     continent: "Europe",
@@ -459,6 +507,7 @@ export const countries: Country[] = [
   },
   {
     id: "BWA",
+    idAlpha2: "BW",
     name: "Botswana",
     nameEn: "botswana",
     continent: "Afrique",
@@ -467,6 +516,7 @@ export const countries: Country[] = [
   },
   {
     id: "BRN",
+    idAlpha2: "BN",
     name: "Brunei",
     nameEn: "brunei",
     continent: "Asie",
@@ -475,6 +525,7 @@ export const countries: Country[] = [
   },
   {
     id: "BGR",
+    idAlpha2: "BG",
     name: "Bulgarie",
     nameEn: "bulgaria",
     continent: "Europe",
@@ -483,6 +534,7 @@ export const countries: Country[] = [
   },
   {
     id: "BFA",
+    idAlpha2: "BF",
     name: "Burkina Faso",
     nameEn: "burkina faso",
     continent: "Afrique",
@@ -491,6 +543,7 @@ export const countries: Country[] = [
   },
   {
     id: "BDI",
+    idAlpha2: "BI",
     name: "Burundi",
     nameEn: "burundi",
     continent: "Afrique",
@@ -499,6 +552,7 @@ export const countries: Country[] = [
   },
   {
     id: "CPV",
+    idAlpha2: "CV",
     name: "Cap-Vert",
     nameEn: "cape verde",
     continent: "Afrique",
@@ -507,6 +561,7 @@ export const countries: Country[] = [
   },
   {
     id: "KHM",
+    idAlpha2: "KH",
     name: "Cambodge",
     nameEn: "cambodia",
     continent: "Asie",
@@ -515,6 +570,7 @@ export const countries: Country[] = [
   },
   {
     id: "CMR",
+    idAlpha2: "CM",
     name: "Cameroun",
     nameEn: "cameroon",
     continent: "Afrique",
@@ -523,6 +579,7 @@ export const countries: Country[] = [
   },
   {
     id: "CAF",
+    idAlpha2: "CF",
     name: "République centrafricaine",
     nameEn: "central african republic",
     continent: "Afrique",
@@ -531,6 +588,7 @@ export const countries: Country[] = [
   },
   {
     id: "TCD",
+    idAlpha2: "TD",
     name: "Tchad",
     nameEn: "chad",
     continent: "Afrique",
@@ -539,6 +597,7 @@ export const countries: Country[] = [
   },
   {
     id: "CHL",
+    idAlpha2: "CL",
     name: "Chili",
     nameEn: "chile",
     continent: "Amérique du Sud",
@@ -547,6 +606,7 @@ export const countries: Country[] = [
   },
   {
     id: "COL",
+    idAlpha2: "CO",
     name: "Colombie",
     nameEn: "colombia",
     continent: "Amérique du Sud",
@@ -555,6 +615,7 @@ export const countries: Country[] = [
   },
   {
     id: "COM",
+    idAlpha2: "KM",
     name: "Comores",
     nameEn: "comoros",
     continent: "Afrique",
@@ -563,6 +624,7 @@ export const countries: Country[] = [
   },
   {
     id: "COG",
+    idAlpha2: "CG",
     name: "Congo",
     nameEn: "congo",
     continent: "Afrique",
@@ -571,6 +633,7 @@ export const countries: Country[] = [
   },
   {
     id: "COD",
+    idAlpha2: "CD",
     name: "République démocratique du Congo",
     nameEn: "democratic republic of the congo",
     continent: "Afrique",
@@ -579,6 +642,7 @@ export const countries: Country[] = [
   },
   {
     id: "CRI",
+    idAlpha2: "CR",
     name: "Costa Rica",
     nameEn: "costa rica",
     continent: "Amérique du Nord",
@@ -587,6 +651,7 @@ export const countries: Country[] = [
   },
   {
     id: "HRV",
+    idAlpha2: "HR",
     name: "Croatie",
     nameEn: "croatia",
     continent: "Europe",
@@ -595,6 +660,7 @@ export const countries: Country[] = [
   },
   {
     id: "CUB",
+    idAlpha2: "CU",
     name: "Cuba",
     nameEn: "cuba",
     continent: "Amérique du Nord",
@@ -603,6 +669,7 @@ export const countries: Country[] = [
   },
   {
     id: "CYP",
+    idAlpha2: "CY",
     name: "Chypre",
     nameEn: "cyprus",
     continent: "Europe",
@@ -611,6 +678,7 @@ export const countries: Country[] = [
   },
   {
     id: "CZE",
+    idAlpha2: "CZ",
     name: "Tchéquie",
     nameEn: "czech republic",
     continent: "Europe",
@@ -619,6 +687,7 @@ export const countries: Country[] = [
   },
   {
     id: "DNK",
+    idAlpha2: "DK",
     name: "Danemark",
     nameEn: "denmark",
     continent: "Europe",
@@ -627,6 +696,7 @@ export const countries: Country[] = [
   },
   {
     id: "DJI",
+    idAlpha2: "DJ",
     name: "Djibouti",
     nameEn: "djibouti",
     continent: "Afrique",
@@ -635,6 +705,7 @@ export const countries: Country[] = [
   },
   {
     id: "DMA",
+    idAlpha2: "DM",
     name: "Dominique",
     nameEn: "dominica",
     continent: "Amérique du Nord",
@@ -643,6 +714,7 @@ export const countries: Country[] = [
   },
   {
     id: "DOM",
+    idAlpha2: "DO",
     name: "République dominicaine",
     nameEn: "dominican republic",
     continent: "Amérique du Nord",
@@ -651,6 +723,7 @@ export const countries: Country[] = [
   },
   {
     id: "TLS",
+    idAlpha2: "TL",
     name: "Timor oriental",
     nameEn: "east timor",
     continent: "Asie",
@@ -659,6 +732,7 @@ export const countries: Country[] = [
   },
   {
     id: "ECU",
+    idAlpha2: "EC",
     name: "Équateur",
     nameEn: "ecuador",
     continent: "Amérique du Sud",
@@ -667,6 +741,7 @@ export const countries: Country[] = [
   },
   {
     id: "EGY",
+    idAlpha2: "EG",
     name: "Égypte",
     nameEn: "egypt",
     continent: "Afrique",
@@ -675,6 +750,7 @@ export const countries: Country[] = [
   },
   {
     id: "SLV",
+    idAlpha2: "SV",
     name: "Salvador",
     nameEn: "el salvador",
     continent: "Amérique du Nord",
@@ -683,6 +759,7 @@ export const countries: Country[] = [
   },
   {
     id: "GNQ",
+    idAlpha2: "GQ",
     name: "Guinée équatoriale",
     nameEn: "equatorial guinea",
     continent: "Afrique",
@@ -691,6 +768,7 @@ export const countries: Country[] = [
   },
   {
     id: "ERI",
+    idAlpha2: "ER",
     name: "Érythrée",
     nameEn: "eritrea",
     continent: "Afrique",
@@ -699,6 +777,7 @@ export const countries: Country[] = [
   },
   {
     id: "EST",
+    idAlpha2: "EE",
     name: "Estonie",
     nameEn: "estonia",
     continent: "Europe",
@@ -707,6 +786,7 @@ export const countries: Country[] = [
   },
   {
     id: "SWZ",
+    idAlpha2: "SZ",
     name: "Eswatini",
     nameEn: "eswatini",
     continent: "Afrique",
@@ -715,6 +795,7 @@ export const countries: Country[] = [
   },
   {
     id: "ETH",
+    idAlpha2: "ET",
     name: "Éthiopie",
     nameEn: "ethiopia",
     continent: "Afrique",
@@ -723,6 +804,7 @@ export const countries: Country[] = [
   },
   {
     id: "FJI",
+    idAlpha2: "FJ",
     name: "Fidji",
     nameEn: "fiji",
     continent: "Océanie",
@@ -731,6 +813,7 @@ export const countries: Country[] = [
   },
   {
     id: "FIN",
+    idAlpha2: "FI",
     name: "Finlande",
     nameEn: "finland",
     continent: "Europe",
@@ -739,6 +822,7 @@ export const countries: Country[] = [
   },
   {
     id: "GAB",
+    idAlpha2: "GA",
     name: "Gabon",
     nameEn: "gabon",
     continent: "Afrique",
@@ -747,6 +831,7 @@ export const countries: Country[] = [
   },
   {
     id: "GMB",
+    idAlpha2: "GM",
     name: "Gambie",
     nameEn: "gambia",
     continent: "Afrique",
@@ -755,6 +840,7 @@ export const countries: Country[] = [
   },
   {
     id: "GEO",
+    idAlpha2: "GE",
     name: "Géorgie",
     nameEn: "georgia",
     continent: "Asie",
@@ -763,6 +849,7 @@ export const countries: Country[] = [
   },
   {
     id: "GHA",
+    idAlpha2: "GH",
     name: "Ghana",
     nameEn: "ghana",
     continent: "Afrique",
@@ -771,6 +858,7 @@ export const countries: Country[] = [
   },
   {
     id: "GRC",
+    idAlpha2: "GR",
     name: "Grèce",
     nameEn: "greece",
     continent: "Europe",
@@ -779,6 +867,7 @@ export const countries: Country[] = [
   },
   {
     id: "GRD",
+    idAlpha2: "GD",
     name: "Grenade",
     nameEn: "grenada",
     continent: "Amérique du Nord",
@@ -787,6 +876,7 @@ export const countries: Country[] = [
   },
   {
     id: "GTM",
+    idAlpha2: "GT",
     name: "Guatemala",
     nameEn: "guatemala",
     continent: "Amérique du Nord",
@@ -795,6 +885,7 @@ export const countries: Country[] = [
   },
   {
     id: "GIN",
+    idAlpha2: "GN",
     name: "Guinée",
     nameEn: "guinea",
     continent: "Afrique",
@@ -803,6 +894,7 @@ export const countries: Country[] = [
   },
   {
     id: "GNB",
+    idAlpha2: "GW",
     name: "Guinée-Bissau",
     nameEn: "guinea-bissau",
     continent: "Afrique",
@@ -811,6 +903,7 @@ export const countries: Country[] = [
   },
   {
     id: "GUY",
+    idAlpha2: "GY",
     name: "Guyana",
     nameEn: "guyana",
     continent: "Amérique du Sud",
@@ -819,6 +912,7 @@ export const countries: Country[] = [
   },
   {
     id: "HTI",
+    idAlpha2: "HT",
     name: "Haïti",
     nameEn: "haiti",
     continent: "Amérique du Nord",
@@ -827,6 +921,7 @@ export const countries: Country[] = [
   },
   {
     id: "HND",
+    idAlpha2: "HN",
     name: "Honduras",
     nameEn: "honduras",
     continent: "Amérique du Nord",
@@ -835,6 +930,7 @@ export const countries: Country[] = [
   },
   {
     id: "HUN",
+    idAlpha2: "HU",
     name: "Hongrie",
     nameEn: "hungary",
     continent: "Europe",
@@ -843,6 +939,7 @@ export const countries: Country[] = [
   },
   {
     id: "ISL",
+    idAlpha2: "IS",
     name: "Islande",
     nameEn: "iceland",
     continent: "Europe",
@@ -851,6 +948,7 @@ export const countries: Country[] = [
   },
   {
     id: "IDN",
+    idAlpha2: "ID",
     name: "Indonésie",
     nameEn: "indonesia",
     continent: "Asie",
@@ -859,6 +957,7 @@ export const countries: Country[] = [
   },
   {
     id: "IRN",
+    idAlpha2: "IR",
     name: "Iran",
     nameEn: "iran",
     continent: "Asie",
@@ -867,6 +966,7 @@ export const countries: Country[] = [
   },
   {
     id: "IRQ",
+    idAlpha2: "IQ",
     name: "Irak",
     nameEn: "iraq",
     continent: "Asie",
@@ -875,6 +975,7 @@ export const countries: Country[] = [
   },
   {
     id: "IRL",
+    idAlpha2: "IE",
     name: "Irlande",
     nameEn: "ireland",
     continent: "Europe",
@@ -883,6 +984,7 @@ export const countries: Country[] = [
   },
   {
     id: "ISR",
+    idAlpha2: "IL",
     name: "Israël",
     nameEn: "israel",
     continent: "Asie",
@@ -891,6 +993,7 @@ export const countries: Country[] = [
   },
   {
     id: "JAM",
+    idAlpha2: "JM",
     name: "Jamaïque",
     nameEn: "jamaica",
     continent: "Amérique du Nord",
@@ -899,6 +1002,7 @@ export const countries: Country[] = [
   },
   {
     id: "JOR",
+    idAlpha2: "JO",
     name: "Jordanie",
     nameEn: "jordan",
     continent: "Asie",
@@ -907,6 +1011,7 @@ export const countries: Country[] = [
   },
   {
     id: "KAZ",
+    idAlpha2: "KZ",
     name: "Kazakhstan",
     nameEn: "kazakhstan",
     continent: "Asie",
@@ -915,6 +1020,7 @@ export const countries: Country[] = [
   },
   {
     id: "KEN",
+    idAlpha2: "KE",
     name: "Kenya",
     nameEn: "kenya",
     continent: "Afrique",
@@ -923,6 +1029,7 @@ export const countries: Country[] = [
   },
   {
     id: "KIR",
+    idAlpha2: "KI",
     name: "Kiribati",
     nameEn: "kiribati",
     continent: "Océanie",
@@ -931,6 +1038,7 @@ export const countries: Country[] = [
   },
   {
     id: "PRK",
+    idAlpha2: "KP",
     name: "Corée du Nord",
     nameEn: "north korea",
     continent: "Asie",
@@ -939,6 +1047,7 @@ export const countries: Country[] = [
   },
   {
     id: "KOR",
+    idAlpha2: "KR",
     name: "Corée du Sud",
     nameEn: "south korea",
     continent: "Asie",
@@ -947,6 +1056,7 @@ export const countries: Country[] = [
   },
   {
     id: "XKX",
+    idAlpha2: "XK",
     name: "Kosovo",
     nameEn: "kosovo",
     continent: "Europe",
@@ -955,6 +1065,7 @@ export const countries: Country[] = [
   },
   {
     id: "KWT",
+    idAlpha2: "KW",
     name: "Koweït",
     nameEn: "kuwait",
     continent: "Asie",
@@ -963,6 +1074,7 @@ export const countries: Country[] = [
   },
   {
     id: "KGZ",
+    idAlpha2: "KG",
     name: "Kirghizistan",
     nameEn: "kyrgyzstan",
     continent: "Asie",
@@ -971,6 +1083,7 @@ export const countries: Country[] = [
   },
   {
     id: "LAO",
+    idAlpha2: "LA",
     name: "Laos",
     nameEn: "laos",
     continent: "Asie",
@@ -979,6 +1092,7 @@ export const countries: Country[] = [
   },
   {
     id: "LVA",
+    idAlpha2: "LV",
     name: "Lettonie",
     nameEn: "latvia",
     continent: "Europe",
@@ -987,6 +1101,7 @@ export const countries: Country[] = [
   },
   {
     id: "LIB",
+    idAlpha2: "LB",
     name: "Liban",
     nameEn: "lebanon",
     continent: "Asie",
@@ -995,6 +1110,7 @@ export const countries: Country[] = [
   },
   {
     id: "LSO",
+    idAlpha2: "LS",
     name: "Lesotho",
     nameEn: "lesotho",
     continent: "Afrique",
@@ -1003,6 +1119,7 @@ export const countries: Country[] = [
   },
   {
     id: "LBR",
+    idAlpha2: "LR",
     name: "Libéria",
     nameEn: "liberia",
     continent: "Afrique",
@@ -1011,6 +1128,7 @@ export const countries: Country[] = [
   },
   {
     id: "LBY",
+    idAlpha2: "LY",
     name: "Libye",
     nameEn: "libya",
     continent: "Afrique",
@@ -1019,6 +1137,7 @@ export const countries: Country[] = [
   },
   {
     id: "LIE",
+    idAlpha2: "LI",
     name: "Liechtenstein",
     nameEn: "liechtenstein",
     continent: "Europe",
@@ -1027,6 +1146,7 @@ export const countries: Country[] = [
   },
   {
     id: "LTU",
+    idAlpha2: "LT",
     name: "Lituanie",
     nameEn: "lithuania",
     continent: "Europe",
@@ -1035,6 +1155,7 @@ export const countries: Country[] = [
   },
   {
     id: "LUX",
+    idAlpha2: "LU",
     name: "Luxembourg",
     nameEn: "luxembourg",
     continent: "Europe",
@@ -1043,6 +1164,7 @@ export const countries: Country[] = [
   },
   {
     id: "MDG",
+    idAlpha2: "MG",
     name: "Madagascar",
     nameEn: "madagascar",
     continent: "Afrique",
@@ -1051,6 +1173,7 @@ export const countries: Country[] = [
   },
   {
     id: "MWI",
+    idAlpha2: "MW",
     name: "Malawi",
     nameEn: "malawi",
     continent: "Afrique",
@@ -1059,6 +1182,7 @@ export const countries: Country[] = [
   },
   {
     id: "MYS",
+    idAlpha2: "MY",
     name: "Malaisie",
     nameEn: "malaysia",
     continent: "Asie",
@@ -1067,6 +1191,7 @@ export const countries: Country[] = [
   },
   {
     id: "MDV",
+    idAlpha2: "MV",
     name: "Maldives",
     nameEn: "maldives",
     continent: "Asie",
@@ -1075,6 +1200,7 @@ export const countries: Country[] = [
   },
   {
     id: "MLI",
+    idAlpha2: "ML",
     name: "Mali",
     nameEn: "mali",
     continent: "Afrique",
@@ -1083,6 +1209,7 @@ export const countries: Country[] = [
   },
   {
     id: "MLT",
+    idAlpha2: "MT",
     name: "Malte",
     nameEn: "malta",
     continent: "Europe",
@@ -1091,6 +1218,7 @@ export const countries: Country[] = [
   },
   {
     id: "MHL",
+    idAlpha2: "MH",
     name: "Îles Marshall",
     nameEn: "marshall islands",
     continent: "Océanie",
@@ -1099,6 +1227,7 @@ export const countries: Country[] = [
   },
   {
     id: "MRT",
+    idAlpha2: "MR",
     name: "Mauritanie",
     nameEn: "mauritania",
     continent: "Afrique",
@@ -1107,6 +1236,7 @@ export const countries: Country[] = [
   },
   {
     id: "MUS",
+    idAlpha2: "MU",
     name: "Maurice",
     nameEn: "mauritius",
     continent: "Afrique",
@@ -1115,6 +1245,7 @@ export const countries: Country[] = [
   },
   {
     id: "FSM",
+    idAlpha2: "FM",
     name: "Micronésie",
     nameEn: "micronesia",
     continent: "Océanie",
@@ -1123,6 +1254,7 @@ export const countries: Country[] = [
   },
   {
     id: "MDA",
+    idAlpha2: "MD",
     name: "Moldavie",
     nameEn: "moldova",
     continent: "Europe",
@@ -1131,6 +1263,7 @@ export const countries: Country[] = [
   },
   {
     id: "MCO",
+    idAlpha2: "MC",
     name: "Monaco",
     nameEn: "monaco",
     continent: "Europe",
@@ -1139,6 +1272,7 @@ export const countries: Country[] = [
   },
   {
     id: "MNG",
+    idAlpha2: "MN",
     name: "Mongolie",
     nameEn: "mongolia",
     continent: "Asie",
@@ -1147,6 +1281,7 @@ export const countries: Country[] = [
   },
   {
     id: "MNE",
+    idAlpha2: "ME",
     name: "Monténégro",
     nameEn: "montenegro",
     continent: "Europe",
@@ -1155,6 +1290,7 @@ export const countries: Country[] = [
   },
   {
     id: "MAR",
+    idAlpha2: "MA",
     name: "Maroc",
     nameEn: "morocco",
     continent: "Afrique",
@@ -1163,6 +1299,7 @@ export const countries: Country[] = [
   },
   {
     id: "MOZ",
+    idAlpha2: "MZ",
     name: "Mozambique",
     nameEn: "mozambique",
     continent: "Afrique",
@@ -1171,6 +1308,7 @@ export const countries: Country[] = [
   },
   {
     id: "MMR",
+    idAlpha2: "MM",
     name: "Myanmar",
     nameEn: "myanmar",
     continent: "Asie",
@@ -1179,6 +1317,7 @@ export const countries: Country[] = [
   },
   {
     id: "NAM",
+    idAlpha2: "NA",
     name: "Namibie",
     nameEn: "namibia",
     continent: "Afrique",
@@ -1187,6 +1326,7 @@ export const countries: Country[] = [
   },
   {
     id: "NRU",
+    idAlpha2: "NR",
     name: "Nauru",
     nameEn: "nauru",
     continent: "Océanie",
@@ -1195,6 +1335,7 @@ export const countries: Country[] = [
   },
   {
     id: "NPL",
+    idAlpha2: "NP",
     name: "Népal",
     nameEn: "nepal",
     continent: "Asie",
@@ -1203,6 +1344,7 @@ export const countries: Country[] = [
   },
   {
     id: "NLD",
+    idAlpha2: "NL",
     name: "Pays-Bas",
     nameEn: "netherlands",
     continent: "Europe",
@@ -1211,6 +1353,7 @@ export const countries: Country[] = [
   },
   {
     id: "NIC",
+    idAlpha2: "NI",
     name: "Nicaragua",
     nameEn: "nicaragua",
     continent: "Amérique du Nord",
@@ -1219,6 +1362,7 @@ export const countries: Country[] = [
   },
   {
     id: "NER",
+    idAlpha2: "NE",
     name: "Niger",
     nameEn: "niger",
     continent: "Afrique",
@@ -1227,6 +1371,7 @@ export const countries: Country[] = [
   },
   {
     id: "NGA",
+    idAlpha2: "NG",
     name: "Nigeria",
     nameEn: "nigeria",
     continent: "Afrique",
@@ -1235,6 +1380,7 @@ export const countries: Country[] = [
   },
   {
     id: "MKD",
+    idAlpha2: "MK",
     name: "Macédoine du Nord",
     nameEn: "north macedonia",
     continent: "Europe",
@@ -1243,6 +1389,7 @@ export const countries: Country[] = [
   },
   {
     id: "NOR",
+    idAlpha2: "NO",
     name: "Norvège",
     nameEn: "norway",
     continent: "Europe",
@@ -1251,6 +1398,7 @@ export const countries: Country[] = [
   },
   {
     id: "OMN",
+    idAlpha2: "OM",
     name: "Oman",
     nameEn: "oman",
     continent: "Asie",
@@ -1259,6 +1407,7 @@ export const countries: Country[] = [
   },
   {
     id: "PAK",
+    idAlpha2: "PK",
     name: "Pakistan",
     nameEn: "pakistan",
     continent: "Asie",
@@ -1267,6 +1416,7 @@ export const countries: Country[] = [
   },
   {
     id: "PLW",
+    idAlpha2: "PW",
     name: "Palaos",
     nameEn: "palau",
     continent: "Océanie",
@@ -1275,6 +1425,7 @@ export const countries: Country[] = [
   },
   {
     id: "PAN",
+    idAlpha2: "PA",
     name: "Panama",
     nameEn: "panama",
     continent: "Amérique du Nord",
@@ -1283,6 +1434,7 @@ export const countries: Country[] = [
   },
   {
     id: "PNG",
+    idAlpha2: "PG",
     name: "Papouasie-Nouvelle-Guinée",
     nameEn: "papua new guinea",
     continent: "Océanie",
@@ -1291,6 +1443,7 @@ export const countries: Country[] = [
   },
   {
     id: "PRY",
+    idAlpha2: "PY",
     name: "Paraguay",
     nameEn: "paraguay",
     continent: "Amérique du Sud",
@@ -1299,6 +1452,7 @@ export const countries: Country[] = [
   },
   {
     id: "PER",
+    idAlpha2: "PE",
     name: "Pérou",
     nameEn: "peru",
     continent: "Amérique du Sud",
@@ -1307,6 +1461,7 @@ export const countries: Country[] = [
   },
   {
     id: "PHL",
+    idAlpha2: "PH",
     name: "Philippines",
     nameEn: "philippines",
     continent: "Asie",
@@ -1315,6 +1470,7 @@ export const countries: Country[] = [
   },
   {
     id: "POL",
+    idAlpha2: "PL",
     name: "Pologne",
     nameEn: "poland",
     continent: "Europe",
@@ -1323,6 +1479,7 @@ export const countries: Country[] = [
   },
   {
     id: "PRT",
+    idAlpha2: "PT",
     name: "Portugal",
     nameEn: "portugal",
     continent: "Europe",
@@ -1331,6 +1488,7 @@ export const countries: Country[] = [
   },
   {
     id: "QAT",
+    idAlpha2: "QA",
     name: "Qatar",
     nameEn: "qatar",
     continent: "Asie",
@@ -1339,6 +1497,7 @@ export const countries: Country[] = [
   },
   {
     id: "ROU",
+    idAlpha2: "RO",
     name: "Roumanie",
     nameEn: "romania",
     continent: "Europe",
@@ -1347,6 +1506,7 @@ export const countries: Country[] = [
   },
   {
     id: "RWA",
+    idAlpha2: "RW",
     name: "Rwanda",
     nameEn: "rwanda",
     continent: "Afrique",
@@ -1355,6 +1515,7 @@ export const countries: Country[] = [
   },
   {
     id: "KNA",
+    idAlpha2: "KN",
     name: "Saint-Christophe-et-Niévès",
     nameEn: "saint kitts and nevis",
     continent: "Amérique du Nord",
@@ -1363,6 +1524,7 @@ export const countries: Country[] = [
   },
   {
     id: "LCA",
+    idAlpha2: "LC",
     name: "Sainte-Lucie",
     nameEn: "saint lucia",
     continent: "Amérique du Nord",
@@ -1371,6 +1533,7 @@ export const countries: Country[] = [
   },
   {
     id: "VCT",
+    idAlpha2: "VC",
     name: "Saint-Vincent-et-les-Grenadines",
     nameEn: "saint vincent and the grenadines",
     continent: "Amérique du Nord",
@@ -1379,6 +1542,7 @@ export const countries: Country[] = [
   },
   {
     id: "WSM",
+    idAlpha2: "WS",
     name: "Samoa",
     nameEn: "samoa",
     continent: "Océanie",
@@ -1387,6 +1551,7 @@ export const countries: Country[] = [
   },
   {
     id: "SMR",
+    idAlpha2: "SM",
     name: "Saint-Marin",
     nameEn: "san marino",
     continent: "Europe",
@@ -1395,6 +1560,7 @@ export const countries: Country[] = [
   },
   {
     id: "STP",
+    idAlpha2: "ST",
     name: "Sao Tomé-et-Principe",
     nameEn: "sao tome and principe",
     continent: "Afrique",
@@ -1403,6 +1569,7 @@ export const countries: Country[] = [
   },
   {
     id: "SAU",
+    idAlpha2: "SA",
     name: "Arabie Saoudite",
     nameEn: "saudi arabia",
     continent: "Asie",
@@ -1411,6 +1578,7 @@ export const countries: Country[] = [
   },
   {
     id: "SEN",
+    idAlpha2: "SN",
     name: "Sénégal",
     nameEn: "senegal",
     continent: "Afrique",
@@ -1419,6 +1587,7 @@ export const countries: Country[] = [
   },
   {
     id: "SRB",
+    idAlpha2: "RS",
     name: "Serbie",
     nameEn: "serbia",
     continent: "Europe",
@@ -1427,6 +1596,7 @@ export const countries: Country[] = [
   },
   {
     id: "SYC",
+    idAlpha2: "SC",
     name: "Seychelles",
     nameEn: "seychelles",
     continent: "Afrique",
@@ -1435,6 +1605,7 @@ export const countries: Country[] = [
   },
   {
     id: "SLE",
+    idAlpha2: "SL",
     name: "Sierra Leone",
     nameEn: "sierra leone",
     continent: "Afrique",
@@ -1443,6 +1614,7 @@ export const countries: Country[] = [
   },
   {
     id: "SGP",
+    idAlpha2: "SG",
     name: "Singapour",
     nameEn: "singapore",
     continent: "Asie",
@@ -1451,6 +1623,7 @@ export const countries: Country[] = [
   },
   {
     id: "SVK",
+    idAlpha2: "SK",
     name: "Slovaquie",
     nameEn: "slovakia",
     continent: "Europe",
@@ -1459,6 +1632,7 @@ export const countries: Country[] = [
   },
   {
     id: "SVN",
+    idAlpha2: "SI",
     name: "Slovénie",
     nameEn: "slovenia",
     continent: "Europe",
@@ -1467,6 +1641,7 @@ export const countries: Country[] = [
   },
   {
     id: "SLB",
+    idAlpha2: "SB",
     name: "Îles Salomon",
     nameEn: "solomon islands",
     continent: "Océanie",
@@ -1475,6 +1650,7 @@ export const countries: Country[] = [
   },
   {
     id: "SOM",
+    idAlpha2: "SO",
     name: "Somalie",
     nameEn: "somalia",
     continent: "Afrique",
@@ -1483,6 +1659,7 @@ export const countries: Country[] = [
   },
   {
     id: "SOM",
+    idAlpha2: "SO", // Somaliland uses same ISO code as Somalia
     name: "Somaliland",
     nameEn: "somaliland",
     continent: "Afrique",
@@ -1491,6 +1668,7 @@ export const countries: Country[] = [
   },
   {
     id: "SSD",
+    idAlpha2: "SS",
     name: "Soudan du Sud",
     nameEn: "south sudan",
     continent: "Afrique",
@@ -1499,6 +1677,7 @@ export const countries: Country[] = [
   },
   {
     id: "LKA",
+    idAlpha2: "LK",
     name: "Sri Lanka",
     nameEn: "sri lanka",
     continent: "Asie",
@@ -1507,6 +1686,7 @@ export const countries: Country[] = [
   },
   {
     id: "SDN",
+    idAlpha2: "SD",
     name: "Soudan",
     nameEn: "sudan",
     continent: "Afrique",
@@ -1515,6 +1695,7 @@ export const countries: Country[] = [
   },
   {
     id: "SUR",
+    idAlpha2: "SR",
     name: "Suriname",
     nameEn: "suriname",
     continent: "Amérique du Sud",
@@ -1523,6 +1704,7 @@ export const countries: Country[] = [
   },
   {
     id: "SWE",
+    idAlpha2: "SE",
     name: "Suède",
     nameEn: "sweden",
     continent: "Europe",
@@ -1531,6 +1713,7 @@ export const countries: Country[] = [
   },
   {
     id: "CHE",
+    idAlpha2: "CH",
     name: "Suisse",
     nameEn: "switzerland",
     continent: "Europe",
@@ -1539,6 +1722,7 @@ export const countries: Country[] = [
   },
   {
     id: "SYR",
+    idAlpha2: "SY",
     name: "Syrie",
     nameEn: "syria",
     continent: "Asie",
@@ -1547,6 +1731,7 @@ export const countries: Country[] = [
   },
   {
     id: "TWN",
+    idAlpha2: "TW",
     name: "Taïwan",
     nameEn: "taiwan",
     continent: "Asie",
@@ -1555,6 +1740,7 @@ export const countries: Country[] = [
   },
   {
     id: "TJK",
+    idAlpha2: "TJ",
     name: "Tadjikistan",
     nameEn: "tajikistan",
     continent: "Asie",
@@ -1563,6 +1749,7 @@ export const countries: Country[] = [
   },
   {
     id: "TZA",
+    idAlpha2: "TZ",
     name: "Tanzanie",
     nameEn: "tanzania",
     continent: "Afrique",
@@ -1571,6 +1758,7 @@ export const countries: Country[] = [
   },
   {
     id: "THA",
+    idAlpha2: "TH",
     name: "Thaïlande",
     nameEn: "thailand",
     continent: "Asie",
@@ -1579,6 +1767,7 @@ export const countries: Country[] = [
   },
   {
     id: "TGO",
+    idAlpha2: "TG",
     name: "Togo",
     nameEn: "togo",
     continent: "Afrique",
@@ -1587,6 +1776,7 @@ export const countries: Country[] = [
   },
   {
     id: "TON",
+    idAlpha2: "TO",
     name: "Tonga",
     nameEn: "tonga",
     continent: "Océanie",
@@ -1595,6 +1785,7 @@ export const countries: Country[] = [
   },
   {
     id: "TTO",
+    idAlpha2: "TT",
     name: "Trinité-et-Tobago",
     nameEn: "trinidad and tobago",
     continent: "Amérique du Nord",
@@ -1603,6 +1794,7 @@ export const countries: Country[] = [
   },
   {
     id: "TUN",
+    idAlpha2: "TN",
     name: "Tunisie",
     nameEn: "tunisia",
     continent: "Afrique",
@@ -1611,6 +1803,7 @@ export const countries: Country[] = [
   },
   {
     id: "TUR",
+    idAlpha2: "TR",
     name: "Turquie",
     nameEn: "turkey",
     continent: "Asie",
@@ -1619,6 +1812,7 @@ export const countries: Country[] = [
   },
   {
     id: "TKM",
+    idAlpha2: "TM",
     name: "Turkménistan",
     nameEn: "turkmenistan",
     continent: "Asie",
@@ -1627,6 +1821,7 @@ export const countries: Country[] = [
   },
   {
     id: "TUV",
+    idAlpha2: "TV",
     name: "Tuvalu",
     nameEn: "tuvalu",
     continent: "Océanie",
@@ -1635,6 +1830,7 @@ export const countries: Country[] = [
   },
   {
     id: "UGA",
+    idAlpha2: "UG",
     name: "Ouganda",
     nameEn: "uganda",
     continent: "Afrique",
@@ -1643,6 +1839,7 @@ export const countries: Country[] = [
   },
   {
     id: "UKR",
+    idAlpha2: "UA",
     name: "Ukraine",
     nameEn: "ukraine",
     continent: "Europe",
@@ -1651,6 +1848,7 @@ export const countries: Country[] = [
   },
   {
     id: "ARE",
+    idAlpha2: "AE",
     name: "Émirats Arabes Unis",
     nameEn: "united arab emirates",
     continent: "Asie",
@@ -1659,6 +1857,7 @@ export const countries: Country[] = [
   },
   {
     id: "URY",
+    idAlpha2: "UY",
     name: "Uruguay",
     nameEn: "uruguay",
     continent: "Amérique du Sud",
@@ -1667,6 +1866,7 @@ export const countries: Country[] = [
   },
   {
     id: "UZB",
+    idAlpha2: "UZ",
     name: "Ouzbékistan",
     nameEn: "uzbekistan",
     continent: "Asie",
@@ -1675,6 +1875,7 @@ export const countries: Country[] = [
   },
   {
     id: "VUT",
+    idAlpha2: "VU",
     name: "Vanuatu",
     nameEn: "vanuatu",
     continent: "Océanie",
@@ -1683,6 +1884,7 @@ export const countries: Country[] = [
   },
   {
     id: "VAT",
+    idAlpha2: "VA",
     name: "Vatican",
     nameEn: "vatican city",
     continent: "Europe",
@@ -1691,6 +1893,7 @@ export const countries: Country[] = [
   },
   {
     id: "VEN",
+    idAlpha2: "VE",
     name: "Venezuela",
     nameEn: "venezuela",
     continent: "Amérique du Sud",
@@ -1699,6 +1902,7 @@ export const countries: Country[] = [
   },
   {
     id: "VNM",
+    idAlpha2: "VN",
     name: "Vietnam",
     nameEn: "vietnam",
     continent: "Asie",
@@ -1707,6 +1911,7 @@ export const countries: Country[] = [
   },
   {
     id: "YEM",
+    idAlpha2: "YE",
     name: "Yémen",
     nameEn: "yemen",
     continent: "Asie",
@@ -1715,6 +1920,7 @@ export const countries: Country[] = [
   },
   {
     id: "ZMB",
+    idAlpha2: "ZM",
     name: "Zambie",
     nameEn: "zambia",
     continent: "Afrique",
@@ -1723,6 +1929,7 @@ export const countries: Country[] = [
   },
   {
     id: "ZWE",
+    idAlpha2: "ZW",
     name: "Zimbabwe",
     nameEn: "zimbabwe",
     continent: "Afrique",
