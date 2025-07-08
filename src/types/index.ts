@@ -20,7 +20,6 @@ export interface Country extends GeoEntity {}
 
 export interface RussianCity {
   id: string; // ISO 3166-1 alpha-3 code (e.g., 'FRA', 'USA')
-  idAlpha2: string; // ISO 3166-1 alpha-2 code (e.g., 'RU', 'US')
   name: string; // City name in French
   nameRu: string; // City name in Russian
   population: number; // Population
