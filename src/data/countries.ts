@@ -1055,7 +1055,7 @@ export const countries: Country[] = [
     capitalEn: "seoul",
   },
   {
-    id: "XKX",
+    id: "KOS",
     idAlpha2: "XK",
     name: "Kosovo",
     nameEn: "kosovo",
@@ -1100,7 +1100,7 @@ export const countries: Country[] = [
     capitalEn: "riga",
   },
   {
-    id: "LIB",
+    id: "LBN",
     idAlpha2: "LB",
     name: "Liban",
     nameEn: "lebanon",

@@ -230,7 +230,7 @@ export const useWorldCapitalsStore = defineStore("worldCapitals", {
       baseStore.setMessage({
         component: SkipToast,
         props: {
-          prefix: "C'était : ",
+          prefix: "Passé. C'était : ",
           departmentName: countryBeingSkipped.name,
         },
       });

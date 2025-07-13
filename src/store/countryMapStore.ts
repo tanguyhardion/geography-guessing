@@ -139,7 +139,7 @@ export const useCountryMapStore = defineStore("countryMap", {
       baseStore.recordCorrectGuess();
 
       this.countryStatus[country.id] = "correct";
-      baseStore.setMessage(`Correct ! C'est bien ${country.name}.`);
+      baseStore.setMessage(`Correct !`);
       this.removeCountryFromAvailable(country.id);
       this.scheduleNextQuestion();
     },

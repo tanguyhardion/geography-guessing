@@ -187,6 +187,7 @@ export const useAppGameStore = defineStore("appGame", {
       // Handle initialization for non-department modes
       if (mode === "guessWorldCapitals") {
         const worldCapitalsStore = useWorldCapitalsStore();
+        worldCapitalsStore.setReverseCapitalsMode(false);
         worldCapitalsStore.initializeGame();
       } else if (mode === "guessCountryFromCapital") {
         const worldCapitalsStore = useWorldCapitalsStore();
