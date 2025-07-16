@@ -75,11 +75,13 @@
               @keydown.enter="handleFlagGuess(country.id)"
               :aria-label="`Choisir le drapeau de ${country.name}`"
             >
-              <img
-                :src="getFlagUrl(country.idAlpha2)"
-                :alt="`Drapeau de ${country.name}`"
-                class="flag-list-image"
-              />
+              <span class="flag-list-image-container">
+                <img
+                  :src="getFlagUrl(country.idAlpha2)"
+                  :alt="`Drapeau de ${country.name}`"
+                  class="flag-list-image"
+                />
+              </span>
             </li>
           </ul>
         </div>
@@ -253,11 +255,37 @@ function restartGameAndEmit() {
   background-color: var(--success-dark);
   cursor: not-allowed;
 }
+
+.flag-list-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 36px;
+  aspect-ratio: 3/2;
+  background: transparent;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
 .flag-list-image {
-  width: 48px;
-  height: 32px;
+  max-width: 48px;
+  max-height: 32px;
+  width: auto;
+  height: auto;
   object-fit: contain;
   background: transparent;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: box-shadow 0.2s, border 0.2s;
+  display: block;
+}
+
+.flag-list-item:hover .flag-list-image,
+.flag-list-item:focus .flag-list-image {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+  border: 2px solid #e0e0e0;
 }
 
 .country-question-area {
