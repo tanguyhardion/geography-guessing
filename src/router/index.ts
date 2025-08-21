@@ -3,11 +3,13 @@ import type { RouteRecordRaw } from "vue-router";
 import HomePage from "../pages/HomePage.vue";
 import GamePage from "../pages/GamePage.vue";
 import StatsPage from "../pages/StatsPage.vue";
+import QuizDemoPage from "../pages/QuizDemoPage.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", component: HomePage },
   { path: "/game", name: "Game", component: GamePage },
   { path: "/stats", name: "Stats", component: StatsPage },
+  { path: "/quiz-demo", name: "QuizDemo", component: QuizDemoPage },
 ];
 
 

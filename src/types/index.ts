@@ -84,3 +84,11 @@ export interface FrenchChefLieuStatus {
 export interface RussianOblastStatus {
   [oblastId: string]: "correct" | "default";
 }
+
+export interface QuizItem {
+  question: string;
+  answer: string;
+  contextLarge: string;  // Large, multi-paragraph, contains the answer
+  contextMedium: string; // Smaller, but still contains the answer
+  contextSmall: string;  // One paragraph, concise, contains the answer
+}
