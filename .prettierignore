@@ -1,0 +1,4 @@
+dist
+package-lock.json
+# Minified map data: reformatting it doubles its size
+public/oblasts.json

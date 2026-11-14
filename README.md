@@ -27,12 +27,14 @@ A Vue.js geography learning application with interactive game modes to test your
 
 ## Features
 
-- Interactive maps with Leaflet.js
-- Real-time scoring and progress tracking
+- Interactive maps with Leaflet.js, drawn from GeoJSON (no third-party tile service)
+- Live timer, accuracy and progress tracking
 - Fuzzy string matching for typo forgiveness
-- Continent-based filtering for flags
-- Color-coded feedback system
-- Responsive design for desktop and mobile
+- Continent-based filtering for flags, capitals and the world map
+- Color-coded feedback, with the answer shown when a question is skipped
+- Personal statistics and best times, stored in the browser
+- Light and dark themes, responsive from phone to desktop
+- Shareable, refresh-safe URLs for every game mode
 
 ## Tech Stack
 
@@ -42,6 +44,13 @@ A Vue.js geography learning application with interactive game modes to test your
 - **Vite** for build tooling
 - **SASS** for styling
 
+## Architecture
+
+Every game mode is a data entry in `src/game/modes.ts`; a single Pinia store
+(`src/store/game.ts`) runs the round, and four small boards in
+`src/components/boards/` render the play area (map, typed answer, flag grid,
+number grid). Adding a mode usually means adding one entry to `MODES`.
+
 ## Live Demo
 
 **🔗 [Access the Geography Quiz](https://tanguyhardion.github.io/geography-guessing/)**
@@ -50,7 +59,7 @@ A Vue.js geography learning application with interactive game modes to test your
 
 ```bash
 # Clone and install
-git clone https://github.com/your-username/geography-guessing.git
+git clone https://github.com/tanguyhardion/geography-guessing.git
 cd geography-guessing
 npm install
 
@@ -59,10 +68,14 @@ npm run dev
 
 # Build
 npm run build
-
-# Deploy
-npm run deploy
 ```
+
+Deployment is automatic: pushing to `main` builds the site and publishes it to
+GitHub Pages. Pull requests are built but not deployed.
+
+The optional `VITE_FIREBASE_*` variables (see `src/utils/firebase.ts`) enable
+an anonymous usage log of finished games in production builds. Without them the
+app works the same; player statistics are always kept in the browser.
 
 ---
 

@@ -5,53 +5,39 @@ export interface Department {
 }
 
 export interface GeoEntity {
-  id: string; // ISO 3166-1 alpha-3 code e.g., 'FRA', 'USA'
-  idAlpha2: string; // ISO 3166-1 alpha-2 code e.g., 'FR', 'US'
+  id: string; // Natural Earth ADM0_A3 code (mostly ISO 3166-1 alpha-3), e.g. 'FRA'
+  idAlpha2: string; // ISO 3166-1 alpha-2 code e.g., 'FR', used for flag images
   name: string; // Name in French
-  nameEn: string; // Name in English for API calls
-  continent: string; // Continent e.g., 'Europe', 'Asie'
-  capital: string; // Capital city name
-  capitalEn: string; // Capital city name in English for API calls
+  nameEn: string; // Name in English (accepted as an answer too)
+  continent: Continent;
+  capital: string; // Capital city name in French
+  capitalEn: string; // Capital city name in English (accepted as an answer too)
 }
 
-export interface SovereignState extends GeoEntity {}
-
-export interface Country extends GeoEntity {}
+export type SovereignState = GeoEntity;
+export type Country = GeoEntity;
 
 export interface RussianCity {
-  id: string; // ISO 3166-1 alpha-3 code (e.g., 'FRA', 'USA')
+  id: string;
   name: string; // City name in French
   nameRu: string; // City name in Russian
-  population: number; // Population
-  lat: number; // Latitude
-  lng: number; // Longitude
+  population: number;
+  lat: number;
+  lng: number;
 }
 
 export interface FrenchChefLieu {
   id: string; // Department ID e.g., '01', '2A', '971'
-  name: string; // Chef-lieu name
-  lat: number; // Latitude
-  lng: number; // Longitude
+  name: string;
+  lat: number;
+  lng: number;
 }
 
 export interface RussianOblast {
-  id: string; // Oblast ID (e.g., 'RUAL', 'RUPSK')
-  name: string; // Oblast name in English
-  nameRu?: string; // Oblast name in Russian (if available)
+  id: string; // ISO 3166-2 code, e.g. 'RU-AL'
+  name: string; // Name in English
+  nameRu?: string; // Name in Russian
 }
-
-export type GameMode =
-  | "guessChefLieu"
-  | "guessDepartmentName"
-  | "guessBoth"
-  | "guessFlags"
-  | "guessMapLocation"
-  | "guessCountryMapLocation"
-  | "guessRussianCities"
-  | "guessRussianOblasts"
-  | "guessFrenchChefLieux"
-  | "guessWorldCapitals"
-  | "guessCountryFromCapital";
 
 export type Continent =
   | "Europe"
@@ -61,26 +47,15 @@ export type Continent =
   | "Amérique du Sud"
   | "Océanie";
 
-export interface DepartmentStatus {
-  [departmentId: string]:
-    | "correctChefLieu"
-    | "correctName"
-    | "correctBoth"
-    | "default";
-}
+export type ContinentFilter = Continent | "all";
 
-export interface CountryStatus {
-  [countryId: string]: "correct" | "default";
-}
-
-export interface RussianCityStatus {
-  [cityId: string]: "correct" | "default";
-}
-
-export interface FrenchChefLieuStatus {
-  [chefLieuId: string]: "correct" | "default";
-}
-
-export interface RussianOblastStatus {
-  [oblastId: string]: "correct" | "default";
+/** One finished game, as stored in the local history. */
+export interface GameResult {
+  modeId: string;
+  modeName: string;
+  continent: ContinentFilter;
+  completedAt: string; // ISO date
+  totalTime: number; // seconds
+  finalScore: number; // correct answers
+  accuracy: number; // 0-100
 }

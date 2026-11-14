@@ -164,15 +164,6 @@ export const countries: Country[] = [
     capitalEn: "stanley",
   },
   {
-    id: "GIB",
-    idAlpha2: "GI",
-    name: "Gibraltar",
-    nameEn: "gibraltar",
-    continent: "Europe",
-    capital: "Gibraltar",
-    capitalEn: "gibraltar",
-  },
-  {
     id: "GUM",
     idAlpha2: "GU",
     name: "Guam",
@@ -254,7 +245,7 @@ export const countries: Country[] = [
     capitalEn: "douglas",
   },
   {
-    id: "ALA",
+    id: "ALD", // Natural Earth ADM0_A3 code (ISO: ALA)
     idAlpha2: "AX",
     name: "Åland",
     nameEn: "aland islands",
@@ -1658,7 +1649,7 @@ export const countries: Country[] = [
     capitalEn: "mogadishu",
   },
   {
-    id: "SOM",
+    id: "SOL", // Natural Earth ADM0_A3 code
     idAlpha2: "SO", // Somaliland uses same ISO code as Somalia
     name: "Somaliland",
     nameEn: "somaliland",
@@ -1667,7 +1658,7 @@ export const countries: Country[] = [
     capitalEn: "hargeisa",
   },
   {
-    id: "SSD",
+    id: "SDS", // Natural Earth ADM0_A3 code (ISO: SSD)
     idAlpha2: "SS",
     name: "Soudan du Sud",
     nameEn: "south sudan",
@@ -1935,5 +1926,14 @@ export const countries: Country[] = [
     continent: "Afrique",
     capital: "Harare",
     capitalEn: "harare",
+  },
+  {
+    id: "CIV",
+    idAlpha2: "CI",
+    name: "Côte d'Ivoire",
+    nameEn: "ivory coast",
+    continent: "Afrique",
+    capital: "Yamoussoukro",
+    capitalEn: "yamoussoukro",
   },
 ];
