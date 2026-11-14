@@ -197,7 +197,7 @@ export const russianCities: RussianCity[] = [
   {
     id: "yaroslavl",
     name: "Iaroslavl",
-    nameRu: "Ярoslavль",
+    nameRu: "Ярославль",
     population: 608353,
     lat: 57.6261,
     lng: 39.8845,

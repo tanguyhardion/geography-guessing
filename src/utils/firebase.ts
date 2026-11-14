@@ -11,6 +11,8 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+// This module is only ever loaded lazily, and only when a project id is set
+// (see completionLogger.ts), so the Firebase SDK stays out of the main bundle.
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
 

@@ -1,617 +1,398 @@
 <template>
-  <div class="homepage">
-    <div class="stats-icon" @click="goToStats" title="Voir les statistiques">
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="var(--primary-color)"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="3" y="12" width="3.5" height="8" rx="1.2" />
-        <rect x="9.25" y="8" width="3.5" height="12" rx="1.2" />
-        <rect x="15.5" y="4" width="3.5" height="16" rx="1.2" />
-      </svg>
-    </div>
-    <h1>Quiz Géographique</h1>
-    <span class="mobile-title-spacer"></span>
-    <div class="game-selector">
-      <div
-        class="game-type"
-        :class="{ active: selectedGame === 'map' }"
-        @click="selectedGame = 'map'"
-        :key="
-          selectedGame === 'map'
-            ? 'map-active-' + animationKeySuffix
-            : 'map-inactive'
-        "
-      >
-        <h2>Géographie Interactive</h2>
-        <p>Cartes interactives pour apprendre la géographie</p>
+  <div class="home">
+    <header class="masthead">
+      <div class="masthead-top">
+        <p class="eyebrow">Atlas de poche</p>
+        <RouterLink :to="{ name: 'Stats' }" class="btn stats-link">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 20v-7M12 20V5M19 20v-10"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            />
+          </svg>
+          Statistiques
+        </RouterLink>
       </div>
-
-      <div
-        class="game-type"
-        :class="{ active: selectedGame === 'departments' }"
-        @click="selectedGame = 'departments'"
-        :key="
-          selectedGame === 'departments'
-            ? 'departments-active-' + animationKeySuffix
-            : 'departments-inactive'
-        "
-      >
-        <h2>Départements Français</h2>
-        <p>Teste tes connaissances sur les départements français</p>
-      </div>
-
-      <div
-        class="game-type"
-        :class="{ active: selectedGame === 'flags' }"
-        @click="selectedGame = 'flags'"
-        :key="
-          selectedGame === 'flags'
-            ? 'flags-active-' + animationKeySuffix
-            : 'flags-inactive'
-        "
-      >
-        <h2>Pays du Monde</h2>
-        <p>Devine les drapeaux et capitales des pays du monde</p>
-      </div>
-    </div>
-    <div v-if="selectedGame === 'departments'" class="mode-buttons">
-      <h3>Mode de jeu:</h3>
-      <button v-click-animate @click="startGame('guessChefLieu')">
-        Numéro à partir du chef-lieu
-      </button>
-      <button v-click-animate @click="startGame('guessDepartmentName')">
-        Numéro à partir du nom
-      </button>
-      <button v-click-animate @click="startGame('guessBoth')">
-        Numéro à partir du nom ou du chef-lieu
-      </button>
-    </div>
-    <div
-      v-else-if="selectedGame === 'map' && !showCountryMapContinentSelection"
-      class="mode-buttons"
-    >
-      <h3>Mode de jeu:</h3>
-      <button v-click-animate @click="startGame('guessMapLocation')">
-        Départements français
-      </button>
-      <button v-click-animate @click="startGame('guessFrenchChefLieux')">
-        Chef-lieux français
-      </button>
-      <button v-click-animate @click="selectCountryMapMode()">
-        Pays du monde
-      </button>
-      <button v-click-animate @click="startGame('guessRussianCities')">
-        Villes de Russie
-      </button>
-      <button v-click-animate @click="startGame('guessRussianOblasts')">
-        Oblasts de Russie
-      </button>
-    </div>
-    <div
-      v-else-if="selectedGame === 'map' && showCountryMapContinentSelection"
-      class="continent-selection"
-    >
-      <h3>Continent :</h3>
-      <div class="continent-buttons">
-        <button
-          v-click-animate
-          @click="selectCountryMapContinent('all')"
-          class="continent-button all-continents"
-        >
-          Tous les continents
-        </button>
-        <button
-          v-click-animate
-          v-for="continent in availableContinents"
-          :key="continent"
-          @click="selectCountryMapContinent(continent as Continent)"
-          class="continent-button"
-        >
-          {{ continent }}
-        </button>
-      </div>
-      <button v-click-animate @click="goBackFromCountryMap" class="back-button">
-        Retour
-      </button>
-    </div>
-    <div
-      v-else-if="selectedGame === 'flags' && !showContinentSelection"
-      class="mode-buttons"
-    >
-      <h3>Mode de jeu:</h3>
-      <button v-click-animate @click="selectFlagMode('normal')">
-        Pays depuis le drapeau
-      </button>
-      <button v-click-animate @click="selectFlagMode('reverse')">
-        Drapeau depuis le pays
-      </button>
-      <button v-click-animate @click="selectFlagMode('capitals')">
-        Pays depuis la capitale
-      </button>
-      <button v-click-animate @click="selectFlagMode('reverseCapitals')">
-        Capitale depuis le pays
-      </button>
-    </div>
-    <div
-      v-else-if="selectedGame === 'flags' && showContinentSelection"
-      class="continent-selection"
-    >
-      <h3>Continent :</h3>
-      <div class="continent-buttons">
-        <button
-          v-click-animate
-          @click="selectContinent('all')"
-          class="continent-button all-continents"
-        >
-          Tous les continents
-        </button>
-        <button
-          v-click-animate
-          v-for="continent in availableContinents"
-          :key="continent"
-          @click="selectContinent(continent as Continent)"
-          class="continent-button"
-        >
-          {{ continent }}
-        </button>
-      </div>
-      <button v-click-animate @click="goBack" class="back-button">
-        Retour
-      </button>
-    </div>
-
-    <!-- Footer with credits -->
-    <footer class="page-footer">
-      <p class="made-by">
-        Made with ❤️ by
-        <a
-          href="https://linkedin.com/in/tanguy-hardion"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="creator-link"
-        >
-          Tanguy Hardion
-        </a>
+      <h1>Quiz Géographique</h1>
+      <p class="lede">
+        Cartes, drapeaux, capitales et départements : douze façons de réviser la
+        géographie, à ton rythme.
       </p>
+    </header>
+
+    <main>
+      <section
+        v-for="category in categories"
+        :key="category.id"
+        class="category"
+        :aria-labelledby="`cat-${category.id}`"
+      >
+        <div class="category-head">
+          <h2 :id="`cat-${category.id}`">{{ category.title }}</h2>
+          <p>{{ category.blurb }}</p>
+        </div>
+
+        <ul class="modes">
+          <li
+            v-for="mode in category.modes"
+            :key="mode.id"
+            class="mode"
+            :class="{ open: openMode === mode.id }"
+          >
+            <component
+              :is="mode.continents ? 'button' : RouterLink"
+              v-bind="
+                mode.continents
+                  ? { type: 'button', 'aria-expanded': openMode === mode.id }
+                  : { to: { name: 'Game', params: { modeId: mode.id } } }
+              "
+              class="mode-main"
+              @click="mode.continents && toggle(mode.id)"
+            >
+              <span class="mode-text">
+                <span class="mode-title">{{ mode.title }}</span>
+                <span class="mode-blurb">{{ mode.blurb }}</span>
+              </span>
+              <span class="mode-meta">
+                <span class="tabular">{{ mode.count }} {{ mode.unit }}</span>
+                <span v-if="mode.best !== undefined" class="best tabular">
+                  Record {{ formatClock(mode.best) }}
+                </span>
+              </span>
+              <svg
+                class="chevron"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9 5l7 7-7 7"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </component>
+
+            <div
+              v-if="mode.continents && openMode === mode.id"
+              class="continents"
+            >
+              <p>Choisis une zone :</p>
+              <div class="chips">
+                <RouterLink
+                  :to="{ name: 'Game', params: { modeId: mode.id } }"
+                  class="chip chip-all"
+                >
+                  Monde entier
+                </RouterLink>
+                <RouterLink
+                  v-for="continent in CONTINENTS"
+                  :key="continent"
+                  :to="{
+                    name: 'Game',
+                    params: { modeId: mode.id },
+                    query: { continent },
+                  }"
+                  class="chip"
+                >
+                  {{ continent }}
+                </RouterLink>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Fait avec ❤️ par
+      <a
+        href="https://linkedin.com/in/tanguy-hardion"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Tanguy Hardion
+      </a>
     </footer>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { useAppGameStore } from "../store/gameStoreAdapter";
-import { useRouter } from "vue-router";
-import type { GameMode, Continent } from "../types";
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
+import { CATEGORIES, CONTINENTS, MODES } from "../game/modes";
+import { bestTimes, loadHistory } from "../utils/statsStorage";
+import { formatClock } from "../utils/stringUtils";
 
-const emit = defineEmits(["mode-selected"]);
-const appGameStore = useAppGameStore();
-const router = useRouter();
-const selectedGame = ref<"departments" | "flags" | "map">(
-  appGameStore.selectedGameType,
-);
-const animationKeySuffix = ref(0);
-const selectedFlagMode = ref<
-  "normal" | "reverse" | "capitals" | "reverseCapitals" | null
->(null);
-const showContinentSelection = ref(false);
-const showCountryMapContinentSelection = ref(false);
+const records = bestTimes(loadHistory());
 
-const availableContinents = computed(() => appGameStore.availableContinents);
+const categories = CATEGORIES.map((category) => ({
+  ...category,
+  modes: MODES.filter((mode) => mode.category === category.id).map((mode) => ({
+    ...mode,
+    count: mode.build("all").questions.length,
+    best: records[mode.id] as number | undefined,
+  })),
+}));
 
-// Watch for changes in selectedGame and save to store
-watch(selectedGame, (newGameType, oldGameType) => {
-  appGameStore.setSelectedGameType(newGameType);
-  if (newGameType !== oldGameType) {
-    animationKeySuffix.value++; // Increment key suffix to force re-render
-  }
-});
-
-const selectFlagMode = (
-  mode: "normal" | "reverse" | "capitals" | "reverseCapitals",
-) => {
-  selectedFlagMode.value = mode;
-  showContinentSelection.value = true;
-};
-
-const selectContinent = (continent: Continent | "all") => {
-  appGameStore.setSelectedContinent(continent);
-
-  if (selectedFlagMode.value === "normal") {
-    startGame("guessFlags");
-  } else if (selectedFlagMode.value === "reverse") {
-    startReverseFlagMode();
-  } else if (selectedFlagMode.value === "capitals") {
-    startCapitalsMode();
-  } else if (selectedFlagMode.value === "reverseCapitals") {
-    startReverseCapitalsMode();
-  }
-};
-
-const goBack = () => {
-  showContinentSelection.value = false;
-  selectedFlagMode.value = null;
-};
-
-const startGame = (mode: GameMode) => {
-  appGameStore.setReverseFlagMode(false);
-  appGameStore.setGameMode(mode);
-  router.push({ name: "Game" });
-};
-
-const startReverseFlagMode = () => {
-  appGameStore.setReverseFlagMode(true);
-  appGameStore.setGameMode("guessFlags");
-  router.push({ name: "Game" });
-};
-
-const startCapitalsMode = () => {
-  appGameStore.setReverseFlagMode(false);
-  appGameStore.setGameMode("guessWorldCapitals");
-  router.push({ name: "Game" });
-};
-
-const startReverseCapitalsMode = () => {
-  appGameStore.setReverseFlagMode(false);
-  appGameStore.setGameMode("guessCountryFromCapital");
-  router.push({ name: "Game" });
-};
-
-const selectCountryMapMode = () => {
-  showCountryMapContinentSelection.value = true;
-};
-
-const selectCountryMapContinent = (continent: Continent | "all") => {
-  appGameStore.setSelectedContinent(continent);
-  startGame("guessCountryMapLocation");
-};
-
-const goBackFromCountryMap = () => {
-  showCountryMapContinentSelection.value = false;
-};
-
-function goToStats() {
-  router.push({ name: "Stats" });
+const openMode = ref<string | null>(null);
+function toggle(id: string) {
+  openMode.value = openMode.value === id ? null : id;
 }
 </script>
 
 <style scoped lang="scss">
-.homepage {
+.home {
+  width: min(1040px, 100%);
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 28px 20px 24px;
   display: flex;
   flex-direction: column;
+}
+
+.masthead {
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.masthead-top {
+  display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 24px;
-  background-color: var(--background-light);
-  width: 100%;
-  flex: 1;
-  overflow-x: hidden;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stats-link {
+  min-height: 38px;
+  font-size: 0.92rem;
 }
 
 h1 {
-  margin-bottom: 30px;
-  font-size: 2.2em;
-  background: linear-gradient(
-    -45deg,
-    #3b82f6,
-    #6366f1,
-    #8b5cf6,
-    #a855f7,
-    #c084fc,
-    #60a5fa,
-    #3b82f6,
-    #6366f1
-  );
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-  animation: gradientMove 4s ease-in-out infinite;
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-h2 {
-  margin-bottom: 12px;
-  font-size: 1.5em;
-  color: var(--text-primary);
+  font-size: clamp(2.4rem, 1.4rem + 5vw, 4.2rem);
   font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
-h3 {
-  margin-bottom: 20px;
-  font-size: 1.3em;
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-.game-selector {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 35px;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.game-type {
-  width: 220px;
-  max-width: 100%;
-  padding: 20px;
-  border: 3px solid transparent;
-  border-radius: 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: var(--transition-default);
-  background-color: var(--background-off);
-  box-shadow: var(--card-shadow);
-  position: relative;
-  overflow: hidden;
-  flex: 1;
-  min-width: 200px;
-}
-
-.game-type:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.game-type.active {
-  background-color: #e8f0fe;
-  border: 3px solid var(--primary-color);
-}
-
-.game-type p {
-  color: var(--text-secondary);
-  font-size: 0.95em;
+.lede {
+  max-width: 34rem;
   margin-top: 12px;
-  line-height: 1.4;
+  color: var(--ink-2);
+  font-size: 1.1rem;
 }
 
-.mode-buttons {
+.category {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 3fr;
+  gap: 16px 32px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.category-head {
+  h2 {
+    font-size: 1.45rem;
+  }
+
+  p {
+    margin-top: 6px;
+    color: var(--ink-2);
+    font-size: 0.95rem;
+  }
+}
+
+.modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  align-items: start;
+  list-style: none;
+}
+
+.mode {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover,
+  &.open {
+    border-color: var(--accent);
+  }
+
+  &:hover:not(.open) {
+    transform: translateY(-2px);
+  }
+
+  &.open {
+    grid-column: 1 / -1;
+  }
+}
+
+.mode-main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "text chevron"
+    "meta chevron";
+  align-items: center;
+  gap: 10px 12px;
+  width: 100%;
+  padding: 16px 14px 14px 18px;
+  border-radius: var(--radius);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+
+.mode-text {
+  grid-area: text;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: 10px;
+  gap: 2px;
 }
 
-.mode-buttons button {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  font-size: 1.1em;
-  margin: 8px 0;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: var(--transition-default);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+.mode-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.mode-buttons button:hover {
-  background-color: var(--primary-light);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+.mode-blurb {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.35;
 }
 
-.mode-buttons button:active {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.continent-selection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.continent-buttons {
+.mode-meta {
+  grid-area: meta;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
-  width: 100%;
-}
-
-.continent-button {
-  padding: 12px 20px;
-  font-size: 1em;
-  background-color: var(--secondary-color);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: var(--transition-default);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  min-width: 140px;
-  flex: 1;
-  text-align: center;
-}
-
-.continent-button:hover {
-  background-color: var(--secondary-dark);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.continent-button.all-continents {
-  background-color: var(--primary-color);
+  gap: 4px 12px;
+  color: var(--ink-2);
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
-.continent-button.all-continents:hover {
-  background-color: var(--primary-light);
+.best {
+  color: var(--ok);
 }
 
-.back-button {
-  padding: 10px 20px;
-  font-size: 0.95em;
-  background-color: var(--border-color);
-  color: var(--text-primary);
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  transition: var(--transition-default);
+.chevron {
+  grid-area: chevron;
+  color: var(--ink-2);
+  transition: transform 0.15s ease;
+
+  .mode:hover & {
+    color: var(--accent);
+  }
+
+  .open & {
+    transform: rotate(90deg);
+  }
 }
 
-.stats-icon {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  background: var(--background-light);
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  padding: 8px;
-  cursor: pointer;
-  transition:
-    box-shadow 0.2s,
-    background 0.2s;
-  z-index: 10;
+.continents {
+  padding: 0 18px 16px;
+
+  p {
+    margin-bottom: 8px;
+    color: var(--ink-2);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+}
+
+.chips {
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-}
-
-.stats-icon:hover {
-  background: var(--background-off);
-  box-shadow: 0 4px 16px rgba(80, 80, 180, 0.13);
-}
-
-.page-footer {
-  margin-top: auto;
-  padding: 20px 24px 16px;
-  width: 100%;
-  text-align: center;
-  background-color: var(--background-light);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.made-by {
-  font-size: 0.85em;
-  color: var(--text-secondary);
-  margin: 0;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-}
-
-.made-by:hover {
-  opacity: 1;
-}
-
-.creator-link {
-  color: var(--primary-color);
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: 500;
-  transition: var(--transition-default);
-}
 
-.creator-link:hover {
-  color: var(--primary-dark);
-  text-decoration: underline;
-}
-
-/* Responsive adjustments for mobile */
-@media (max-width: 768px) {
-  .homepage {
-    padding: 16px;
-  }
-
-  .page-footer {
-    padding: 16px;
-  }
-
-  .game-selector {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .game-type {
-    width: 100%;
-    margin-bottom: 0;
-    min-width: unset;
-  }
-
-  h1 {
-    font-size: 1.8em;
-    margin-bottom: 25px;
-  }
-  .mode-buttons button {
-    width: 100%;
-    font-size: 1em;
-  }
-
-  .continent-buttons {
-    gap: 8px;
-  }
-  .continent-button {
-    min-width: 120px;
-    padding: 10px 16px;
-    font-size: 0.9em;
-    flex: 1 1 calc(50% - 6px);
+  &:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
   }
 }
 
-@media (max-width: 600px) {
-  h1 {
-    font-size: 1.6em;
-    margin: 12px 0;
-  }
-  .game-selector {
-    margin-bottom: 28px;
-  }
-  .mobile-title-spacer {
-    height: 18vw;
-    max-height: 38px;
-    min-height: 18px;
-    width: 100%;
-    display: block;
+.chip-all {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+
+  &:hover {
+    background: var(--accent);
+    filter: brightness(1.08);
   }
 }
 
-@media (max-width: 480px) {
-  .homepage {
-    padding: 12px;
+.footer {
+  margin-top: auto;
+  padding-top: 24px;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  text-align: center;
+
+  a {
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .home {
+    padding: 20px 16px;
   }
 
-  .page-footer {
-    padding: 12px;
+  .category {
+    grid-template-columns: 1fr;
+    padding: 22px 0;
   }
 
-  h1 {
-    font-size: 1.6em;
-    margin-bottom: 20px;
-  }
-
-  .game-type {
-    padding: 16px;
-  }
-  h2 {
-    font-size: 1.3em;
-  }
-  .continent-button {
-    min-width: 100px;
-    padding: 8px 12px;
-    font-size: 0.85em;
-    flex: 1 1 calc(50% - 4px);
+  .modes {
+    grid-template-columns: 1fr;
   }
 }
 </style>

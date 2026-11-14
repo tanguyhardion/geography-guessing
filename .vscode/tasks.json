@@ -39,16 +39,6 @@
       "args": []
     },
     {
-      "label": "Deploy",
-      "type": "shell",
-      "command": "npm run deploy",
-      "group": "build",
-      "isBackground": false,
-      "problemMatcher": [],
-      "args": [],
-      "dependsOn": "Build"
-    },
-    {
       "label": "Install Dependencies",
       "type": "shell",
       "command": "npm install",
