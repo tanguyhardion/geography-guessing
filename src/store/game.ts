@@ -16,8 +16,12 @@ import { logGameCompletion } from "../utils/completionLogger";
 const NEXT_QUESTION_DELAY = 800;
 /** How long a wrong click / revealed answer stays highlighted on the board. */
 const FLASH_DURATION = 1400;
-/** Wrong typed answers before the first letter is given away. */
-const HINT_THRESHOLD = 3;
+/** Wrong guesses on a question before the hint button appears. */
+export const HINT_THRESHOLD = 3;
+/** Wrong guesses on a question before the answer is shown. */
+export const REVEAL_THRESHOLD = 6;
+/** Share of the other flags greyed out by a flag-grid hint. */
+const FLAG_HINT_EXCLUDE_RATIO = 0.6;
 
 export type FeedbackKind = "success" | "error" | "hint" | "skip";
 export interface Feedback {
@@ -32,6 +36,31 @@ export interface Flash {
   kind: "wrong" | "reveal";
 }
 export type ChoiceStatus = "partial" | "done";
+
+/** A hint for the current question. Boards add their own visual part. */
+export interface Hint {
+  text: string;
+  /** Answer with every letter but the first masked, for typed answers. */
+  pattern?: string;
+}
+
+/** "Bosnie-Herzégovine" -> "B•••••-••••••••••": keeps spaces and punctuation. */
+function maskAnswer(answer: string): string {
+  return [...answer]
+    .map((char, index) =>
+      index === 0 || !/\p{L}|\p{N}/u.test(char) ? char : "•",
+    )
+    .join("");
+}
+
+function shuffled<T>(list: T[]): T[] {
+  const copy = [...list];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
 
 export const useGameStore = defineStore("game", () => {
   const mode = shallowRef<ModeDef | null>(null);
@@ -53,6 +82,13 @@ export const useGameStore = defineStore("game", () => {
   const feedback = ref<Feedback | null>(null);
   const flash = ref<Flash | null>(null);
 
+  /** Hint taken for the current question, if any. */
+  const hint = shallowRef<Hint | null>(null);
+  /** Choices ruled out by the hint (grid boards grey them out). */
+  const excluded = shallowRef<ReadonlySet<string>>(new Set());
+  /** The answer to the current question is being shown. */
+  const revealed = ref(false);
+
   // Non-reactive bookkeeping.
   let choiceById = new Map<string, Choice>();
   let rivals = new Set<string>();
@@ -71,6 +107,24 @@ export const useGameStore = defineStore("game", () => {
   );
   const mistakes = computed(() => totalGuesses.value - correctGuesses.value);
   const clock = computed(() => formatClock(elapsed.value));
+  const hintAvailable = computed(
+    () =>
+      !!current.value &&
+      !locked.value &&
+      !revealed.value &&
+      !hint.value &&
+      attempts.value >= HINT_THRESHOLD,
+  );
+  /** Wrong guesses left before the answer is shown. */
+  const triesBeforeReveal = computed(() =>
+    Math.max(REVEAL_THRESHOLD - attempts.value, 0),
+  );
+  /** Name of the current answer, as shown once it is revealed. */
+  const answerLabel = computed(() => {
+    const question = current.value;
+    if (!question) return "";
+    return question.answers?.[0] ?? choiceLabel(question.targetId) ?? "";
+  });
   const promptText = computed(() => {
     const question = current.value;
     if (!question) return "";
@@ -133,12 +187,20 @@ export const useGameStore = defineStore("game", () => {
     const candidates =
       pool.length > 1 ? pool.filter((q) => q.key !== previousKey) : pool;
     current.value = candidates[Math.floor(Math.random() * candidates.length)];
-    attempts.value = 0;
+    resetHelp();
     locked.value = false;
+  }
+
+  function resetHelp() {
+    attempts.value = 0;
+    hint.value = null;
+    excluded.value = new Set();
+    revealed.value = false;
   }
 
   function finish() {
     stopClock();
+    resetHelp();
     elapsed.value = Math.floor((Date.now() - startedAt) / 1000);
     current.value = null;
     locked.value = false;
@@ -189,6 +251,7 @@ export const useGameStore = defineStore("game", () => {
     correctGuesses.value = 0;
     complete.value = false;
     current.value = null;
+    resetHelp();
 
     if (questions.length === 0) return;
     pickNext();
@@ -220,6 +283,12 @@ export const useGameStore = defineStore("game", () => {
     const question = current.value;
     if (!question || locked.value) return;
     if (status.value[id] === "done") return; // already found: not a guess
+    if (excluded.value.has(id)) return; // ruled out by the hint
+    if (revealed.value) {
+      // Only the shown answer does something: it moves on.
+      if (id === question.targetId) moveOn();
+      return;
+    }
 
     if (id === question.targetId) {
       acceptCorrect(question, "Correct !");
@@ -227,10 +296,11 @@ export const useGameStore = defineStore("game", () => {
     }
     totalGuesses.value++;
     attempts.value++;
+    setFlash({ id, kind: "wrong" });
+    if (maybeReveal()) return;
     const label = choiceLabel(id);
     if (label) say("error", "Incorrect : tu as cliqué sur", label);
     else say("error", "Incorrect. Essaie encore ou passe.");
-    setFlash({ id, kind: "wrong" });
   }
 
   /** Guess by typing. Returns whether the answer was accepted. */
@@ -241,30 +311,110 @@ export const useGameStore = defineStore("game", () => {
     }
     const ownAnswers = new Set(question.answers.map(normalizeString));
     const others = new Set([...rivals].filter((r) => !ownAnswers.has(r)));
+    const matches = isAnswerMatch(text, question.answers, others);
 
-    if (isAnswerMatch(text, question.answers, others)) {
+    if (revealed.value) {
+      // Typing the shown answer is a way to move on; it does not score.
+      if (matches) moveOn();
+      return matches;
+    }
+    if (matches) {
       acceptCorrect(question, `Correct ! C'est bien ${question.answers[0]}.`);
       return true;
     }
     totalGuesses.value++;
     attempts.value++;
-    if (attempts.value >= HINT_THRESHOLD) {
-      const noun = question.answerNoun ?? "La réponse";
-      say(
-        "hint",
-        `Indice : ${noun.toLowerCase()} commence par`,
-        question.answers[0].charAt(0),
-      );
-    } else {
-      say("error", "Incorrect. Essaie encore ou passe.");
-    }
+    if (maybeReveal()) return false;
+    say(
+      "error",
+      attempts.value >= HINT_THRESHOLD && !hint.value
+        ? "Incorrect. Besoin d'un indice ?"
+        : "Incorrect. Essaie encore ou passe.",
+    );
     return false;
+  }
+
+  /** Show the answer once there have been too many wrong guesses. */
+  function maybeReveal(): boolean {
+    if (attempts.value < REVEAL_THRESHOLD) return false;
+    revealed.value = true;
+    hint.value = null;
+    excluded.value = new Set();
+    const board = mode.value?.board;
+    if (board === "text") {
+      say("skip", "La réponse était :", answerLabel.value);
+    } else if (board === "flags") {
+      say("skip", "Trop d'essais : voici le bon drapeau.");
+    } else {
+      say("skip", "Trop d'essais. C'était :", answerLabel.value);
+    }
+    return true;
+  }
+
+  /** Give a hint for the current question (after a few wrong guesses). */
+  function useHint() {
+    const question = current.value;
+    if (!question || !hintAvailable.value) return;
+    const board = mode.value?.board;
+
+    if (question.answers) {
+      const answer = question.answers[0];
+      const noun = question.answerNoun ?? "La réponse";
+      hint.value = {
+        text: `${noun} commence par « ${answer.charAt(0)} ».`,
+        pattern: maskAnswer(answer),
+      };
+    } else if (board === "numbers") {
+      const prefix = question.targetId.charAt(0);
+      excluded.value = new Set(
+        choices.value
+          .filter(
+            (c) => c.id.charAt(0) !== prefix && status.value[c.id] !== "done",
+          )
+          .map((c) => c.id),
+      );
+      hint.value = { text: `Le numéro commence par « ${prefix} ».` };
+    } else if (board === "flags") {
+      const others = choices.value.filter(
+        (c) =>
+          c.id !== question.targetId &&
+          c.group === question.group &&
+          status.value[c.id] !== "done",
+      );
+      const count = Math.floor(others.length * FLAG_HINT_EXCLUDE_RATIO);
+      excluded.value = new Set(
+        shuffled(others)
+          .slice(0, count)
+          .map((c) => c.id),
+      );
+      hint.value = {
+        text:
+          count > 1
+            ? `${count} mauvais drapeaux ont été écartés.`
+            : "Un mauvais drapeau a été écarté.",
+      };
+    } else {
+      // The map draws the zone itself.
+      hint.value = { text: "Cherche dans la zone entourée sur la carte." };
+    }
+    say("hint", "Indice :", hint.value.text);
+  }
+
+  /** Leave a revealed question. It stays in the pool and comes back later. */
+  function moveOn() {
+    if (!current.value) return;
+    setFlash(null);
+    pickNext();
   }
 
   /** Skip the current question. It stays in the pool and comes back later. */
   function skip() {
     const question = current.value;
     if (!question || locked.value) return;
+    if (revealed.value) {
+      moveOn();
+      return;
+    }
     if (question.answers) {
       say("skip", "Passé. C'était :", question.answers[0]);
     } else {
@@ -300,6 +450,13 @@ export const useGameStore = defineStore("game", () => {
     mistakes,
     clock,
     promptText,
+    hint,
+    excluded,
+    revealed,
+    hintAvailable,
+    triesBeforeReveal,
+    answerLabel,
+    useHint,
     start,
     restart,
     stop,

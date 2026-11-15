@@ -1,12 +1,15 @@
 <template>
   <div class="scroller">
-    <ul class="grid" :class="variant">
+    <ul ref="grid" class="grid" :class="variant">
       <li v-for="(choice, index) in visibleChoices" :key="choice.id">
         <button
           type="button"
           class="tile"
           :class="stateOf(choice.id)"
-          :disabled="game.status[choice.id] === 'done'"
+          :data-id="choice.id"
+          :disabled="
+            game.status[choice.id] === 'done' || game.excluded.has(choice.id)
+          "
           :aria-label="ariaLabel(choice, index)"
           @click="game.guessChoice(choice.id)"
         >
@@ -25,7 +28,7 @@
 
 <script setup lang="ts">
 // Clickable grid used by two boards: department numbers and flags.
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import { flagUrl, type Choice } from "../../game/modes";
 import { useGameStore } from "../../store/game";
 
@@ -48,10 +51,32 @@ const visibleChoices = computed(() =>
     : game.choices,
 );
 
+const grid = ref<HTMLElement | null>(null);
+
 function stateOf(id: string) {
   const flash = game.flash?.id === id ? game.flash.kind : undefined;
-  return [game.status[id], flash];
+  return [
+    game.status[id],
+    flash,
+    {
+      excluded: game.excluded.has(id),
+      revealed: game.revealed && game.current?.targetId === id,
+    },
+  ];
 }
+
+// Bring the shown answer into view: the grid can be long on a phone.
+watch(
+  () => game.revealed,
+  async (revealed) => {
+    const id = game.current?.targetId;
+    if (!revealed || !id) return;
+    await nextTick();
+    grid.value
+      ?.querySelector<HTMLElement>(`[data-id="${CSS.escape(id)}"]`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  },
+);
 
 function ariaLabel(choice: Choice, index: number) {
   const found = game.status[choice.id] === "done" ? " (déjà trouvé)" : "";
@@ -135,6 +160,27 @@ function ariaLabel(choice: Choice, index: number) {
     border-color: var(--warn);
     background: var(--warn-soft);
     box-shadow: 0 0 0 3px var(--warn-soft);
+  }
+
+  &.excluded {
+    opacity: 0.18;
+    filter: grayscale(1);
+    cursor: default;
+  }
+
+  &.revealed {
+    z-index: 1;
+    border-color: var(--warn);
+    background: var(--warn-soft);
+    color: var(--warn);
+    animation: beacon 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes beacon {
+  50% {
+    box-shadow: 0 0 0 6px var(--warn-soft);
+    transform: scale(1.06);
   }
 }
 

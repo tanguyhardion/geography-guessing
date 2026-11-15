@@ -22,14 +22,25 @@
         Valider
       </button>
     </form>
-    <button
-      type="button"
-      class="btn btn-quiet"
-      :disabled="game.locked"
-      @click="game.skip()"
-    >
-      Passer cette question
-    </button>
+    <div class="extras">
+      <button
+        v-if="game.hintAvailable"
+        type="button"
+        class="btn hint-btn"
+        @click="useHint"
+      >
+        <span aria-hidden="true">💡</span> Indice
+      </button>
+      <button
+        type="button"
+        class="btn"
+        :class="game.revealed ? 'btn-primary' : 'btn-quiet'"
+        :disabled="game.locked"
+        @click="game.skip()"
+      >
+        {{ game.revealed ? "Continuer" : "Passer cette question" }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -60,6 +71,11 @@ function submit() {
     shake.value = true;
     input.value?.select();
   }
+}
+
+function useHint() {
+  game.useHint();
+  input.value?.focus();
 }
 
 // New question (answered, skipped or restarted): start from an empty field.
@@ -110,6 +126,19 @@ onMounted(() => input.value?.focus());
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-soft);
   }
+}
+
+.extras {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.hint-btn {
+  border-color: var(--warn);
+  color: var(--warn);
+  background: var(--warn-soft);
 }
 
 .answer .btn {

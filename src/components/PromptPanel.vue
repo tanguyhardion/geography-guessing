@@ -13,6 +13,19 @@
       <h2 v-else :key="question.key" class="target" :lang="targetLang">
         {{ game.promptText }}
       </h2>
+
+      <p v-if="showAnswer" class="help reveal" role="status">
+        <span class="help-label">Réponse</span>
+        <strong v-if="answerName">{{ answerName }}</strong>
+        <span class="help-note">{{ revealNote }}</span>
+      </p>
+      <p v-else-if="game.hint" class="help hint" role="status">
+        <span class="help-label">Indice</span>
+        <span>{{ game.hint.text }}</span>
+        <span v-if="game.hint.pattern" class="pattern" aria-hidden="true">{{
+          game.hint.pattern
+        }}</span>
+      </p>
     </div>
 
     <div v-if="!stacked" class="actions">
@@ -38,12 +51,21 @@
         </button>
       </div>
       <button
+        v-if="game.hintAvailable"
+        type="button"
+        class="btn hint-btn"
+        @click="game.useHint()"
+      >
+        <span aria-hidden="true">💡</span> Indice
+      </button>
+      <button
         type="button"
         class="btn skip"
+        :class="{ 'btn-primary': game.revealed }"
         :disabled="game.locked"
         @click="game.skip()"
       >
-        Passer
+        {{ game.revealed ? "Continuer" : "Passer" }}
       </button>
     </div>
   </section>
@@ -62,6 +84,26 @@ defineProps<{
 
 const game = useGameStore();
 const altLang = computed(() => game.mode?.altLang);
+const showAnswer = computed(() => game.revealed);
+// On maps and the flag grid the answer is the prompt itself: the board
+// highlights it instead of naming it again.
+const answerName = computed(() =>
+  game.mode?.board === "text" || game.mode?.board === "numbers"
+    ? game.answerLabel
+    : "",
+);
+const revealNote = computed(() => {
+  switch (game.mode?.board) {
+    case "text":
+      return "Tape-la ou passe pour continuer.";
+    case "map":
+      return "Elle est surlignée sur la carte : clique dessus pour continuer.";
+    case "flags":
+      return "Le bon drapeau est surligné : clique dessus pour continuer.";
+    default:
+      return "Clique dessus pour continuer.";
+  }
+});
 const targetLang = computed(() => {
   if (!altLang.value) return undefined;
   if (game.useAlt) return "ru";
@@ -94,6 +136,52 @@ const targetLang = computed(() => {
 .target {
   font-size: clamp(1.35rem, 1rem + 1.6vw, 1.9rem);
   overflow-wrap: anywhere;
+  animation: rise 0.25s ease;
+}
+
+.help {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 0.92rem;
+  font-weight: 600;
+  animation: rise 0.25s ease;
+
+  strong {
+    font-weight: 800;
+  }
+}
+
+.help-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.help-note {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+.pattern {
+  flex-basis: 100%;
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+}
+
+.hint-btn {
+  border-color: var(--warn);
+  color: var(--warn);
+  background: var(--warn-soft);
   animation: rise 0.25s ease;
 }
 
@@ -146,6 +234,12 @@ const targetLang = computed(() => {
   .target {
     font-size: clamp(1.9rem, 1.2rem + 3.4vw, 3rem);
   }
+
+  .help {
+    justify-content: center;
+    margin-top: 16px;
+    text-align: center;
+  }
 }
 
 .flag-frame {
@@ -181,7 +275,8 @@ const targetLang = computed(() => {
       gap: 6px;
     }
 
-    .skip {
+    .skip,
+    .hint-btn {
       min-height: 38px;
     }
 
