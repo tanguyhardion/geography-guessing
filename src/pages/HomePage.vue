@@ -2,7 +2,6 @@
   <div class="home">
     <header class="masthead">
       <div class="masthead-top">
-        <p class="eyebrow">Atlas de poche</p>
         <RouterLink :to="{ name: 'Stats' }" class="btn stats-link">
           <svg
             width="16"
@@ -21,7 +20,10 @@
           Statistiques
         </RouterLink>
       </div>
-      <h1>Quiz Géographique</h1>
+      <h1 class="title">
+        <img class="logo" :src="logoUrl" alt="" />
+        <span>Quiz Géographique</span>
+      </h1>
       <p class="lede">
         Cartes, drapeaux, capitales et départements : douze façons de réviser la
         géographie, à ton rythme.
@@ -136,6 +138,7 @@ import { CATEGORIES, CONTINENTS, MODES } from "../game/modes";
 import { bestTimes, loadHistory } from "../utils/statsStorage";
 import { formatClock } from "../utils/stringUtils";
 
+const logoUrl = `${import.meta.env.BASE_URL}favicon.svg`;
 const records = bestTimes(loadHistory());
 
 const categories = CATEGORIES.map((category) => ({
@@ -176,23 +179,26 @@ function toggle(id: string) {
   margin-bottom: 18px;
 }
 
-.eyebrow {
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .stats-link {
   min-height: 38px;
   font-size: 0.92rem;
 }
 
 h1 {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 2vw, 20px);
+  line-height: 1.05;
   font-size: clamp(2.4rem, 1.4rem + 5vw, 4.2rem);
   font-weight: 600;
   letter-spacing: -0.025em;
+}
+
+.logo {
+  flex: none;
+  width: 0.85em;
+  height: 0.85em;
+  margin-top: 0.08em;
 }
 
 .lede {
